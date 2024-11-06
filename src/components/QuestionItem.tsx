@@ -104,6 +104,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const linesBeforeCursor = textBeforeCursor.split('\n');
         // Current line number (0-based)
         const currentLineNumber = linesBeforeCursor.length - 1;
+
         // Total lines in the current textarea
         const totalLines = textarea.value.split('\n').length;
 
@@ -124,13 +125,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     draft.splice(currentIndex + 1, 0, newQuestion);
                 });
                 setTimeout(() => {
-                    const nextQuestion = questions[currentIndex + 1];
-                    if (nextQuestion) {
-                        const nextRef = questionRefs.current[nextQuestion.id];
-                        if (nextRef && nextRef.current) {
-                            nextRef.current.focus();
-                            nextRef.current.setSelectionRange(0, 0);
-                        }
+                    const newRef = questionRefs.current[newQuestion.id];
+                    if (newRef && newRef.current) {
+                        newRef.current.focus();
+                        newRef.current.setSelectionRange(0, 0);
                     }
                 }, 0);
             }
