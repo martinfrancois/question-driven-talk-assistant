@@ -1,4 +1,4 @@
-import {FC, useRef, useEffect, RefObject, createRef} from 'react';
+import { FC, useRef, useEffect, RefObject, createRef } from 'react';
 import {
     DndContext,
     closestCenter,
@@ -11,6 +11,7 @@ import {
     arrayMove,
     SortableContext,
     rectSortingStrategy,
+    sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import QuestionItem from './QuestionItem';
 
@@ -29,7 +30,9 @@ interface QuestionListProps {
 const QuestionList: FC<QuestionListProps> = ({ questions, updateQuestions }) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
-        useSensor(KeyboardSensor)
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
     );
 
     const handleDragEnd = (event: any) => {
