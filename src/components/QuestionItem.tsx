@@ -104,11 +104,37 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const linesBeforeCursor = textBeforeCursor.split('\n');
         // Current line number (0-based)
         const currentLineNumber = linesBeforeCursor.length - 1;
-
         // Total lines in the current textarea
         const totalLines = textarea.value.split('\n').length;
 
-        if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+        if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle Enter key
+            e.preventDefault();
+            if (
+                question.text.trim() !== '' &&
+                (!questions[currentIndex + 1] || questions[currentIndex + 1].text.trim() !== '')
+            ) {
+                const newQuestion = {
+                    id: Date.now().toString(),
+                    text: '',
+                    answered: false,
+                    highlighted: false,
+                };
+                updateQuestions((draft) => {
+                    draft.splice(currentIndex + 1, 0, newQuestion);
+                });
+                setTimeout(() => {
+                    const nextQuestion = questions[currentIndex + 1];
+                    if (nextQuestion) {
+                        const nextRef = questionRefs.current[nextQuestion.id];
+                        if (nextRef && nextRef.current) {
+                            nextRef.current.focus();
+                            nextRef.current.setSelectionRange(0, 0);
+                        }
+                    }
+                }, 0);
+            }
+        } else if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
             const isAtLastLine = currentLineNumber === totalLines - 1;
 
             if (isAtLastLine) {
@@ -120,12 +146,12 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     if (nextRef && nextRef.current) {
                         nextRef.current.focus();
 
-                        // Place cursor at the end of the next line in the next textarea
+                        // Place cursor at the end of the first line in the next textarea
                         const nextTextarea = nextRef.current;
                         const nextTextLines = nextTextarea.value.split('\n');
 
-                        // We want to position the cursor at the end of the same line number or the first line
-                        const lineIndex = 0; // First line
+                        // First line index (0)
+                        const lineIndex = 0;
                         let position = 0;
                         for (let i = 0; i <= lineIndex; i++) {
                             position += nextTextLines[i]?.length ?? 0;
@@ -170,6 +196,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             // Handle Tab key
             e.preventDefault();
             if (currentIndex < questions.length - 1) {
+                // Not the last question
                 const nextQuestion = questions[currentIndex + 1];
                 const nextRef = questionRefs.current[nextQuestion.id];
                 if (nextRef && nextRef.current) {
@@ -181,24 +208,30 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     nextTextarea.setSelectionRange(position, position);
                 }
             } else {
-                // Last textarea, add new question
-                const newQuestion = {
-                    id: Date.now().toString(),
-                    text: '',
-                    answered: false,
-                    highlighted: false,
-                };
-                updateQuestions((draft) => {
-                    draft.push(newQuestion);
-                });
-                setTimeout(() => {
-                    const newRef = questionRefs.current[newQuestion.id];
-                    if (newRef && newRef.current) {
-                        newRef.current.focus();
-                        // Cursor at position 0 in new empty textarea
-                        newRef.current.setSelectionRange(0, 0);
-                    }
-                }, 0);
+                // Last textarea
+                if (question.text.trim() !== '') {
+                    // Text is not empty, add new question
+                    const newQuestion = {
+                        id: Date.now().toString(),
+                        text: '',
+                        answered: false,
+                        highlighted: false,
+                    };
+                    updateQuestions((draft) => {
+                        draft.push(newQuestion);
+                    });
+                    setTimeout(() => {
+                        const newRef = questionRefs.current[newQuestion.id];
+                        if (newRef && newRef.current) {
+                            newRef.current.focus();
+                            // Cursor at position 0 in new empty textarea
+                            newRef.current.setSelectionRange(0, 0);
+                        }
+                    }, 0);
+                } else {
+                    // Text is empty, do nothing
+                    // No action needed
+                }
             }
         } else if (e.key === 'Tab' && e.shiftKey && !e.ctrlKey && !e.altKey) {
             // Handle Shift+Tab key
@@ -216,6 +249,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 }
             }
         }
+        // Shift+Enter is not handled here to allow default behavior (line break)
     };
 
     return (
