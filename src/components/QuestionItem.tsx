@@ -1,6 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Checkbox } from '@material-tailwind/react';
 
 interface Question {
@@ -36,12 +37,10 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
 
     const textareaRef = questionRefs.current[index];
 
-    // Dark mode-aware classes
     const baseClasses = "border-b outline-none focus:border-blue-500 transition-colors w-full resize-none";
     const textColor = question.highlighted ? "text-yellow-700" : "text-black dark:text-white";
     const bgColor = question.highlighted ? "bg-yellow-100 dark:bg-yellow-900" : "bg-transparent";
 
-    // Auto-adjust height based on content
     const adjustHeight = () => {
         if (textareaRef?.current) {
             textareaRef.current.style.height = 'auto';
@@ -53,18 +52,49 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
         adjustHeight();
     }, [question.text]);
 
-    // Check if the next item is empty
-    const isNextItemEmpty = () => {
-        return questions[index + 1] && questions[index + 1].text.trim() === '';
-    };
+    const [isFocused, setIsFocused] = useState(false);
+
+    // TODO not fully working yet
+    useHotkeys(
+        'ctrl+shift+up',
+        () => {
+            const currentIndex = questions.findIndex((q) => q.id === question.id);
+            if (currentIndex > 0) {
+                updateQuestions((draft) => {
+                    const temp = draft[currentIndex];
+                    draft[currentIndex] = draft[currentIndex - 1];
+                    draft[currentIndex - 1] = temp;
+                });
+            }
+        },
+        { enableOnFormTags: true, enabled: isFocused },
+        [questions, question.id, updateQuestions, isFocused]
+    );
+
+    // TODO not fully working yet
+    useHotkeys(
+        'ctrl+shift+down',
+        () => {
+            const currentIndex = questions.findIndex((q) => q.id === question.id);
+            if (currentIndex < questions.length - 1) {
+                updateQuestions((draft) => {
+                    const temp = draft[currentIndex];
+                    draft[currentIndex] = draft[currentIndex + 1];
+                    draft[currentIndex + 1] = temp;
+                });
+            }
+        },
+        { enableOnFormTags: true, enabled: isFocused },
+        [questions, question.id, updateQuestions, isFocused]
+    );
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
+        if (!e.ctrlKey && !e.shiftKey) {
+            return;
+        }
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-
-            // Only create a new item if the current text area is not empty
-            // and there isn't an empty item below
-            if (question.text.trim() !== '' && !isNextItemEmpty()) {
+            if (question.text.trim() !== '' && (questions[index + 1] ? questions[index + 1].text.trim() !== '' : true)) {
                 updateQuestions((draft) => {
                     draft.splice(index + 1, 0, {
                         id: Date.now().toString(),
@@ -73,8 +103,6 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                         highlighted: false,
                     });
                 });
-
-                // Update refs and focus the new item
                 setTimeout(() => {
                     const nextRef = questionRefs.current[index + 1];
                     if (nextRef) {
@@ -84,27 +112,21 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
             }
         } else if (e.key === 'Tab' && !e.shiftKey) {
             e.preventDefault();
-
-            // Move focus to the next item if it exists
             if (questionRefs.current[index + 1]) {
                 questionRefs.current[index + 1].current?.focus();
             }
         } else if (e.key === 'Tab' && e.shiftKey) {
             e.preventDefault();
-
-            // Move focus to the previous item if it exists
             if (questionRefs.current[index - 1]) {
                 questionRefs.current[index - 1].current?.focus();
             }
         } else if (e.key === 'ArrowDown') {
             e.preventDefault();
-            // Move focus to the next item with ArrowDown
             if (questionRefs.current[index + 1]) {
                 questionRefs.current[index + 1].current?.focus();
             }
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            // Move focus to the previous item with ArrowUp
             if (questionRefs.current[index - 1]) {
                 questionRefs.current[index - 1].current?.focus();
             }
@@ -113,17 +135,16 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
 
     return (
         <div
-            ref={setNodeRef}
             style={style}
-            {...attributes}
             className={`flex items-center ${question.highlighted ? 'bg-yellow-200' : ''}`}
         >
             <div
+                ref={setNodeRef}
+                {...attributes}
                 {...listeners}
-                className="cursor-grab mr-2 hover:text-gray-500"
+                className="text-2xl cursor-grab hover:text-gray-500 opacity-0 hover:opacity-100 transition-opacity p-2"
                 onMouseDown={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
-                style={{ visibility: isDragging ? 'visible' : 'hidden' }}
             >
                 &#9776;
             </div>
@@ -143,6 +164,7 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                         });
                     }
                 }}
+                ripple={false}
                 className="text-gray-700 dark:text-white dark:bg-gray-800 dark:border-gray-700"
             />
             <textarea
@@ -155,6 +177,8 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                     });
                     adjustHeight();
                 }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 onKeyDown={handleKeyPress}
                 rows={1}
                 style={{ overflow: 'hidden' }}
