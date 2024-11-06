@@ -105,13 +105,14 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 question.text.trim() !== '' &&
                 (questions[currentIndex + 1] ? questions[currentIndex + 1].text.trim() !== '' : true)
             ) {
+                const newQuestion = {
+                    id: Date.now().toString(),
+                    text: '',
+                    answered: false,
+                    highlighted: false,
+                };
                 updateQuestions((draft) => {
-                    draft.splice(currentIndex + 1, 0, {
-                        id: Date.now().toString(),
-                        text: '',
-                        answered: false,
-                        highlighted: false,
-                    });
+                    draft.splice(currentIndex + 1, 0, newQuestion);
                 });
                 setTimeout(() => {
                     const nextQuestion = questions[currentIndex + 1];
@@ -128,6 +129,23 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 const nextQuestion = questions[currentIndex + 1];
                 const nextRef = questionRefs.current[nextQuestion.id];
                 nextRef?.current?.focus();
+            } else {
+                // Last textarea, add new question
+                const newQuestion = {
+                    id: Date.now().toString(),
+                    text: '',
+                    answered: false,
+                    highlighted: false,
+                };
+                updateQuestions((draft) => {
+                    draft.push(newQuestion);
+                });
+                setTimeout(() => {
+                    const newRef = questionRefs.current[newQuestion.id];
+                    if (newRef && newRef.current) {
+                        newRef.current.focus();
+                    }
+                }, 0);
             }
         } else if (e.key === 'Tab' && e.shiftKey && !e.ctrlKey && !e.altKey) {
             // Handle Shift+Tab key
