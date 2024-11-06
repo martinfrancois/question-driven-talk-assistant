@@ -65,7 +65,7 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL }) 
             className="group cursor-pointer relative"
         >
             <div
-                className={`p-2 border border-gray-200 rounded-md !bg-white ${
+                className={`p-2 border border-white rounded-md !bg-white ${
                     qrCodeURL ? '' : 'invisible group-hover:visible'
                 }`}
             >
