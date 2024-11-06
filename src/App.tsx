@@ -53,7 +53,7 @@ const App: React.FC = () => {
 
     // Fullscreen QR Code
     const [showFullScreenQR, setShowFullScreenQR] = useState(false);
-    useHotkeys('ctrl+q', () => setShowFullScreenQR(true), [setShowFullScreenQR]);
+    useHotkeys('ctrl+q', () => setShowFullScreenQR((prev) => !prev), [setShowFullScreenQR]);
 
     // Update questions using immer
     const updateQuestions = useCallback(
