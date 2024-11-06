@@ -55,7 +55,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                             const newTitle = prompt('Edit Title', title);
                             if (newTitle !== null) setTitle(newTitle);
                         }}
-                        className="text-2xl font-semibold cursor-pointer"
+                        className="text-3xl font-semibold cursor-pointer"
                     >
                         {title}
                     </div>
