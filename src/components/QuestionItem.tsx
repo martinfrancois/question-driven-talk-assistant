@@ -41,7 +41,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
         opacity: isDragging ? 0.5 : 1,
     };
 
-    const baseClasses = 'border-b outline-none focus:border-blue-500 transition-colors w-full resize-none';
+    const baseClasses =
+        'border-b outline-none focus:border-blue-500 transition-colors w-full resize-none';
     const textColor = question.highlighted ? 'text-yellow-700' : 'text-black dark:text-white';
     const bgColor = question.highlighted ? 'bg-yellow-100 dark:bg-yellow-900' : 'bg-transparent';
 
@@ -94,6 +95,9 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const currentIndex = questions.findIndex((q) => q.id === question.id);
         if (!textareaRef?.current) return;
 
+        const textarea = textareaRef.current;
+        const cursorPosition = textarea.selectionStart;
+
         if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
             // Handle Enter key
             e.preventDefault();
@@ -134,20 +138,41 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 prevRef?.current?.focus();
             }
         } else if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-            // Handle ArrowDown key
-            e.preventDefault();
-            if (currentIndex < questions.length - 1) {
-                const nextQuestion = questions[currentIndex + 1];
-                const nextRef = questionRefs.current[nextQuestion.id];
-                nextRef?.current?.focus();
+            // Check if cursor is at the last line
+            const textAfterCursor = textarea.value.substring(cursorPosition);
+            const isAtLastLine = textAfterCursor.indexOf('\n') === -1;
+
+            if (isAtLastLine) {
+                // Cursor is at last line, move focus to next textarea
+                e.preventDefault();
+                if (currentIndex < questions.length - 1) {
+                    const nextQuestion = questions[currentIndex + 1];
+                    const nextRef = questionRefs.current[nextQuestion.id];
+                    nextRef?.current?.focus();
+                    nextRef?.current?.setSelectionRange(0, 0);
+                }
+            } else {
+                // Allow default behavior (move cursor down within textarea)
             }
         } else if (e.key === 'ArrowUp' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-            // Handle ArrowUp key
-            e.preventDefault();
-            if (currentIndex > 0) {
-                const prevQuestion = questions[currentIndex - 1];
-                const prevRef = questionRefs.current[prevQuestion.id];
-                prevRef?.current?.focus();
+            // Check if cursor is at the first line
+            const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+            const isAtFirstLine = textBeforeCursor.lastIndexOf('\n') === -1;
+
+            if (isAtFirstLine) {
+                // Cursor is at first line, move focus to previous textarea
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    const prevQuestion = questions[currentIndex - 1];
+                    const prevRef = questionRefs.current[prevQuestion.id];
+                    prevRef?.current?.focus();
+                    prevRef?.current?.setSelectionRange(
+                        prevRef.current.value.length,
+                        prevRef.current.value.length
+                    );
+                }
+            } else {
+                // Allow default behavior (move cursor up within textarea)
             }
         }
     };
