@@ -45,8 +45,7 @@ const MainLayout: FC<MainLayoutProps> = ({
             style={{ fontSize }}
         >
             {/* Header */}
-            <div className="flex items-center">
-                {/* Left Section: Title */}
+            <div className="flex items-center flex-shrink-0">
                 <div className="flex-grow">
                     <div
                         onClick={() => {
@@ -58,7 +57,6 @@ const MainLayout: FC<MainLayoutProps> = ({
                         {title}
                     </div>
                 </div>
-                {/* Center Section: Time Display */}
                 <div className="text-right">
                     <TimeDisplay
                         format24h={timeFormat24h}
@@ -68,13 +66,13 @@ const MainLayout: FC<MainLayoutProps> = ({
             </div>
 
             {/* Main Content */}
-            <div className="mt-4 flex flex-1 overflow-hidden items-start">
-                {/* Question List Area */}
-                <div className="pr-4 overflow-y-auto flex-grow">
+            <div className="mt-4 flex flex-1 overflow-hidden">
+                {/* Question List Area with scrolling */}
+                <div className="pr-4 flex-grow overflow-y-auto" style={{ maxHeight: '100%' }}>
                     <QuestionList questions={questions} updateQuestions={updateQuestions} />
                 </div>
 
-                {/* Side Area (QR Code) */}
+                {/* Side Area (QR Code) - Fixed within the main content */}
                 <div className="flex-shrink-0 self-start">
                     <QRCodeComponent qrCodeURL={qrCodeURL} setQrCodeURL={setQrCodeURL} />
                 </div>
@@ -86,7 +84,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                     const newFooter = prompt('Edit Footer', footer);
                     if (newFooter !== null) setFooter(newFooter);
                 }}
-                className="text-sm text-center cursor-pointer p-2"
+                className="text-sm text-center cursor-pointer p-2 flex-shrink-0"
             >
                 {footer}
             </div>
