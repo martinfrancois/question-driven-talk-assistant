@@ -91,13 +91,15 @@ const MainLayout: FC<MainLayoutProps> = ({
                 {footer}
             </div>
 
-            {/* Fullscreen QR Code */}
             {showFullScreenQR && qrCodeURL && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
                     onClick={() => setShowFullScreenQR(false)}
                 >
-                    <QRCodeSVG value={qrCodeURL} size={window.innerHeight * 0.8} />
+                    {/* Container for white padding around QR code */}
+                    <div className="!bg-white p-8 rounded-lg">
+                        <QRCodeSVG value={qrCodeURL} size={window.innerHeight * 0.7} />
+                    </div>
                 </div>
             )}
         </div>
