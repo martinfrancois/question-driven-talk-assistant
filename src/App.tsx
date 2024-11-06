@@ -38,20 +38,62 @@ const App: React.FC = () => {
         localStorage.setItem('isDarkMode', String(isDarkMode));
     }, [questions, title, footer, timeFormat24h, qrCodeURL, qrCodeSize, fontSize, isDarkMode]);
 
+    // TODO is there a way to use react-hotkeys-hook that doesn't cause it to exit fullscreen mode when pressing ctrl?
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const handleFullscreenToggle = useCallback(() => {
+        import('screenfull').then((screenfull) => {
+            if (screenfull.default.isEnabled) {
+                if (!isFullscreen) {
+                    screenfull.default.request();
+                    setIsFullscreen(true);
+                } else {
+                    screenfull.default.exit();
+                    setIsFullscreen(false);
+                }
+            }
+        });
+    }, [isFullscreen]);
+
+    // Add event listeners for `Ctrl + f` manually
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.ctrlKey && event.key === 'f') {
+                event.preventDefault(); // Prevent default browser behavior
+                handleFullscreenToggle();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleFullscreenToggle]);
+
+    // Listen for external fullscreen changes (e.g., Esc key exits fullscreen)
+    useEffect(() => {
+        import('screenfull').then((screenfull) => {
+            if (screenfull.default.isEnabled) {
+                const handleScreenfullChange = () => {
+                    if (!screenfull.default.isFullscreen) {
+                        setIsFullscreen(false);
+                    }
+                };
+
+                screenfull.default.on('change', handleScreenfullChange);
+                return () => {
+                    screenfull.default.off('change', handleScreenfullChange);
+                };
+            }
+        });
+    }, []);
+
     // Handle keyboard shortcuts
     useHotkeys('ctrl+p', () => setFontSize((size) => size + 1), [setFontSize]);
     useHotkeys('ctrl+m', () => setFontSize((size) => Math.max(12, size - 1)), [setFontSize]);
     useHotkeys('ctrl+shift+backspace', () => setShowModal(true), [setShowModal]);
     useHotkeys('ctrl+d', () => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
 
-    // Fullscreen toggle
-    useHotkeys('ctrl+f', () => {
-        import('screenfull').then((screenfull) => {
-            if (screenfull.default.isEnabled) {
-                screenfull.default.toggle();
-            }
-        });
-    });
 
     // Fullscreen QR Code
     const [showFullScreenQR, setShowFullScreenQR] = useState(false);
