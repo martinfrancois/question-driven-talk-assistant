@@ -53,7 +53,7 @@ const QuestionList: FC<QuestionListProps> = ({ questions, updateQuestions }) => 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={questions.map((q) => q.id)} strategy={rectSortingStrategy}>
-                <div className="space-y-2 overflow-y-auto">
+                <div className="space-y-2">
                     {questions.map((question) => {
                         // Create a ref for each question if it doesn't exist
                         if (!questionRefs.current[question.id]) {
