@@ -309,7 +309,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
     return (
         <div
             style={style}
-            className={`flex items-center space-y-1.5 ${question.highlighted ? 'bg-yellow-200' : ''}`}
+            className={`flex items-center space-y-1.5 pt-0 ${question.highlighted ? 'bg-yellow-200' : ''}`}
         >
             <div
                 ref={setNodeRef}
