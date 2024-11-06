@@ -70,3 +70,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Dark mode styles */
+.dark .bg-white {
+  background-color: #1a202c;
+}
+
+.dark .text-black {
+  color: #f7fafc;
+}
