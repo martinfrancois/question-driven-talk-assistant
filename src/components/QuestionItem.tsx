@@ -43,8 +43,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
     const baseClasses =
         'border-b outline-none focus:border-blue-500 transition-colors w-full resize-none';
-    const textColor = question.highlighted ? 'text-yellow-700' : 'text-black dark:text-white';
-    const bgColor = question.highlighted ? 'bg-yellow-100 dark:bg-yellow-900' : 'bg-transparent';
+    const textColor = question.highlighted ? 'text-black' : 'text-black dark:text-white';
+    const bgColor = question.highlighted ? 'bg-gray-200 dark:bg-gray-700 rounded-lg' : 'bg-transparent';
 
     const adjustHeight = () => {
         if (textareaRef?.current) {
@@ -309,7 +309,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
     return (
         <div
             style={style}
-            className={`flex items-center space-y-1.5 pt-0 ${question.highlighted ? 'bg-yellow-200' : ''}`}
+            className={`flex items-center space-y-1.5 pt-0 ${bgColor}`}
         >
             <div
                 ref={setNodeRef}
@@ -358,7 +358,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             />
             <textarea
                 ref={textareaRef}
-                className={`${baseClasses} ${textColor} ${bgColor}`}
+                className={`${baseClasses} ${textColor} bg-transparent pr-2`}
                 value={question.text}
                 onChange={(e) => {
                     const newText = e.target.value;
