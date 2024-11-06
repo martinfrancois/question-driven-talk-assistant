@@ -98,30 +98,60 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const textarea = textareaRef.current;
         const cursorPosition = textarea.selectionStart;
 
-        // Handle Backspace key on an empty question
-        if (e.key === 'Backspace' && question.text.trim() === '') {
-            e.preventDefault();
-            if (questions.length > 1 && currentIndex > 0) {
-                // Delete current question and focus the previous question if it exists
-                updateQuestions((draft) => {
-                    draft.splice(currentIndex, 1);
-                });
-                setTimeout(() => {
-                    const prevQuestion = questions[currentIndex - 1];
-                    const prevRef = questionRefs.current[prevQuestion.id];
-                    if (prevRef && prevRef.current) {
-                        prevRef.current.focus();
-                        const position = prevRef.current.value.length;
-                        prevRef.current.setSelectionRange(position, position);
-                    }
-                }, 0);
-            } else if (questions.length > 1 && currentIndex === 0) {
-                // Delete current question without shifting focus as it's the first question
-                updateQuestions((draft) => {
-                    draft.splice(currentIndex, 1);
-                });
+        // Split textarea content into lines
+        const lines = textarea.value.split('\n');
+        const isMultiLineAndEmpty = lines.length > 1 && lines.every((line) => line.trim() === '');
+
+        if (e.key === 'Backspace') {
+            // Prevent action when cursor is on the first line of an empty multi-line textarea
+            if (isMultiLineAndEmpty && cursorPosition === 0) {
+                e.preventDefault();
+                return;
             }
-            return;
+
+            // Remove a line if on the second line and pressing Backspace
+            if (isMultiLineAndEmpty && cursorPosition > 0) {
+                e.preventDefault();
+                const newText = textarea.value.slice(0, cursorPosition - 1) + textarea.value.slice(cursorPosition);
+                updateQuestions((draft) => {
+                    draft[currentIndex].text = newText;
+                });
+                adjustHeight();
+                return;
+            }
+
+            // Delete question if it is completely empty
+            if (question.text.trim() === '') {
+                e.preventDefault();
+                if (questions.length > 1) {
+                    if (currentIndex === 0) {
+                        // Delete first question and focus the new first question
+                        updateQuestions((draft) => {
+                            draft.splice(currentIndex, 1);
+                        });
+                        const newFirstRef = questionRefs.current[questions[1].id];
+                        if (newFirstRef && newFirstRef.current) {
+                            newFirstRef.current.focus();
+                            newFirstRef.current.setSelectionRange(0, 0);
+                        }
+                    } else {
+                        // Delete current question and focus previous question
+                        updateQuestions((draft) => {
+                            draft.splice(currentIndex, 1);
+                        });
+                        setTimeout(() => {
+                            const prevQuestion = questions[currentIndex - 1];
+                            const prevRef = questionRefs.current[prevQuestion.id];
+                            if (prevRef && prevRef.current) {
+                                prevRef.current.focus();
+                                const position = prevRef.current.value.length;
+                                prevRef.current.setSelectionRange(position, position);
+                            }
+                        }, 0);
+                    }
+                }
+                return;
+            }
         }
 
         // Get text before cursor
