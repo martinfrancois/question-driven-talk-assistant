@@ -98,6 +98,32 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const textarea = textareaRef.current;
         const cursorPosition = textarea.selectionStart;
 
+        // Handle Backspace key on an empty question
+        if (e.key === 'Backspace' && question.text.trim() === '') {
+            e.preventDefault();
+            if (questions.length > 1 && currentIndex > 0) {
+                // Delete current question and focus the previous question if it exists
+                updateQuestions((draft) => {
+                    draft.splice(currentIndex, 1);
+                });
+                setTimeout(() => {
+                    const prevQuestion = questions[currentIndex - 1];
+                    const prevRef = questionRefs.current[prevQuestion.id];
+                    if (prevRef && prevRef.current) {
+                        prevRef.current.focus();
+                        const position = prevRef.current.value.length;
+                        prevRef.current.setSelectionRange(position, position);
+                    }
+                }, 0);
+            } else if (questions.length > 1 && currentIndex === 0) {
+                // Delete current question without shifting focus as it's the first question
+                updateQuestions((draft) => {
+                    draft.splice(currentIndex, 1);
+                });
+            }
+            return;
+        }
+
         // Get text before cursor
         const textBeforeCursor = textarea.value.substring(0, cursorPosition);
         // Split text before cursor into lines
