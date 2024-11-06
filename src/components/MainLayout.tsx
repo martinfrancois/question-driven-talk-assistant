@@ -17,7 +17,6 @@ interface MainLayoutProps {
     setQrCodeURL: (url: string) => void;
     qrCodeSize: number;
     setQrCodeSize: (size: number) => void;
-    fontSize: number;
     isDarkMode: boolean;
     showFullScreenQR: boolean;
     setShowFullScreenQR: (show: boolean) => void;
@@ -36,7 +35,6 @@ const MainLayout: FC<MainLayoutProps> = ({
                                              setQrCodeURL,
                                              qrCodeSize,
                                              setQrCodeSize,
-                                             fontSize,
                                              isDarkMode,
                                              showFullScreenQR,
                                              setShowFullScreenQR,
@@ -48,7 +46,6 @@ const MainLayout: FC<MainLayoutProps> = ({
             } ${
                 isDarkMode ? 'dark' : 'light'
             }`}
-            style={{ fontSize }}
         >
             {/* Header */}
             <div className="flex items-center flex-shrink-0">

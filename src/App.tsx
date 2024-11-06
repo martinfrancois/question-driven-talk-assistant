@@ -23,6 +23,7 @@ const App: React.FC = () => {
     const [qrCodeURL, setQrCodeURL] = useState(() => localStorage.getItem('qrCodeURL') || '');
     const [qrCodeSize, setQrCodeSize] = useState(() => parseFloat(localStorage.getItem('qrCodeSize') || '64'));
     const [fontSize, setFontSize] = useState(() => parseInt(localStorage.getItem('fontSize') || '16'));
+    const [key, setKey] = useState(0); // Key to force re-render on font size change
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('isDarkMode') === 'true');
     const [showModal, setShowModal] = useState(false);
 
@@ -34,9 +35,14 @@ const App: React.FC = () => {
         localStorage.setItem('timeFormat24h', String(timeFormat24h));
         localStorage.setItem('qrCodeURL', qrCodeURL);
         localStorage.setItem('qrCodeSize', qrCodeSize.toString());
-        localStorage.setItem('fontSize', fontSize.toString());
         localStorage.setItem('isDarkMode', String(isDarkMode));
-    }, [questions, title, footer, timeFormat24h, qrCodeURL, qrCodeSize, fontSize, isDarkMode]);
+    }, [questions, title, footer, timeFormat24h, qrCodeURL, qrCodeSize, isDarkMode]);
+
+    useEffect(() => {
+        localStorage.setItem('fontSize', fontSize.toString());
+        // TODO is there a better way to do this?
+        setKey((prev) => prev + 1); // Update key to force a re-render
+    }, [fontSize]);
 
     // TODO is there a way to use react-hotkeys-hook that doesn't cause it to exit fullscreen mode when pressing ctrl?
     const [isFullscreen, setIsFullscreen] = useState(false);
@@ -89,8 +95,8 @@ const App: React.FC = () => {
     }, []);
 
     // Handle keyboard shortcuts
-    useHotkeys('ctrl+p', () => setFontSize((size) => size + 1), [setFontSize]);
-    useHotkeys('ctrl+m', () => setFontSize((size) => Math.max(12, size - 1)), [setFontSize]);
+    useHotkeys('ctrl+p', () => setFontSize((size) => size + 2), [setFontSize]);
+    useHotkeys('ctrl+m', () => setFontSize((size) => Math.max(12, size - 2)), [setFontSize]);
     useHotkeys('ctrl+shift+backspace', () => setShowModal(true), [setShowModal]);
     useHotkeys('ctrl+d', () => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
 
@@ -108,7 +114,7 @@ const App: React.FC = () => {
     );
 
     return (
-        <div className={`${isDarkMode ? 'dark' : ''}`}>
+        <div key={key} className={`${isDarkMode ? 'dark' : ''}`} style={{ fontSize: `${fontSize}px` }}>
             <MainLayout
                 questions={questions}
                 updateQuestions={updateQuestions}
@@ -122,7 +128,6 @@ const App: React.FC = () => {
                 setQrCodeURL={setQrCodeURL}
                 qrCodeSize={qrCodeSize}
                 setQrCodeSize={setQrCodeSize}
-                fontSize={fontSize}
                 isDarkMode={isDarkMode}
                 showFullScreenQR={showFullScreenQR}
                 setShowFullScreenQR={setShowFullScreenQR}
