@@ -41,6 +41,8 @@ const MainLayout: FC<MainLayoutProps> = ({
         <div
             className={`p-4 h-screen w-screen flex flex-col ${
                 isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'
+            } ${
+                isDarkMode ? 'dark' : 'light'
             }`}
             style={{ fontSize }}
         >
@@ -68,12 +70,12 @@ const MainLayout: FC<MainLayoutProps> = ({
             {/* Main Content */}
             <div className="mt-4 flex flex-1 overflow-hidden">
                 {/* Question List Area with scrolling */}
-                <div className="pr-4 flex-grow overflow-y-auto" style={{ maxHeight: '100%' }}>
+                <div className="pr-2 flex-grow scrollbar-minimal overflow-y-auto" style={{ maxHeight: '100%' }}>
                     <QuestionList questions={questions} updateQuestions={updateQuestions} />
                 </div>
 
                 {/* Side Area (QR Code) - Fixed within the main content */}
-                <div className="flex-shrink-0 self-start">
+                <div className="ml-4 flex-shrink-0 self-start">
                     <QRCodeComponent qrCodeURL={qrCodeURL} setQrCodeURL={setQrCodeURL} />
                 </div>
             </div>
