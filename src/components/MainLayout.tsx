@@ -60,7 +60,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                         {title}
                     </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right pr-2">
                     <TimeDisplay
                         format24h={timeFormat24h}
                         toggleFormat={() => setTimeFormat24h(!timeFormat24h)}
