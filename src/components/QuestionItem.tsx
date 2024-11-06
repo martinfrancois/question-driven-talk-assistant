@@ -309,13 +309,13 @@ const QuestionItem: FC<QuestionItemProps> = ({
     return (
         <div
             style={style}
-            className={`flex items-center ${question.highlighted ? 'bg-yellow-200' : ''}`}
+            className={`flex items-center space-y-1.5 ${question.highlighted ? 'bg-yellow-200' : ''}`}
         >
             <div
                 ref={setNodeRef}
                 {...attributes}
                 {...listeners}
-                className="text-2xl cursor-grab hover:text-gray-500 opacity-0 hover:opacity-100 transition-opacity p-2"
+                className="text-2xl cursor-grab hover:text-gray-500 opacity-0 hover:opacity-100 transition-opacity"
                 onMouseDown={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
             >
