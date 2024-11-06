@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect, RefObject, createRef } from 'react';
+import React, { FC, useRef } from 'react';
 import {
     DndContext,
     closestCenter,
@@ -47,35 +47,29 @@ const QuestionList: FC<QuestionListProps> = ({ questions, updateQuestions }) => 
         }
     };
 
-    // Create a ref array for each question item and update when questions change
-    const questionRefs = useRef<RefObject<HTMLTextAreaElement>[]>([]);
-
-    useEffect(() => {
-        // Ensure questionRefs has a ref for each question in questions
-        if (questionRefs.current.length < questions.length) {
-            questionRefs.current = [
-                ...questionRefs.current,
-                ...Array(questions.length - questionRefs.current.length).fill(null).map(() => createRef<HTMLTextAreaElement>())
-            ];
-        } else if (questionRefs.current.length > questions.length) {
-            questionRefs.current = questionRefs.current.slice(0, questions.length);
-        }
-    }, [questions.length]);
+    // Use a mapping from question ID to ref, creating refs only once
+    const questionRefs = useRef<{ [key: string]: React.RefObject<HTMLTextAreaElement> }>({});
 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={questions.map((q) => q.id)} strategy={rectSortingStrategy}>
                 <div className="space-y-2">
-                    {questions.map((question, index) => (
-                        <QuestionItem
-                            key={question.id}
-                            question={question}
-                            index={index}
-                            questions={questions}
-                            questionRefs={questionRefs}
-                            updateQuestions={updateQuestions}
-                        />
-                    ))}
+                    {questions.map((question) => {
+                        // Create a ref for each question if it doesn't exist
+                        if (!questionRefs.current[question.id]) {
+                            questionRefs.current[question.id] = React.createRef<HTMLTextAreaElement>();
+                        }
+                        return (
+                            <QuestionItem
+                                key={question.id}
+                                question={question}
+                                questions={questions}
+                                questionRefs={questionRefs}
+                                updateQuestions={updateQuestions}
+                                textareaRef={questionRefs.current[question.id]}
+                            />
+                        );
+                    })}
                 </div>
             </SortableContext>
         </DndContext>

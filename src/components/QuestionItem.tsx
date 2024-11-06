@@ -13,13 +13,19 @@ interface Question {
 
 interface QuestionItemProps {
     question: Question;
-    index: number;
     questions: Question[];
-    questionRefs: React.MutableRefObject<React.RefObject<HTMLTextAreaElement>[]>;
+    questionRefs: React.MutableRefObject<{ [key: string]: React.RefObject<HTMLTextAreaElement> }>;
     updateQuestions: (updateFunc: (draft: Question[]) => void) => void;
+    textareaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
-const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, questionRefs, updateQuestions }) => {
+const QuestionItem: FC<QuestionItemProps> = ({
+                                                 question,
+                                                 questions,
+                                                 questionRefs,
+                                                 updateQuestions,
+                                                 textareaRef,
+                                             }) => {
     const {
         attributes,
         listeners,
@@ -35,11 +41,9 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
         opacity: isDragging ? 0.5 : 1,
     };
 
-    const textareaRef = questionRefs.current[index];
-
-    const baseClasses = "border-b outline-none focus:border-blue-500 transition-colors w-full resize-none";
-    const textColor = question.highlighted ? "text-yellow-700" : "text-black dark:text-white";
-    const bgColor = question.highlighted ? "bg-yellow-100 dark:bg-yellow-900" : "bg-transparent";
+    const baseClasses = 'border-b outline-none focus:border-blue-500 transition-colors w-full resize-none';
+    const textColor = question.highlighted ? 'text-yellow-700' : 'text-black dark:text-white';
+    const bgColor = question.highlighted ? 'bg-yellow-100 dark:bg-yellow-900' : 'bg-transparent';
 
     const adjustHeight = () => {
         if (textareaRef?.current) {
@@ -54,7 +58,6 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
 
     const [isFocused, setIsFocused] = useState(false);
 
-    // TODO not fully working yet
     useHotkeys(
         'ctrl+shift+up',
         () => {
@@ -71,7 +74,6 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
         [questions, question.id, updateQuestions, isFocused]
     );
 
-    // TODO not fully working yet
     useHotkeys(
         'ctrl+shift+down',
         () => {
@@ -89,14 +91,18 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
     );
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (!e.ctrlKey && !e.shiftKey) {
-            return;
-        }
-        if (e.key === 'Enter' && !e.shiftKey) {
+        const currentIndex = questions.findIndex((q) => q.id === question.id);
+        if (!textareaRef?.current) return;
+
+        if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle Enter key
             e.preventDefault();
-            if (question.text.trim() !== '' && (questions[index + 1] ? questions[index + 1].text.trim() !== '' : true)) {
+            if (
+                question.text.trim() !== '' &&
+                (questions[currentIndex + 1] ? questions[currentIndex + 1].text.trim() !== '' : true)
+            ) {
                 updateQuestions((draft) => {
-                    draft.splice(index + 1, 0, {
+                    draft.splice(currentIndex + 1, 0, {
                         id: Date.now().toString(),
                         text: '',
                         answered: false,
@@ -104,31 +110,44 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                     });
                 });
                 setTimeout(() => {
-                    const nextRef = questionRefs.current[index + 1];
-                    if (nextRef) {
-                        nextRef.current?.focus();
+                    const nextQuestion = questions[currentIndex + 1];
+                    if (nextQuestion) {
+                        const nextRef = questionRefs.current[nextQuestion.id];
+                        nextRef?.current?.focus();
                     }
                 }, 0);
             }
-        } else if (e.key === 'Tab' && !e.shiftKey) {
+        } else if (e.key === 'Tab' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle Tab key
             e.preventDefault();
-            if (questionRefs.current[index + 1]) {
-                questionRefs.current[index + 1].current?.focus();
+            if (currentIndex < questions.length - 1) {
+                const nextQuestion = questions[currentIndex + 1];
+                const nextRef = questionRefs.current[nextQuestion.id];
+                nextRef?.current?.focus();
             }
-        } else if (e.key === 'Tab' && e.shiftKey) {
+        } else if (e.key === 'Tab' && e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle Shift+Tab key
             e.preventDefault();
-            if (questionRefs.current[index - 1]) {
-                questionRefs.current[index - 1].current?.focus();
+            if (currentIndex > 0) {
+                const prevQuestion = questions[currentIndex - 1];
+                const prevRef = questionRefs.current[prevQuestion.id];
+                prevRef?.current?.focus();
             }
-        } else if (e.key === 'ArrowDown') {
+        } else if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle ArrowDown key
             e.preventDefault();
-            if (questionRefs.current[index + 1]) {
-                questionRefs.current[index + 1].current?.focus();
+            if (currentIndex < questions.length - 1) {
+                const nextQuestion = questions[currentIndex + 1];
+                const nextRef = questionRefs.current[nextQuestion.id];
+                nextRef?.current?.focus();
             }
-        } else if (e.key === 'ArrowUp') {
+        } else if (e.key === 'ArrowUp' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            // Handle ArrowUp key
             e.preventDefault();
-            if (questionRefs.current[index - 1]) {
-                questionRefs.current[index - 1].current?.focus();
+            if (currentIndex > 0) {
+                const prevQuestion = questions[currentIndex - 1];
+                const prevRef = questionRefs.current[prevQuestion.id];
+                prevRef?.current?.focus();
             }
         }
     };
@@ -152,15 +171,21 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                 checked={question.answered}
                 onChange={() => {
                     updateQuestions((draft) => {
-                        draft[index].answered = !draft[index].answered;
-                        draft[index].highlighted = false;
+                        const idx = draft.findIndex((q) => q.id === question.id);
+                        if (idx !== -1) {
+                            draft[idx].answered = !draft[idx].answered;
+                            draft[idx].highlighted = false;
+                        }
                     });
                 }}
                 onClick={() => {
                     if (!question.answered) {
                         updateQuestions((draft) => {
                             draft.forEach((q) => (q.highlighted = false));
-                            draft[index].highlighted = true;
+                            const idx = draft.findIndex((q) => q.id === question.id);
+                            if (idx !== -1) {
+                                draft[idx].highlighted = true;
+                            }
                         });
                     }
                 }}
@@ -172,8 +197,12 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                 className={`${baseClasses} ${textColor} ${bgColor}`}
                 value={question.text}
                 onChange={(e) => {
+                    const newText = e.target.value;
                     updateQuestions((draft) => {
-                        draft[index].text = e.target.value;
+                        const idx = draft.findIndex((q) => q.id === question.id);
+                        if (idx !== -1) {
+                            draft[idx].text = newText;
+                        }
                     });
                     adjustHeight();
                 }}
