@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Checkbox } from '@material-tailwind/react';
 
 interface Question {
     id: string;
@@ -126,15 +127,14 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
             >
                 &#9776;
             </div>
-            <input
-                type="checkbox"
+            <Checkbox
                 checked={question.answered}
-                onChange={() =>
+                onChange={() => {
                     updateQuestions((draft) => {
                         draft[index].answered = !draft[index].answered;
                         draft[index].highlighted = false;
-                    })
-                }
+                    });
+                }}
                 onClick={() => {
                     if (!question.answered) {
                         updateQuestions((draft) => {
@@ -143,7 +143,7 @@ const QuestionItem: FC<QuestionItemProps> = ({ question, index, questions, quest
                         });
                     }
                 }}
-                className="mr-2 accent-gray-700 dark:accent-white"
+                className="text-gray-700 dark:text-white dark:bg-gray-800 dark:border-gray-700"
             />
             <textarea
                 ref={textareaRef}
