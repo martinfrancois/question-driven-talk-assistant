@@ -17,10 +17,11 @@ const App: React.FC = () => {
         const storedQuestions = localStorage.getItem('questions');
         return storedQuestions ? JSON.parse(storedQuestions) : [{ id: Date.now().toString(), text: '', answered: false, highlighted: false }];
     });
-    const [title, setTitle] = useState(() => localStorage.getItem('title') || 'Q&A Session');
-    const [footer, setFooter] = useState(() => localStorage.getItem('footer') || 'This is a footer');
+    const [title, setTitle] = useState(() => localStorage.getItem('title') || 'Ask me anything');
+    const [footer, setFooter] = useState(() => localStorage.getItem('footer') || 'FancyCon 2024 | François Martin');
     const [timeFormat24h, setTimeFormat24h] = useState(() => localStorage.getItem('timeFormat24h') === 'true');
     const [qrCodeURL, setQrCodeURL] = useState(() => localStorage.getItem('qrCodeURL') || '');
+    const [qrCodeSize, setQrCodeSize] = useState(() => parseFloat(localStorage.getItem('qrCodeSize') || '64'));
     const [fontSize, setFontSize] = useState(() => parseInt(localStorage.getItem('fontSize') || '16'));
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('isDarkMode') === 'true');
     const [showModal, setShowModal] = useState(false);
@@ -32,9 +33,10 @@ const App: React.FC = () => {
         localStorage.setItem('footer', footer);
         localStorage.setItem('timeFormat24h', String(timeFormat24h));
         localStorage.setItem('qrCodeURL', qrCodeURL);
+        localStorage.setItem('qrCodeSize', qrCodeSize.toString());
         localStorage.setItem('fontSize', fontSize.toString());
         localStorage.setItem('isDarkMode', String(isDarkMode));
-    }, [questions, title, footer, timeFormat24h, qrCodeURL, fontSize, isDarkMode]);
+    }, [questions, title, footer, timeFormat24h, qrCodeURL, qrCodeSize, fontSize, isDarkMode]);
 
     // Handle keyboard shortcuts
     useHotkeys('ctrl+p', () => setFontSize((size) => size + 1), [setFontSize]);
@@ -76,6 +78,8 @@ const App: React.FC = () => {
                 setTimeFormat24h={setTimeFormat24h}
                 qrCodeURL={qrCodeURL}
                 setQrCodeURL={setQrCodeURL}
+                qrCodeSize={qrCodeSize}
+                setQrCodeSize={setQrCodeSize}
                 fontSize={fontSize}
                 isDarkMode={isDarkMode}
                 showFullScreenQR={showFullScreenQR}

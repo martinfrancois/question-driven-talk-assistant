@@ -15,6 +15,8 @@ interface MainLayoutProps {
     updateQuestions: (updateFunc: (draft: any[]) => void) => void;
     qrCodeURL: string;
     setQrCodeURL: (url: string) => void;
+    qrCodeSize: number;
+    setQrCodeSize: (size: number) => void;
     fontSize: number;
     isDarkMode: boolean;
     showFullScreenQR: boolean;
@@ -32,6 +34,8 @@ const MainLayout: FC<MainLayoutProps> = ({
                                              updateQuestions,
                                              qrCodeURL,
                                              setQrCodeURL,
+                                             qrCodeSize,
+                                             setQrCodeSize,
                                              fontSize,
                                              isDarkMode,
                                              showFullScreenQR,
@@ -76,7 +80,7 @@ const MainLayout: FC<MainLayoutProps> = ({
 
                 {/* Side Area (QR Code) - Fixed within the main content */}
                 <div className="ml-4 flex-shrink-0 self-start">
-                    <QRCodeComponent qrCodeURL={qrCodeURL} setQrCodeURL={setQrCodeURL} />
+                    <QRCodeComponent qrCodeURL={qrCodeURL} setQrCodeURL={setQrCodeURL} qrCodeSize={qrCodeSize} setQrCodeSize={setQrCodeSize} />
                 </div>
             </div>
 
