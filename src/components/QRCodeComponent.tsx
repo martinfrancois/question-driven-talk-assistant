@@ -1,13 +1,14 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 interface QRCodeComponentProps {
     qrCodeURL: string;
     setQrCodeURL: (url: string) => void;
+    qrCodeSize: number;
+    setQrCodeSize: (size: number) => void;
 }
 
-const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL }) => {
-    const [size, setSize] = useState(64);
+const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL, qrCodeSize, setQrCodeSize }) => {
     const isResizing = useRef(false); // Tracks if resizing is in progress
     const preventClick = useRef(false); // Temporarily prevents click after resize
     const resizeDirection = useRef<'bottom-right' | 'bottom-left'>('bottom-right'); // Tracks the resize handle direction
@@ -22,7 +23,7 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL }) 
 
         const startX = e.clientX;
         const startY = e.clientY;
-        const startSize = size;
+        const startSize = qrCodeSize;
 
         const onPointerMove = (moveEvent: PointerEvent) => {
             const deltaX = moveEvent.clientX - startX;
@@ -33,7 +34,7 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL }) 
                 ? Math.max(deltaX, deltaY)
                 : Math.max(-deltaX, deltaY);
 
-            setSize(Math.min(Math.max(startSize + delta, 32), 256));
+            setQrCodeSize(Math.min(Math.max(startSize + delta, 32), 256));
         };
 
         const onPointerUp = () => {
@@ -70,7 +71,7 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL }) 
                 }`}
             >
                 {qrCodeURL ? (
-                    <QRCodeSVG value={qrCodeURL} size={size} />
+                    <QRCodeSVG value={qrCodeURL} size={qrCodeSize} />
                 ) : (
                     <div className="text-gray-400">QR</div>
                 )}
