@@ -323,6 +323,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             </div>
             <Checkbox
                 checked={question.answered}
+                color={"blue-gray"}
                 onChange={() => {
                     updateQuestions((draft) => {
                         const idx = draft.findIndex((q) => q.id === question.id);
@@ -344,7 +345,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     }
                 }}
                 ripple={false}
-                className="text-gray-700 dark:text-white dark:bg-gray-800 dark:border-gray-700"
+                className="p-0 text-gray-700 dark:text-white dark:bg-gray-800 dark:border-gray-700"
             />
             <textarea
                 ref={textareaRef}
