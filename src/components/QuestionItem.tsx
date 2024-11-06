@@ -98,29 +98,73 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const textarea = textareaRef.current;
         const cursorPosition = textarea.selectionStart;
 
-        if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-            // Handle Enter key
-            e.preventDefault();
-            if (
-                question.text.trim() !== '' &&
-                (questions[currentIndex + 1] ? questions[currentIndex + 1].text.trim() !== '' : true)
-            ) {
-                const newQuestion = {
-                    id: Date.now().toString(),
-                    text: '',
-                    answered: false,
-                    highlighted: false,
-                };
-                updateQuestions((draft) => {
-                    draft.splice(currentIndex + 1, 0, newQuestion);
-                });
-                setTimeout(() => {
+        // Get text before cursor
+        const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+        // Split text before cursor into lines
+        const linesBeforeCursor = textBeforeCursor.split('\n');
+        // Current line number (0-based)
+        const currentLineNumber = linesBeforeCursor.length - 1;
+
+        // Total lines in the current textarea
+        const totalLines = textarea.value.split('\n').length;
+
+        if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            const isAtLastLine = currentLineNumber === totalLines - 1;
+
+            if (isAtLastLine) {
+                // Cursor is at last line, move focus to next textarea
+                e.preventDefault();
+                if (currentIndex < questions.length - 1) {
                     const nextQuestion = questions[currentIndex + 1];
-                    if (nextQuestion) {
-                        const nextRef = questionRefs.current[nextQuestion.id];
-                        nextRef?.current?.focus();
+                    const nextRef = questionRefs.current[nextQuestion.id];
+                    if (nextRef && nextRef.current) {
+                        nextRef.current.focus();
+
+                        // Place cursor at the end of the next line in the next textarea
+                        const nextTextarea = nextRef.current;
+                        const nextTextLines = nextTextarea.value.split('\n');
+
+                        // We want to position the cursor at the end of the same line number or the first line
+                        const lineIndex = 0; // First line
+                        let position = 0;
+                        for (let i = 0; i <= lineIndex; i++) {
+                            position += nextTextLines[i]?.length ?? 0;
+                            if (i < lineIndex) position += 1; // +1 for newline
+                        }
+                        nextTextarea.setSelectionRange(position, position);
                     }
-                }, 0);
+                }
+            } else {
+                // Allow default behavior (move cursor down within textarea)
+            }
+        } else if (e.key === 'ArrowUp' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+            const isAtFirstLine = currentLineNumber === 0;
+
+            if (isAtFirstLine) {
+                // Cursor is at first line, move focus to previous textarea
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    const prevQuestion = questions[currentIndex - 1];
+                    const prevRef = questionRefs.current[prevQuestion.id];
+                    if (prevRef && prevRef.current) {
+                        prevRef.current.focus();
+
+                        // Place cursor at the end of the last line in the previous textarea
+                        const prevTextarea = prevRef.current;
+                        const prevTextLines = prevTextarea.value.split('\n');
+
+                        // Last line index
+                        const lineIndex = prevTextLines.length - 1;
+                        let position = 0;
+                        for (let i = 0; i <= lineIndex; i++) {
+                            position += prevTextLines[i]?.length ?? 0;
+                            if (i < lineIndex) position += 1; // +1 for newline
+                        }
+                        prevTextarea.setSelectionRange(position, position);
+                    }
+                }
+            } else {
+                // Allow default behavior (move cursor up within textarea)
             }
         } else if (e.key === 'Tab' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
             // Handle Tab key
@@ -128,7 +172,14 @@ const QuestionItem: FC<QuestionItemProps> = ({
             if (currentIndex < questions.length - 1) {
                 const nextQuestion = questions[currentIndex + 1];
                 const nextRef = questionRefs.current[nextQuestion.id];
-                nextRef?.current?.focus();
+                if (nextRef && nextRef.current) {
+                    nextRef.current.focus();
+
+                    // Set cursor at the end of the text in the next textarea
+                    const nextTextarea = nextRef.current;
+                    const position = nextTextarea.value.length;
+                    nextTextarea.setSelectionRange(position, position);
+                }
             } else {
                 // Last textarea, add new question
                 const newQuestion = {
@@ -144,6 +195,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     const newRef = questionRefs.current[newQuestion.id];
                     if (newRef && newRef.current) {
                         newRef.current.focus();
+                        // Cursor at position 0 in new empty textarea
+                        newRef.current.setSelectionRange(0, 0);
                     }
                 }, 0);
             }
@@ -153,44 +206,14 @@ const QuestionItem: FC<QuestionItemProps> = ({
             if (currentIndex > 0) {
                 const prevQuestion = questions[currentIndex - 1];
                 const prevRef = questionRefs.current[prevQuestion.id];
-                prevRef?.current?.focus();
-            }
-        } else if (e.key === 'ArrowDown' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-            // Check if cursor is at the last line
-            const textAfterCursor = textarea.value.substring(cursorPosition);
-            const isAtLastLine = textAfterCursor.indexOf('\n') === -1;
+                if (prevRef && prevRef.current) {
+                    prevRef.current.focus();
 
-            if (isAtLastLine) {
-                // Cursor is at last line, move focus to next textarea
-                e.preventDefault();
-                if (currentIndex < questions.length - 1) {
-                    const nextQuestion = questions[currentIndex + 1];
-                    const nextRef = questionRefs.current[nextQuestion.id];
-                    nextRef?.current?.focus();
-                    nextRef?.current?.setSelectionRange(0, 0);
+                    // Set cursor at the end of the text in the previous textarea
+                    const prevTextarea = prevRef.current;
+                    const position = prevTextarea.value.length;
+                    prevTextarea.setSelectionRange(position, position);
                 }
-            } else {
-                // Allow default behavior (move cursor down within textarea)
-            }
-        } else if (e.key === 'ArrowUp' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-            // Check if cursor is at the first line
-            const textBeforeCursor = textarea.value.substring(0, cursorPosition);
-            const isAtFirstLine = textBeforeCursor.lastIndexOf('\n') === -1;
-
-            if (isAtFirstLine) {
-                // Cursor is at first line, move focus to previous textarea
-                e.preventDefault();
-                if (currentIndex > 0) {
-                    const prevQuestion = questions[currentIndex - 1];
-                    const prevRef = questionRefs.current[prevQuestion.id];
-                    prevRef?.current?.focus();
-                    prevRef?.current?.setSelectionRange(
-                        prevRef.current.value.length,
-                        prevRef.current.value.length
-                    );
-                }
-            } else {
-                // Allow default behavior (move cursor up within textarea)
             }
         }
     };
