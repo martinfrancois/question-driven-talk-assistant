@@ -325,21 +325,30 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 checked={question.answered}
                 color={"blue-gray"}
                 onChange={() => {
-                    updateQuestions((draft) => {
-                        const idx = draft.findIndex((q) => q.id === question.id);
-                        if (idx !== -1) {
-                            draft[idx].answered = !draft[idx].answered;
-                            draft[idx].highlighted = false;
-                        }
-                    });
-                }}
-                onClick={() => {
-                    if (!question.answered) {
+                    if (question.answered) {
+                        // If already answered, just uncheck it
                         updateQuestions((draft) => {
-                            draft.forEach((q) => (q.highlighted = false));
+                            const idx = draft.findIndex((q) => q.id === question.id);
+                            if (idx !== -1) {
+                                draft[idx].answered = false;
+                            }
+                        });
+                    } else if (!question.highlighted) {
+                        // First click: highlight the question only if it's not already highlighted
+                        updateQuestions((draft) => {
+                            draft.forEach((q) => (q.highlighted = false)); // Remove highlight from other questions
                             const idx = draft.findIndex((q) => q.id === question.id);
                             if (idx !== -1) {
                                 draft[idx].highlighted = true;
+                            }
+                        });
+                    } else {
+                        // Second click when highlighted: mark as answered and remove highlight
+                        updateQuestions((draft) => {
+                            const idx = draft.findIndex((q) => q.id === question.id);
+                            if (idx !== -1) {
+                                draft[idx].answered = true;
+                                draft[idx].highlighted = false;
                             }
                         });
                     }
