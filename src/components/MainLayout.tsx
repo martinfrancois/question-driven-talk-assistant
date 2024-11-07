@@ -87,7 +87,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                     const newFooter = prompt('Edit Footer', footer);
                     if (newFooter !== null) setFooter(newFooter);
                 }}
-                className="text-sm text-center cursor-pointer p-2 flex-shrink-0"
+                className="text-xl text-center cursor-pointer p-2 flex-shrink-0"
             >
                 {footer}
             </div>
