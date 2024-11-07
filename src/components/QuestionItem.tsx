@@ -358,6 +358,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             />
             <textarea
                 ref={textareaRef}
+                spellCheck={false}
                 className={`${baseClasses} ${textColor} bg-transparent pr-2`}
                 value={question.text}
                 onChange={(e) => {
