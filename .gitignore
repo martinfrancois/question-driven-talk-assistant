@@ -312,4 +312,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
