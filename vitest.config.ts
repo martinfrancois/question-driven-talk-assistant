@@ -8,6 +8,12 @@ export default defineConfig({
             enabled: true,
             name: 'chromium',
             provider: 'playwright',
+            // workaround for https://youtrack.jetbrains.com/issue/WEB-68768/Vitest-Browser-Mode-Debugging-Doesnt-Work
+            providerOptions: {
+                launch: {
+                    args: ["--remote-debugging-port=9222"],
+                },
+            },
         },
     },
 })
