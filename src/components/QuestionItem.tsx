@@ -14,7 +14,7 @@ export interface Question {
 interface QuestionItemProps {
     question: Question;
     questions: Question[];
-    questionRefs: React.MutableRefObject<{ [key: string]: React.RefObject<HTMLTextAreaElement> }>;
+    questionRefs: React.MutableRefObject<Record<string, React.RefObject<HTMLTextAreaElement>>>;
     updateQuestions: (updateFunc: (draft: Question[]) => void) => void;
     textareaRef: React.RefObject<HTMLTextAreaElement>;
 }

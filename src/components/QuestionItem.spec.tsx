@@ -13,9 +13,7 @@ interface Question {
 describe('QuestionItem Component', () => {
     let questions: Question[];
     let updateQuestions: Mock;
-    let questionRefs: React.MutableRefObject<{
-        [key: string]: React.RefObject<HTMLTextAreaElement>;
-    }>;
+    let questionRefs: React.MutableRefObject<Record<string, React.RefObject<HTMLTextAreaElement>>>;
 
     beforeEach(() => {
         questions = [
@@ -74,7 +72,7 @@ describe('QuestionItem Component', () => {
     it('Pressing Enter adds a new question below and focuses it', async () => {
         // given
         const { container } = renderQuestionItem(questions[1]); // Render Question B
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // when, simulate pressing Enter
@@ -88,14 +86,14 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on the new question
         const newQuestionRef = questionRefs.current[questions[2].id]?.current;
-        expect.element(document.activeElement as Element).toBe(newQuestionRef);
+        expect.element(document.activeElement!).toBe(newQuestionRef);
     });
 
     it('Pressing Enter does nothing if current or next question is empty', () => {
         // Set current question text to empty
         questions[1].text = '';
         const { container } = renderQuestionItem(questions[1]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing Enter
@@ -110,7 +108,7 @@ describe('QuestionItem Component', () => {
         // Make last question empty
         questions[2].text = '';
         const { container } = renderQuestionItem(questions[2]); // Render last question
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing Tab
@@ -123,7 +121,7 @@ describe('QuestionItem Component', () => {
 
     it('Pressing Tab on last non-empty question adds new question', () => {
         const { container } = renderQuestionItem(questions[2]); // Render last question
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing Tab
@@ -139,7 +137,7 @@ describe('QuestionItem Component', () => {
         // Set question text to empty
         questions[1].text = '';
         const { container } = renderQuestionItem(questions[1]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing Backspace
@@ -152,14 +150,14 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on previous question
         const prevQuestionRef = questionRefs.current['1']?.current;
-        expect.element(document.activeElement as Element).toBe(prevQuestionRef);
+        expect.element(document.activeElement!).toBe(prevQuestionRef);
     });
 
     it('Pressing Backspace on empty first question deletes it and focuses new first question', () => {
         // Set first question text to empty
         questions[0].text = '';
         const { container } = renderQuestionItem(questions[0]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing Backspace
@@ -172,13 +170,13 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on new first question
         const newFirstQuestionRef = questionRefs.current['2']?.current;
-        expect.element(document.activeElement as Element).toBe(newFirstQuestionRef);
+        expect.element(document.activeElement!).toBe(newFirstQuestionRef);
     });
 
     it('Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line', () => {
         questions[1].text = '\n';
         const { container } = renderQuestionItem(questions[1]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
         textarea.setSelectionRange(0, 0); // Cursor at the start (first line)
 
@@ -193,7 +191,7 @@ describe('QuestionItem Component', () => {
     it('Pressing Backspace on second line removes that line', () => {
         questions[1].text = '\n';
         const { container } = renderQuestionItem(questions[1]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
         textarea.setSelectionRange(1, 1); // Cursor at the start of the second line
 
@@ -213,7 +211,7 @@ describe('QuestionItem Component', () => {
 
     it('ArrowUp and ArrowDown navigation moves focus correctly', () => {
         const { container } = renderQuestionItem(questions[1]);
-        const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+        const textarea = container.querySelector('textarea')!;
         textarea.focus();
 
         // Simulate pressing ArrowUp
@@ -222,14 +220,14 @@ describe('QuestionItem Component', () => {
 
         // Check that focus moved to previous question
         const prevQuestionRef = questionRefs.current['1']?.current;
-        expect.element(document.activeElement as Element).toBe(prevQuestionRef);
+        expect.element(document.activeElement!).toBe(prevQuestionRef);
 
         // Simulate pressing ArrowDown
         const arrowDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true });
         prevQuestionRef?.dispatchEvent(arrowDownEvent);
 
         // Focus should return to the original textarea
-        expect.element(document.activeElement as Element).toBe(textarea);
+        expect.element(document.activeElement!).toBe(textarea);
     });
 
 });

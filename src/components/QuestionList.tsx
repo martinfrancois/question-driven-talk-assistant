@@ -48,7 +48,7 @@ const QuestionList: FC<QuestionListProps> = ({ questions, updateQuestions }) => 
     };
 
     // Use a mapping from question ID to ref, creating refs only once
-    const questionRefs = useRef<{ [key: string]: React.RefObject<HTMLTextAreaElement> }>({});
+    const questionRefs = useRef<Record<string, React.RefObject<HTMLTextAreaElement>>>({});
 
     return (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
