@@ -5,6 +5,8 @@ Easily add, highlight, and track questions, with intuitive keyboard shortcuts an
 
 You can use it here: https://qa.fmartin.ch
 
+Supported Browsers: Chrome, Firefox
+
 ## User Documentation
 
 ### Features
