@@ -27,6 +27,7 @@ const TimeDisplay: FC<TimeDisplayProps> = ({ format24h, toggleFormat }) => {
         <div
             onClick={toggleFormat}
             className="cursor-pointer text-sm text-center opacity-70 hover:opacity-100"
+            data-testid="time-display"
         >
             {time}
         </div>

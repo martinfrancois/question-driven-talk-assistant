@@ -64,6 +64,7 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL, qr
         <div
             onClick={handleClick}
             className="group cursor-pointer relative"
+            data-testid="qr-code"
         >
             <div
                 className={`p-2 border border-white rounded-md !bg-white ${
@@ -71,9 +72,9 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL, qr
                 }`}
             >
                 {qrCodeURL ? (
-                    <QRCodeSVG value={qrCodeURL} size={qrCodeSize} />
+                    <QRCodeSVG value={qrCodeURL} size={qrCodeSize} data-testid="qr-code-svg" />
                 ) : (
-                    <div className="text-gray-400">QR</div>
+                    <div className="text-gray-400" data-testid="qr-code-placeholder">QR</div>
                 )}
             </div>
             {/* Resizable Handles */}
@@ -82,10 +83,12 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({ qrCodeURL, setQrCodeURL, qr
                     <div
                         className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize"
                         onPointerDown={(e) => handleResizeStart(e, 'bottom-right')}
+                        data-testid="qr-code-resize-bottom-right"
                     />
                     <div
                         className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize"
                         onPointerDown={(e) => handleResizeStart(e, 'bottom-left')}
+                        data-testid="qr-code-resize-bottom-left"
                     />
                 </>
             )}

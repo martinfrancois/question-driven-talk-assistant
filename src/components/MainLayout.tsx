@@ -3,6 +3,7 @@ import QuestionList from './QuestionList';
 import TimeDisplay from './TimeDisplay';
 import QRCodeComponent from './QRCodeComponent';
 import { QRCodeSVG } from 'qrcode.react';
+import {Question} from "./QuestionItem.tsx";
 
 interface MainLayoutProps {
     title: string;
@@ -11,8 +12,8 @@ interface MainLayoutProps {
     setFooter: (footer: string) => void;
     timeFormat24h: boolean;
     setTimeFormat24h: (format: boolean) => void;
-    questions: any[];
-    updateQuestions: (updateFunc: (draft: any[]) => void) => void;
+    questions: Question[];
+    updateQuestions: (updateFunc: (draft: Question[]) => void) => void;
     qrCodeURL: string;
     setQrCodeURL: (url: string) => void;
     qrCodeSize: number;
@@ -46,6 +47,7 @@ const MainLayout: FC<MainLayoutProps> = ({
             } ${
                 isDarkMode ? 'dark' : 'light'
             }`}
+            data-testid="main-layout-container"
         >
             {/* Header */}
             <div className="flex items-center flex-shrink-0">
@@ -56,6 +58,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                             if (newTitle !== null) setTitle(newTitle);
                         }}
                         className="text-3xl font-semibold cursor-pointer"
+                        data-testid="main-header"
                     >
                         {title}
                     </div>
@@ -88,6 +91,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                     if (newFooter !== null) setFooter(newFooter);
                 }}
                 className="text-xl text-center cursor-pointer p-2 flex-shrink-0"
+                data-testid="main-footer"
             >
                 {footer}
             </div>
@@ -96,6 +100,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                 <div
                     className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
                     onClick={() => setShowFullScreenQR(false)}
+                    data-testid="fullscreen-qr-code"
                 >
                     {/* Container for white padding around QR code */}
                     <div className="!bg-white p-8 rounded-lg">

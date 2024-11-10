@@ -18,12 +18,14 @@ const Modal: FC<ModalProps> = ({ title, message, onConfirm, onCancel }) => {
                     <button
                         onClick={onCancel}
                         className="px-4 py-2 bg-gray-300 text-black dark:bg-gray-600 dark:text-gray-200 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500"
+                        data-testid="modal-cancel"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onConfirm}
                         className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
+                        data-testid="modal-confirm"
                     >
                         Confirm
                     </button>

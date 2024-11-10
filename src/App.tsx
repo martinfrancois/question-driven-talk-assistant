@@ -114,7 +114,7 @@ const App: React.FC = () => {
     );
 
     return (
-        <div key={key} className={`${isDarkMode ? 'dark' : ''}`} style={{ fontSize: `${fontSize}px` }}>
+        <div data-testid="body" key={key} className={`${isDarkMode ? 'dark' : ''}`} style={{ fontSize: `${fontSize}px` }}>
             <MainLayout
                 questions={questions}
                 updateQuestions={updateQuestions}

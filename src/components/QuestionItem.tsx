@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Checkbox } from '@material-tailwind/react';
 
-interface Question {
+export interface Question {
     id: string;
     text: string;
     answered: boolean;
@@ -310,6 +310,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         <div
             style={style}
             className={`flex items-center space-y-1.5 pt-0 ${bgColor}`}
+            data-testid={`question-item-${question.id}`}
         >
             <div
                 ref={setNodeRef}
@@ -318,6 +319,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 className="text-2xl cursor-grab hover:text-gray-500 opacity-0 hover:opacity-100 transition-opacity"
                 onMouseDown={(e) => e.stopPropagation()}
                 onTouchStart={(e) => e.stopPropagation()}
+                data-testid="reorder-button"
             >
                 &#9776;
             </div>
@@ -360,6 +362,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 ref={textareaRef}
                 spellCheck={false}
                 className={`${baseClasses} ${textColor} bg-transparent pr-2`}
+                data-highlighted={question.highlighted}
                 value={question.text}
                 onChange={(e) => {
                     const newText = e.target.value;
