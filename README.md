@@ -3,6 +3,8 @@
 A web application designed to help speakers manage audience questions during live sessions.
 Easily add, highlight, and track questions, with intuitive keyboard shortcuts and a clean interface optimized for both light and dark themes.
 
+You can use it here: https://qa.fmartin.ch
+
 ## User Documentation
 
 ### Features
