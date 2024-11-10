@@ -1,5 +1,4 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy to Pages
+name: Deploy to Github Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -49,8 +48,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload only the dist folder
           path: './dist'
+          # is the default name as required by deploy-pages
+          name: 'github-pages'
 
       - name: Deploy to GitHub Pages
         id: deployment
