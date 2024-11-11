@@ -33,10 +33,10 @@ Supported Browsers: Chrome, Firefox
 7. **Editing Title and Footer**: Click on the title at the top or the footer at the bottom to edit the text.
 8. **Time Format**: Click on the time display to toggle between 12-hour and 24-hour formats.
 9. **QR Code**:
-    - Click on the QR code area on the top right to set or change the URL.
-    - If no URL is set, a placeholder "QR" text is displayed when hovering over the top right corner.
-    - Resize the QR code by dragging the bottom-right or bottom-left corner.
-    - Press Ctrl + Q to show the QR code on the entire screen. Press again to hide.
+   - Click on the QR code area on the top right to set or change the URL.
+   - If no URL is set, a placeholder "QR" text is displayed when hovering over the top right corner.
+   - Resize the QR code by dragging the bottom-right or bottom-left corner.
+   - Press Ctrl + Q to show the QR code on the entire screen. Press again to hide.
 10. **Dark Mode**: Toggle dark mode on or off by pressing Ctrl + D.
 11. **Font Resizing**:
     - **Increase Font Size**: Press `Ctrl + P` (P for Plus) to increase the font size of the questions.
@@ -49,28 +49,28 @@ Supported Browsers: Chrome, Firefox
 ### Keyboard Shortcuts Reference
 
 - **Navigation**:
-    - `Tab`: Move to the next question.
-    - `Shift + Tab`: Move to the previous question.
-    - `Arrow Up`: Move cursor up within a question (if the question has multiple lines of text) or to the previous question.
-    - `Arrow Down`: Move cursor down within a question (if the question has multiple lines of text) or to the next question.
+  - `Tab`: Move to the next question.
+  - `Shift + Tab`: Move to the previous question.
+  - `Arrow Up`: Move cursor up within a question (if the question has multiple lines of text) or to the previous question.
+  - `Arrow Down`: Move cursor down within a question (if the question has multiple lines of text) or to the next question.
 - **Question Management**:
-    - `Shift + Enter`: Add a new line to a question.
-    - `Enter`: Add a new question below the current one.
-    - `Backspace` on empty question: Delete the current question.
-    - `Ctrl + Shift + Backspace`: Clear all questions upon confirming a dialog.
+  - `Shift + Enter`: Add a new line to a question.
+  - `Enter`: Add a new question below the current one.
+  - `Backspace` on empty question: Delete the current question.
+  - `Ctrl + Shift + Backspace`: Clear all questions upon confirming a dialog.
 - **Reordering Questions**:
-    - `Ctrl + Shift + Up`: Move the current question up.
-    - `Ctrl + Shift + Down`: Move the current question down.
+  - `Ctrl + Shift + Up`: Move the current question up.
+  - `Ctrl + Shift + Down`: Move the current question down.
 - **Additional features**:
-    - `Ctrl + P`: Increase font size (P => Plus).
-    - `Ctrl + M`: Decrease font size (M => Minus).
-    - `Ctrl + D`: Toggle dark mode.
-    - `Ctrl + Q`: Show a large QR code in the middle of the screen.
-    - `Ctrl + F`: Show the web page in full screen mode.
+  - `Ctrl + P`: Increase font size (P => Plus).
+  - `Ctrl + M`: Decrease font size (M => Minus).
+  - `Ctrl + D`: Toggle dark mode.
+  - `Ctrl + Q`: Show a large QR code in the middle of the screen.
+  - `Ctrl + F`: Show the web page in full screen mode.
 - **Highlighting and Answering**:
-    - Click checkbox once: Highlight the question.
-    - Click highlighted checkbox: Mark question as answered.
-    - Click answered checkbox: Unmark as answered.
+  - Click checkbox once: Highlight the question.
+  - Click highlighted checkbox: Mark question as answered.
+  - Click answered checkbox: Unmark as answered.
 
 ## Development Setup
 
@@ -123,14 +123,14 @@ Supported Browsers: Chrome, Firefox
 ### Development Notes
 
 - **File Structure**:
-    - `src/components`: Contains all React components like `MainLayout`, `QuestionList`, `QuestionItem`, etc.
-    - `src/App.tsx`: Main application file.
+  - `src/components`: Contains all React components like `MainLayout`, `QuestionList`, `QuestionItem`, etc.
+  - `src/App.tsx`: Main application file.
 - **Styling**:
-    - Uses Tailwind CSS and material-tailwind for styling. Classes are applied directly in the JSX.
+  - Uses Tailwind CSS and material-tailwind for styling. Classes are applied directly in the JSX.
 - **State Management**:
-    - Utilizes React's `useState` and `useEffect` hooks for state and lifecycle management.
+  - Utilizes React's `useState` and `useEffect` hooks for state and lifecycle management.
 - **Keyboard Shortcuts**:
-    - Implemented using the `react-hotkeys-hook` library.
+  - Implemented using the `react-hotkeys-hook` library.
 
 ### Available Scripts
 
