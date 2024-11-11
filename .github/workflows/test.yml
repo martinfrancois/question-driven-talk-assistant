@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Tests
 on:
   push:
     branches: [ main ]
@@ -15,19 +15,17 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: npm ci
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
       - name: Run type checks
         run: npx tsc -p tsconfig.json --noEmit
-
-      # Build the frontend
       - name: Build frontend
         run: npm run build
-
       - name: Lint
         run: npm run lint
 
-      - name: Unit tests
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Unit & Component Tests
         run: npm run test:unit
 
       # Start the frontend server in the background
@@ -40,7 +38,6 @@ jobs:
       - name: Wait for server to be ready
         run: npx wait-on http://localhost:5173
 
-      # Run Playwright tests
       - name: Run Playwright tests
         run: npm run test:e2e
 
