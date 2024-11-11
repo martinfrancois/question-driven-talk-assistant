@@ -76,7 +76,6 @@ button:focus-visible {
 
 /* Dark mode styles */
 
-
 .dark .bg-white {
   background-color: var(--dark-bg-color);
 }
@@ -119,4 +118,3 @@ button:focus-visible {
     --tw-scrollbar-thumb: #555; /* Dark gray thumb */
   }
 }
-
