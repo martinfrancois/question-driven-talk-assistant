@@ -26,7 +26,7 @@ export class AppPage {
             }
             try {
                 return JSON.parse(item) as T;
-            } catch (e) {
+            } catch {
                 // content is not JSON
                 return item as T;
             }
