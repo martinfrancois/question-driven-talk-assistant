@@ -9,7 +9,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["patch"],
-      "automerge": false
+      "automerge": true
     }
   ]
 }
