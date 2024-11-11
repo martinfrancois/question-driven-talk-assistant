@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'vitest-browser-react';
 import { vi, describe, it, expect, beforeEach, Mock } from 'vitest';
-import QuestionItem from './QuestionItem';
+import QuestionItem, {UpdateFuncType} from './QuestionItem';
 
 interface Question {
     id: string;
@@ -22,7 +22,7 @@ describe('QuestionItem Component', () => {
             { id: '3', text: 'Question C', answered: false, highlighted: false },
         ];
 
-        updateQuestions = vi.fn((updateFunc) => {
+        updateQuestions = vi.fn((updateFunc: UpdateFuncType) => {
             const newQuestions = [...questions];
             updateFunc(newQuestions);
 
@@ -86,7 +86,7 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on the new question
         const newQuestionRef = questionRefs.current[questions[2].id]?.current;
-        expect.element(document.activeElement!).toBe(newQuestionRef);
+        await expect.element(document.activeElement!).toBe(newQuestionRef);
     });
 
     it('Pressing Enter does nothing if current or next question is empty', () => {
@@ -133,7 +133,7 @@ describe('QuestionItem Component', () => {
         expect(questions[3].text).toBe(''); // New question added
     });
 
-    it('Pressing Backspace on empty question deletes it and focuses previous', () => {
+    it('Pressing Backspace on empty question deletes it and focuses previous', async () => {
         // Set question text to empty
         questions[1].text = '';
         const { container } = renderQuestionItem(questions[1]);
@@ -150,10 +150,10 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on previous question
         const prevQuestionRef = questionRefs.current['1']?.current;
-        expect.element(document.activeElement!).toBe(prevQuestionRef);
+        await expect.element(document.activeElement!).toBe(prevQuestionRef);
     });
 
-    it('Pressing Backspace on empty first question deletes it and focuses new first question', () => {
+    it('Pressing Backspace on empty first question deletes it and focuses new first question', async () => {
         // Set first question text to empty
         questions[0].text = '';
         const { container } = renderQuestionItem(questions[0]);
@@ -170,7 +170,7 @@ describe('QuestionItem Component', () => {
 
         // Check that focus is on new first question
         const newFirstQuestionRef = questionRefs.current['2']?.current;
-        expect.element(document.activeElement!).toBe(newFirstQuestionRef);
+        await expect.element(document.activeElement!).toBe(newFirstQuestionRef);
     });
 
     it('Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line', () => {
@@ -209,7 +209,7 @@ describe('QuestionItem Component', () => {
         expect(document.activeElement).toBe(textarea); // Focus remains
     });
 
-    it('ArrowUp and ArrowDown navigation moves focus correctly', () => {
+    it('ArrowUp and ArrowDown navigation moves focus correctly', async () => {
         const { container } = renderQuestionItem(questions[1]);
         const textarea = container.querySelector('textarea')!;
         textarea.focus();
@@ -220,14 +220,14 @@ describe('QuestionItem Component', () => {
 
         // Check that focus moved to previous question
         const prevQuestionRef = questionRefs.current['1']?.current;
-        expect.element(document.activeElement!).toBe(prevQuestionRef);
+        await expect.element(document.activeElement!).toBe(prevQuestionRef);
 
         // Simulate pressing ArrowDown
         const arrowDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true });
         prevQuestionRef?.dispatchEvent(arrowDownEvent);
 
         // Focus should return to the original textarea
-        expect.element(document.activeElement!).toBe(textarea);
+        await expect.element(document.activeElement!).toBe(textarea);
     });
 
 });

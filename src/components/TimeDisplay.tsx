@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import {FC, useState, useEffect, useCallback} from 'react';
 
 interface TimeDisplayProps {
     format24h: boolean;
@@ -8,20 +8,20 @@ interface TimeDisplayProps {
 const TimeDisplay: FC<TimeDisplayProps> = ({ format24h, toggleFormat }) => {
     const [time, setTime] = useState('');
 
-    const updateTime = () => {
+    const updateTime = useCallback(() => {
         const now = new Date();
         setTime(
             format24h
                 ? now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
                 : now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
         );
-    };
+    }, [format24h]);
 
     useEffect(() => {
         updateTime();
         const interval = setInterval(updateTime, 60000); // Update time every minute
         return () => clearInterval(interval);
-    }, [format24h]);
+    }, [format24h, updateTime]);
 
     return (
         <div

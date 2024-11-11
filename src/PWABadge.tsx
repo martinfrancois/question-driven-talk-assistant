@@ -43,7 +43,7 @@ function PWABadge() {
               
           </div>
           <div className="PWABadge-buttons">
-            <button className="PWABadge-toast-button" onClick={() => updateServiceWorker(true)}>Reload</button>
+            <button className="PWABadge-toast-button" onClick={() => void updateServiceWorker(true)}>Reload</button>
             <button className="PWABadge-toast-button" onClick={() => close()}>Close</button>
           </div>
         </div>
@@ -60,6 +60,7 @@ export default PWABadge
 function registerPeriodicSync(period: number, swUrl: string, r: ServiceWorkerRegistration) {
   if (period <= 0) return
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   setInterval(async () => {
     if ('onLine' in navigator && !navigator.onLine)
       return

@@ -4,6 +4,7 @@ import MainLayout from './components/MainLayout';
 import { useHotkeys } from 'react-hotkeys-hook';
 import PWABadge from "./PWABadge.tsx";
 import Modal from "./components/Modal.tsx";
+import screenfull from "screenfull";
 
 interface Question {
     id: string;
@@ -15,14 +16,14 @@ interface Question {
 const App: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>(() => {
         const storedQuestions = localStorage.getItem('questions');
-        return storedQuestions ? JSON.parse(storedQuestions) : [{ id: Date.now().toString(), text: '', answered: false, highlighted: false }];
+        return storedQuestions ? JSON.parse(storedQuestions) as Question[] : [{ id: Date.now().toString(), text: '', answered: false, highlighted: false }];
     });
-    const [title, setTitle] = useState(() => localStorage.getItem('title') || 'Ask me anything');
-    const [footer, setFooter] = useState(() => localStorage.getItem('footer') || 'FancyCon 2024 | François Martin');
+    const [title, setTitle] = useState(() => localStorage.getItem('title') ?? 'Ask me anything');
+    const [footer, setFooter] = useState(() => localStorage.getItem('footer') ?? 'FancyCon 2024 | François Martin');
     const [timeFormat24h, setTimeFormat24h] = useState(() => localStorage.getItem('timeFormat24h') === 'true');
-    const [qrCodeURL, setQrCodeURL] = useState(() => localStorage.getItem('qrCodeURL') || '');
-    const [qrCodeSize, setQrCodeSize] = useState(() => parseFloat(localStorage.getItem('qrCodeSize') || '64'));
-    const [fontSize, setFontSize] = useState(() => parseInt(localStorage.getItem('fontSize') || '16'));
+    const [qrCodeURL, setQrCodeURL] = useState(() => localStorage.getItem('qrCodeURL') ?? '');
+    const [qrCodeSize, setQrCodeSize] = useState(() => parseFloat(localStorage.getItem('qrCodeSize') ?? '64'));
+    const [fontSize, setFontSize] = useState(() => parseInt(localStorage.getItem('fontSize') ?? '16'));
     const [key, setKey] = useState(0); // Key to force re-render on font size change
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('isDarkMode') === 'true');
     const [showModal, setShowModal] = useState(false);
@@ -47,18 +48,16 @@ const App: React.FC = () => {
     // TODO is there a way to use react-hotkeys-hook that doesn't cause it to exit fullscreen mode when pressing ctrl?
     const [isFullscreen, setIsFullscreen] = useState(false);
 
-    const handleFullscreenToggle = useCallback(() => {
-        import('screenfull').then((screenfull) => {
-            if (screenfull.default.isEnabled) {
+    const handleFullscreenToggle = useCallback(async () => {
+            if (screenfull.isEnabled) {
                 if (!isFullscreen) {
-                    screenfull.default.request();
+                    await screenfull.request();
                     setIsFullscreen(true);
                 } else {
-                    screenfull.default.exit();
+                    await screenfull.exit();
                     setIsFullscreen(false);
                 }
             }
-        });
     }, [isFullscreen]);
 
     // Add event listeners for `Ctrl + f` manually
@@ -66,7 +65,7 @@ const App: React.FC = () => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.ctrlKey && event.key === 'f') {
                 event.preventDefault(); // Prevent default browser behavior
-                handleFullscreenToggle();
+                void handleFullscreenToggle();
             }
         };
 
@@ -78,20 +77,18 @@ const App: React.FC = () => {
 
     // Listen for external fullscreen changes (e.g., Esc key exits fullscreen)
     useEffect(() => {
-        import('screenfull').then((screenfull) => {
-            if (screenfull.default.isEnabled) {
-                const handleScreenfullChange = () => {
-                    if (!screenfull.default.isFullscreen) {
-                        setIsFullscreen(false);
-                    }
-                };
+        if (screenfull.isEnabled) {
+            const handleScreenfullChange = () => {
+                if (!screenfull.isFullscreen) {
+                    setIsFullscreen(false);
+                }
+            };
 
-                screenfull.default.on('change', handleScreenfullChange);
-                return () => {
-                    screenfull.default.off('change', handleScreenfullChange);
-                };
-            }
-        });
+            screenfull.on('change', handleScreenfullChange);
+            return () => {
+                screenfull.off('change', handleScreenfullChange);
+            };
+        }
     }, []);
 
     // Handle keyboard shortcuts

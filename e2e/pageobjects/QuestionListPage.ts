@@ -11,11 +11,6 @@ export class QuestionListPage extends AppPage {
         this.questionItems = page.getByTestId(/^question-item-.*/);
     }
 
-    // TODO remove?
-    async getQuestionById(id: string): Promise<Locator> {
-        return this.page.getByTestId(`question-item-${id}`); // TODO reduce duplication with QuestionItemPage
-    }
-
     async dragAndDropQuestion(source: Question, target: Question) {
         const sourcePage = new QuestionItemPage(this.page, source.id);
         const targetPage = new QuestionItemPage(this.page, target.id);

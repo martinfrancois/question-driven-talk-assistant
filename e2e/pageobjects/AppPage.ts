@@ -25,10 +25,10 @@ export class AppPage {
                 return null;
             }
             try {
-                return JSON.parse(item);
+                return JSON.parse(item) as T;
             } catch (e) {
                 // content is not JSON
-                return item;
+                return item as T;
             }
         }, key);
     }
@@ -38,7 +38,7 @@ export class AppPage {
     }
 
     async getQuestions(): Promise<Question[]> {
-        return await this.getLocalStorageData<Question[]>("questions") || []
+        return await this.getLocalStorageData<Question[]>("questions") ?? []
     }
 
     async preloadQuestionData(): Promise<Question[]> {
@@ -53,6 +53,6 @@ export class AppPage {
     }
 
     async getQRCodeUrl(): Promise<string> {
-        return await this.getLocalStorageData<string>("qrCodeURL") || "";
+        return await this.getLocalStorageData<string>("qrCodeURL") ?? "";
     }
 }

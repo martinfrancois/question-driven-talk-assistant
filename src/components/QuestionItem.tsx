@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -11,11 +11,13 @@ export interface Question {
     highlighted: boolean;
 }
 
+export type UpdateFuncType = (draft: Question[]) => void;
+
 interface QuestionItemProps {
     question: Question;
     questions: Question[];
     questionRefs: React.MutableRefObject<Record<string, React.RefObject<HTMLTextAreaElement>>>;
-    updateQuestions: (updateFunc: (draft: Question[]) => void) => void;
+    updateQuestions: (updateFunc: UpdateFuncType) => void;
     textareaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
@@ -46,16 +48,16 @@ const QuestionItem: FC<QuestionItemProps> = ({
     const textColor = question.highlighted ? 'text-black' : 'text-black dark:text-white';
     const bgColor = question.highlighted ? 'bg-gray-200 dark:bg-gray-700 rounded-lg' : 'bg-transparent';
 
-    const adjustHeight = () => {
+    const adjustHeight = useCallback(() => {
         if (textareaRef?.current) {
             textareaRef.current.style.height = 'auto';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
-    };
+    }, [textareaRef]);
 
     useEffect(() => {
         adjustHeight();
-    }, [question.text]);
+    }, [question.text, adjustHeight]);
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -130,7 +132,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                             draft.splice(currentIndex, 1);
                         });
                         const newFirstRef = questionRefs.current[questions[1].id];
-                        if (newFirstRef && newFirstRef.current) {
+                        if (newFirstRef?.current) {
                             newFirstRef.current.focus();
                             newFirstRef.current.setSelectionRange(0, 0);
                         }
@@ -142,7 +144,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                         setTimeout(() => {
                             const prevQuestion = questions[currentIndex - 1];
                             const prevRef = questionRefs.current[prevQuestion.id];
-                            if (prevRef && prevRef.current) {
+                            if (prevRef?.current) {
                                 prevRef.current.focus();
                                 const position = prevRef.current.value.length;
                                 prevRef.current.setSelectionRange(position, position);
@@ -182,7 +184,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 });
                 setTimeout(() => {
                     const newRef = questionRefs.current[newQuestion.id];
-                    if (newRef && newRef.current) {
+                    if (newRef?.current) {
                         newRef.current.focus();
                         newRef.current.setSelectionRange(0, 0);
                     }
@@ -197,7 +199,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 if (currentIndex < questions.length - 1) {
                     const nextQuestion = questions[currentIndex + 1];
                     const nextRef = questionRefs.current[nextQuestion.id];
-                    if (nextRef && nextRef.current) {
+                    if (nextRef?.current) {
                         nextRef.current.focus();
 
                         // Place cursor at the end of the first line in the next textarea
@@ -226,7 +228,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 if (currentIndex > 0) {
                     const prevQuestion = questions[currentIndex - 1];
                     const prevRef = questionRefs.current[prevQuestion.id];
-                    if (prevRef && prevRef.current) {
+                    if (prevRef?.current) {
                         prevRef.current.focus();
 
                         // Place cursor at the end of the last line in the previous textarea
@@ -253,7 +255,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 // Not the last question
                 const nextQuestion = questions[currentIndex + 1];
                 const nextRef = questionRefs.current[nextQuestion.id];
-                if (nextRef && nextRef.current) {
+                if (nextRef?.current) {
                     nextRef.current.focus();
 
                     // Set cursor at the end of the text in the next textarea
@@ -276,7 +278,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                     });
                     setTimeout(() => {
                         const newRef = questionRefs.current[newQuestion.id];
-                        if (newRef && newRef.current) {
+                        if (newRef?.current) {
                             newRef.current.focus();
                             // Cursor at position 0 in new empty textarea
                             newRef.current.setSelectionRange(0, 0);
@@ -293,7 +295,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             if (currentIndex > 0) {
                 const prevQuestion = questions[currentIndex - 1];
                 const prevRef = questionRefs.current[prevQuestion.id];
-                if (prevRef && prevRef.current) {
+                if (prevRef?.current) {
                     prevRef.current.focus();
 
                     // Set cursor at the end of the text in the previous textarea

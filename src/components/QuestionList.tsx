@@ -14,6 +14,7 @@ import {
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import QuestionItem from './QuestionItem';
+import {Props} from "@dnd-kit/core/dist/components/DndContext/DndContext";
 
 interface Question {
     id: string;
@@ -35,11 +36,11 @@ const QuestionList: FC<QuestionListProps> = ({ questions, updateQuestions }) => 
         })
     );
 
-    const handleDragEnd = (event: any) => {
+    const handleDragEnd: Props["onDragEnd"] = (event) => {
         const { active, over } = event;
-        if (active.id !== over.id) {
+        if (active.id !== over?.id) {
             const oldIndex = questions.findIndex((q) => q.id === active.id);
-            const newIndex = questions.findIndex((q) => q.id === over.id);
+            const newIndex = questions.findIndex((q) => q.id === over?.id);
 
             updateQuestions((draft) => {
                 return arrayMove(draft, oldIndex, newIndex);

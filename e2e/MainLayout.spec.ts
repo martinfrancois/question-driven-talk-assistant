@@ -12,7 +12,7 @@ test.describe('MainLayout e2e tests', () => {
 
     test('should edit header in MainLayout', async () => {
         // given
-        let newTitle = 'New Title';
+        const newTitle = 'New Title';
         expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
 
         // when
@@ -24,7 +24,7 @@ test.describe('MainLayout e2e tests', () => {
 
     test('should edit footer in MainLayout', async () => {
         // given
-        let newFooter = 'New Footer';
+        const newFooter = 'New Footer';
         expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
 
         // when
