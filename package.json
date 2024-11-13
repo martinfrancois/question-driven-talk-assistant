@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "8.14.0",
     "@vite-pwa/assets-generator": "0.2.6",
     "@vitejs/plugin-react": "4.3.3",
-    "@vitest/browser": "2.1.4",
+    "@vitest/browser": "2.1.5",
     "autoprefixer": "10.4.20",
     "eslint": "9.14.0",
     "eslint-config-prettier": "^9.1.0",
@@ -54,7 +54,7 @@
     "typescript": "5.6.3",
     "vite": "5.4.11",
     "vite-plugin-pwa": "0.20.5",
-    "vitest": "2.1.4",
+    "vitest": "2.1.5",
     "vitest-browser-react": "0.0.3",
     "workbox-core": "7.3.0",
     "workbox-window": "7.3.0"
