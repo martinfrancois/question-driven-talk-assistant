@@ -378,7 +378,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       <textarea
         ref={textareaRef}
         spellCheck={false}
-        className={`${baseClasses} ${textColor} bg-transparent pr-2`}
+        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2`}
         data-highlighted={question.highlighted}
         value={question.text}
         onChange={(e) => {
@@ -395,7 +395,6 @@ const QuestionItem: FC<QuestionItemProps> = ({
         onBlur={() => setIsFocused(false)}
         onKeyDown={handleKeyPress}
         rows={1}
-        style={{ overflow: "hidden" }}
       />
     </div>
   );

@@ -72,10 +72,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       {/* Main Content */}
       <div className="mt-4 flex flex-1 overflow-hidden">
         {/* Question List Area with scrolling */}
-        <div
-          className="scrollbar-minimal flex-grow overflow-y-auto pr-2"
-          style={{ maxHeight: "100%" }}
-        >
+        <div className="scrollbar-minimal max-h-full flex-grow overflow-y-auto pr-2">
           <QuestionList
             questions={questions}
             updateQuestions={updateQuestions}
