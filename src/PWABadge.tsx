@@ -1,5 +1,3 @@
-import "./PWABadge.css";
-
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { Alert, Button } from "@material-tailwind/react";
 
