@@ -31,7 +31,7 @@ const App: React.FC = () => {
     () => localStorage.getItem("title") ?? "Ask me anything",
   );
   const [footer, setFooter] = useState(
-    () => localStorage.getItem("footer") ?? "FancyCon 2024 | François Martin",
+    () => localStorage.getItem("footer") ?? "François Martin | www.fmartin.ch",
   );
   const [timeFormat24h, setTimeFormat24h] = useState(
     () => localStorage.getItem("timeFormat24h") === "true",
