@@ -19,8 +19,8 @@ interface MainLayoutProps {
   qrCodeSize: number;
   setQrCodeSize: (size: number) => void;
   isDarkMode: boolean;
-  showFullScreenQR: boolean;
-  setShowFullScreenQR: (show: boolean) => void;
+  showFullScreenQr: boolean;
+  setShowFullScreenQr: (show: boolean) => void;
 }
 
 const MainLayout: FC<MainLayoutProps> = ({
@@ -37,8 +37,8 @@ const MainLayout: FC<MainLayoutProps> = ({
   qrCodeSize,
   setQrCodeSize,
   isDarkMode,
-  showFullScreenQR,
-  setShowFullScreenQR,
+  showFullScreenQr,
+  setShowFullScreenQr,
 }) => {
   const editTitle = useCallback(() => {
     const newTitle = prompt("Edit Title", title);
@@ -52,7 +52,7 @@ const MainLayout: FC<MainLayoutProps> = ({
     if (newFooter !== null) setFooter(newFooter);
   }, [footer, setFooter]);
 
-  const hideFullScreenQrCode = useCallback(() => setShowFullScreenQR(false), [setShowFullScreenQR])
+  const hideFullScreenQrCode = useCallback(() => setShowFullScreenQr(false), [setShowFullScreenQr])
 
   return (
     <div
@@ -65,7 +65,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       <MainContent questions={questions} updateQuestions={updateQuestions} qrCodeURL={qrCodeURL}
                    setQrCodeURL={setQrCodeURL} qrCodeSize={qrCodeSize} setQrCodeSize={setQrCodeSize}/>
       <Footer onClick={editFooter} footer={footer}/>
-      {showFullScreenQR && qrCodeURL && (
+      {showFullScreenQr && qrCodeURL && (
           <FullScreenQrCode onClick={hideFullScreenQrCode} value={qrCodeURL}/>
       )}
     </div>

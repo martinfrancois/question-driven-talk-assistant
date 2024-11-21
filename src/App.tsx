@@ -136,9 +136,9 @@ const App: React.FC = () => {
   useHotkeys("ctrl+d", () => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
 
   // Fullscreen QR Code
-  const [showFullScreenQR, setShowFullScreenQR] = useState(false);
-  useHotkeys("ctrl+q", () => setShowFullScreenQR((prev) => !prev), [
-    setShowFullScreenQR,
+  const [showFullScreenQr, setShowFullScreenQr] = useState(false);
+  useHotkeys("ctrl+q", () => setShowFullScreenQr((prev) => !prev), [
+    setShowFullScreenQr,
   ]);
 
   const saveToFile = useCallback(async () => {
@@ -185,8 +185,8 @@ const App: React.FC = () => {
         qrCodeSize={qrCodeSize}
         setQrCodeSize={setQrCodeSize}
         isDarkMode={isDarkMode}
-        showFullScreenQR={showFullScreenQR}
-        setShowFullScreenQR={setShowFullScreenQR}
+        showFullScreenQr={showFullScreenQr}
+        setShowFullScreenQr={setShowFullScreenQr}
       />
       {showModal && (
         <Modal

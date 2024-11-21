@@ -5,7 +5,7 @@ export class MainLayoutPage extends AppPage {
   readonly container: Locator;
   readonly header: Locator;
   readonly footer: Locator;
-  readonly fullscreenQRCode: Locator;
+  readonly fullscreenQrCode: Locator;
   readonly timeDisplay: Locator;
 
   constructor(page: Page) {
@@ -13,7 +13,7 @@ export class MainLayoutPage extends AppPage {
     this.container = page.getByTestId("main-layout-container");
     this.header = page.getByTestId("main-header");
     this.footer = page.getByTestId("main-footer");
-    this.fullscreenQRCode = page.getByTestId("fullscreen-qr-code");
+    this.fullscreenQrCode = page.getByTestId("fullscreen-qr-code");
     this.timeDisplay = page.getByTestId("time-display");
   }
 
@@ -31,7 +31,7 @@ export class MainLayoutPage extends AppPage {
     await this.timeDisplay.click();
   }
 
-  async toggleFullscreenQRCode() {
+  async toggleFullscreenQrCode() {
     await this.container.press("Control+q");
   }
 }

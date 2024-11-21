@@ -65,7 +65,7 @@ export class AppPage {
     return questions;
   }
 
-  async getQRCodeUrl(): Promise<string> {
+  async getQrCodeUrl(): Promise<string> {
     return (await this.getLocalStorageData<string>("qrCodeURL")) ?? "";
   }
 }

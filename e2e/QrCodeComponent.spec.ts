@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { QRCodeComponentPage } from "./pageobjects/QRCodeComponentPage";
+import { QrCodeComponentPage } from "./pageobjects/QrCodeComponentPage";
 
-test.describe("QRCodeComponent e2e tests", () => {
-  let qrCodeComponentPage: QRCodeComponentPage;
+test.describe("QrCodeComponent e2e tests", () => {
+  let qrCodeComponentPage: QrCodeComponentPage;
 
   test.beforeEach(async ({ page }) => {
-    qrCodeComponentPage = new QRCodeComponentPage(page);
+    qrCodeComponentPage = new QrCodeComponentPage(page);
     await qrCodeComponentPage.goto();
   });
 
@@ -26,7 +26,7 @@ test.describe("QRCodeComponent e2e tests", () => {
     const url = "https://example.com";
 
     // when
-    await qrCodeComponentPage.setQRCodeURL(url);
+    await qrCodeComponentPage.setQrCodeURL(url);
 
     // then
     await qrCodeComponentPage.verifyWithUrl();
@@ -37,7 +37,7 @@ test.describe("QRCodeComponent e2e tests", () => {
     await qrCodeComponentPage.setExampleQrCodeURL();
 
     // when
-    await qrCodeComponentPage.setQRCodeURL("");
+    await qrCodeComponentPage.setQrCodeURL("");
 
     // then
     await qrCodeComponentPage.verifyNoUrl();
@@ -51,7 +51,7 @@ test.describe("QRCodeComponent e2e tests", () => {
         await qrCodeComponentPage.getLocalStorageData("qrCodeSize");
 
       // when
-      await qrCodeComponentPage.resizeQRCode("bottom-right");
+      await qrCodeComponentPage.resizeQrCode("bottom-right");
 
       // then
       const changedSize =
