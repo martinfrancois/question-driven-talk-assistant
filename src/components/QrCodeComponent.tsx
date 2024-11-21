@@ -1,14 +1,14 @@
 import { FC, useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
 
-interface QRCodeComponentProps {
+interface QrCodeComponentProps {
   qrCodeURL: string;
   setQrCodeURL: (url: string) => void;
   qrCodeSize: number;
   setQrCodeSize: (size: number) => void;
 }
 
-const QRCodeComponent: FC<QRCodeComponentProps> = ({
+const QrCodeComponent: FC<QrCodeComponentProps> = ({
   qrCodeURL,
   setQrCodeURL,
   qrCodeSize,
@@ -112,4 +112,4 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({
   );
 };
 
-export default QRCodeComponent;
+export default QrCodeComponent;

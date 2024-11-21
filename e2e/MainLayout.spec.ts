@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { QRCodeComponentPage } from "./pageobjects/QRCodeComponentPage";
+import { QrCodeComponentPage } from "./pageobjects/QrCodeComponentPage";
 import { MainLayoutPage } from "./pageobjects/MainLayoutPage";
 
 test.describe("MainLayout e2e tests", () => {
@@ -49,27 +49,27 @@ test.describe("MainLayout e2e tests", () => {
 
   test("should not open fullscreen QR code when URL is empty", async () => {
     // when
-    await mainLayoutPage.toggleFullscreenQRCode();
+    await mainLayoutPage.toggleFullscreenQrCode();
 
     // then
-    await expect(mainLayoutPage.fullscreenQRCode).toBeHidden();
+    await expect(mainLayoutPage.fullscreenQrCode).toBeHidden();
   });
 
   test("should open and close fullscreen QR code", async ({ page }) => {
     // given
-    const qrCodeComponentPage = new QRCodeComponentPage(page);
+    const qrCodeComponentPage = new QrCodeComponentPage(page);
     await qrCodeComponentPage.setExampleQrCodeURL();
 
     // when
-    await mainLayoutPage.toggleFullscreenQRCode();
+    await mainLayoutPage.toggleFullscreenQrCode();
 
     // then
-    await expect(mainLayoutPage.fullscreenQRCode).toBeVisible();
+    await expect(mainLayoutPage.fullscreenQrCode).toBeVisible();
 
     // when
-    await mainLayoutPage.toggleFullscreenQRCode();
+    await mainLayoutPage.toggleFullscreenQrCode();
 
     // then
-    await expect(mainLayoutPage.fullscreenQRCode).toBeHidden();
+    await expect(mainLayoutPage.fullscreenQrCode).toBeHidden();
   });
 });

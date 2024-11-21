@@ -2,7 +2,7 @@ import { Page, Locator, expect } from "@playwright/test";
 import { AppPage } from "./AppPage";
 import { MainLayoutPage } from "./MainLayoutPage";
 
-export class QRCodeComponentPage extends AppPage {
+export class QrCodeComponentPage extends AppPage {
   readonly qrCodeContainer: Locator; // outer container
   readonly qrCodeSvg: Locator; // qr code itself as an SVG
   readonly qrCodePlaceholder: Locator; // placeholder text when URL is empty
@@ -25,12 +25,12 @@ export class QRCodeComponentPage extends AppPage {
     this.mainLayoutPage = new MainLayoutPage(page);
   }
 
-  async setQRCodeURL(url: string) {
+  async setQrCodeURL(url: string) {
     this.page.on("dialog", (dialog) => dialog.accept(url));
     await this.qrCodeContainer.click();
   }
 
-  async resizeQRCode(direction: "bottom-right" | "bottom-left") {
+  async resizeQrCode(direction: "bottom-right" | "bottom-left") {
     const handle =
       direction === "bottom-right"
         ? this.resizeHandleBottomRight
@@ -48,7 +48,7 @@ export class QRCodeComponentPage extends AppPage {
   }
 
   async verifyNoUrl() {
-    const qrCodeUrl = await this.getQRCodeUrl();
+    const qrCodeUrl = await this.getQrCodeUrl();
     expect(qrCodeUrl).toEqual("");
 
     await expect(this.qrCodeContainer).toBeVisible();
@@ -72,7 +72,7 @@ export class QRCodeComponentPage extends AppPage {
   }
 
   async verifyWithUrl() {
-    const qrCodeUrl = await this.getQRCodeUrl();
+    const qrCodeUrl = await this.getQrCodeUrl();
     expect(qrCodeUrl).not.toEqual("");
 
     await expect(this.qrCodeContainer).toBeVisible();

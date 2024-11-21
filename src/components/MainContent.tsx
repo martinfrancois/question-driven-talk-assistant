@@ -1,6 +1,6 @@
 import {Question} from "./QuestionItem.tsx";
 import QuestionList from "./QuestionList.tsx";
-import QRCodeComponent from "./QRCodeComponent.tsx";
+import QrCodeComponent from "./QrCodeComponent.tsx";
 
 export function MainContent(props: {
     questions: Question[],
@@ -19,7 +19,7 @@ export function MainContent(props: {
         </div>
 
         <div className="ml-4 flex-shrink-0 self-start">
-            <QRCodeComponent
+            <QrCodeComponent
                 qrCodeURL={props.qrCodeURL}
                 setQrCodeURL={props.setQrCodeURL}
                 qrCodeSize={props.qrCodeSize}
