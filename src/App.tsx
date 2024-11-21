@@ -146,7 +146,6 @@ const App: React.FC = () => {
 
   return (
     <div
-      data-testid="body"
       key={key}
       className={`${isDarkMode ? "dark" : ""}`}
       style={{ fontSize: `${fontSize}px` }}
