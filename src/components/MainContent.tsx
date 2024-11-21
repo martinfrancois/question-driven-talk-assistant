@@ -11,7 +11,6 @@ export function MainContent(props: {
     setQrCodeSize: (size: number) => void
 }) {
     return <div className="mt-4 flex flex-1 overflow-hidden">
-        {/* Question List Area with scrolling */}
         <div className="scrollbar-minimal max-h-full flex-grow overflow-y-auto pr-2">
             <QuestionList
                 questions={props.questions}
@@ -19,7 +18,6 @@ export function MainContent(props: {
             />
         </div>
 
-        {/* Side Area (QR Code) - Fixed within the main content */}
         <div className="ml-4 flex-shrink-0 self-start">
             <QRCodeComponent
                 qrCodeURL={props.qrCodeURL}

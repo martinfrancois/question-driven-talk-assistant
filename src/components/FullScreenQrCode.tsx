@@ -6,7 +6,6 @@ export function FullScreenQrCode(props: { onClick: () => void, value: string }) 
         onClick={props.onClick}
         data-testid="fullscreen-qr-code"
     >
-        {/* Container for white padding around QR code */}
         <div className="rounded-lg !bg-white p-8">
             <QRCodeSVG value={props.value} size={window.innerHeight * 0.7}/>
         </div>
