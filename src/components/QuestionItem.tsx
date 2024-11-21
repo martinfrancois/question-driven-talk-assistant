@@ -333,7 +333,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className="text-2xl cursor-grab hover:text-gray-500 opacity-0 hover:opacity-100 transition-opacity"
+        className="cursor-grab text-2xl opacity-0 transition-opacity hover:text-gray-500 hover:opacity-100"
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
@@ -373,7 +373,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
           }
         }}
         ripple={false}
-        className="p-0 text-gray-700 dark:text-white dark:bg-gray-800 dark:border-gray-700"
+        className="p-0 text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
       />
       <textarea
         ref={textareaRef}

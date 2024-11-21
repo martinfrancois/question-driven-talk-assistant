@@ -42,26 +42,26 @@ const MainLayout: FC<MainLayoutProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 h-screen w-screen flex flex-col ${
+      className={`flex h-screen w-screen flex-col p-4 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
       } ${isDarkMode ? "dark" : "light"}`}
       data-testid="main-layout-container"
     >
       {/* Header */}
-      <div className="flex items-center flex-shrink-0">
+      <div className="flex flex-shrink-0 items-center">
         <div className="flex-grow">
           <div
             onClick={() => {
               const newTitle = prompt("Edit Title", title);
               if (newTitle !== null) setTitle(newTitle);
             }}
-            className="text-3xl font-semibold cursor-pointer"
+            className="cursor-pointer text-3xl font-semibold"
             data-testid="main-header"
           >
             {title}
           </div>
         </div>
-        <div className="text-right pr-2">
+        <div className="pr-2 text-right">
           <TimeDisplay
             format24h={timeFormat24h}
             toggleFormat={() => setTimeFormat24h(!timeFormat24h)}
@@ -73,7 +73,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       <div className="mt-4 flex flex-1 overflow-hidden">
         {/* Question List Area with scrolling */}
         <div
-          className="pr-2 flex-grow scrollbar-minimal overflow-y-auto"
+          className="scrollbar-minimal flex-grow overflow-y-auto pr-2"
           style={{ maxHeight: "100%" }}
         >
           <QuestionList
@@ -99,7 +99,7 @@ const MainLayout: FC<MainLayoutProps> = ({
           const newFooter = prompt("Edit Footer", footer);
           if (newFooter !== null) setFooter(newFooter);
         }}
-        className="text-xl text-center cursor-pointer p-2 flex-shrink-0"
+        className="flex-shrink-0 cursor-pointer p-2 text-center text-xl"
         data-testid="main-footer"
       >
         {footer}
@@ -107,12 +107,12 @@ const MainLayout: FC<MainLayoutProps> = ({
 
       {showFullScreenQR && qrCodeURL && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
           onClick={() => setShowFullScreenQR(false)}
           data-testid="fullscreen-qr-code"
         >
           {/* Container for white padding around QR code */}
-          <div className="!bg-white p-8 rounded-lg">
+          <div className="rounded-lg !bg-white p-8">
             <QRCodeSVG value={qrCodeURL} size={window.innerHeight * 0.7} />
           </div>
         </div>
