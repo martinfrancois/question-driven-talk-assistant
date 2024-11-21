@@ -1,6 +1,26 @@
 import "./PWABadge.css";
 
 import { useRegisterSW } from "virtual:pwa-register/react";
+import { Alert, Button } from "@material-tailwind/react";
+
+function InfoIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="h-6 w-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+      />
+    </svg>
+  );
+}
 
 function PWABadge() {
   // periodic sync is disabled, change the value to enable it, the period is in milliseconds
@@ -29,26 +49,38 @@ function PWABadge() {
   }
 
   return (
-    <div className="PWABadge" role="alert" aria-labelledby="toast-message">
+    <div
+      role="alert"
+      aria-labelledby="toast-message"
+      className="fixed bottom-4 right-4 z-50"
+    >
       {needRefresh && (
-        <div className="PWABadge-toast">
-          <div className="PWABadge-message">
-            <span id="toast-message">
-              New content available, click on reload button to update.
-            </span>
-          </div>
-          <div className="PWABadge-buttons">
-            <button
-              className="PWABadge-toast-button"
-              onClick={() => void updateServiceWorker(true)}
-            >
-              Reload
-            </button>
-            <button className="PWABadge-toast-button" onClick={() => close()}>
-              Close
-            </button>
-          </div>
-        </div>
+        <Alert
+          icon={<InfoIcon />}
+          className="flex items-center dark:bg-gray-800 dark:text-white"
+          action={
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                color="blue"
+                onClick={() => void updateServiceWorker(true)}
+                variant="text"
+              >
+                Reload
+              </Button>
+              <Button
+                size="sm"
+                color="blue"
+                onClick={() => close}
+                variant="text"
+              >
+                Close
+              </Button>
+            </div>
+          }
+        >
+          New version available. Click reload to update.
+        </Alert>
       )}
     </div>
   );
