@@ -94,7 +94,6 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({
           </div>
         )}
       </div>
-      {/* Resizable Handles */}
       {qrCodeURL && (
         <>
           <div

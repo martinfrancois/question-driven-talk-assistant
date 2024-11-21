@@ -10,7 +10,6 @@ interface ModalProps {
 const Modal: FC<ModalProps> = ({ title, message, onConfirm, onCancel }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      {/* Modal Box */}
       <div className="w-full max-w-md rounded-md bg-white p-6 shadow-lg dark:bg-gray-800">
         <h2 className="mb-3 text-xl font-semibold text-black dark:text-white">
           {title}
