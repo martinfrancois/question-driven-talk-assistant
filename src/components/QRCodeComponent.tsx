@@ -74,11 +74,11 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({
   return (
     <div
       onClick={handleClick}
-      className="group cursor-pointer relative"
+      className="group relative cursor-pointer"
       data-testid="qr-code"
     >
       <div
-        className={`p-2 border border-white rounded-md !bg-white ${
+        className={`rounded-md border border-white !bg-white p-2 ${
           qrCodeURL ? "" : "invisible group-hover:visible"
         }`}
       >
@@ -98,12 +98,12 @@ const QRCodeComponent: FC<QRCodeComponentProps> = ({
       {qrCodeURL && (
         <>
           <div
-            className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize"
+            className="absolute bottom-0 right-0 h-4 w-4 cursor-se-resize"
             onPointerDown={(e) => handleResizeStart(e, "bottom-right")}
             data-testid="qr-code-resize-bottom-right"
           />
           <div
-            className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize"
+            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize"
             onPointerDown={(e) => handleResizeStart(e, "bottom-left")}
             data-testid="qr-code-resize-bottom-left"
           />
