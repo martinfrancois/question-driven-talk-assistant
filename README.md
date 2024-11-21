@@ -16,11 +16,12 @@ Supported Browsers: Chrome, Firefox
 - **Answer Tracking**: Mark questions as answered to keep track during your presentation.
 - **Keyboard Shortcuts**: Navigate and manage questions efficiently without leaving the keyboard.
 - **Time Display**: View the current time in 12-hour or 24-hour format.
-- **QR Code Display**: Optionally show a QR code linking to a URL of your choice, with adjustable size and full screen display feature.
+- **QR Code Display**: Optionally show a QR code linking to a URL of your choice, with adjustable size and full-screen display feature.
 - **Dark Mode Support**: Toggle dark mode on or off by pressing a keyboard shortcut.
 - **Offline Support**: Once the page is loaded, you don't need an internet connection anymore to use it.
 - **Local Data Persistence**: Everything on the page is saved to your browser's local storage, so you don't have to worry if you need to refresh!
 - **Seamless Font Resizing**: Resize the font size of the questions to ensure your audience from the back of the room can read them as well.
+- **Markdown Export**: Save your list of questions to a Markdown file by pressing Ctrl + S.
 
 ### How to Use
 
@@ -36,14 +37,16 @@ Supported Browsers: Chrome, Firefox
    - Click on the QR code area on the top right to set or change the URL.
    - If no URL is set, a placeholder "QR" text is displayed when hovering over the top right corner.
    - Resize the QR code by dragging the bottom-right or bottom-left corner.
-   - Press Ctrl + Q to show the QR code on the entire screen. Press again to hide.
-10. **Dark Mode**: Toggle dark mode on or off by pressing Ctrl + D.
+   - Press `Ctrl + Q` to show the QR code on the entire screen. Press again to hide.
+10. **Dark Mode**: Toggle dark mode on or off by pressing `Ctrl + D`.
 11. **Font Resizing**:
     - **Increase Font Size**: Press `Ctrl + P` (P for Plus) to increase the font size of the questions.
     - **Decrease Font Size**: Press `Ctrl + M` (M for Minus) to decrease the font size.
-12. **Full-Screen Mode**:
+12. **Saving Questions to Markdown**:
+    - Press `Ctrl + S` to save the current list of questions to a Markdown file. This allows you to keep a record of the questions for future reference or sharing.
+13. **Full-Screen Mode**:
     - Press `Ctrl + F` to enter full-screen mode, maximizing the application's visibility during your presentation.
-13. **Clearing All Questions**:
+14. **Clearing All Questions**:
     - Press `Ctrl + Shift + Backspace` to clear all questions. A confirmation dialog will appear to prevent accidental deletion.
 
 ### Keyboard Shortcuts Reference
@@ -61,12 +64,13 @@ Supported Browsers: Chrome, Firefox
 - **Reordering Questions**:
   - `Ctrl + Shift + Up`: Move the current question up.
   - `Ctrl + Shift + Down`: Move the current question down.
-- **Additional features**:
+- **Additional Features**:
   - `Ctrl + P`: Increase font size (P => Plus).
   - `Ctrl + M`: Decrease font size (M => Minus).
   - `Ctrl + D`: Toggle dark mode.
   - `Ctrl + Q`: Show a large QR code in the middle of the screen.
-  - `Ctrl + F`: Show the web page in full screen mode.
+  - `Ctrl + F`: Show the web page in full-screen mode.
+  - `Ctrl + S`: Save the current list of questions to a Markdown file.
 - **Highlighting and Answering**:
   - Click checkbox once: Highlight the question.
   - Click highlighted checkbox: Mark question as answered.
@@ -136,7 +140,7 @@ Supported Browsers: Chrome, Firefox
 
 In the project directory, you can run:
 
-- `npm run dev` or `yarn run dev`: Runs the app in development mode. NOTE: Offline support is not turned on during development!
+- `npm run dev` or `yarn run dev`: Runs the app in development mode. **Note**: Offline support is not turned on during development!
 - `npm build` or `yarn build`: Builds the app for production to the `dist` folder.
 - `npm run preview` or `yarn run preview`: Runs the production build locally on http://localhost:4173/
 

@@ -5,6 +5,11 @@ import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import Modal from "./components/Modal.tsx";
 import screenfull from "screenfull";
+import {
+  generateFileName,
+  generateMarkdownContent,
+  saveFile,
+} from "./save-questions.ts";
 
 interface Question {
   id: string;
@@ -135,6 +140,22 @@ const App: React.FC = () => {
   useHotkeys("ctrl+q", () => setShowFullScreenQR((prev) => !prev), [
     setShowFullScreenQR,
   ]);
+
+  const saveToFile = useCallback(async () => {
+    const date = new Date();
+    const fileName = generateFileName(title, date);
+    const markdownContent = generateMarkdownContent(
+      title,
+      footer,
+      date,
+      questions,
+    );
+
+    await saveFile(fileName, markdownContent);
+  }, [questions, title, footer]);
+
+  // Add hotkey for saving to file
+  useHotkeys("ctrl+s", () => void saveToFile(), [saveToFile]);
 
   // Update questions using immer
   const updateQuestions = useCallback(
