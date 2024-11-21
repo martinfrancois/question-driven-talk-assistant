@@ -378,8 +378,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
       <textarea
         ref={textareaRef}
         spellCheck={false}
-        className={`${baseClasses} ${textColor} bg-transparent pr-2 overflow-hidden ${
-            question.answered ? "line-through" : ""
+        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 ${
+          question.answered ? "line-through" : ""
         }`}
         data-highlighted={question.highlighted}
         value={question.text}

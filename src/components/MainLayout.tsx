@@ -1,9 +1,9 @@
-import {FC, useCallback} from "react";
-import {Question} from "./QuestionItem.tsx";
-import {Header} from "./Header.tsx";
-import {MainContent} from "./MainContent.tsx";
-import {Footer} from "./Footer.tsx";
-import {FullScreenQrCode} from "./FullScreenQrCode.tsx";
+import { FC, useCallback } from "react";
+import { Question } from "./QuestionItem.tsx";
+import { Header } from "./Header.tsx";
+import { MainContent } from "./MainContent.tsx";
+import { Footer } from "./Footer.tsx";
+import { FullScreenQrCode } from "./FullScreenQrCode.tsx";
 
 interface MainLayoutProps {
   title: string;
@@ -45,28 +45,45 @@ const MainLayout: FC<MainLayoutProps> = ({
     if (newTitle !== null) setTitle(newTitle);
   }, [setTitle, title]);
 
-  const toggleTimeFormat = useCallback(() => setTimeFormat24h(!timeFormat24h), [setTimeFormat24h, timeFormat24h]);
+  const toggleTimeFormat = useCallback(
+    () => setTimeFormat24h(!timeFormat24h),
+    [setTimeFormat24h, timeFormat24h],
+  );
 
   const editFooter = useCallback(() => {
     const newFooter = prompt("Edit Footer", footer);
     if (newFooter !== null) setFooter(newFooter);
   }, [footer, setFooter]);
 
-  const hideFullScreenQrCode = useCallback(() => setShowFullScreenQr(false), [setShowFullScreenQr])
+  const hideFullScreenQrCode = useCallback(
+    () => setShowFullScreenQr(false),
+    [setShowFullScreenQr],
+  );
 
   return (
     <div
-        className={`flex h-screen w-screen flex-col p-4 ${
-            isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
-        } ${isDarkMode ? "dark" : "light"}`}
-        data-testid="main-layout-container"
+      className={`flex h-screen w-screen flex-col p-4 ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+      } ${isDarkMode ? "dark" : "light"}`}
+      data-testid="main-layout-container"
     >
-      <Header onClick={editTitle} title={title} format24h={timeFormat24h} toggleFormat={toggleTimeFormat}/>
-      <MainContent questions={questions} updateQuestions={updateQuestions} qrCodeURL={qrCodeURL}
-                   setQrCodeURL={setQrCodeURL} qrCodeSize={qrCodeSize} setQrCodeSize={setQrCodeSize}/>
-      <Footer onClick={editFooter} footer={footer}/>
+      <Header
+        onClick={editTitle}
+        title={title}
+        format24h={timeFormat24h}
+        toggleFormat={toggleTimeFormat}
+      />
+      <MainContent
+        questions={questions}
+        updateQuestions={updateQuestions}
+        qrCodeURL={qrCodeURL}
+        setQrCodeURL={setQrCodeURL}
+        qrCodeSize={qrCodeSize}
+        setQrCodeSize={setQrCodeSize}
+      />
+      <Footer onClick={editFooter} footer={footer} />
       {showFullScreenQr && qrCodeURL && (
-          <FullScreenQrCode onClick={hideFullScreenQrCode} value={qrCodeURL}/>
+        <FullScreenQrCode onClick={hideFullScreenQrCode} value={qrCodeURL} />
       )}
     </div>
   );
