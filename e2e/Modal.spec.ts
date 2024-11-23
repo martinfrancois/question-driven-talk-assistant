@@ -23,7 +23,7 @@ test.describe("Modal e2e tests", () => {
     await modalPage.confirm();
 
     // then
-    expect(await modalPage.confirmButton.isHidden()).toBeTruthy();
+    await expect(modalPage.confirmButton).toBeHidden();
     await questionListPage.isInitialState();
   });
 
