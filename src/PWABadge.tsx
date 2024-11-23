@@ -66,12 +66,7 @@ function PWABadge() {
               >
                 Reload
               </Button>
-              <Button
-                size="sm"
-                color="blue"
-                onClick={() => close}
-                variant="text"
-              >
+              <Button size="sm" color="blue" onClick={close} variant="text">
                 Close
               </Button>
             </div>
