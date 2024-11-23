@@ -1,10 +1,8 @@
-// save-questions.test.ts
 import { describe, it, expect } from "vitest";
 import { generateFileName, generateMarkdownContent } from "./save-questions.ts";
-import { Question } from "./components/QuestionItem.tsx"; // Adjust the import path as necessary
+import { Question } from "./components/QuestionItem.tsx";
 
 describe("generateFileName", () => {
-  // Define an array of test cases
   const testCases = [
     {
       description:
@@ -60,7 +58,6 @@ describe("generateFileName", () => {
     },
   ];
 
-  // Iterate over each test case using it.each
   it.each(testCases)("$description", ({ title, date, expected }) => {
     const result = generateFileName(title, date);
     expect(result).toBe(expected);
@@ -68,7 +65,6 @@ describe("generateFileName", () => {
 });
 
 describe("generateMarkdownContent", () => {
-  // Define an array of test cases
   const testCases = [
     {
       description:
@@ -244,7 +240,6 @@ Footer with *markdown*.
     },
   ];
 
-  // Iterate over each test case using it.each
   it.each(testCases)(
     "$description",
     ({ title, footer, date, questions, expected }) => {
