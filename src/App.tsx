@@ -54,7 +54,7 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     () => localStorage.getItem("isDarkMode") === "true",
   );
-  const [showModal, setShowModal] = useState(false);
+  const [showClearModal, setShowClearModal] = useState(false);
 
   // Persist state to localStorage
   useEffect(() => {
@@ -132,7 +132,9 @@ const App: React.FC = () => {
   useHotkeys("ctrl+m", () => setFontSize((size) => Math.max(12, size - 2)), [
     setFontSize,
   ]);
-  useHotkeys("ctrl+shift+backspace", () => setShowModal(true), [setShowModal]);
+  useHotkeys("ctrl+shift+backspace", () => setShowClearModal(true), [
+    setShowClearModal,
+  ]);
   useHotkeys("ctrl+d", () => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
 
   // Fullscreen QR Code
@@ -188,24 +190,23 @@ const App: React.FC = () => {
         showFullScreenQr={showFullScreenQr}
         setShowFullScreenQr={setShowFullScreenQr}
       />
-      {showModal && (
-        <Modal
-          title="Confirm Clear"
-          message="Are you sure you want to clear the list?"
-          onConfirm={() => {
-            setQuestions([
-              {
-                id: Date.now().toString(),
-                text: "",
-                answered: false,
-                highlighted: false,
-              },
-            ]);
-            setShowModal(false);
-          }}
-          onCancel={() => setShowModal(false)}
-        />
-      )}
+      <Modal
+        title="Confirm Clear"
+        message="Are you sure you want to clear the list?"
+        onConfirm={() => {
+          setQuestions([
+            {
+              id: Date.now().toString(),
+              text: "",
+              answered: false,
+              highlighted: false,
+            },
+          ]);
+          setShowClearModal(false);
+        }}
+        onCancel={() => setShowClearModal(false)}
+        isOpen={showClearModal}
+      />
       <PWABadge />
     </div>
   );
