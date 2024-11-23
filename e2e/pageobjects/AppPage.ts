@@ -1,11 +1,13 @@
-import { Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { Question } from "../../src/components/QuestionItem";
 
 export class AppPage {
   readonly page: Page;
+  readonly helpIcon: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.helpIcon = page.getByTestId("help-icon");
   }
 
   async goto() {
@@ -67,5 +69,18 @@ export class AppPage {
 
   async getQrCodeUrl(): Promise<string> {
     return (await this.getLocalStorageData<string>("qrCodeURL")) ?? "";
+  }
+
+  async openHelp(withShortcut: boolean): Promise<void> {
+    if (withShortcut) {
+      await this.press("Control+h");
+    } else {
+      await expect(this.helpIcon).toBeVisible();
+      await this.helpIcon.click();
+    }
+  }
+
+  async press(key: string) {
+    await this.page.press("body", key);
   }
 }

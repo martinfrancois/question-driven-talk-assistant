@@ -6,7 +6,7 @@ import {
   DialogFooter,
   Button,
 } from "@material-tailwind/react";
-import FocusLock from "react-focus-lock";
+import { SelectableTextFocusLock } from "./SelectableTextFocusLock.tsx";
 
 interface ModalProps {
   title: string;
@@ -41,7 +41,7 @@ const Modal: FC<ModalProps> = ({
       className="max-w-md border border-gray-300 bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
     >
       {isOpen && (
-        <FocusLock returnFocus>
+        <SelectableTextFocusLock>
           <DialogHeader
             id="modal-title"
             className="text-xl font-bold text-black dark:text-white"
@@ -76,7 +76,7 @@ const Modal: FC<ModalProps> = ({
               Confirm
             </Button>
           </DialogFooter>
-        </FocusLock>
+        </SelectableTextFocusLock>
       )}
     </Dialog>
   );

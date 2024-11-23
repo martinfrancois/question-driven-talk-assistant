@@ -21,7 +21,8 @@ Supported Browsers: Chrome, Firefox
 - **Offline Support**: Once the page is loaded, you don't need an internet connection anymore to use it.
 - **Local Data Persistence**: Everything on the page is saved to your browser's local storage, so you don't have to worry if you need to refresh!
 - **Seamless Font Resizing**: Resize the font size of the questions to ensure your audience from the back of the room can read them as well.
-- **Markdown Export**: Save your list of questions to a Markdown file by pressing Ctrl + S.
+- **Markdown Export**: Save your list of questions to a Markdown file by pressing Ctrl + S. 
+- **Help Window:** Quickly access a reference of all keyboard shortcuts and features by clicking the help icon in the bottom right corner or by pressing Ctrl + H.
 
 ### How to Use
 
@@ -48,6 +49,8 @@ Supported Browsers: Chrome, Firefox
     - Press `Ctrl + F` to enter full-screen mode, maximizing the application's visibility during your presentation.
 14. **Clearing All Questions**:
     - Press `Ctrl + Shift + Backspace` to clear all questions. A confirmation dialog will appear to prevent accidental deletion.
+15. **Accessing Help**:
+    - Click the help icon in the bottom right corner or press `Ctrl + H` to open a pop-up window displaying all keyboard shortcuts and features for quick reference.
 
 ### Keyboard Shortcuts Reference
 
@@ -71,6 +74,7 @@ Supported Browsers: Chrome, Firefox
   - `Ctrl + Q`: Show a large QR code in the middle of the screen.
   - `Ctrl + F`: Show the web page in full-screen mode.
   - `Ctrl + S`: Save the current list of questions to a Markdown file.
+  - `Ctrl + H`: Open the help pop-up window displaying keyboard shortcuts.
 - **Highlighting and Answering**:
   - Click checkbox once: Highlight the question.
   - Click highlighted checkbox: Mark question as answered.

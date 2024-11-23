@@ -10,6 +10,8 @@ import {
   generateMarkdownContent,
   saveFile,
 } from "./save-questions.ts";
+import HelpIcon from "./components/HelpIcon.tsx";
+import { HelpModal } from "./components/HelpModal.tsx";
 
 interface Question {
   id: string;
@@ -54,7 +56,8 @@ const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     () => localStorage.getItem("isDarkMode") === "true",
   );
-  const [showClearModal, setShowClearModal] = useState(false);
+  const [showClearModal, setShowClearModal] = useState<boolean>(false);
+  const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
 
   // Persist state to localStorage
   useEffect(() => {
@@ -159,6 +162,9 @@ const App: React.FC = () => {
   // Add hotkey for saving to file
   useHotkeys("ctrl+s", () => void saveToFile(), [saveToFile]);
 
+  // Add hotkey to show help
+  useHotkeys("ctrl+h", () => setShowHelpModal(true), [setShowHelpModal]);
+
   // Update questions using immer
   const updateQuestions = useCallback(
     (updateFunc: (draft: Question[]) => void) => {
@@ -206,6 +212,11 @@ const App: React.FC = () => {
         }}
         onCancel={() => setShowClearModal(false)}
         isOpen={showClearModal}
+      />
+      <HelpIcon onClick={() => setShowHelpModal(true)} />
+      <HelpModal
+        isOpen={showHelpModal}
+        onClose={() => setShowHelpModal(false)}
       />
       <PWABadge />
     </div>
