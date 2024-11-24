@@ -418,4 +418,25 @@ test.describe("QuestionItem e2e tests", () => {
       expect(updatedQuestions[1].text).toBe(""); // New question added and empty
     });
   });
+
+  test.describe("Shortcuts Tests", () => {
+    test("should increase font size when using the shortcut", async ({
+      page,
+    }) => {
+      // given
+      const testQuestion = createQuestion({ text: "Original text" });
+      const testQuestions: Question[] = [testQuestion];
+      await setupQuestions(page, testQuestions);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
+      const originalFontSize = await questionItemPage.getFontSize();
+
+      // when
+      await questionItemPage.focusTextarea();
+      await questionItemPage.press("Control+p");
+
+      // then
+      const newFontSize = await questionItemPage.getFontSize();
+      expect(newFontSize).toBeGreaterThan(originalFontSize);
+    });
+  });
 });

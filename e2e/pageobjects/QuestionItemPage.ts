@@ -98,4 +98,10 @@ export class QuestionItemPage extends AppPage {
   async moveQuestionDownShortcut(): Promise<void> {
     await this.textarea.press("Control+Shift+ArrowDown");
   }
+
+  async getFontSize(): Promise<number> {
+    return await this.textarea.evaluate((el: HTMLElement) =>
+      parseFloat(getComputedStyle(el).fontSize),
+    );
+  }
 }
