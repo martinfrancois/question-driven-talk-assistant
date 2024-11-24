@@ -3,6 +3,15 @@ import { QuestionItemPage } from "./pageobjects/QuestionItemPage";
 import { AppPage } from "./pageobjects/AppPage";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
 import { Question } from "../src/components/QuestionItem";
+import { v4 as uuidv4 } from "uuid";
+
+const createQuestion = (overrides: Partial<Question> = {}): Question => ({
+  id: overrides.id ?? uuidv4(),
+  text: overrides.text ?? "",
+  answered: overrides.answered ?? false,
+  highlighted: overrides.highlighted ?? false,
+  ...overrides,
+});
 
 test.describe("QuestionItem e2e tests", () => {
   let appPage: AppPage;
@@ -31,23 +40,12 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "empty-question-id",
-          text: "",
-          answered: false,
-          highlighted: false,
-        },
-        {
-          id: "empty-question-id2",
-          text: "",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const emptyQuestion1 = createQuestion({ text: "" });
+      const emptyQuestion2 = createQuestion({ text: "" });
+      const testQuestions: Question[] = [emptyQuestion1, emptyQuestion2];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[1].id);
+      const questionItemPage = getQuestionItemPage(page, emptyQuestion2.id);
       await questionItemPage.focusTextarea();
 
       // when
@@ -60,7 +58,7 @@ test.describe("QuestionItem e2e tests", () => {
       const updatedQuestions = await appPage.getQuestions();
       expect(updatedQuestions).toHaveLength(1);
       expect(
-        updatedQuestions.find((q) => q.id === testQuestions[1].id),
+        updatedQuestions.find((q) => q.id === emptyQuestion2.id),
       ).toBeUndefined();
     });
 
@@ -68,17 +66,11 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "empty-question-id",
-          text: "",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const emptyQuestion = createQuestion({ text: "" });
+      const testQuestions: Question[] = [emptyQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, emptyQuestion.id);
       await questionItemPage.focusTextarea();
 
       // when
@@ -93,17 +85,14 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "empty-multiline-question-id",
-          text: "\n\n",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const emptyMultilineQuestion = createQuestion({ text: "\n\n" });
+      const testQuestions: Question[] = [emptyMultilineQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(
+        page,
+        emptyMultilineQuestion.id,
+      );
       await questionItemPage.focusTextarea();
       await questionItemPage.moveCursorToStart();
 
@@ -119,17 +108,14 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "empty-multiline-question-id",
-          text: "\n",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const emptyMultilineQuestion = createQuestion({ text: "\n" });
+      const testQuestions: Question[] = [emptyMultilineQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(
+        page,
+        emptyMultilineQuestion.id,
+      );
       await questionItemPage.focusTextarea();
       await questionItemPage.moveCursorToEnd();
 
@@ -141,7 +127,7 @@ test.describe("QuestionItem e2e tests", () => {
 
       // Verify that text is now '' instead of '\n'
       const updatedQuestion = (await appPage.getQuestions()).find(
-        (q) => q.id === testQuestions[0].id,
+        (q) => q.id === emptyMultilineQuestion.id,
       );
       expect(updatedQuestion?.text).toBe("");
     });
@@ -150,17 +136,11 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "Line1\nLine2",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "Line1\nLine2" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
       await questionItemPage.focusTextarea();
       await questionItemPage.setCursorPosition(7); // Position after 'Line1\nL'
 
@@ -177,30 +157,18 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "first-question-id",
-          text: "First question\nWith two lines\n",
-          answered: false,
-          highlighted: false,
-        },
-        {
-          id: "next-question-id",
-          text: "Next question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const firstQuestion = createQuestion({
+        text: "First question\nWith two lines\n",
+      });
+      const nextQuestion = createQuestion({ text: "Next question" });
+      const testQuestions: Question[] = [firstQuestion, nextQuestion];
       await setupQuestions(page, testQuestions);
 
       const currentQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[0].id,
+        firstQuestion.id,
       );
-      const nextQuestionItemPage = getQuestionItemPage(
-        page,
-        testQuestions[1].id,
-      );
+      const nextQuestionItemPage = getQuestionItemPage(page, nextQuestion.id);
 
       await currentQuestionItemPage.focusTextarea();
       await currentQuestionItemPage.moveCursorToEnd();
@@ -220,29 +188,18 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "previous-question-id",
-          text: "Previous question",
-          answered: false,
-          highlighted: false,
-        },
-        {
-          id: "current-question-id",
-          text: "\n\nCurrent question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const previousQuestion = createQuestion({ text: "Previous question" });
+      const currentQuestion = createQuestion({ text: "\n\nCurrent question" });
+      const testQuestions: Question[] = [previousQuestion, currentQuestion];
       await setupQuestions(page, testQuestions);
 
       const currentQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[1].id,
+        currentQuestion.id,
       );
       const previousQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[0].id,
+        previousQuestion.id,
       );
 
       await currentQuestionItemPage.focusTextarea();
@@ -261,18 +218,12 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "This is a question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "This is a question" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
       const initialQuestionCount = (await appPage.getQuestions()).length;
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
       await questionItemPage.focusTextarea();
 
       // when
@@ -293,18 +244,12 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "last-question-id",
-          text: "Some text",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const lastQuestion = createQuestion({ text: "Some text" });
+      const testQuestions: Question[] = [lastQuestion];
       await setupQuestions(page, testQuestions);
 
       const initialQuestionCount = (await appPage.getQuestions()).length;
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, lastQuestion.id);
       await questionItemPage.focusTextarea();
 
       // when
@@ -325,30 +270,16 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "first-question-id",
-          text: "First question",
-          answered: false,
-          highlighted: false,
-        },
-        {
-          id: "next-question-id",
-          text: "Next question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const firstQuestion = createQuestion({ text: "First question" });
+      const nextQuestion = createQuestion({ text: "Next question" });
+      const testQuestions: Question[] = [firstQuestion, nextQuestion];
       await setupQuestions(page, testQuestions);
 
       const currentQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[0].id,
+        firstQuestion.id,
       );
-      const nextQuestionItemPage = getQuestionItemPage(
-        page,
-        testQuestions[1].id,
-      );
+      const nextQuestionItemPage = getQuestionItemPage(page, nextQuestion.id);
 
       await currentQuestionItemPage.focusTextarea();
 
@@ -363,29 +294,18 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "previous-question-id",
-          text: "Previous question",
-          answered: false,
-          highlighted: false,
-        },
-        {
-          id: "current-question-id",
-          text: "Current question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const previousQuestion = createQuestion({ text: "Previous question" });
+      const currentQuestion = createQuestion({ text: "Current question" });
+      const testQuestions: Question[] = [previousQuestion, currentQuestion];
       await setupQuestions(page, testQuestions);
 
       const currentQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[1].id,
+        currentQuestion.id,
       );
       const previousQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[0].id,
+        previousQuestion.id,
       );
 
       await currentQuestionItemPage.focusTextarea();
@@ -403,18 +323,12 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "Original text",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "Original text" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
       const newText = "Updated question text";
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
 
       // when
       await questionItemPage.focusTextarea();
@@ -422,7 +336,7 @@ test.describe("QuestionItem e2e tests", () => {
 
       // then
       const updatedQuestion = (await appPage.getQuestions()).find(
-        (q) => q.id === testQuestions[0].id,
+        (q) => q.id === testQuestion.id,
       );
       expect(updatedQuestion?.text).toBe(newText);
     });
@@ -431,17 +345,11 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "Question text",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "Question text" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
 
       // when
       await questionItemPage.toggleAnswered(); // Highlight
@@ -449,7 +357,7 @@ test.describe("QuestionItem e2e tests", () => {
 
       // then
       const updatedQuestion = (await appPage.getQuestions()).find(
-        (q) => q.id === testQuestions[0].id,
+        (q) => q.id === testQuestion.id,
       );
       expect(updatedQuestion?.answered).toBe(true);
       expect(updatedQuestion?.highlighted).toBe(false);
@@ -457,18 +365,12 @@ test.describe("QuestionItem e2e tests", () => {
 
     test("should maintain state after reloading the page", async ({ page }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "Original text",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "Original text" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
       const newText = "Updated question text after reload";
-      const questionItemPage = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItemPage = getQuestionItemPage(page, testQuestion.id);
 
       await questionItemPage.focusTextarea();
       await questionItemPage.setText(newText);
@@ -481,14 +383,14 @@ test.describe("QuestionItem e2e tests", () => {
       // then
       const reloadedQuestionItemPage = getQuestionItemPage(
         page,
-        testQuestions[0].id,
+        testQuestion.id,
       );
       await reloadedQuestionItemPage.expectText(newText);
       await reloadedQuestionItemPage.expectAnswered(true);
 
       // Verify localStorage reflects changes
       const updatedQuestion = (await appPage.getQuestions()).find(
-        (q) => q.id === testQuestions[0].id,
+        (q) => q.id === testQuestion.id,
       );
       expect(updatedQuestion?.text).toBe(newText);
       expect(updatedQuestion?.answered).toBe(true);
@@ -498,17 +400,11 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestions: Question[] = [
-        {
-          id: "test-question-id",
-          text: "This is a new question",
-          answered: false,
-          highlighted: false,
-        },
-      ];
+      const testQuestion = createQuestion({ text: "This is a new question" });
+      const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
 
-      const questionItem = getQuestionItemPage(page, testQuestions[0].id);
+      const questionItem = getQuestionItemPage(page, testQuestion.id);
       await questionItem.focusTextarea();
 
       const initialQuestionCount = (await appPage.getQuestions()).length;
