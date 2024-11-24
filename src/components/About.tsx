@@ -4,6 +4,7 @@ import { Button } from "@material-tailwind/react";
 export function About(props: {
   newVersionAvailable: boolean;
   updateVersion: () => void;
+  onRestartTour: () => void;
 }) {
   return (
     <div className="font-normal">
@@ -32,6 +33,15 @@ export function About(props: {
           </Button>
         </>
       )}
+      <Button
+        color="blue-gray"
+        size="sm"
+        onClick={props.onRestartTour}
+        className="mt-6 text-white"
+        data-testid="restart-tour"
+      >
+        Restart Guided Tour
+      </Button>
     </div>
   );
 }

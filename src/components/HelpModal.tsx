@@ -19,9 +19,14 @@ function Kbd(props: { children: React.ReactNode }) {
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onRestartTour: () => void;
 }
 
-export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+export const HelpModal: React.FC<HelpModalProps> = ({
+  isOpen,
+  onClose,
+  onRestartTour,
+}) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Allow updating in case the update dialog was closed
@@ -44,6 +49,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     void updateServiceWorker(true);
     setNeedRefresh(false);
   }, [setNeedRefresh, updateServiceWorker]);
+
+  const onRestartTourAndClose = useCallback(() => {
+    onRestartTour();
+    onClose();
+  }, [onRestartTour, onClose]);
 
   return (
     <Dialog
@@ -107,6 +117,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 <About
                   newVersionAvailable={needRefresh}
                   updateVersion={handleUpdate}
+                  onRestartTour={onRestartTourAndClose}
                 />
               </div>
             </div>
@@ -116,6 +127,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 <About
                   newVersionAvailable={needRefresh}
                   updateVersion={handleUpdate}
+                  onRestartTour={onRestartTourAndClose}
                 />
               </div>
             </div>
