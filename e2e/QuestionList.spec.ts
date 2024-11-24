@@ -68,7 +68,7 @@ test.describe("QuestionList e2e tests", () => {
     const questionItemPage = new QuestionItemPage(page, questionsBefore[0].id);
 
     // when
-    await questionItemPage.textarea.press("Control+Shift+ArrowDown");
+    await questionItemPage.moveQuestionDownShortcut();
 
     // then
     await verifyOrderChanged(questionsBefore);
@@ -82,7 +82,7 @@ test.describe("QuestionList e2e tests", () => {
     const questionItemPage = new QuestionItemPage(page, questionsBefore[1].id);
 
     // when
-    await questionItemPage.textarea.press("Control+Shift+ArrowUp");
+    await questionItemPage.moveQuestionUpShortcut();
 
     // then
     await verifyOrderChanged(questionsBefore);
@@ -96,7 +96,7 @@ test.describe("QuestionList e2e tests", () => {
     const questionItemPage = new QuestionItemPage(page, questionsBefore[0].id);
 
     // when
-    await questionItemPage.textarea.press("Control+Shift+ArrowUp");
+    await questionItemPage.moveQuestionUpShortcut();
 
     // then
     await questionListPage.expectEqualQuestionTexts(questionsBefore);
@@ -110,7 +110,7 @@ test.describe("QuestionList e2e tests", () => {
     const questionItemPage = new QuestionItemPage(page, questionsBefore[2].id);
 
     // when
-    await questionItemPage.textarea.press("Control+Shift+ArrowDown");
+    await questionItemPage.moveQuestionDownShortcut();
 
     // then
     await questionListPage.expectEqualQuestionTexts(questionsBefore);

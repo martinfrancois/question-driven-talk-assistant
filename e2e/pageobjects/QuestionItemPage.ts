@@ -90,4 +90,12 @@ export class QuestionItemPage extends AppPage {
       (el: HTMLTextAreaElement) => el.selectionStart || 0,
     );
   }
+
+  async moveQuestionUpShortcut(): Promise<void> {
+    await this.textarea.press("Control+Shift+ArrowUp");
+  }
+
+  async moveQuestionDownShortcut(): Promise<void> {
+    await this.textarea.press("Control+Shift+ArrowDown");
+  }
 }
