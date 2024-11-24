@@ -131,20 +131,39 @@ const App: React.FC = () => {
   }, []);
 
   // Handle keyboard shortcuts
-  useHotkeys("ctrl+p", () => setFontSize((size) => size + 2), [setFontSize]);
-  useHotkeys("ctrl+m", () => setFontSize((size) => Math.max(12, size - 2)), [
-    setFontSize,
-  ]);
-  useHotkeys("ctrl+shift+backspace", () => setShowClearModal(true), [
-    setShowClearModal,
-  ]);
-  useHotkeys("ctrl+d", () => setIsDarkMode((prev) => !prev), [setIsDarkMode]);
+  useHotkeys(
+    "ctrl+p",
+    () => setFontSize((size) => size + 2),
+    { enableOnFormTags: true },
+    [setFontSize],
+  );
+  useHotkeys(
+    "ctrl+m",
+    () => setFontSize((size) => Math.max(12, size - 2)),
+    { enableOnFormTags: true },
+    [setFontSize],
+  );
+  useHotkeys(
+    "ctrl+shift+backspace",
+    () => setShowClearModal(true),
+    { enableOnFormTags: true },
+    [setShowClearModal],
+  );
+  useHotkeys(
+    "ctrl+d",
+    () => setIsDarkMode((prev) => !prev),
+    { enableOnFormTags: true },
+    [setIsDarkMode],
+  );
 
   // Fullscreen QR Code
   const [showFullScreenQr, setShowFullScreenQr] = useState(false);
-  useHotkeys("ctrl+q", () => setShowFullScreenQr((prev) => !prev), [
-    setShowFullScreenQr,
-  ]);
+  useHotkeys(
+    "ctrl+q",
+    () => setShowFullScreenQr((prev) => !prev),
+    { enableOnFormTags: true },
+    [setShowFullScreenQr],
+  );
 
   const saveToFile = useCallback(async () => {
     const date = new Date();
@@ -160,10 +179,17 @@ const App: React.FC = () => {
   }, [questions, title, footer]);
 
   // Add hotkey for saving to file
-  useHotkeys("ctrl+s", () => void saveToFile(), [saveToFile]);
+  useHotkeys("ctrl+s", () => void saveToFile(), { enableOnFormTags: true }, [
+    saveToFile,
+  ]);
 
   // Add hotkey to show help
-  useHotkeys("ctrl+h", () => setShowHelpModal(true), [setShowHelpModal]);
+  useHotkeys(
+    "ctrl+h",
+    () => setShowHelpModal(true),
+    { enableOnFormTags: true },
+    [setShowHelpModal],
+  );
 
   // Update questions using immer
   const updateQuestions = useCallback(
