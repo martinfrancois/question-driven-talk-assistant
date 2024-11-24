@@ -8,6 +8,48 @@
     {
       "matchUpdateTypes": ["patch"],
       "automerge": true
+    },
+    {
+      "groupName": "dnd-kit",
+      "matchPackageNames": [
+        "@dnd-kit**"
+      ]
+    },
+    {
+      "groupName": "vite",
+      "matchPackageNames": [
+        "vite**",
+        "@vite**",
+        "**vite-plugin**",
+        "@vite**"
+      ]
+    },
+    {
+      "groupName": "workbox",
+      "matchPackageNames": [
+        "workbox**"
+      ]
+    },
+    {
+      "groupName": "prettier",
+      "matchPackageNames": [
+        "prettier**"
+      ]
+    },
+    {
+      "groupName": "playwright",
+      "matchPackageNames": [
+        "playwright**",
+        "@playwright**"
+      ]
+    },
+    {
+      "groupName": "tailwind",
+      "matchPackageNames": [
+        "**tailwind**",
+        "autoprefixer",
+        "postcss"
+      ]
     }
   ]
 }
