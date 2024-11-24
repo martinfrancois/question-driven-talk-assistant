@@ -1,4 +1,6 @@
 # Question-Driven Talk Assistant
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_shield)
+
 
 A web application designed to help speakers manage audience questions during live sessions.
 Easily add, highlight, and track questions, with intuitive keyboard shortcuts and a clean interface optimized for both light and dark themes.
@@ -155,3 +157,6 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ### License
 
 This project is licensed under the AGPL License.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_large)
