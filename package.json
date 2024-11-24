@@ -15,9 +15,9 @@
     "test:e2e:report": "npx playwright show-report"
   },
   "dependencies": {
-    "@dnd-kit/core": "6.1.0",
-    "@dnd-kit/modifiers": "7.0.0",
-    "@dnd-kit/sortable": "8.0.0",
+    "@dnd-kit/core": "6.2.0",
+    "@dnd-kit/modifiers": "8.0.0",
+    "@dnd-kit/sortable": "9.0.0",
     "@material-tailwind/react": "2.1.10",
     "date-fns": "4.1.0",
     "immer": "10.1.1",
@@ -57,7 +57,7 @@
     "prettier-plugin-tailwindcss": "0.6.9",
     "tailwind-scrollbar": "3.1.0",
     "tailwindcss": "3.4.15",
-    "typescript": "5.6.3",
+    "typescript": "5.7.2",
     "uuid": "11.0.3",
     "vite": "5.4.11",
     "vite-plugin-pwa": "0.21.0",
