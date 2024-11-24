@@ -10,8 +10,12 @@ export class AppPage {
     this.helpIcon = page.getByTestId("help-icon");
   }
 
-  async goto() {
-    await this.page.goto("/");
+  async goto(disableTour = true) {
+    let url = "/";
+    if (disableTour) {
+      url += "?disable-tour"; // ensure we only show the tour when we want to test it specifically
+    }
+    await this.page.goto(url);
   }
 
   async setLocalStorageData<T>(key: string, value: T) {
@@ -44,6 +48,23 @@ export class AppPage {
 
   async getQuestions(): Promise<Question[]> {
     return (await this.getLocalStorageData<Question[]>("questions")) ?? [];
+  }
+
+  async isTourCompleted(): Promise<boolean> {
+    return (await this.getLocalStorageData<boolean>("tourCompleted")) === true;
+  }
+
+  async expectTourCompleted(isTourCompleted: boolean): Promise<void> {
+    await expect
+      .poll(async () => await this.isTourCompleted())
+      .toBe(isTourCompleted);
+  }
+
+  async setTourCompleted(isTourCompleted: boolean): Promise<void> {
+    return await this.setLocalStorageData<boolean>(
+      "tourCompleted",
+      isTourCompleted,
+    );
   }
 
   async preloadQuestionData(): Promise<Question[]> {

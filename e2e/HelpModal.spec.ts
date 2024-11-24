@@ -4,7 +4,7 @@ import { HelpModalPage } from "./pageobjects/HelpModalPage.ts";
 test.describe("HelpModal e2e tests", () => {
   let helpModalPage: HelpModalPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     helpModalPage = new HelpModalPage(page);
   });
 
@@ -34,5 +34,18 @@ test.describe("HelpModal e2e tests", () => {
       // then
       await expect(helpModalPage.modal).toBeHidden();
     });
+  });
+
+  test(`should restart the guided tour`, async () => {
+    // given
+    await helpModalPage.open(true);
+    await helpModalPage.expectTourCompleted(true);
+
+    // when
+    await helpModalPage.restartTour();
+
+    // then
+    await expect(helpModalPage.modal).toBeHidden();
+    await helpModalPage.expectTourCompleted(false);
   });
 });

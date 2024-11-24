@@ -12,6 +12,7 @@ import {
 } from "./save-questions.ts";
 import HelpIcon from "./components/HelpIcon.tsx";
 import { HelpModal } from "./components/HelpModal.tsx";
+import GuidedTour from "./components/GuidedTour.tsx";
 
 interface Question {
   id: string;
@@ -43,6 +44,11 @@ const App: React.FC = () => {
   const [timeFormat24h, setTimeFormat24h] = useState(
     () => localStorage.getItem("timeFormat24h") === "true",
   );
+  const [isTourCompleted, setTourCompleted] = useState(
+    () =>
+      window.location.href?.endsWith("disable-tour") ||
+      localStorage.getItem("tourCompleted") === "true",
+  );
   const [qrCodeURL, setQrCodeURL] = useState(
     () => localStorage.getItem("qrCodeURL") ?? "",
   );
@@ -68,6 +74,7 @@ const App: React.FC = () => {
     localStorage.setItem("qrCodeURL", qrCodeURL);
     localStorage.setItem("qrCodeSize", qrCodeSize.toString());
     localStorage.setItem("isDarkMode", String(isDarkMode));
+    localStorage.setItem("tourCompleted", String(isTourCompleted));
   }, [
     questions,
     title,
@@ -76,6 +83,7 @@ const App: React.FC = () => {
     qrCodeURL,
     qrCodeSize,
     isDarkMode,
+    isTourCompleted,
   ]);
 
   useEffect(() => {
@@ -199,6 +207,11 @@ const App: React.FC = () => {
     [questions],
   );
 
+  const onTourCompleted = useCallback(
+    () => setTourCompleted(true),
+    [setTourCompleted],
+  );
+
   return (
     <div
       key={key}
@@ -243,8 +256,13 @@ const App: React.FC = () => {
       <HelpModal
         isOpen={showHelpModal}
         onClose={() => setShowHelpModal(false)}
+        onRestartTour={() => setTourCompleted(false)}
       />
       <PWABadge />
+      <GuidedTour
+        isTourCompleted={isTourCompleted}
+        onTourCompleted={onTourCompleted}
+      />
     </div>
   );
 };
