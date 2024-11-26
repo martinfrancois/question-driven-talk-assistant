@@ -2,8 +2,8 @@ import { expect, Page, test } from "@playwright/test";
 import { QuestionItemPage } from "./pageobjects/QuestionItemPage";
 import { AppPage } from "./pageobjects/AppPage";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
-import { Question } from "../src/components/QuestionItem";
 import { v4 as uuidv4 } from "uuid";
+import { Question, StorageName } from "../src/stores";
 
 const createQuestion = (overrides: Partial<Question> = {}): Question => ({
   id: overrides.id ?? uuidv4(),
@@ -20,7 +20,11 @@ test.describe("QuestionItem e2e tests", () => {
   const setupQuestions = async (page: Page, questions: Question[]) => {
     appPage = new AppPage(page);
     await appPage.goto();
-    await appPage.setLocalStorageData("questions", questions);
+    await appPage.setLocalStorageData(
+      StorageName.QUESTIONS,
+      "questions",
+      questions,
+    );
     await appPage.reload();
     questionListPage = new QuestionListPage(page);
   };

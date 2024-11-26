@@ -15,23 +15,12 @@ import {
 } from "@dnd-kit/sortable";
 import QuestionItem from "./QuestionItem";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
+import { useQuestions, useSetQuestions } from "../stores";
 
-interface Question {
-  id: string;
-  text: string;
-  answered: boolean;
-  highlighted: boolean;
-}
+const QuestionList: FC = () => {
+  const questions = useQuestions();
+  const setQuestions = useSetQuestions();
 
-interface QuestionListProps {
-  questions: Question[];
-  updateQuestions: (updateFunc: (draft: Question[]) => void) => void;
-}
-
-const QuestionList: FC<QuestionListProps> = ({
-  questions,
-  updateQuestions,
-}) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -44,10 +33,7 @@ const QuestionList: FC<QuestionListProps> = ({
     if (active.id !== over?.id) {
       const oldIndex = questions.findIndex((q) => q.id === active.id);
       const newIndex = questions.findIndex((q) => q.id === over?.id);
-
-      updateQuestions((draft) => {
-        return arrayMove(draft, oldIndex, newIndex);
-      });
+      setQuestions(arrayMove(questions, oldIndex, newIndex));
     }
   };
 
@@ -77,9 +63,7 @@ const QuestionList: FC<QuestionListProps> = ({
               <QuestionItem
                 key={question.id}
                 question={question}
-                questions={questions}
                 questionRefs={questionRefs}
-                updateQuestions={updateQuestions}
                 textareaRef={questionRefs.current[question.id]}
               />
             );

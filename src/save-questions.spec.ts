@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateFileName, generateMarkdownContent } from "./save-questions.ts";
-import { Question } from "./components/QuestionItem.tsx";
+import { Question } from "./stores";
 
 describe("generateFileName", () => {
   const testCases = [

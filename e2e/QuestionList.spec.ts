@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
 import { QuestionItemPage } from "./pageobjects/QuestionItemPage";
-import { Question } from "../src/components/QuestionItem";
+import { Question } from "../src/stores";
 
 test.describe("QuestionList e2e tests", () => {
   let questionListPage: QuestionListPage;
@@ -29,7 +29,7 @@ test.describe("QuestionList e2e tests", () => {
   });
 
   test("should contain one empty question item by default", async () => {
-    await questionListPage.isInitialState();
+    await questionListPage.isInitialState(true);
   });
 
   test("should be able to drag and drop questions down in QuestionList", async () => {

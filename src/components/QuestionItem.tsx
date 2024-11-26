@@ -3,33 +3,41 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Checkbox } from "@material-tailwind/react";
-
-export interface Question {
-  id: string;
-  text: string;
-  answered: boolean;
-  highlighted: boolean;
-}
-
-export type UpdateFuncType = (draft: Question[]) => void;
+import {
+  createEmptyQuestion,
+  Question,
+  useAddQuestion,
+  useClickCheckbox,
+  useInsertQuestion,
+  useMoveQuestionDown,
+  useMoveQuestionUp,
+  useQuestions,
+  useRemoveQuestion,
+  useUpdateQuestionText,
+} from "../stores";
 
 interface QuestionItemProps {
   question: Question;
-  questions: Question[];
   questionRefs: React.MutableRefObject<
     Record<string, React.RefObject<HTMLTextAreaElement>>
   >;
-  updateQuestions: (updateFunc: UpdateFuncType) => void;
   textareaRef: React.RefObject<HTMLTextAreaElement>;
 }
 
 const QuestionItem: FC<QuestionItemProps> = ({
   question,
-  questions,
   questionRefs,
-  updateQuestions,
   textareaRef,
 }) => {
+  const questions = useQuestions();
+  const moveQuestionUp = useMoveQuestionUp();
+  const moveQuestionDown = useMoveQuestionDown();
+  const updateQuestionText = useUpdateQuestionText();
+  const removeQuestion = useRemoveQuestion();
+  const insertQuestion = useInsertQuestion();
+  const addQuestion = useAddQuestion();
+  const clickCheckbox = useClickCheckbox();
+
   const {
     attributes,
     listeners,
@@ -72,15 +80,11 @@ const QuestionItem: FC<QuestionItemProps> = ({
     () => {
       const currentIndex = questions.findIndex((q) => q.id === question.id);
       if (currentIndex > 0) {
-        updateQuestions((draft) => {
-          const temp = draft[currentIndex];
-          draft[currentIndex] = draft[currentIndex - 1];
-          draft[currentIndex - 1] = temp;
-        });
+        moveQuestionUp(currentIndex);
       }
     },
     { enableOnFormTags: true, enabled: isFocused },
-    [questions, question.id, updateQuestions, isFocused],
+    [questions, question.id, moveQuestionUp, isFocused],
   );
 
   useHotkeys(
@@ -88,19 +92,14 @@ const QuestionItem: FC<QuestionItemProps> = ({
     () => {
       const currentIndex = questions.findIndex((q) => q.id === question.id);
       if (currentIndex < questions.length - 1) {
-        updateQuestions((draft) => {
-          const temp = draft[currentIndex];
-          draft[currentIndex] = draft[currentIndex + 1];
-          draft[currentIndex + 1] = temp;
-        });
+        moveQuestionDown(currentIndex);
       }
     },
     { enableOnFormTags: true, enabled: isFocused },
-    [questions, question.id, updateQuestions, isFocused],
+    [questions, question.id, moveQuestionDown, isFocused],
   );
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    const currentIndex = questions.findIndex((q) => q.id === question.id);
     if (!textareaRef?.current) return;
 
     const textarea = textareaRef.current;
@@ -124,9 +123,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
         const newText =
           textarea.value.slice(0, cursorPosition - 1) +
           textarea.value.slice(cursorPosition);
-        updateQuestions((draft) => {
-          draft[currentIndex].text = newText;
-        });
+
+        updateQuestionText(question.id, newText);
         adjustHeight();
         return;
       }
@@ -135,11 +133,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
       if (question.text.trim() === "") {
         e.preventDefault();
         if (questions.length > 1) {
+          const currentIndex = questions.findIndex((q) => q.id === question.id);
           if (currentIndex === 0) {
             // Delete first question and focus the new first question
-            updateQuestions((draft) => {
-              draft.splice(currentIndex, 1);
-            });
+            removeQuestion(currentIndex);
             const newFirstRef = questionRefs.current[questions[1].id];
             if (newFirstRef?.current) {
               newFirstRef.current.focus();
@@ -147,9 +144,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             }
           } else {
             // Delete current question and focus previous question
-            updateQuestions((draft) => {
-              draft.splice(currentIndex, 1);
-            });
+            removeQuestion(currentIndex);
             setTimeout(() => {
               const prevQuestion = questions[currentIndex - 1];
               const prevRef = questionRefs.current[prevQuestion.id];
@@ -175,6 +170,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
     // Total lines in the current textarea
     const totalLines = textarea.value.split("\n").length;
 
+    const currentIndex = questions.findIndex((q) => q.id === question.id);
     if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
       // Handle Enter key
       e.preventDefault();
@@ -183,15 +179,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
         (!questions[currentIndex + 1] ||
           questions[currentIndex + 1].text.trim() !== "")
       ) {
-        const newQuestion = {
-          id: Date.now().toString(),
-          text: "",
-          answered: false,
-          highlighted: false,
-        };
-        updateQuestions((draft) => {
-          draft.splice(currentIndex + 1, 0, newQuestion);
-        });
+        const newQuestion = createEmptyQuestion();
+        insertQuestion(currentIndex + 1, newQuestion);
         setTimeout(() => {
           const newRef = questionRefs.current[newQuestion.id];
           if (newRef?.current) {
@@ -288,9 +277,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             answered: false,
             highlighted: false,
           };
-          updateQuestions((draft) => {
-            draft.push(newQuestion);
-          });
+          addQuestion(newQuestion);
           setTimeout(() => {
             const newRef = questionRefs.current[newQuestion.id];
             if (newRef?.current) {
@@ -343,35 +330,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       <Checkbox
         checked={question.answered}
         color={"blue-gray"}
-        onChange={() => {
-          if (question.answered) {
-            // If already answered, just uncheck it
-            updateQuestions((draft) => {
-              const idx = draft.findIndex((q) => q.id === question.id);
-              if (idx !== -1) {
-                draft[idx].answered = false;
-              }
-            });
-          } else if (!question.highlighted) {
-            // First click: highlight the question only if it's not already highlighted
-            updateQuestions((draft) => {
-              draft.forEach((q) => (q.highlighted = false)); // Remove highlight from other questions
-              const idx = draft.findIndex((q) => q.id === question.id);
-              if (idx !== -1) {
-                draft[idx].highlighted = true;
-              }
-            });
-          } else {
-            // Second click when highlighted: mark as answered and remove highlight
-            updateQuestions((draft) => {
-              const idx = draft.findIndex((q) => q.id === question.id);
-              if (idx !== -1) {
-                draft[idx].answered = true;
-                draft[idx].highlighted = false;
-              }
-            });
-          }
-        }}
+        onChange={() => clickCheckbox(question.id)}
         ripple={false}
         className="p-0 text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
       />
@@ -385,12 +344,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         value={question.text}
         onChange={(e) => {
           const newText = e.target.value;
-          updateQuestions((draft) => {
-            const idx = draft.findIndex((q) => q.id === question.id);
-            if (idx !== -1) {
-              draft[idx].text = newText;
-            }
-          });
+          updateQuestionText(question.id, newText);
           adjustHeight();
         }}
         onFocus={() => setIsFocused(true)}

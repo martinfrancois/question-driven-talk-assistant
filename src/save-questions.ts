@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Question } from "./components/QuestionItem.tsx";
+import { Question } from "./stores";
 
 /**
  * Generates a standardized file name based on the given title and date.

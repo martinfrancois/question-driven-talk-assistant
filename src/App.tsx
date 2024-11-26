@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { produce } from "immer";
 import MainLayout from "./components/MainLayout";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
@@ -13,81 +12,37 @@ import {
 import HelpIcon from "./components/HelpIcon.tsx";
 import { HelpModal } from "./components/HelpModal.tsx";
 import GuidedTour from "./components/GuidedTour.tsx";
-
-interface Question {
-  id: string;
-  text: string;
-  answered: boolean;
-  highlighted: boolean;
-}
+import {
+  useClearQuestions,
+  useDarkMode,
+  useDecreaseFontSize,
+  useFontSize,
+  useFooter,
+  useIncreaseFontSize,
+  useQuestions,
+  useTitle,
+  useToggleDarkMode,
+} from "./stores";
+import { migrateLocalStorage } from "./migration.ts";
 
 const App: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>(() => {
-    const storedQuestions = localStorage.getItem("questions");
-    return storedQuestions
-      ? (JSON.parse(storedQuestions) as Question[])
-      : [
-          {
-            id: Date.now().toString(),
-            text: "",
-            answered: false,
-            highlighted: false,
-          },
-        ];
-  });
-  const [title, setTitle] = useState(
-    () => localStorage.getItem("title") ?? "Ask me anything",
-  );
-  const [footer, setFooter] = useState(
-    () => localStorage.getItem("footer") ?? "François Martin | www.fmartin.ch",
-  );
-  const [timeFormat24h, setTimeFormat24h] = useState(
-    () => localStorage.getItem("timeFormat24h") === "true",
-  );
-  const [isTourCompleted, setTourCompleted] = useState(
-    () =>
-      window.location.href?.endsWith("disable-tour") ||
-      localStorage.getItem("tourCompleted") === "true",
-  );
-  const [qrCodeURL, setQrCodeURL] = useState(
-    () => localStorage.getItem("qrCodeURL") ?? "",
-  );
-  const [qrCodeSize, setQrCodeSize] = useState(() =>
-    parseFloat(localStorage.getItem("qrCodeSize") ?? "64"),
-  );
-  const [fontSize, setFontSize] = useState(() =>
-    parseInt(localStorage.getItem("fontSize") ?? "16"),
-  );
+  migrateLocalStorage();
+
+  const isDarkMode = useDarkMode();
+  const toggleDarkMode = useToggleDarkMode();
+  const fontSize = useFontSize();
+  const increaseFontSize = useIncreaseFontSize();
+  const decreaseFontSize = useDecreaseFontSize();
+  const title = useTitle();
+  const footer = useFooter();
+  const questions = useQuestions();
+  const clearQuestions = useClearQuestions();
+
   const [key, setKey] = useState(0); // Key to force re-render on font size change
-  const [isDarkMode, setIsDarkMode] = useState(
-    () => localStorage.getItem("isDarkMode") === "true",
-  );
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
 
-  // Persist state to localStorage
   useEffect(() => {
-    localStorage.setItem("questions", JSON.stringify(questions));
-    localStorage.setItem("title", title);
-    localStorage.setItem("footer", footer);
-    localStorage.setItem("timeFormat24h", String(timeFormat24h));
-    localStorage.setItem("qrCodeURL", qrCodeURL);
-    localStorage.setItem("qrCodeSize", qrCodeSize.toString());
-    localStorage.setItem("isDarkMode", String(isDarkMode));
-    localStorage.setItem("tourCompleted", String(isTourCompleted));
-  }, [
-    questions,
-    title,
-    footer,
-    timeFormat24h,
-    qrCodeURL,
-    qrCodeSize,
-    isDarkMode,
-    isTourCompleted,
-  ]);
-
-  useEffect(() => {
-    localStorage.setItem("fontSize", fontSize.toString());
     // TODO is there a better way to do this?
     setKey((prev) => prev + 1); // Update key to force a re-render
   }, [fontSize]);
@@ -139,39 +94,21 @@ const App: React.FC = () => {
   }, []);
 
   // Handle keyboard shortcuts
-  useHotkeys(
-    "ctrl+p",
-    () => setFontSize((size) => size + 2),
-    { enableOnFormTags: true },
-    [setFontSize],
-  );
-  useHotkeys(
-    "ctrl+m",
-    () => setFontSize((size) => Math.max(12, size - 2)),
-    { enableOnFormTags: true },
-    [setFontSize],
-  );
+  useHotkeys("ctrl+p", () => increaseFontSize(), { enableOnFormTags: true }, [
+    increaseFontSize,
+  ]);
+  useHotkeys("ctrl+m", () => decreaseFontSize(), { enableOnFormTags: true }, [
+    decreaseFontSize,
+  ]);
   useHotkeys(
     "ctrl+shift+backspace",
     () => setShowClearModal(true),
     { enableOnFormTags: true },
     [setShowClearModal],
   );
-  useHotkeys(
-    "ctrl+d",
-    () => setIsDarkMode((prev) => !prev),
-    { enableOnFormTags: true },
-    [setIsDarkMode],
-  );
-
-  // Fullscreen QR Code
-  const [showFullScreenQr, setShowFullScreenQr] = useState(false);
-  useHotkeys(
-    "ctrl+q",
-    () => setShowFullScreenQr((prev) => !prev),
-    { enableOnFormTags: true },
-    [setShowFullScreenQr],
-  );
+  useHotkeys("ctrl+d", () => toggleDarkMode(), { enableOnFormTags: true }, [
+    toggleDarkMode,
+  ]);
 
   const saveToFile = useCallback(async () => {
     const date = new Date();
@@ -199,54 +136,18 @@ const App: React.FC = () => {
     [setShowHelpModal],
   );
 
-  // Update questions using immer
-  const updateQuestions = useCallback(
-    (updateFunc: (draft: Question[]) => void) => {
-      setQuestions(produce(questions, updateFunc));
-    },
-    [questions],
-  );
-
-  const onTourCompleted = useCallback(
-    () => setTourCompleted(true),
-    [setTourCompleted],
-  );
-
   return (
     <div
       key={key}
       className={`${isDarkMode ? "dark" : ""}`}
       style={{ fontSize: `${fontSize}px` }}
     >
-      <MainLayout
-        questions={questions}
-        updateQuestions={updateQuestions}
-        title={title}
-        setTitle={setTitle}
-        footer={footer}
-        setFooter={setFooter}
-        timeFormat24h={timeFormat24h}
-        setTimeFormat24h={setTimeFormat24h}
-        qrCodeURL={qrCodeURL}
-        setQrCodeURL={setQrCodeURL}
-        qrCodeSize={qrCodeSize}
-        setQrCodeSize={setQrCodeSize}
-        isDarkMode={isDarkMode}
-        showFullScreenQr={showFullScreenQr}
-        setShowFullScreenQr={setShowFullScreenQr}
-      />
+      <MainLayout />
       <Modal
         title="Confirm Clear"
         message="Are you sure you want to clear the list?"
         onConfirm={() => {
-          setQuestions([
-            {
-              id: Date.now().toString(),
-              text: "",
-              answered: false,
-              highlighted: false,
-            },
-          ]);
+          clearQuestions();
           setShowClearModal(false);
         }}
         onCancel={() => setShowClearModal(false)}
@@ -256,13 +157,9 @@ const App: React.FC = () => {
       <HelpModal
         isOpen={showHelpModal}
         onClose={() => setShowHelpModal(false)}
-        onRestartTour={() => setTourCompleted(false)}
       />
       <PWABadge />
-      <GuidedTour
-        isTourCompleted={isTourCompleted}
-        onTourCompleted={onTourCompleted}
-      />
+      <GuidedTour />
     </div>
   );
 };
