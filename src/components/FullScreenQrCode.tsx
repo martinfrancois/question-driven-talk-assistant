@@ -1,17 +1,37 @@
 import { QRCodeSVG } from "qrcode.react";
+import { useCallback, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useQrCodeUrl } from "../stores";
 
-export function FullScreenQrCode(props: {
-  onClick: () => void;
-  value: string;
-}) {
+export function FullScreenQrCode() {
+  const qrCodeUrl = useQrCodeUrl();
+
+  const [showFullScreenQr, setShowFullScreenQr] = useState(false);
+
+  useHotkeys(
+    "ctrl+q",
+    () => setShowFullScreenQr((prev) => !prev),
+    { enableOnFormTags: true },
+    [setShowFullScreenQr],
+  );
+
+  const hideFullScreenQrCode = useCallback(
+    () => setShowFullScreenQr(false),
+    [setShowFullScreenQr],
+  );
+
+  if (!(showFullScreenQr && qrCodeUrl)) {
+    return null;
+  }
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
-      onClick={props.onClick}
+      onClick={hideFullScreenQrCode}
       data-testid="fullscreen-qr-code"
     >
       <div className="rounded-lg !bg-white p-8">
-        <QRCodeSVG value={props.value} size={window.innerHeight * 0.7} />
+        <QRCodeSVG value={qrCodeUrl} size={window.innerHeight * 0.7} />
       </div>
     </div>
   );

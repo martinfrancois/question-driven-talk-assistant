@@ -1,19 +1,18 @@
-import { FC, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import {
+  useQrCodeSize,
+  useQrCodeUrl,
+  useSetQrCodeSize,
+  useSetQrCodeUrl,
+} from "../stores";
 
-interface QrCodeComponentProps {
-  qrCodeURL: string;
-  setQrCodeURL: (url: string) => void;
-  qrCodeSize: number;
-  setQrCodeSize: (size: number) => void;
-}
+const QrCodeComponent: FC = () => {
+  const qrCodeUrl = useQrCodeUrl();
+  const setQrCodeUrl = useSetQrCodeUrl();
+  const qrCodeSize = useQrCodeSize();
+  const setQrCodeSize = useSetQrCodeSize();
 
-const QrCodeComponent: FC<QrCodeComponentProps> = ({
-  qrCodeURL,
-  setQrCodeURL,
-  qrCodeSize,
-  setQrCodeSize,
-}) => {
   const isResizing = useRef(false); // Tracks if resizing is in progress
   const preventClick = useRef(false); // Temporarily prevents click after resize
   const resizeDirection = useRef<"bottom-right" | "bottom-left">(
@@ -67,8 +66,8 @@ const QrCodeComponent: FC<QrCodeComponentProps> = ({
       // Ignore this click as it follows a resize action
       return;
     }
-    const newURL = prompt("Enter QR Code URL", qrCodeURL);
-    if (newURL !== null) setQrCodeURL(newURL);
+    const newURL = prompt("Enter QR Code URL", qrCodeUrl);
+    if (newURL !== null) setQrCodeUrl(newURL);
   };
 
   return (
@@ -79,12 +78,12 @@ const QrCodeComponent: FC<QrCodeComponentProps> = ({
     >
       <div
         className={`rounded-md border border-white !bg-white p-2 ${
-          qrCodeURL ? "" : "invisible group-hover:visible"
+          qrCodeUrl ? "" : "invisible group-hover:visible"
         }`}
       >
-        {qrCodeURL ? (
+        {qrCodeUrl ? (
           <QRCodeSVG
-            value={qrCodeURL}
+            value={qrCodeUrl}
             size={qrCodeSize}
             data-testid="qr-code-svg"
           />
@@ -94,7 +93,7 @@ const QrCodeComponent: FC<QrCodeComponentProps> = ({
           </div>
         )}
       </div>
-      {qrCodeURL && (
+      {qrCodeUrl && (
         <>
           <div
             className="absolute bottom-0 right-0 h-4 w-4 cursor-se-resize"

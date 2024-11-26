@@ -1,6 +1,7 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { AppPage } from "./AppPage";
 import { MainLayoutPage } from "./MainLayoutPage";
+import { StorageName } from "../../src/stores";
 
 export class QrCodeComponentPage extends AppPage {
   readonly qrCodeContainer: Locator; // outer container
@@ -43,7 +44,11 @@ export class QrCodeComponentPage extends AppPage {
   }
 
   async setExampleQrCodeURL() {
-    await this.setLocalStorageData("qrCodeURL", "https://example.com"); // TODO refactor keys to be defined in an enum or const for reuse
+    await this.setLocalStorageData(
+      StorageName.QR_CODE,
+      "qrCodeUrl",
+      "https://example.com",
+    ); // TODO refactor keys to be defined in an enum or const for reuse
     await this.reload();
   }
 

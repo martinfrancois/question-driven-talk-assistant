@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { AppPage } from "./AppPage";
 import { QuestionItemPage } from "./QuestionItemPage";
-import { Question } from "../../src/components/QuestionItem";
+import { Question } from "../../src/stores";
 
 export class QuestionListPage extends AppPage {
   readonly questionItems: Locator;
@@ -26,19 +26,28 @@ export class QuestionListPage extends AppPage {
     expect(await this.questionItems.all()).toHaveLength(count);
   }
 
-  async isInitialState() {
+  async isInitialState(emptyLocalStorageExpected = false) {
     // in localStorage
     const questions = await this.getQuestions();
-    expect(questions).toHaveLength(1);
-    const question = questions[0];
-    expect(question.text).toBe("");
-    expect(question.answered).toBeFalsy();
-    expect(question.highlighted).toBeFalsy();
+    if (emptyLocalStorageExpected) {
+      // the persist middleware only stores to localStorage once a change was made
+      expect(questions).toHaveLength(0);
+    } else {
+      expect(questions).toHaveLength(1);
+      const question = questions[0];
+      expect(question.text).toBe("");
+      expect(question.answered).toBeFalsy();
+      expect(question.highlighted).toBeFalsy();
+    }
 
     // on page
     const questionItems = await this.questionItems.all();
     expect(questionItems).toHaveLength(1);
-    const questionItem = new QuestionItemPage(this.page, question.id);
+    const questionItem = new QuestionItemPage(
+      this.page,
+      undefined,
+      questionItems[0],
+    );
     await questionItem.verifyVisible();
     await questionItem.expectText("");
     await questionItem.expectAnswered(false);

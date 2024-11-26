@@ -8,9 +8,13 @@ export class QuestionItemPage extends AppPage {
   readonly textarea: Locator;
   readonly reorderButton: Locator;
 
-  constructor(page: Page, questionId: string) {
+  constructor(page: Page, questionId?: string, questionItem?: Locator) {
     super(page);
-    this.questionItem = page.getByTestId(`question-item-${questionId}`);
+    if (questionItem) {
+      this.questionItem = questionItem;
+    } else {
+      this.questionItem = page.getByTestId(`question-item-${questionId}`);
+    }
     this.checkbox = this.questionItem.locator('input[type="checkbox"]');
     this.textarea = this.questionItem.locator("textarea");
     this.reorderButton = this.questionItem.getByTestId("reorder-button");

@@ -4,6 +4,7 @@ import viteConfig from "./vite.config";
 export default defineConfig({
   ...viteConfig,
   test: {
+    setupFiles: ["./setup-vitest.ts"],
     browser: {
       enabled: true,
       name: "chromium",

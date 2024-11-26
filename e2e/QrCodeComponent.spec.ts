@@ -1,5 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { QrCodeComponentPage } from "./pageobjects/QrCodeComponentPage";
+import { StorageName } from "../src/stores";
 
 test.describe("QrCodeComponent e2e tests", () => {
   let qrCodeComponentPage: QrCodeComponentPage;
@@ -47,15 +48,19 @@ test.describe("QrCodeComponent e2e tests", () => {
     test(`should resize QR code when dragging from ${resizeDirection}`, async () => {
       // given
       await qrCodeComponentPage.setExampleQrCodeURL();
-      const initialSize =
-        await qrCodeComponentPage.getLocalStorageData("qrCodeSize");
+      const initialSize = await qrCodeComponentPage.getLocalStorageData(
+        StorageName.QR_CODE,
+        "qrCodeSize",
+      );
 
       // when
       await qrCodeComponentPage.resizeQrCode("bottom-right");
 
       // then
-      const changedSize =
-        await qrCodeComponentPage.getLocalStorageData("qrCodeSize");
+      const changedSize = await qrCodeComponentPage.getLocalStorageData(
+        StorageName.QR_CODE,
+        "qrCodeSize",
+      );
       expect(changedSize).not.toEqual(initialSize);
     });
   });

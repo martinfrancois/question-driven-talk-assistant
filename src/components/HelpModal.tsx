@@ -9,6 +9,7 @@ import {
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { SelectableTextFocusLock } from "./SelectableTextFocusLock.tsx";
 import { About } from "./About.tsx";
+import { useRestartTour } from "../stores";
 
 function Kbd(props: { children: React.ReactNode }) {
   return (
@@ -19,14 +20,11 @@ function Kbd(props: { children: React.ReactNode }) {
 interface HelpModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onRestartTour: () => void;
 }
 
-export const HelpModal: React.FC<HelpModalProps> = ({
-  isOpen,
-  onClose,
-  onRestartTour,
-}) => {
+export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+  const restartTour = useRestartTour();
+
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Allow updating in case the update dialog was closed
@@ -51,9 +49,9 @@ export const HelpModal: React.FC<HelpModalProps> = ({
   }, [setNeedRefresh, updateServiceWorker]);
 
   const onRestartTourAndClose = useCallback(() => {
-    onRestartTour();
+    restartTour();
     onClose();
-  }, [onRestartTour, onClose]);
+  }, [restartTour, onClose]);
 
   return (
     <Dialog

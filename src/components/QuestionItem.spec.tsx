@@ -1,9 +1,10 @@
 import React from "react";
 import { render } from "vitest-browser-react";
-import { vi, describe, it, expect, beforeEach } from "vitest";
-import QuestionItem, { Question, UpdateFuncType } from "./QuestionItem";
+import { describe, it, expect, beforeEach } from "vitest";
+import QuestionItem from "./QuestionItem";
+import { Question, useQuestions, useSetQuestions } from "../stores";
 
-describe("QuestionItem Component", () => {
+describe("QuestionItem Component with Zustand", () => {
   let initialQuestions: Question[];
 
   beforeEach(() => {
@@ -15,32 +16,15 @@ describe("QuestionItem Component", () => {
   });
 
   const TestWrapper = () => {
-    const [questions, setQuestions] =
-      React.useState<Question[]>(initialQuestions);
+    const questions = useQuestions();
+    const setQuestions = useSetQuestions();
     const questionRefs = React.useRef<
       Record<string, React.RefObject<HTMLTextAreaElement>>
     >({});
 
-    const updateQuestions = vi.fn((updateFunc: UpdateFuncType) => {
-      setQuestions((prevQuestions) => {
-        const newQuestions = [...prevQuestions];
-        updateFunc(newQuestions);
-
-        // Update questionRefs when questions are added or removed
-        newQuestions.forEach((q) => {
-          if (!questionRefs.current[q.id]) {
-            questionRefs.current[q.id] = React.createRef<HTMLTextAreaElement>();
-          }
-        });
-        Object.keys(questionRefs.current).forEach((key) => {
-          if (!newQuestions.find((q) => q.id === key)) {
-            delete questionRefs.current[key];
-          }
-        });
-
-        return newQuestions;
-      });
-    });
+    React.useEffect(() => {
+      setQuestions(initialQuestions);
+    }, [setQuestions]);
 
     return (
       <>
@@ -54,9 +38,7 @@ describe("QuestionItem Component", () => {
             <QuestionItem
               key={question.id}
               question={question}
-              questions={questions}
               questionRefs={questionRefs}
-              updateQuestions={updateQuestions}
               textareaRef={textareaRef}
             />
           );
@@ -66,13 +48,12 @@ describe("QuestionItem Component", () => {
   };
 
   it("Pressing Enter adds a new question below and focuses it", async () => {
-    // given
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1]; // Index 1 for Question B
     textarea.focus();
 
-    // when, simulate pressing Enter
+    // Simulate pressing Enter
     const enterEvent = new KeyboardEvent("keydown", {
       key: "Enter",
       code: "Enter",
@@ -90,15 +71,17 @@ describe("QuestionItem Component", () => {
     expect(updatedTextareas[2].value).toBe(""); // New question inserted at index 2
 
     // Check that focus is on the new question
-    await expect.element(document.activeElement!).toBe(updatedTextareas[2]);
+    expect(document.activeElement).toBe(updatedTextareas[2]);
   });
 
   it("Pressing Enter does nothing if current or next question is empty", () => {
-    // Set current question text to empty
+    // Modify the second question to be empty
     initialQuestions[1].text = "";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
-    const textarea = textareas[1];
+    const textarea = textareas[1]; // Select the second textarea (now empty)
     textarea.focus();
 
     // Simulate pressing Enter
@@ -109,12 +92,15 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(enterEvent);
 
-    expect(container.querySelectorAll("textarea").length).toBe(3);
+    // Assertions
+    expect(container.querySelectorAll("textarea").length).toBe(3); // No new question should be added
   });
 
   it("Pressing Tab on last empty question does nothing", () => {
-    // Make last question empty
+    // Make the last question empty
     initialQuestions[2].text = "";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[2]; // Last question
@@ -128,7 +114,8 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(tabEvent);
 
-    expect(container.querySelectorAll("textarea").length).toBe(3);
+    // Assertions
+    expect(container.querySelectorAll("textarea").length).toBe(3); // No new question should be added
   });
 
   it("Pressing Tab on last non-empty question adds new question", async () => {
@@ -145,15 +132,22 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(tabEvent);
 
+    // Wait for state updates and re-rendering
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    expect(container.querySelectorAll("textarea").length).toBe(4);
-    expect(container.querySelectorAll("textarea")[3].value).toBe(""); // New question added
+    // Re-fetch the textareas after the update
+    const updatedTextareas = container.querySelectorAll("textarea");
+
+    // Assertions
+    expect(updatedTextareas.length).toBe(4); // New question should be added
+    expect(updatedTextareas[3].value).toBe(""); // New question should have empty text
   });
 
   it("Pressing Backspace on empty question deletes it and focuses previous", async () => {
-    // Set question text to empty
+    // Make the second question empty
     initialQuestions[1].text = "";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
@@ -167,20 +161,23 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(backspaceEvent);
 
+    // Wait for state updates and re-rendering
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     const updatedTextareas = container.querySelectorAll("textarea");
 
-    expect(updatedTextareas.length).toBe(2);
+    expect(updatedTextareas.length).toBe(2); // The empty question should be deleted
     expect(updatedTextareas[1].value).toBe("Question C"); // Question B deleted
 
-    // Check that focus is on previous question
-    await expect.element(document.activeElement!).toBe(updatedTextareas[0]);
+    // Check that focus is on the previous question
+    expect(document.activeElement).toBe(updatedTextareas[0]);
   });
 
   it("Pressing Backspace on empty first question deletes it and focuses new first question", async () => {
-    // Set first question text to empty
+    // Make the first question empty
     initialQuestions[0].text = "";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[0];
@@ -194,24 +191,28 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(backspaceEvent);
 
+    // Wait for state updates and re-rendering
     await new Promise((resolve) => setTimeout(resolve, 0));
 
     const updatedTextareas = container.querySelectorAll("textarea");
 
-    expect(updatedTextareas.length).toBe(2);
+    expect(updatedTextareas.length).toBe(2); // The empty first question should be deleted
     expect(updatedTextareas[0].value).toBe("Question B"); // Question A deleted
 
-    // Check that focus is on new first question
-    await expect.element(document.activeElement!).toBe(updatedTextareas[0]);
+    // Check that focus is on the new first question
+    expect(document.activeElement).toBe(updatedTextareas[0]);
   });
 
   it("Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line", () => {
+    // Set the second question to have multiple lines with the first line empty
     initialQuestions[1].text = "\n";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
     textarea.focus();
-    textarea.setSelectionRange(0, 0); // Cursor at the start (first line)
+    textarea.setSelectionRange(0, 0); // Cursor at the start of the first line
 
     // Simulate pressing Backspace
     const backspaceEvent = new KeyboardEvent("keydown", {
@@ -221,11 +222,15 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(backspaceEvent);
 
-    expect(initialQuestions[1].text).toBe("\n");
+    // Assertions
+    expect(textarea.value).toBe("\n"); // The text should remain unchanged
   });
 
-  it("Pressing Backspace on second line removes that line", async () => {
+  it("Pressing Backspace on second line removes that line", () => {
+    // Set the second question to have multiple lines
     initialQuestions[1].text = "\n";
+    // The TestWrapper will set the store state with updated initialQuestions
+
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
@@ -245,14 +250,15 @@ describe("QuestionItem Component", () => {
     const inputEvent = new Event("input", { bubbles: true });
     textarea.dispatchEvent(inputEvent);
 
+    // Assertions
     expect(textarea.value).toBe(""); // Line removed
-    await expect.element(document.activeElement!).toBe(textarea); // Focus remains
+    expect(document.activeElement).toBe(textarea); // Focus should remain on the textarea
   });
 
   it("ArrowUp and ArrowDown navigation moves focus correctly", async () => {
     const { container } = render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
-    const textarea = textareas[1];
+    const textarea = textareas[1]; // Select the second textarea (Question B)
     textarea.focus();
 
     // Simulate pressing ArrowUp
@@ -263,10 +269,11 @@ describe("QuestionItem Component", () => {
     });
     textarea.dispatchEvent(arrowUpEvent);
 
+    // Wait for state updates and re-rendering
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    // Check that focus moved to previous question
-    await expect.element(document.activeElement!).toBe(textareas[0]);
+    // Assertions
+    expect(document.activeElement).toBe(textareas[0]); // Focus should move to the first textarea
 
     // Simulate pressing ArrowDown
     const arrowDownEvent = new KeyboardEvent("keydown", {
@@ -276,9 +283,10 @@ describe("QuestionItem Component", () => {
     });
     textareas[0].dispatchEvent(arrowDownEvent);
 
+    // Wait for state updates and re-rendering
     await new Promise((resolve) => setTimeout(resolve, 0));
 
-    // Focus should return to the original textarea
-    await expect.element(document.activeElement!).toBe(textareas[1]);
+    // Assertions
+    expect(document.activeElement).toBe(textareas[1]); // Focus should return to the second textarea
   });
 });

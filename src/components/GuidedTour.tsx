@@ -1,22 +1,21 @@
 import { useCallback } from "react";
 import Joyride, { CallBackProps } from "react-joyride";
 import { steps } from "./guided-tour-steps.ts";
+import { useCompleteTour, useTourCompleted } from "../stores";
 
-interface GuidedTourProps {
-  isTourCompleted: boolean;
-  onTourCompleted: () => void;
-}
+const GuidedTour = () => {
+  const isTourCompleted = useTourCompleted();
+  const completeTour = useCompleteTour();
 
-const GuidedTour = ({ isTourCompleted, onTourCompleted }: GuidedTourProps) => {
   const handleJoyrideCallback = useCallback(
     (data: CallBackProps) => {
       const { status } = data;
       const finishedStatuses = ["finished", "skipped"];
       if (finishedStatuses.includes(status)) {
-        onTourCompleted();
+        completeTour();
       }
     },
-    [onTourCompleted],
+    [completeTour],
   );
 
   return (

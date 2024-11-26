@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { Question } from "../../src/components/QuestionItem";
+import { Question, StorageName } from "../../src/stores";
 
 export class AppPage {
   readonly page: Page;
@@ -18,28 +18,46 @@ export class AppPage {
     await this.page.goto(url);
   }
 
-  async setLocalStorageData<T>(key: string, value: T) {
+  async setLocalStorageData<T>(
+    storageName: StorageName,
+    key: string,
+    value: T,
+  ) {
+    let state: Record<string, T> | null =
+      await this.getLocalStorageData(storageName);
+    if (!state) {
+      state = {};
+    }
+    state[key] = value;
     await this.page.evaluate(
-      ([key, value]) => {
-        localStorage.setItem(key as string, JSON.stringify(value));
+      ({ storageName, state }) => {
+        localStorage.setItem(storageName, JSON.stringify({ state }));
       },
-      [key, value],
+      { storageName, state }, // Pass variables to browser context
     );
   }
 
-  async getLocalStorageData<T>(key: string): Promise<T | null> {
-    return await this.page.evaluate((key) => {
-      const item = localStorage.getItem(key);
-      if (!item) {
-        return null;
-      }
-      try {
-        return JSON.parse(item) as T;
-      } catch {
-        // content is not JSON
-        return item as T;
-      }
-    }, key);
+  async getLocalStorageData<T>(
+    storageName: StorageName,
+    key?: string,
+  ): Promise<T | null> {
+    return await this.page.evaluate(
+      ({ storageName, key }) => {
+        const item = localStorage.getItem(storageName);
+        if (!item) {
+          return null;
+        }
+        const state = (
+          JSON.parse(item) as Record<"state", Record<string, T> | T>
+        ).state;
+        if (key) {
+          return (state as Record<string, T>)[key];
+        } else {
+          return state as T;
+        }
+      },
+      { storageName, key }, // Pass variables to browser context
+    );
   }
 
   reload(options?: Parameters<Page["reload"]>[0]): ReturnType<Page["reload"]> {
@@ -47,11 +65,21 @@ export class AppPage {
   }
 
   async getQuestions(): Promise<Question[]> {
-    return (await this.getLocalStorageData<Question[]>("questions")) ?? [];
+    return (
+      (await this.getLocalStorageData<Question[]>(
+        StorageName.QUESTIONS,
+        "questions",
+      )) ?? []
+    );
   }
 
   async isTourCompleted(): Promise<boolean> {
-    return (await this.getLocalStorageData<boolean>("tourCompleted")) === true;
+    return (
+      (await this.getLocalStorageData<boolean>(
+        StorageName.ONBOARDING,
+        "tourCompleted",
+      )) === true
+    );
   }
 
   async expectTourCompleted(isTourCompleted: boolean): Promise<void> {
@@ -62,6 +90,7 @@ export class AppPage {
 
   async setTourCompleted(isTourCompleted: boolean): Promise<void> {
     return await this.setLocalStorageData<boolean>(
+      StorageName.ONBOARDING,
       "tourCompleted",
       isTourCompleted,
     );
@@ -83,13 +112,22 @@ export class AppPage {
       },
       { id: "last-question-id", text: "", answered: false, highlighted: false },
     ];
-    await this.setLocalStorageData("questions", questions);
+    await this.setLocalStorageData(
+      StorageName.QUESTIONS,
+      "questions",
+      questions,
+    );
     await this.reload();
     return questions;
   }
 
   async getQrCodeUrl(): Promise<string> {
-    return (await this.getLocalStorageData<string>("qrCodeURL")) ?? "";
+    return (
+      (await this.getLocalStorageData<string>(
+        StorageName.QR_CODE,
+        "qrCodeUrl",
+      )) ?? ""
+    );
   }
 
   async openHelp(withShortcut: boolean): Promise<void> {
