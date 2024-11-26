@@ -42,7 +42,7 @@ export const steps: Step[] = [
   {
     target: '[data-testid="qr-code"]',
     content:
-      "Hover over the QR code area at the top right, click it, and enter the URL it should point to.",
+      "Hover over the QR code area at the top right, then click it, and enter the URL it should point to.",
     placement: "left",
   },
   {
