@@ -3,8 +3,6 @@ import { Header } from "./Header.tsx";
 import { MainContent } from "./MainContent.tsx";
 import { Footer } from "./Footer.tsx";
 
-import { FullScreenQrCode } from "../qr/FullScreenQrCode.tsx";
-
 const MainLayout: FC = () => (
   <div
     className={`flex h-screen w-screen flex-col p-4`}
@@ -13,7 +11,6 @@ const MainLayout: FC = () => (
     <Header />
     <MainContent />
     <Footer />
-    <FullScreenQrCode />
   </div>
 );
 

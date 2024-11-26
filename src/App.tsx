@@ -23,6 +23,7 @@ import { migrateLocalStorage } from "./migration.ts";
 import { Help } from "./components/help/Help.tsx";
 import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
+import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 
 const App: React.FC = () => {
   migrateLocalStorage();
@@ -145,6 +146,7 @@ const App: React.FC = () => {
         onCancel={() => setShowClearModal(false)}
         isOpen={showClearModal}
       />
+      <FullScreenQrCode />
       <Help />
       <PWABadge />
       <GuidedTour />
