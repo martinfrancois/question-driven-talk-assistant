@@ -9,8 +9,6 @@ import {
   generateMarkdownContent,
   saveFile,
 } from "./save-questions.ts";
-import HelpIcon from "./components/HelpIcon.tsx";
-import { HelpModal } from "./components/HelpModal.tsx";
 import GuidedTour from "./components/GuidedTour.tsx";
 import {
   useClearQuestions,
@@ -24,6 +22,7 @@ import {
   useToggleDarkMode,
 } from "./stores";
 import { migrateLocalStorage } from "./migration.ts";
+import { Help } from "./components/help/Help.tsx";
 
 const App: React.FC = () => {
   migrateLocalStorage();
@@ -40,7 +39,6 @@ const App: React.FC = () => {
 
   const [key, setKey] = useState(0); // Key to force re-render on font size change
   const [showClearModal, setShowClearModal] = useState<boolean>(false);
-  const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
 
   useEffect(() => {
     // TODO is there a better way to do this?
@@ -128,14 +126,6 @@ const App: React.FC = () => {
     saveToFile,
   ]);
 
-  // Add hotkey to show help
-  useHotkeys(
-    "ctrl+h",
-    () => setShowHelpModal(true),
-    { enableOnFormTags: true },
-    [setShowHelpModal],
-  );
-
   return (
     <div
       key={key}
@@ -155,11 +145,7 @@ const App: React.FC = () => {
         onCancel={() => setShowClearModal(false)}
         isOpen={showClearModal}
       />
-      <HelpIcon onClick={() => setShowHelpModal(true)} />
-      <HelpModal
-        isOpen={showHelpModal}
-        onClose={() => setShowHelpModal(false)}
-      />
+      <Help />
       <PWABadge />
       <GuidedTour />
     </div>

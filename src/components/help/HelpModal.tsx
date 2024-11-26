@@ -7,9 +7,9 @@ import {
   DialogHeader,
 } from "@material-tailwind/react";
 import { useRegisterSW } from "virtual:pwa-register/react";
-import { SelectableTextFocusLock } from "./SelectableTextFocusLock.tsx";
+import { SelectableTextFocusLock } from "../SelectableTextFocusLock.tsx";
 import { About } from "./About.tsx";
-import { useRestartTour } from "../stores";
+import { useRestartTour } from "../../stores";
 
 function Kbd(props: { children: React.ReactNode }) {
   return (

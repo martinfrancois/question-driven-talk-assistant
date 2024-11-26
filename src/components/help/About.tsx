@@ -1,4 +1,4 @@
-import { ExternalLink } from "./ExternalLink.tsx";
+import { ExternalLink } from "../ExternalLink.tsx";
 import { Button } from "@material-tailwind/react";
 
 export function About(props: {
