@@ -14,7 +14,7 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-blue-500 hover:underline"
+      className="font-medium text-blue-500 hover:underline"
     >
       {children}
     </a>
