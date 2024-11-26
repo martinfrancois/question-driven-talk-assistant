@@ -13,9 +13,9 @@ import {
   rectSortingStrategy,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import QuestionItem from "./QuestionItem";
+import QuestionItem from "./QuestionItem.tsx";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
-import { useQuestions, useSetQuestions } from "../stores";
+import { useQuestions, useSetQuestions } from "../../stores";
 
 const QuestionList: FC = () => {
   const questions = useQuestions();

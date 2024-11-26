@@ -1,5 +1,6 @@
-import QuestionList from "./QuestionList.tsx";
-import QrCodeComponent from "./QrCodeComponent.tsx";
+import QuestionList from "../questions/QuestionList.tsx";
+
+import QrCodeComponent from "../qr/QrCodeComponent.tsx";
 
 export function MainContent() {
   return (
