@@ -18,10 +18,16 @@ export const steps: Step[] = [
     target: "textarea:first-of-type",
     content:
       "Click on the text of the first question, then press Enter to add a new question below.",
+    styles: {
+      options: { overlayColor: "rgba(0, 0, 0, 0.2)" },
+    },
   },
   {
     target: 'input[type="checkbox"]:first-of-type',
     content: "Click the checkbox to highlight the question you're answering.",
+    styles: {
+      options: { overlayColor: "rgba(0, 0, 0, 0.2)" },
+    },
   },
   {
     target: 'input[type="checkbox"]:first-of-type',
