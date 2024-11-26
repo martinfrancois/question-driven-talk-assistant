@@ -8,6 +8,18 @@ export class AppPage {
   constructor(page: Page) {
     this.page = page;
     this.helpIcon = page.getByTestId("help-icon");
+
+    // fail the test immediately when a warning or error is logged to the console
+    page.on("console", (message) => {
+      if (
+        (message.type() === "error" || message.type() === "warning") &&
+        !message // TODO remove when react-joyride stopped using InstallTrigger on Firefox
+          .text()
+          .startsWith('[JavaScript Warning: "InstallTrigger is deprecated')
+      ) {
+        throw new Error(message.text());
+      }
+    });
   }
 
   async goto(disableTour = true) {
