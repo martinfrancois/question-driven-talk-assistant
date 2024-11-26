@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 import { GuidedTourPage } from "./pageobjects/GuidedTourPage.ts";
-import { steps } from "../src/components/guided-tour-steps.ts";
+import { steps } from "../src/components/onboarding/guided-tour-steps.ts";
 
 test.describe("GuidedTour e2e tests", () => {
   let guidedTourPage: GuidedTourPage;

@@ -14,7 +14,7 @@ import {
   useQuestions,
   useRemoveQuestion,
   useUpdateQuestionText,
-} from "../stores";
+} from "../../stores";
 
 interface QuestionItemProps {
   question: Question;

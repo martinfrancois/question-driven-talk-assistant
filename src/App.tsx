@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import MainLayout from "./components/MainLayout";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import Modal from "./components/Modal.tsx";
@@ -9,7 +8,6 @@ import {
   generateMarkdownContent,
   saveFile,
 } from "./save-questions.ts";
-import GuidedTour from "./components/GuidedTour.tsx";
 import {
   useClearQuestions,
   useDarkMode,
@@ -23,6 +21,8 @@ import {
 } from "./stores";
 import { migrateLocalStorage } from "./migration.ts";
 import { Help } from "./components/help/Help.tsx";
+import GuidedTour from "./components/onboarding/GuidedTour.tsx";
+import MainLayout from "./components/layout/MainLayout.tsx";
 
 const App: React.FC = () => {
   migrateLocalStorage();

@@ -1,8 +1,8 @@
 import React from "react";
 import { render } from "vitest-browser-react";
 import { describe, it, expect, beforeEach } from "vitest";
-import QuestionItem from "./QuestionItem";
-import { Question, useQuestions, useSetQuestions } from "../stores";
+import QuestionItem from "./QuestionItem.tsx";
+import { Question, useQuestions, useSetQuestions } from "../../stores";
 
 describe("QuestionItem Component with Zustand", () => {
   let initialQuestions: Question[];

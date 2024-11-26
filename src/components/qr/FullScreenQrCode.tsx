@@ -1,7 +1,7 @@
-import { QRCodeSVG } from "qrcode.react";
+import { useQrCodeUrl } from "../../stores";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useQrCodeUrl } from "../stores";
+import { QRCodeSVG } from "qrcode.react";
 
 export function FullScreenQrCode() {
   const qrCodeUrl = useQrCodeUrl();
@@ -12,12 +12,12 @@ export function FullScreenQrCode() {
     "ctrl+q",
     () => setShowFullScreenQr((prev) => !prev),
     { enableOnFormTags: true },
-    [setShowFullScreenQr],
+    [setShowFullScreenQr]
   );
 
   const hideFullScreenQrCode = useCallback(
     () => setShowFullScreenQr(false),
-    [setShowFullScreenQr],
+    [setShowFullScreenQr]
   );
 
   if (!(showFullScreenQr && qrCodeUrl)) {

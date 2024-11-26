@@ -1,11 +1,11 @@
 import React, { FC, useRef } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import {
   useQrCodeSize,
   useQrCodeUrl,
   useSetQrCodeSize,
-  useSetQrCodeUrl,
-} from "../stores";
+  useSetQrCodeUrl
+} from "../../stores";
+import { QRCodeSVG } from "qrcode.react";
 
 const QrCodeComponent: FC = () => {
   const qrCodeUrl = useQrCodeUrl();
@@ -16,12 +16,12 @@ const QrCodeComponent: FC = () => {
   const isResizing = useRef(false); // Tracks if resizing is in progress
   const preventClick = useRef(false); // Temporarily prevents click after resize
   const resizeDirection = useRef<"bottom-right" | "bottom-left">(
-    "bottom-right",
+    "bottom-right"
   ); // Tracks the resize handle direction
 
   const handleResizeStart = (
     e: React.PointerEvent,
-    direction: "bottom-right" | "bottom-left",
+    direction: "bottom-right" | "bottom-left"
   ) => {
     e.preventDefault();
     e.stopPropagation(); // Prevent the click from propagating
