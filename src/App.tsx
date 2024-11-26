@@ -139,7 +139,9 @@ const App: React.FC = () => {
   return (
     <div
       key={key}
-      className={`${isDarkMode ? "dark" : ""}`}
+      className={`${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+      } ${isDarkMode ? "dark" : "light"}`}
       style={{ fontSize: `${fontSize}px` }}
     >
       <MainLayout />
