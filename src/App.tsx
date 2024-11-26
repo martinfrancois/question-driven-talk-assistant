@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
-import Modal from "./components/Modal.tsx";
 import screenfull from "screenfull";
 import {
   generateFileName,
@@ -9,7 +8,6 @@ import {
   saveFile,
 } from "./save-questions.ts";
 import {
-  useClearQuestions,
   useDarkMode,
   useDecreaseFontSize,
   useFontSize,
@@ -24,6 +22,7 @@ import { Help } from "./components/help/Help.tsx";
 import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
 import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
+import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 
 const App: React.FC = () => {
   migrateLocalStorage();
@@ -36,10 +35,8 @@ const App: React.FC = () => {
   const title = useTitle();
   const footer = useFooter();
   const questions = useQuestions();
-  const clearQuestions = useClearQuestions();
 
   const [key, setKey] = useState(0); // Key to force re-render on font size change
-  const [showClearModal, setShowClearModal] = useState<boolean>(false);
 
   useEffect(() => {
     // TODO is there a better way to do this?
@@ -99,12 +96,6 @@ const App: React.FC = () => {
   useHotkeys("ctrl+m", () => decreaseFontSize(), { enableOnFormTags: true }, [
     decreaseFontSize,
   ]);
-  useHotkeys(
-    "ctrl+shift+backspace",
-    () => setShowClearModal(true),
-    { enableOnFormTags: true },
-    [setShowClearModal],
-  );
   useHotkeys("ctrl+d", () => toggleDarkMode(), { enableOnFormTags: true }, [
     toggleDarkMode,
   ]);
@@ -136,16 +127,7 @@ const App: React.FC = () => {
       style={{ fontSize: `${fontSize}px` }}
     >
       <MainLayout />
-      <Modal
-        title="Confirm Clear"
-        message="Are you sure you want to clear the list?"
-        onConfirm={() => {
-          clearQuestions();
-          setShowClearModal(false);
-        }}
-        onCancel={() => setShowClearModal(false)}
-        isOpen={showClearModal}
-      />
+      <ClearQuestionsModal />
       <FullScreenQrCode />
       <Help />
       <PWABadge />
