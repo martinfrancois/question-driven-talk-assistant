@@ -79,7 +79,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             id="help-dialog-title"
             className="text-gray-950 pl-9 dark:text-gray-50"
           >
-            Help
+            <h2>Help</h2>
           </DialogHeader>
           <DialogBody
             id="help-dialog-description"
@@ -119,16 +119,16 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
               {/* Sidebar on the bottom for smaller screens */}
-              <div className="border-t pl-4 pr-4 pt-4 lg:hidden">
+              <aside className="border-t pl-4 pr-4 pt-4 lg:hidden">
                 <About
                   newVersionAvailable={needRefresh}
                   updateVersion={handleUpdate}
                   onRestartTour={onRestartTourAndClose}
                 />
-              </div>
+              </aside>
             </div>
             {/* Sidebar on the right for larger screens */}
-            <div className="hidden w-64 flex-shrink-0 flex-col border-l pl-4 lg:flex">
+            <aside className="hidden w-64 flex-shrink-0 flex-col border-l pl-4 lg:flex">
               <div className="flex h-full flex-col justify-between">
                 <About
                   newVersionAvailable={needRefresh}
@@ -136,7 +136,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                   onRestartTour={onRestartTourAndClose}
                 />
               </div>
-            </div>
+            </aside>
           </DialogBody>
           <DialogFooter>
             <Button
