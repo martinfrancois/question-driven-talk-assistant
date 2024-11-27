@@ -7,7 +7,7 @@ export function About(props: {
   onRestartTour: () => void;
 }) {
   return (
-    <div className="font-normal">
+    <div className="text-gray-950 font-normal dark:text-gray-50">
       <p className="text-sm">
         Made with ❤️ by{" "}
         <ExternalLink href="https://www.fmartin.ch">

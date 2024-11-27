@@ -8,7 +8,6 @@ import {
   saveFile,
 } from "./save-questions.ts";
 import {
-  useDarkMode,
   useDecreaseFontSize,
   useFontSize,
   useFooter,
@@ -23,11 +22,11 @@ import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
 import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
+import { useDarkModeClassName } from "./components/dark-mode-classnames.ts";
 
 const App: React.FC = () => {
   migrateLocalStorage();
 
-  const isDarkMode = useDarkMode();
   const toggleDarkMode = useToggleDarkMode();
   const fontSize = useFontSize();
   const increaseFontSize = useIncreaseFontSize();
@@ -35,6 +34,8 @@ const App: React.FC = () => {
   const title = useTitle();
   const footer = useFooter();
   const questions = useQuestions();
+
+  const darkModeClassName = useDarkModeClassName();
 
   const [key, setKey] = useState(0); // Key to force re-render on font size change
 
@@ -121,9 +122,7 @@ const App: React.FC = () => {
   return (
     <div
       key={key}
-      className={`${
-        isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"
-      } ${isDarkMode ? "dark" : "light"}`}
+      className={`${darkModeClassName} bg-white text-black dark:bg-gray-900 dark:text-white`}
       style={{ fontSize: `${fontSize}px` }}
     >
       <MainLayout />

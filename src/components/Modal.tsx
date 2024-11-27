@@ -7,6 +7,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { SelectableTextFocusLock } from "./SelectableTextFocusLock.tsx";
+import { useDarkModeClassName } from "./dark-mode-classnames.ts";
 
 interface ModalProps {
   title: string;
@@ -23,6 +24,8 @@ const Modal: FC<ModalProps> = ({
   onCancel,
   isOpen,
 }) => {
+  const darkModeClassName = useDarkModeClassName();
+
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -38,20 +41,20 @@ const Modal: FC<ModalProps> = ({
       size="md"
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
-      className="max-w-md border border-gray-300 bg-white text-black shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+      className={`${darkModeClassName} text-gray-950 max-w-md border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50`}
     >
       {isOpen && (
         <SelectableTextFocusLock>
           <DialogHeader
             id="modal-title"
-            className="text-xl font-bold text-black dark:text-white"
+            className="text-gray-950 text-xl font-bold dark:text-gray-50"
           >
             {title}
           </DialogHeader>
           <DialogBody
             id="modal-description"
             divider
-            className="text-lg font-normal leading-relaxed text-gray-800 dark:text-gray-200"
+            className="text-gray-950 text-lg font-normal leading-relaxed dark:text-gray-50"
           >
             {message}
           </DialogBody>
