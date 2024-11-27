@@ -12,19 +12,19 @@ export function Header() {
   }, [setTitle, title]);
 
   return (
-    <div className="flex flex-shrink-0 items-center">
+    <header className="flex flex-shrink-0 items-center">
       <div className="flex-grow">
-        <div
+        <h1
           onClick={editTitle}
           className="cursor-pointer text-3xl font-semibold"
           data-testid="main-header"
         >
           {title}
-        </div>
+        </h1>
       </div>
       <div className="pr-2 text-right">
         <TimeDisplay />
       </div>
-    </div>
+    </header>
   );
 }

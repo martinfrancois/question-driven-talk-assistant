@@ -11,12 +11,12 @@ export function Footer() {
   }, [footer, setFooter]);
 
   return (
-    <div
+    <footer
       onClick={editFooter}
       className="flex-shrink-0 cursor-pointer p-2 text-center text-xl"
       data-testid="main-footer"
     >
       {footer}
-    </div>
+    </footer>
   );
 }
