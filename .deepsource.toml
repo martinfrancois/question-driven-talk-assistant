@@ -1,0 +1,22 @@
+version = 1
+
+test_patterns = [
+  "e2e/**",
+  "**/*.spec.*"
+]
+
+exclude_patterns = ["/dist/**"]
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  plugins = ["react"]
+  environment = [
+    "nodejs",
+    "browser",
+    "vitest"
+  ]
+
+[[transformers]]
+name = "prettier"
