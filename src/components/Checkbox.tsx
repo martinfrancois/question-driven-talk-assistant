@@ -22,7 +22,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const iconContainerClasses = `h-5 w-5 flex items-center justify-center rounded-md border transition-colors bg-clip-padding ${
       checked
         ? "bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500"
-        : "bg-white border-gray-400 dark:bg-gray-700 dark:border-gray-600"
+        : "bg-white border-gray-400 dark:bg-gray-800 dark:border-gray-500"
     } ${
       disabled
         ? "bg-gray-200 border-gray-300 dark:bg-gray-800 dark:border-gray-700"
