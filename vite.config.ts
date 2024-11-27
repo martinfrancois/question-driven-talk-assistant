@@ -17,7 +17,7 @@ export default defineConfig({
 
       manifest: {
         name: "Question-Driven Talk Assistant",
-        short_name: "TalkAssistant",
+        short_name: "Talk Assistant",
         description:
           "Web app to use in conference talks focused on answering questions from the audience.",
         theme_color: "#ffffff",
