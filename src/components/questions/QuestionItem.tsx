@@ -336,7 +336,6 @@ const QuestionItem: FC<QuestionItemProps> = ({
       />
       <textarea
         ref={textareaRef}
-        spellCheck={false}
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 ${
           question.answered ? "line-through" : ""
         }`}
@@ -351,6 +350,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
         onBlur={() => setIsFocused(false)}
         onKeyDown={handleKeyPress}
         rows={1}
+        spellCheck={false}
+        data-gramm="false"
+        data-gramm_editor="false"
+        data-enable-grammarly="false"
       />
     </div>
   );
