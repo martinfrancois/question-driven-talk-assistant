@@ -10,10 +10,13 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 import { SelectableTextFocusLock } from "../SelectableTextFocusLock.tsx";
 import { About } from "./About.tsx";
 import { useRestartTour } from "../../stores";
+import { useDarkModeClassName } from "../dark-mode-classnames.ts";
 
 function Kbd(props: { children: React.ReactNode }) {
   return (
-    <kbd className="rounded bg-gray-200 px-1.5 py-0.5">{props.children}</kbd>
+    <kbd className="rounded bg-gray-200 px-1.5 py-0.5 dark:bg-gray-800">
+      {props.children}
+    </kbd>
   );
 }
 
@@ -24,6 +27,8 @@ interface HelpModalProps {
 
 export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   const restartTour = useRestartTour();
+
+  const darkModeClassName = useDarkModeClassName();
 
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -61,7 +66,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
       size="xl"
       aria-labelledby="help-dialog-title"
       aria-describedby="help-dialog-description"
-      className="max-w-4xl"
+      className={`${darkModeClassName} text-gray-950 max-w-4xl bg-white dark:bg-gray-800 dark:text-gray-50`}
       dismiss={{
         enabled: true,
         outsidePress: true,
@@ -70,7 +75,10 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     >
       {isOpen && (
         <SelectableTextFocusLock>
-          <DialogHeader id="help-dialog-title" className="pl-9">
+          <DialogHeader
+            id="help-dialog-title"
+            className="text-gray-950 pl-9 dark:text-gray-50"
+          >
             Help
           </DialogHeader>
           <DialogBody
@@ -78,13 +86,13 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             className="flex max-h-[70vh] overflow-y-auto pb-0 pt-0"
           >
             <div className="flex flex-1 flex-col pr-2">
-              <div className="scrollbar-minimal overflow-y-auto p-3">
+              <div className="modal scrollbar-minimal overflow-y-auto p-3">
                 <div className="font-normal" tabIndex={0}>
                   <table className="w-full text-left">
                     <caption className="sr-only">
                       Keyboard Shortcuts and Descriptions
                     </caption>
-                    <thead>
+                    <thead className="text-gray-950 dark:text-gray-50">
                       <tr>
                         <th
                           scope="col"
@@ -150,8 +158,11 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
 function TableHeader(props: { children: React.ReactNode }) {
   return (
-    <tr className="bg-gray-100">
-      <th colSpan={2} className="border-b px-2 py-2 text-lg font-bold">
+    <tr className="bg-gray-100 dark:bg-gray-700">
+      <th
+        colSpan={2}
+        className="text-gray-950 border-b px-2 py-2 text-lg font-bold dark:text-gray-50"
+      >
         {props.children}
       </th>
     </tr>
@@ -159,7 +170,11 @@ function TableHeader(props: { children: React.ReactNode }) {
 }
 
 function TableCell(props: { children: React.ReactNode }) {
-  return <td className="border-b px-2 py-2">{props.children}</td>;
+  return (
+    <td className="text-gray-950 border-b px-2 py-2 dark:text-gray-50">
+      {props.children}
+    </td>
+  );
 }
 
 function Features() {
