@@ -1,6 +1,6 @@
 # Question-Driven Talk Assistant
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_shield)
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_shield)
 
 A web application designed to help speakers manage audience questions during live sessions.
 Easily add, highlight, and track questions, with intuitive keyboard shortcuts and a clean interface optimized for both light and dark themes.
@@ -23,7 +23,7 @@ Supported Browsers: Chrome, Firefox
 - **Offline Support**: Once the page is loaded, you don't need an internet connection anymore to use it.
 - **Local Data Persistence**: Everything on the page is saved to your browser's local storage, so you don't have to worry if you need to refresh!
 - **Seamless Font Resizing**: Resize the font size of the questions to ensure your audience from the back of the room can read them as well.
-- **Markdown Export**: Save your list of questions to a Markdown file by pressing Ctrl + S. 
+- **Markdown Export**: Save your list of questions to a Markdown file by pressing Ctrl + S.
 - **Help Window:** Quickly access a reference of all keyboard shortcuts and features by clicking the help icon in the bottom right corner or by pressing Ctrl + H.
 
 ### How to Use
@@ -157,6 +157,5 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ### License
 
 This project is licensed under the AGPL License.
-
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_large)

@@ -12,4 +12,4 @@ If you discover security issues in third-party modules that this project depends
 
 ## Learning More About Security
 
-To learn more about securing applications, consider reviewing the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) and other resources provided by the [Open Web Application Security Project (OWASP)](https://owasp.org/). 
+To learn more about securing applications, consider reviewing the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) and other resources provided by the [Open Web Application Security Project (OWASP)](https://owasp.org/).
