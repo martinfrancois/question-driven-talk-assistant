@@ -365,13 +365,13 @@ const QuestionItem: FC<QuestionItemProps> = ({
       <Checkbox
         checked={question.answered}
         onChange={() => clickCheckbox(question.id)}
-        className="pr-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        className="text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
         aria-label={checkboxState}
       />
       <textarea
         id={`question-text-${question.id}`}
         ref={textareaRef}
-        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 ${
+        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pl-2 pr-2 ${
           question.answered ? "line-through" : ""
         }`}
         data-highlighted={question.highlighted}
