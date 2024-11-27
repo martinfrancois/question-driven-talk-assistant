@@ -1,8 +1,7 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Checkbox } from "@material-tailwind/react";
 import {
   createEmptyQuestion,
   Question,
@@ -15,6 +14,7 @@ import {
   useRemoveQuestion,
   useUpdateQuestionText,
 } from "../../stores";
+import Checkbox from "../Checkbox.tsx";
 
 interface QuestionItemProps {
   question: Question;
@@ -22,6 +22,20 @@ interface QuestionItemProps {
     Record<string, React.RefObject<HTMLTextAreaElement>>
   >;
   textareaRef: React.RefObject<HTMLTextAreaElement>;
+}
+
+function getCheckboxState(question: Question): string {
+  const { answered, highlighted } = question;
+
+  if (answered) {
+    return "Answered question";
+  }
+
+  if (highlighted) {
+    return "Currently answering question";
+  }
+
+  return "Unanswered question";
 }
 
 const QuestionItem: FC<QuestionItemProps> = ({
@@ -74,17 +88,30 @@ const QuestionItem: FC<QuestionItemProps> = ({
   }, [question.text, adjustHeight]);
 
   const [isFocused, setIsFocused] = useState(false);
+  const [liveMessage, setLiveMessage] = useState("");
 
+  /**
+   * Announces messages to assistive technologies via ARIA live regions.
+   * @param {string} message - The message to announce.
+   */
+  const announceLiveRegion = (message: string) => {
+    setLiveMessage(message);
+    // Clear the message after it's announced
+    setTimeout(() => setLiveMessage(""), 100);
+  };
+
+  // Handle keyboard shortcuts for moving questions
   useHotkeys(
     "ctrl+shift+up",
     () => {
       const currentIndex = questions.findIndex((q) => q.id === question.id);
       if (currentIndex > 0) {
         moveQuestionUp(currentIndex);
+        announceLiveRegion(`Moved question "${question.text}" up.`);
       }
     },
     { enableOnFormTags: true, enabled: isFocused },
-    [questions, question.id, moveQuestionUp, isFocused],
+    [questions, question.id, moveQuestionUp, isFocused, question.text],
   );
 
   useHotkeys(
@@ -93,12 +120,17 @@ const QuestionItem: FC<QuestionItemProps> = ({
       const currentIndex = questions.findIndex((q) => q.id === question.id);
       if (currentIndex < questions.length - 1) {
         moveQuestionDown(currentIndex);
+        announceLiveRegion(`Moved question "${question.text}" down.`);
       }
     },
     { enableOnFormTags: true, enabled: isFocused },
-    [questions, question.id, moveQuestionDown, isFocused],
+    [questions, question.id, moveQuestionDown, isFocused, question.text],
   );
 
+  /**
+   * Handles keypress events within the textarea to manage custom behaviors.
+   * @param {React.KeyboardEvent} e - The keyboard event.
+   */
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (!textareaRef?.current) return;
 
@@ -141,6 +173,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             if (newFirstRef?.current) {
               newFirstRef.current.focus();
               newFirstRef.current.setSelectionRange(0, 0);
+              announceLiveRegion(`First question was deleted.`); // TODO not read out?
             }
           } else {
             // Delete current question and focus previous question
@@ -152,6 +185,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 prevRef.current.focus();
                 const position = prevRef.current.value.length;
                 prevRef.current.setSelectionRange(position, position);
+                announceLiveRegion(`Deleted question.`); // TODO not read out?
               }
             }, 0);
           }
@@ -181,6 +215,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       ) {
         const newQuestion = createEmptyQuestion();
         insertQuestion(currentIndex + 1, newQuestion);
+        announceLiveRegion(`Added a new question below and focused it.`);
         setTimeout(() => {
           const newRef = questionRefs.current[newQuestion.id];
           if (newRef?.current) {
@@ -271,13 +306,9 @@ const QuestionItem: FC<QuestionItemProps> = ({
         // Last textarea
         if (question.text.trim() !== "") {
           // Text is not empty, add new question
-          const newQuestion = {
-            id: Date.now().toString(),
-            text: "",
-            answered: false,
-            highlighted: false,
-          };
+          const newQuestion = createEmptyQuestion();
           addQuestion(newQuestion);
+          announceLiveRegion(`Added a new question below and focused it.`);
           setTimeout(() => {
             const newRef = questionRefs.current[newQuestion.id];
             if (newRef?.current) {
@@ -310,31 +341,35 @@ const QuestionItem: FC<QuestionItemProps> = ({
     // Shift+Enter is not handled here to allow default behavior (line break)
   };
 
+  const checkboxState = useMemo(() => getCheckboxState(question), [question]);
+
   return (
     <div
+      role="listitem"
       style={style}
-      className={`flex items-center space-y-1.5 pt-0 ${bgColor}`}
+      className={`flex items-center space-x-2 p-2 ${bgColor}`}
       data-testid={`question-item-${question.id}`}
     >
-      <div
+      <button
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className="cursor-grab text-2xl opacity-0 transition-opacity hover:text-gray-500 hover:opacity-100"
+        className="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-gray-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
+        aria-hidden={true} // using the keyboard shortcuts is a better user experience with assistive technologies
       >
         &#9776;
-      </div>
+      </button>
       <Checkbox
         checked={question.answered}
-        color={"blue-gray"}
         onChange={() => clickCheckbox(question.id)}
-        ripple={false}
-        className="p-0 text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        className="pr-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        aria-label={checkboxState}
       />
       <textarea
+        id={`question-text-${question.id}`}
         ref={textareaRef}
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 ${
           question.answered ? "line-through" : ""
@@ -355,6 +390,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
         data-gramm_editor="false"
         data-enable-grammarly="false"
       />
+      {/* ARIA Live Region for Announcements */}
+      <div aria-live="polite" className="sr-only">
+        {liveMessage}
+      </div>
     </div>
   );
 };
