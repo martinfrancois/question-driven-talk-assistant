@@ -12,12 +12,12 @@ export function FullScreenQrCode() {
     "ctrl+q",
     () => setShowFullScreenQr((prev) => !prev),
     { enableOnFormTags: true },
-    [setShowFullScreenQr]
+    [setShowFullScreenQr],
   );
 
   const hideFullScreenQrCode = useCallback(
     () => setShowFullScreenQr(false),
-    [setShowFullScreenQr]
+    [setShowFullScreenQr],
   );
 
   if (!(showFullScreenQr && qrCodeUrl)) {
