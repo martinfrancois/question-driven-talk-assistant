@@ -3,7 +3,7 @@ import {
   useQrCodeSize,
   useQrCodeUrl,
   useSetQrCodeSize,
-  useSetQrCodeUrl
+  useSetQrCodeUrl,
 } from "../../stores";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -16,12 +16,12 @@ const QrCodeComponent: FC = () => {
   const isResizing = useRef(false); // Tracks if resizing is in progress
   const preventClick = useRef(false); // Temporarily prevents click after resize
   const resizeDirection = useRef<"bottom-right" | "bottom-left">(
-    "bottom-right"
+    "bottom-right",
   ); // Tracks the resize handle direction
 
   const handleResizeStart = (
     e: React.PointerEvent,
-    direction: "bottom-right" | "bottom-left"
+    direction: "bottom-right" | "bottom-left",
   ) => {
     e.preventDefault();
     e.stopPropagation(); // Prevent the click from propagating
@@ -72,7 +72,13 @@ const QrCodeComponent: FC = () => {
 
   return (
     <div
+      role="button"
       onClick={handleClick}
+      aria-label={
+        qrCodeUrl
+          ? "QR Code. Click to change the URL"
+          : "No QR Code set. Click to enter a URL"
+      }
       className="group relative cursor-pointer"
       data-testid="qr-code"
     >
@@ -80,6 +86,7 @@ const QrCodeComponent: FC = () => {
         className={`rounded-md border border-white !bg-white p-2 ${
           qrCodeUrl ? "" : "invisible group-hover:visible"
         }`}
+        role="presentation"
       >
         {qrCodeUrl ? (
           <QRCodeSVG
@@ -95,15 +102,19 @@ const QrCodeComponent: FC = () => {
       </div>
       {qrCodeUrl && (
         <>
-          <div
-            className="absolute bottom-0 right-0 h-4 w-4 cursor-se-resize"
+          <button
             onPointerDown={(e) => handleResizeStart(e, "bottom-right")}
+            aria-label="Resize QR code from bottom-right"
+            className="absolute bottom-0 right-0 h-4 w-4 cursor-se-resize focus:outline-none"
             data-testid="qr-code-resize-bottom-right"
+            aria-hidden={true} // can't be resized with assistive technologies
           />
-          <div
-            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize"
+          <button
             onPointerDown={(e) => handleResizeStart(e, "bottom-left")}
+            aria-label="Resize QR code from bottom-left"
+            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize focus:outline-none"
             data-testid="qr-code-resize-bottom-left"
+            aria-hidden={true} // can't be resized with assistive technologies
           />
         </>
       )}

@@ -52,7 +52,7 @@ const QuestionList: FC = () => {
         items={questions.map((q) => q.id)}
         strategy={rectSortingStrategy}
       >
-        <div className="space-y-2">
+        <div className="space-y-2" role="list">
           {questions.map((question) => {
             // Create a ref for each question if it doesn't exist
             if (!questionRefs.current[question.id]) {

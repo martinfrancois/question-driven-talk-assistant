@@ -36,6 +36,7 @@ const TimeDisplay: FC = () => {
       onClick={toggleTimeFormat}
       className="cursor-pointer text-center text-sm opacity-70 hover:opacity-100"
       data-testid="time-display"
+      aria-label={"Time: " + time}
     >
       {time}
     </div>
