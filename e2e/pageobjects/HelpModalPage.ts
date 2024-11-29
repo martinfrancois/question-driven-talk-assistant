@@ -9,7 +9,7 @@ export class HelpModalPage extends AppPage {
   constructor(page: Page) {
     super(page);
     this.modal = page.getByTestId("help-modal");
-    this.closeButton = page.getByTestId("help-modal-close");
+    this.closeButton = page.getByTestId("modal-close");
     this.restartTourButton = page
       .getByTestId("restart-tour")
       .locator("visible=true");

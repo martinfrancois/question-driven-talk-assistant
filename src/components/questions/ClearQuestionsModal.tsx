@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal.tsx";
+import Modal from "../ui/Modal.tsx";
 import { useClearQuestions } from "../../stores";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -19,6 +19,7 @@ export function ClearQuestionsModal() {
     <Modal
       title="Confirm Clear"
       message="Are you sure you want to clear the list?"
+      confirmText="Clear"
       onConfirm={() => {
         clearQuestions();
         setShowClearModal(false);

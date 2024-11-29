@@ -95,7 +95,7 @@ const QrCodeComponent: FC = () => {
             data-testid="qr-code-svg"
           />
         ) : (
-          <div className="text-gray-400" data-testid="qr-code-placeholder">
+          <div className="text-neutral-400" data-testid="qr-code-placeholder">
             QR
           </div>
         )}

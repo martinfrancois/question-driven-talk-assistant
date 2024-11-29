@@ -22,7 +22,7 @@ import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
 import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
-import { useDarkModeClassName } from "./components/dark-mode-classnames.ts";
+import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
 const App: React.FC = () => {
   migrateLocalStorage();
@@ -122,7 +122,7 @@ const App: React.FC = () => {
   return (
     <div
       key={key}
-      className={`${darkModeClassName} bg-white text-black dark:bg-gray-900 dark:text-white`}
+      className={`${darkModeClassName} bg-white text-black dark:bg-neutral-900 dark:text-white`}
       style={{ fontSize: `${fontSize}px` }}
     >
       <MainLayout />

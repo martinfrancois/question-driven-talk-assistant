@@ -15,7 +15,9 @@ export class QuestionItemPage extends AppPage {
     } else {
       this.questionItem = page.getByTestId(`question-item-${questionId}`);
     }
-    this.checkbox = this.questionItem.locator('input[type="checkbox"]');
+    this.checkbox = this.questionItem.locator(
+      '[data-testid^="question-checkbox-"]',
+    );
     this.textarea = this.questionItem.locator("textarea");
     this.reorderButton = this.questionItem.getByTestId("reorder-button");
   }

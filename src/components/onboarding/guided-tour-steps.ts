@@ -23,14 +23,14 @@ export const steps: Step[] = [
     },
   },
   {
-    target: 'input[type="checkbox"]:first-of-type',
+    target: '[data-testid^="question-checkbox-"]',
     content: "Click the checkbox to highlight the question you're answering.",
     styles: {
       options: { overlayColor: "rgba(0, 0, 0, 0.2)" },
     },
   },
   {
-    target: 'input[type="checkbox"]:first-of-type',
+    target: '[data-testid^="question-checkbox"]',
     content: "Click the checkbox again to mark the question as answered.",
   },
   {

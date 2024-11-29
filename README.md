@@ -136,7 +136,7 @@ Supported Browsers: Chrome, Firefox
   - `src/components`: Contains all React components like `MainLayout`, `QuestionList`, `QuestionItem`, etc.
   - `src/App.tsx`: Main application file.
 - **Styling**:
-  - Uses Tailwind CSS and material-tailwind for styling. Classes are applied directly in the JSX.
+  - Uses Tailwind CSS and shadcn/ui for styling. Classes are applied directly in the JSX.
 - **State Management**:
   - Utilizes React's `useState` and `useEffect` hooks for state and lifecycle management.
 - **Keyboard Shortcuts**:

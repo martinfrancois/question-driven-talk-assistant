@@ -22,7 +22,6 @@ export default [
     ignores: [
       "**/dist",
       "**/eslint.config.js",
-      "**/eslint.config.js",
       "**/postcss.config.js",
       "**/tailwind.config.js",
     ],
@@ -66,6 +65,12 @@ export default [
           allowConstantExport: true,
         },
       ],
+    },
+  },
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {
+      "react/prop-types": "off", // Disable prop-types rule for TypeScript files
     },
   },
   eslintConfigPrettier,
