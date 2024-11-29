@@ -22,7 +22,12 @@
     "types": [
       "@vitest/browser/providers/playwright",
       "@types/wicg-file-system-access"
-    ]
+    ],
+    // shadcn
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src", "e2e", "playwright.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
