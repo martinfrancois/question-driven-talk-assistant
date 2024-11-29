@@ -56,3 +56,9 @@ body {
     --tw-scrollbar-track: theme("colors.gray.800") !important; /* Black track */
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}

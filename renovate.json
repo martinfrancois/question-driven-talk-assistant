@@ -11,44 +11,37 @@
     },
     {
       "groupName": "dnd-kit",
-      "matchPackageNames": [
-        "@dnd-kit**"
-      ]
+      "matchPackageNames": ["@dnd-kit**"]
     },
     {
       "groupName": "vite",
-      "matchPackageNames": [
-        "vite**",
-        "@vite**",
-        "**vite-plugin**",
-        "@vite**"
-      ]
+      "matchPackageNames": ["vite**", "@vite**", "**vite-plugin**", "@vite**"]
     },
     {
       "groupName": "workbox",
-      "matchPackageNames": [
-        "workbox**"
-      ]
+      "matchPackageNames": ["workbox**"]
     },
     {
       "groupName": "prettier",
-      "matchPackageNames": [
-        "prettier**"
-      ]
+      "matchPackageNames": ["prettier**"]
     },
     {
       "groupName": "playwright",
-      "matchPackageNames": [
-        "playwright**",
-        "@playwright**"
-      ]
+      "matchPackageNames": ["playwright**", "@playwright**"]
     },
     {
       "groupName": "tailwind",
+      "matchPackageNames": ["**tailwind**", "autoprefixer", "postcss"]
+    },
+    {
+      "groupName": "shadcn",
       "matchPackageNames": [
-        "**tailwind**",
-        "autoprefixer",
-        "postcss"
+        "@radix-ui/**",
+        "class-variance-authority",
+        "clsx",
+        "lucide-react",
+        "tailwind-merge",
+        "tailwindcss-animate"
       ]
     }
   ]
