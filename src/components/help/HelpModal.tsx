@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import {
-  Button,
   Dialog,
-  DialogBody,
-  DialogFooter,
+  DialogContent,
+  DialogDescription,
   DialogHeader,
-} from "@material-tailwind/react";
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useRegisterSW } from "virtual:pwa-register/react";
-import { SelectableTextFocusLock } from "../SelectableTextFocusLock.tsx";
-import { About } from "./About.tsx";
+import { SelectableTextFocusLock } from "../ui/SelectableTextFocusLock.tsx";
+import { About } from "./About";
 import { useRestartTour } from "../../stores";
-import { useDarkModeClassName } from "../dark-mode-classnames.ts";
+import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
 
 function Kbd(props: { children: React.ReactNode }) {
   return (
-    <kbd className="rounded bg-gray-200 px-1.5 py-0.5 dark:bg-gray-800">
+    <kbd className="rounded bg-neutral-200 px-1.5 py-0.5 dark:bg-neutral-700">
       {props.children}
     </kbd>
   );
@@ -32,7 +32,6 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Allow updating in case the update dialog was closed
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
@@ -59,40 +58,31 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   }, [restartTour, onClose]);
 
   return (
-    <Dialog
-      open={isOpen}
-      data-testid="help-modal"
-      handler={onClose}
-      size="xl"
-      aria-labelledby="help-dialog-title"
-      aria-describedby="help-dialog-description"
-      className={`${darkModeClassName} text-gray-950 max-w-4xl bg-white dark:bg-gray-800 dark:text-gray-50`}
-      dismiss={{
-        enabled: true,
-        outsidePress: true,
-        escapeKey: true,
-      }}
-    >
-      {isOpen && (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent
+        data-testid="help-modal"
+        className={`${darkModeClassName} max-w-5xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
+      >
         <SelectableTextFocusLock>
-          <DialogHeader
-            id="help-dialog-title"
-            className="text-gray-950 pl-9 dark:text-gray-50"
-          >
-            <h2>Help</h2>
+          <DialogHeader>
+            <DialogTitle className="pl-4 text-2xl font-semibold text-neutral-950 dark:text-neutral-50">
+              Help
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Help dialog containing information about shortcuts, features,{" "}
+              {needRefresh ? "a button to upgrade to the latest version, " : ""}
+              and a button to restart the guided tour.
+            </DialogDescription>
           </DialogHeader>
-          <DialogBody
-            id="help-dialog-description"
-            className="flex max-h-[70vh] overflow-y-auto pb-0 pt-0"
-          >
+          <div className="flex max-h-[70vh] overflow-y-auto pb-0 pt-0">
             <div className="flex flex-1 flex-col pr-2">
-              <div className="modal scrollbar-minimal overflow-y-auto p-3">
+              <div className="modal scrollbar-minimal overflow-y-auto p-2">
                 <div className="font-normal" tabIndex={0}>
                   <table className="w-full text-left">
                     <caption className="sr-only">
                       Keyboard Shortcuts and Descriptions
                     </caption>
-                    <thead className="text-gray-950 dark:text-gray-50">
+                    <thead className="text-neutral-950 dark:text-neutral-50">
                       <tr>
                         <th
                           scope="col"
@@ -128,7 +118,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               </aside>
             </div>
             {/* Sidebar on the right for larger screens */}
-            <aside className="hidden w-64 flex-shrink-0 flex-col border-l pl-4 lg:flex">
+            <aside className="w-65 hidden flex-shrink-0 flex-col border-l pl-4 lg:flex">
               <div className="flex h-full flex-col justify-between">
                 <About
                   newVersionAvailable={needRefresh}
@@ -137,31 +127,19 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
             </aside>
-          </DialogBody>
-          <DialogFooter>
-            <Button
-              variant="text"
-              color="gray"
-              data-testid="help-modal-close"
-              onClick={onClose}
-              ref={closeButtonRef}
-              className="bg-gray-200 text-black hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-            >
-              Close
-            </Button>
-          </DialogFooter>
+          </div>
         </SelectableTextFocusLock>
-      )}
+      </DialogContent>
     </Dialog>
   );
 };
 
 function TableHeader(props: { children: React.ReactNode }) {
   return (
-    <tr className="bg-gray-100 dark:bg-gray-700">
+    <tr className="bg-neutral-100 dark:bg-neutral-800">
       <th
         colSpan={2}
-        className="text-gray-950 border-b px-2 py-2 text-lg font-bold dark:text-gray-50"
+        className="text-md border-b px-2 py-2 font-semibold text-neutral-950 dark:text-neutral-50"
       >
         {props.children}
       </th>
@@ -171,7 +149,7 @@ function TableHeader(props: { children: React.ReactNode }) {
 
 function TableCell(props: { children: React.ReactNode }) {
   return (
-    <td className="text-gray-950 border-b px-2 py-2 dark:text-gray-50">
+    <td className="border-b px-2 py-2 text-neutral-950 dark:text-neutral-50">
       {props.children}
     </td>
   );
@@ -187,7 +165,7 @@ function Features() {
         </TableCell>
         <TableCell>
           Increase font size{" "}
-          <span className="text-sm text-gray-500">(P for Plus)</span>
+          <span className="text-sm text-neutral-500">(P for Plus)</span>
         </TableCell>
       </tr>
       <tr>
@@ -196,7 +174,7 @@ function Features() {
         </TableCell>
         <TableCell>
           Decrease font size{" "}
-          <span className="text-sm text-gray-500">(M for Minus)</span>
+          <span className="text-sm text-neutral-500">(M for Minus)</span>
         </TableCell>
       </tr>
       <tr>

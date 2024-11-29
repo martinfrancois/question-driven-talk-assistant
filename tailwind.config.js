@@ -1,7 +1,5 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
-
 /** @type {import('tailwindcss').Config} */
-module.exports = withMT({
+export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -15,4 +13,4 @@ module.exports = withMT({
   },
   plugins: [require("tailwind-scrollbar"), require("tailwindcss-animate")],
   darkMode: ["selector"],
-});
+};

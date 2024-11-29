@@ -18,7 +18,6 @@
     "@dnd-kit/core": "6.2.0",
     "@dnd-kit/modifiers": "8.0.0",
     "@dnd-kit/sortable": "9.0.0",
-    "@material-tailwind/react": "2.1.10",
     "@radix-ui/react-alert-dialog": "1.1.2",
     "@radix-ui/react-checkbox": "1.1.2",
     "@radix-ui/react-dialog": "1.1.2",

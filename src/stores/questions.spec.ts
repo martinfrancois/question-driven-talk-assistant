@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call -- act is recognized as `any` which is incorrect */
 import { beforeEach, describe, expect, it, vi, test } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import {

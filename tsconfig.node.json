@@ -9,10 +9,13 @@
     // shadcn
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "setup-vitest.ts", "pwa-assets.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "vitest.config.ts",
+    "setup-vitest.ts",
+    "pwa-assets.config.ts"
+  ]
 }

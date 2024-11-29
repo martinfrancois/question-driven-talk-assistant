@@ -14,7 +14,7 @@ import {
   useRemoveQuestion,
   useUpdateQuestionText,
 } from "../../stores";
-import Checkbox from "../Checkbox.tsx";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 interface QuestionItemProps {
   question: Question;
@@ -69,11 +69,9 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
   const baseClasses =
     "border-b outline-none focus:border-blue-500 transition-colors w-full resize-none";
-  const textColor = question.highlighted
-    ? "text-black"
-    : "text-black dark:text-white";
+  const textColor = "text-black dark:text-white";
   const bgColor = question.highlighted
-    ? "bg-gray-200 dark:bg-gray-700 rounded-lg"
+    ? "bg-neutral-200 dark:bg-neutral-600 rounded-lg"
     : "bg-transparent";
 
   const adjustHeight = useCallback(() => {
@@ -354,7 +352,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-gray-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
@@ -364,9 +362,9 @@ const QuestionItem: FC<QuestionItemProps> = ({
       </button>
       <Checkbox
         checked={question.answered}
-        onChange={() => clickCheckbox(question.id)}
-        className="text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        onClick={() => clickCheckbox(question.id)}
         aria-label={checkboxState}
+        data-testid={`question-checkbox-${question.id}`}
       />
       <textarea
         id={`question-text-${question.id}`}

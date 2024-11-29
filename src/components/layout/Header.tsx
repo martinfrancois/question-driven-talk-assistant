@@ -1,6 +1,6 @@
 import { useSetTitle, useTitle } from "../../stores";
 import { useCallback } from "react";
-import TimeDisplay from "../TimeDisplay.tsx";
+import TimeDisplay from "./TimeDisplay.tsx";
 
 export function Header() {
   const title = useTitle();

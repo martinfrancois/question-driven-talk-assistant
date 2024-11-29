@@ -1,5 +1,6 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
-import { Alert, Button } from "@material-tailwind/react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 
 function InfoIcon() {
   return (
@@ -53,26 +54,30 @@ function PWABadge() {
       className="fixed bottom-4 right-4 z-50"
     >
       {needRefresh && (
-        <Alert
-          icon={<InfoIcon />}
-          className="flex items-center dark:bg-gray-800 dark:text-white"
-          action={
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                color="blue"
-                onClick={() => void updateServiceWorker(true)}
-                variant="text"
-              >
-                Reload
-              </Button>
-              <Button size="sm" color="blue" onClick={close} variant="text">
-                Close
-              </Button>
+        <Alert className="flex items-center justify-between border-neutral-300 bg-black p-4 text-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+          <div className="flex items-center space-x-4 pr-6">
+            <InfoIcon />
+            <div>
+              <AlertTitle className="text-sm font-bold">
+                New version available
+              </AlertTitle>
+              <AlertDescription>Click reload to update.</AlertDescription>
             </div>
-          }
-        >
-          New version available. Click reload to update.
+          </div>
+          <div className="flex space-x-3">
+            <Button
+              variant="confirmSafe"
+              onClick={() => void updateServiceWorker(true)}
+            >
+              Reload
+            </Button>
+            <Button
+              onClick={close}
+              className="border-neutral-500 bg-neutral-200 text-neutral-900 hover:bg-white"
+            >
+              Close
+            </Button>
+          </div>
         </Alert>
       )}
     </div>

@@ -47,13 +47,15 @@ body {
 
   /* Dark mode colors: black track, dark gray thumb */
   .dark .scrollbar-minimal {
-    --tw-scrollbar-track: theme("colors.gray.900"); /* Black track */
+    --tw-scrollbar-track: theme("colors.neutral.900"); /* Black track */
     --tw-scrollbar-thumb: #555; /* Dark gray thumb */
   }
 
   /* Dark mode colors for modals: black track */
   .dark .scrollbar-minimal.modal {
-    --tw-scrollbar-track: theme("colors.gray.800") !important; /* Black track */
+    --tw-scrollbar-track: theme(
+      "colors.neutral.800"
+    ) !important; /* Black track */
   }
 }
 
