@@ -63,7 +63,7 @@
     "typescript": "5.7.2",
     "uuid": "11.0.3",
     "vite": "5.4.11",
-    "vite-plugin-pwa": "0.21.0",
+    "vite-plugin-pwa": "0.21.1",
     "vitest": "2.1.6",
     "vitest-browser-react": "0.0.4",
     "workbox-core": "7.3.0",
