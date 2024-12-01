@@ -25,17 +25,21 @@ interface QuestionItemProps {
 }
 
 function getCheckboxState(question: Question): string {
-  const { answered, highlighted } = question;
+  const { answered, highlighted, text } = question;
+
+  const constructMessage = (action: string, text: string | null): string => {
+    return text ? `${action} question: ${text}` : `${action} empty question`;
+  };
 
   if (answered) {
-    return "Answered question";
+    return constructMessage("Answered", text);
   }
 
   if (highlighted) {
-    return "Currently answering question";
+    return constructMessage("Currently answering", text);
   }
 
-  return "Unanswered question";
+  return text ? `Question: ${text}` : "Empty Question";
 }
 
 const QuestionItem: FC<QuestionItemProps> = ({
@@ -373,6 +377,11 @@ const QuestionItem: FC<QuestionItemProps> = ({
           question.answered ? "line-through" : ""
         }`}
         data-highlighted={question.highlighted}
+        aria-label={
+          question.text
+            ? `Question text: ${question.text}`
+            : "Empty Question Text"
+        }
         value={question.text}
         onChange={(e) => {
           const newText = e.target.value;
