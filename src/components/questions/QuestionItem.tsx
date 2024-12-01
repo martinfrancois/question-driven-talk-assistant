@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  FC,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -85,6 +92,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
     }
   }, [textareaRef]);
 
+  const clickCheckboxHandler = useCallback<
+    MouseEventHandler<HTMLButtonElement>
+  >(() => clickCheckbox(question.id), [clickCheckbox, question.id]);
+
   useEffect(() => {
     adjustHeight();
   }, [question.text, adjustHeight]);
@@ -127,6 +138,13 @@ const QuestionItem: FC<QuestionItemProps> = ({
     },
     { enableOnFormTags: true, enabled: isFocused },
     [questions, question.id, moveQuestionDown, isFocused, question.text],
+  );
+
+  useHotkeys(
+    "ctrl+enter",
+    () => clickCheckbox(question.id),
+    { enableOnFormTags: true, enabled: isFocused },
+    [clickCheckbox, question.id],
   );
 
   /**
@@ -366,7 +384,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       </button>
       <Checkbox
         checked={question.answered}
-        onClick={() => clickCheckbox(question.id)}
+        onClick={clickCheckboxHandler}
         aria-label={checkboxState}
         data-testid={`question-checkbox-${question.id}`}
       />
@@ -376,7 +394,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pl-2 pr-2 ${
           question.answered ? "line-through" : ""
         }`}
-        aria-keyshortcuts="ctrl+shift+up arrow to move question up or ctrl+shift+down arrow to move down"
+        aria-keyshortcuts="ctrl+shift+up arrow to move question up, ctrl+shift+down arrow to move down, ctrl+enter to click checkbox"
         data-highlighted={question.highlighted}
         aria-label={
           question.text

@@ -61,7 +61,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
         data-testid="help-modal"
-        className={`${darkModeClassName} max-w-5xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
+        className={`${darkModeClassName} max-w-6xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
       >
         <SelectableTextFocusLock>
           <DialogHeader>
@@ -226,6 +226,14 @@ function ManagingQuestions() {
           <Kbd>Shift</Kbd> + <Kbd>Enter</Kbd>
         </TableCell>
         <TableCell>Add a new line within a question</TableCell>
+      </tr>
+      <tr>
+        <TableCell>
+          <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd>
+        </TableCell>
+        <TableCell>
+          Clicks the checkbox of the currently focused question text
+        </TableCell>
       </tr>
       <tr>
         <TableCell>

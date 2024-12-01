@@ -63,6 +63,7 @@ Supported Browsers: Chrome, Firefox
   - `Arrow Down`: Move cursor down within a question (if the question has multiple lines of text) or to the next question.
 - **Question Management**:
   - `Shift + Enter`: Add a new line to a question.
+  - `Ctrl + Enter`: Clicks the corresponding checkbox of the currently focused question text.
   - `Enter`: Add a new question below the current one.
   - `Backspace` on empty question: Delete the current question.
   - `Ctrl + Shift + Backspace`: Clear all questions upon confirming a dialog.
