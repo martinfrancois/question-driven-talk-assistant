@@ -76,8 +76,7 @@ const QrCodeComponent: FC = () => {
   ]);
 
   return (
-    <div
-      role="button"
+    <button
       onClick={handleClick}
       aria-label={
         qrCodeUrl
@@ -125,7 +124,7 @@ const QrCodeComponent: FC = () => {
           />
         </>
       )}
-    </div>
+    </button>
   );
 };
 
