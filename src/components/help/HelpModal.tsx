@@ -219,6 +219,12 @@ function Features() {
         </TableCell>
         <TableCell>Edit footer text</TableCell>
       </tr>
+      <tr>
+        <TableCell>
+          <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Q</Kbd>
+        </TableCell>
+        <TableCell>Edit QR code URL</TableCell>
+      </tr>
     </>
   );
 }
