@@ -47,39 +47,46 @@ function PWABadge() {
     setNeedRefresh(false);
   }
 
+  if (!needRefresh) {
+    return null;
+  }
+
   return (
     <div
       role="alert"
       aria-labelledby="toast-message"
+      aria-describedby="toast-description"
       className="fixed bottom-4 right-4 z-50"
     >
-      {needRefresh && (
-        <Alert className="flex items-center justify-between border-neutral-300 bg-black p-4 text-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
-          <div className="flex items-center space-x-4 pr-6">
-            <InfoIcon />
-            <div>
-              <AlertTitle className="text-sm font-bold">
-                New version available
-              </AlertTitle>
-              <AlertDescription>Click reload to update.</AlertDescription>
-            </div>
+      <Alert className="flex items-center justify-between border-neutral-300 bg-black p-4 text-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+        <div className="flex items-center space-x-4 pr-6">
+          <InfoIcon aria-hidden="true" />
+          <div id="toast-message">
+            <AlertTitle className="text-sm font-bold">
+              New version available
+            </AlertTitle>
+            <AlertDescription>
+              Click &apos;Update&apos; to get the latest improvements.
+            </AlertDescription>
           </div>
-          <div className="flex space-x-3">
-            <Button
-              variant="confirmSafe"
-              onClick={() => void updateServiceWorker(true)}
-            >
-              Reload
-            </Button>
-            <Button
-              onClick={close}
-              className="border-neutral-500 bg-neutral-200 text-neutral-900 hover:bg-white"
-            >
-              Close
-            </Button>
-          </div>
-        </Alert>
-      )}
+        </div>
+        <div className="flex space-x-3">
+          <Button
+            variant="confirmSafe"
+            onClick={() => void updateServiceWorker(true)}
+            aria-label="Update to the new version"
+          >
+            Update
+          </Button>
+          <Button
+            onClick={close}
+            className="border-neutral-500 bg-neutral-200 text-neutral-900 hover:bg-white"
+            aria-label="Close the update notification"
+          >
+            Close
+          </Button>
+        </div>
+      </Alert>
     </div>
   );
 }
