@@ -393,7 +393,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       className={`flex items-center space-x-2 p-2 ${bgColor}`}
       data-testid={`question-item-${question.id}`}
     >
-      <button
+      <span
         ref={setNodeRef}
         {...attributes}
         {...listeners}
@@ -402,9 +402,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
         aria-hidden={true} // using the keyboard shortcuts is a better user experience with assistive technologies
+        tabIndex={-1}
       >
         &#9776;
-      </button>
+      </span>
       <Checkbox
         checked={question.answered}
         onClick={clickCheckboxHandler}
