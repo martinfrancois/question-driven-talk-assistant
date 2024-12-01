@@ -29,9 +29,17 @@ export function FullScreenQrCode() {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
       onClick={hideFullScreenQrCode}
       data-testid="fullscreen-qr-code"
+      aria-modal
+      aria-label={"Full Screen QR Code"}
+      aria-keyshortcuts="Control+q to hide full screen qr code"
+      role="dialog"
     >
-      <div className="rounded-lg !bg-white p-8">
-        <QRCodeSVG value={qrCodeUrl} size={window.innerHeight * 0.7} />
+      <div className="rounded-lg !bg-white p-8" aria-hidden>
+        <QRCodeSVG
+          aria-hidden
+          value={qrCodeUrl}
+          size={window.innerHeight * 0.7}
+        />
       </div>
     </div>
   );
