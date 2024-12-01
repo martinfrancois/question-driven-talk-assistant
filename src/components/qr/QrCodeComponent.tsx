@@ -80,6 +80,7 @@ const QrCodeComponent: FC = () => {
           : "No QR Code set. Click to enter a URL"
       }
       className="group relative cursor-pointer"
+      aria-keyshortcuts="ctrl+q to show the qr code full screen"
       data-testid="qr-code"
     >
       <div
