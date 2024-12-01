@@ -29,6 +29,7 @@ interface QuestionItemProps {
     Record<string, React.RefObject<HTMLTextAreaElement>>
   >;
   textareaRef: React.RefObject<HTMLTextAreaElement>;
+  index: number;
 }
 
 function getCheckboxState(question: Question): string {
@@ -53,6 +54,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
   question,
   questionRefs,
   textareaRef,
+  index,
 }) => {
   const questions = useQuestions();
   const moveQuestionUp = useMoveQuestionUp();
@@ -363,6 +365,10 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
   const checkboxState = useMemo(() => getCheckboxState(question), [question]);
 
+  const textareaId = useMemo(() => {
+    return "question-text-" + index;
+  }, [index]);
+
   return (
     <div
       role="listitem"
@@ -389,7 +395,6 @@ const QuestionItem: FC<QuestionItemProps> = ({
         data-testid={`question-checkbox-${question.id}`}
       />
       <textarea
-        id={`question-text-${question.id}`}
         ref={textareaRef}
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pl-2 pr-2 ${
           question.answered ? "line-through" : ""
@@ -402,6 +407,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             : "Empty Question Text"
         }
         value={question.text}
+        id={textareaId}
         onChange={(e) => {
           const newText = e.target.value;
           updateQuestionText(question.id, newText);

@@ -53,7 +53,7 @@ const QuestionList: FC = () => {
         strategy={rectSortingStrategy}
       >
         <div className="space-y-0" role="list">
-          {questions.map((question) => {
+          {questions.map((question, index) => {
             // Create a ref for each question if it doesn't exist
             if (!questionRefs.current[question.id]) {
               questionRefs.current[question.id] =
@@ -65,6 +65,7 @@ const QuestionList: FC = () => {
                 question={question}
                 questionRefs={questionRefs}
                 textareaRef={questionRefs.current[question.id]}
+                index={index}
               />
             );
           })}
