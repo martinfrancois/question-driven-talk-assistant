@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 export interface SkipLinkProps {
   text?: string;
   href?: string;
+  shortcut?: string;
 }
 
 /**
@@ -22,14 +23,22 @@ export interface SkipLinkProps {
  * @param {string} [href=#main-content] - Where the link should lead to when
  *                                        pressing enter, usually prefixed with
  *                                        {@code #} to jump to an {@code id}.
+ * @param {string} [shortcut] - A keyboard shortcut to activate the skip link,
+ *                              specified in the format accepted by the
+ *                              `aria-keyshortcuts` attribute (e.g.,
+ *                              "Control+Alt+S"). This allows assistive
+ *                              technologies to inform users about available
+ *                              keyboard shortcuts.
  */
 export const SkipLink = ({
   text = "Skip to content",
   href = "#main-content",
+  shortcut,
 }: SkipLinkProps): ReactElement => (
   <a
     href={href}
     className={`focus:outline-secondary text-md fixed left-2 top-2 z-[1010] -translate-y-20 rounded-lg bg-neutral-100 p-1 text-neutral-800 outline-none transition-transform duration-200 ease-in-out focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 dark:bg-neutral-800 dark:text-neutral-100 print:hidden`}
+    aria-keyshortcuts={shortcut}
   >
     {text}
   </a>

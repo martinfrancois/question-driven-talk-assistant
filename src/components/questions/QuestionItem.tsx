@@ -369,6 +369,23 @@ const QuestionItem: FC<QuestionItemProps> = ({
     return "question-text-" + index;
   }, [index]);
 
+  useHotkeys(
+    "ctrl+shift+e",
+    () => {
+      const textarea = textareaRef?.current;
+      if (index === 0 && textarea) {
+        textarea.focus();
+        // move cursor to the end
+        textarea.setSelectionRange(
+          textarea.value.length,
+          textarea.value.length,
+        );
+      }
+    },
+    { enableOnFormTags: true },
+    [questions, question.id, moveQuestionDown, isFocused, question.text],
+  );
+
   return (
     <div
       role="listitem"
@@ -399,7 +416,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pl-2 pr-2 ${
           question.answered ? "line-through" : ""
         }`}
-        aria-keyshortcuts="ctrl+shift+up arrow to move question up, ctrl+shift+down arrow to move down, ctrl+enter to click checkbox"
+        aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
         data-highlighted={question.highlighted}
         aria-label={
           question.text
