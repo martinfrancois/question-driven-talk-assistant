@@ -18,6 +18,7 @@ export function Header() {
           onClick={editTitle}
           className="cursor-pointer text-3xl font-semibold"
           data-testid="main-header"
+          aria-label={"Title text: " + (title ?? "empty")}
         >
           {title}
         </h1>

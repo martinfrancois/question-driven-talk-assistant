@@ -15,6 +15,7 @@ export function Footer() {
       onClick={editFooter}
       className="flex-shrink-0 cursor-pointer p-2 text-center text-xl"
       data-testid="main-footer"
+      aria-label={"Footer text: " + (footer ?? "empty")}
     >
       {footer}
     </footer>
