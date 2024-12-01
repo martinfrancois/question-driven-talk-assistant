@@ -4,7 +4,10 @@ import QrCodeComponent from "../qr/QrCodeComponent.tsx";
 
 export function MainContent() {
   return (
-    <div className="mt-4 flex flex-1 overflow-hidden">
+    <div
+      className="mt-4 flex flex-1 overflow-hidden"
+      aria-keyshortcuts="Control+f to make website full screen"
+    >
       <main className="scrollbar-minimal max-h-full flex-grow overflow-y-auto pr-2">
         <QuestionList />
       </main>
