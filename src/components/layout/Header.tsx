@@ -22,9 +22,7 @@ export function Header() {
           {title}
         </h1>
       </div>
-      <div className="pr-2 text-right">
-        <TimeDisplay />
-      </div>
+      <TimeDisplay />
     </header>
   );
 }

@@ -32,14 +32,14 @@ const TimeDisplay: FC = () => {
   }, [timeFormat24h, updateTime]);
 
   return (
-    <div
+    <button
       onClick={toggleTimeFormat}
-      className="cursor-pointer text-center text-sm opacity-70 hover:opacity-100"
+      className="cursor-pointer pr-2 text-right text-sm opacity-70 hover:opacity-100"
       data-testid="time-display"
       aria-label={"Time: " + time}
     >
       {time}
-    </div>
+    </button>
   );
 };
 
