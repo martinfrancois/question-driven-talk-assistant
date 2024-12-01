@@ -9,7 +9,7 @@ const MainLayout: FC = () => (
     className={`flex h-screen w-screen flex-col p-4`}
     data-testid="main-layout-container"
   >
-    <SkipLink href="#question-text-0" />
+    <SkipLink href="#question-text-0" shortcut="Control+Shift+E" />
     <Header />
     <MainContent />
     <Footer />

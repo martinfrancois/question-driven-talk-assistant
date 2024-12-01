@@ -225,6 +225,12 @@ function Features() {
         </TableCell>
         <TableCell>Edit QR code URL</TableCell>
       </tr>
+      <tr>
+        <TableCell>
+          <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>E</Kbd>
+        </TableCell>
+        <TableCell>Edit the first question&#39;s text</TableCell>
+      </tr>
     </>
   );
 }

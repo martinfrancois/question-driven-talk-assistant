@@ -40,6 +40,7 @@ describe("QuestionItem Component with Zustand", () => {
               question={question}
               questionRefs={questionRefs}
               textareaRef={textareaRef}
+              index={0}
             />
           );
         })}

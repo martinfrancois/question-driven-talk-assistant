@@ -81,6 +81,7 @@ Supported Browsers: Chrome, Firefox
   - `Ctrl + Shift + T`: Edit title text.
   - `Ctrl + Shift + F`: Edit footer text.
   - `Ctrl + Shift + Q`: Edit QR code URL.
+  - `Ctrl + Shift + E`: Edit the first question's text.
 - **Highlighting and Answering**:
   - Click checkbox once: Highlight the question.
   - Click highlighted checkbox: Mark question as answered.
