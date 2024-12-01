@@ -78,6 +78,8 @@ Supported Browsers: Chrome, Firefox
   - `Ctrl + F`: Show the web page in full-screen mode.
   - `Ctrl + S`: Save the current list of questions to a Markdown file.
   - `Ctrl + H`: Open the help pop-up window displaying keyboard shortcuts.
+  - `Ctrl + Shift + T`: Edit title text.
+  - `Ctrl + Shift + F`: Edit footer text.
 - **Highlighting and Answering**:
   - Click checkbox once: Highlight the question.
   - Click highlighted checkbox: Mark question as answered.

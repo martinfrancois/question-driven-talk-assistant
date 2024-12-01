@@ -207,6 +207,18 @@ function Features() {
         </TableCell>
         <TableCell>Show help (this pop-up window)</TableCell>
       </tr>
+      <tr>
+        <TableCell>
+          <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>T</Kbd>
+        </TableCell>
+        <TableCell>Edit title text</TableCell>
+      </tr>
+      <tr>
+        <TableCell>
+          <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>F</Kbd>
+        </TableCell>
+        <TableCell>Edit footer text</TableCell>
+      </tr>
     </>
   );
 }

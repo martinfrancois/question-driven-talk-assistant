@@ -1,6 +1,7 @@
 import { useSetTitle, useTitle } from "../../stores";
 import { useCallback } from "react";
 import TimeDisplay from "./TimeDisplay.tsx";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function Header() {
   const title = useTitle();
@@ -11,6 +12,10 @@ export function Header() {
     if (newTitle !== null) setTitle(newTitle);
   }, [setTitle, title]);
 
+  useHotkeys("ctrl+shift+t", editTitle, { enableOnFormTags: true }, [
+    editTitle,
+  ]);
+
   return (
     <header className="flex flex-shrink-0 items-center">
       <div className="flex-grow">
@@ -18,7 +23,11 @@ export function Header() {
           onClick={editTitle}
           className="cursor-pointer text-3xl font-semibold"
           data-testid="main-header"
-          aria-label={"Title text: " + (title ?? "empty")}
+          aria-label={
+            "Title text: " + (title ?? "empty") + ". Click to edit title."
+          }
+          tabIndex={0}
+          aria-keyshortcuts="Control+Shift+T to edit title text"
         >
           {title}
         </h1>
