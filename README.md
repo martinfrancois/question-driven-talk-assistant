@@ -97,26 +97,27 @@ Supported Browsers: Chrome, Firefox
 ### Steps to Run Locally
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/martinfrancois/question-driven-talk-assistant.git
    cd question-driven-talk-assistant
    ```
 
 2. **Install Dependencies**:
-   | Tool | Command         |
+   | Tool | Command |
    |------|-----------------|
-   | Bun  | `bun install`   |
-   | pnpm | `pnpm install`  |
-   | Yarn | `yarn install`  |
-   | npm  | `npm install`   |
+   | Bun | `bun install` |
+   | pnpm | `pnpm install` |
+   | Yarn | `yarn install` |
+   | npm | `npm install` |
 
 3. **Start Development Server**:
-   | Tool | Command      |
+   | Tool | Command |
    |------|--------------|
-   | Bun  | `bun dev`    |
-   | pnpm | `pnpm dev`   |
-   | Yarn | `yarn dev`   |
-   | npm  | `npm run dev`|
+   | Bun | `bun dev` |
+   | pnpm | `pnpm dev` |
+   | Yarn | `yarn dev` |
+   | npm | `npm run dev`|
 
 4. **Open the Application**:
    Open `http://localhost:5173/` in your browser.
@@ -124,7 +125,7 @@ Supported Browsers: Chrome, Firefox
 ### Available Scripts
 
 | Script                 | Bun             | pnpm             | Yarn             | npm                 |
-|------------------------|-----------------|------------------|------------------|---------------------|
+| ---------------------- | --------------- | ---------------- | ---------------- | ------------------- |
 | Install dependencies   | `bun install`   | `pnpm install`   | `yarn install`   | `npm install`       |
 | Run during development | `bun dev`       | `pnpm dev`       | `yarn dev`       | `npm run dev`       |
 | Build                  | `bun run build` | `pnpm build`     | `yarn build`     | `npm run build`     |
@@ -138,26 +139,26 @@ Supported Browsers: Chrome, Firefox
 ### Development Notes
 
 - **File Structure**:
-    - `src/components`: React components
-    - `src/components/ui`: Reusable React components
-    - `src/App.tsx`: Main application file
-    - `src/**/*.spec.ts(x)`: Unit tests
-    - `e2e`: Playwright end-to-end tests
+  - `src/components`: React components
+  - `src/components/ui`: Reusable React components
+  - `src/App.tsx`: Main application file
+  - `src/**/*.spec.ts(x)`: Unit tests
+  - `e2e`: Playwright end-to-end tests
 - **Styling**:
-    - `tailwind`
-    - `shadcn/ui`
+  - `tailwind`
+  - `shadcn/ui`
 - **State management**:
-    - `zustand`
+  - `zustand`
 - **Keyboard Shortcuts**:
-    - `react-hotkeys-hook`
+  - `react-hotkeys-hook`
 - **Code style**:
-    - `eslint`
-    - `prettier`
+  - `eslint`
+  - `prettier`
 - **Testing**:
-    - `vitest`
-    - `vitest-browser-react`
-    - `@testing-library/react`
-    - `playwright`
+  - `vitest`
+  - `vitest-browser-react`
+  - `@testing-library/react`
+  - `playwright`
 
 ### Contributing
 
