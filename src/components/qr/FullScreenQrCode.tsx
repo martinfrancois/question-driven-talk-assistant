@@ -1,4 +1,4 @@
-import { useQrCodeUrl } from "../../stores";
+import { useQrCodeUrl } from "@/stores";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { QRCodeSVG } from "qrcode.react";

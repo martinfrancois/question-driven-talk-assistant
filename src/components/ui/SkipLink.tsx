@@ -1,5 +1,3 @@
-import { ReactElement } from "react";
-
 export interface SkipLinkProps {
   text?: string;
   href?: string;
@@ -34,7 +32,7 @@ export const SkipLink = ({
   text = "Skip to content",
   href = "#main-content",
   shortcut,
-}: SkipLinkProps): ReactElement => (
+}: SkipLinkProps) => (
   <a
     href={href}
     className={`focus:outline-secondary text-md fixed left-2 top-2 z-[1010] -translate-y-20 rounded-lg bg-neutral-100 p-1 text-neutral-800 outline-none transition-transform duration-200 ease-in-out focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 dark:bg-neutral-800 dark:text-neutral-100 print:hidden`}

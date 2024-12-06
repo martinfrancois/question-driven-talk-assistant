@@ -1,4 +1,4 @@
-import { useFooter, useSetFooter } from "../../stores";
+import { useFooter, useSetFooter } from "@/stores";
 import { useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 

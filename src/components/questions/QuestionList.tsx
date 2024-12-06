@@ -15,7 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 import QuestionItem from "./QuestionItem.tsx";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
-import { useQuestions, useSetQuestions } from "../../stores";
+import { useQuestions, useSetQuestions } from "@/stores";
 
 const QuestionList: FC = () => {
   const questions = useQuestions();
@@ -39,7 +39,7 @@ const QuestionList: FC = () => {
 
   // Use a mapping from question ID to ref, creating refs only once
   const questionRefs = useRef<
-    Record<string, React.RefObject<HTMLTextAreaElement>>
+    Record<string, React.RefObject<HTMLTextAreaElement | null>>
   >({});
 
   return (

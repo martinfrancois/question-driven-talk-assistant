@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
 import { QuestionItemPage } from "./pageobjects/QuestionItemPage";
-import { Question } from "../src/stores";
+import { Question } from "@/stores";
 
 test.describe("QuestionList e2e tests", () => {
   let questionListPage: QuestionListPage;

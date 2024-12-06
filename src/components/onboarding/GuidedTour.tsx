@@ -1,4 +1,4 @@
-import { useCompleteTour, useTourCompleted } from "../../stores";
+import { useCompleteTour, useTourCompleted } from "@/stores";
 import { useCallback } from "react";
 import Joyride, { CallBackProps } from "react-joyride";
 import { steps } from "./guided-tour-steps.ts";

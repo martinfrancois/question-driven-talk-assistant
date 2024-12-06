@@ -1,5 +1,5 @@
 import { FC, useState, useEffect, useCallback } from "react";
-import { useTimeFormat24h, useToggleTimeFormat } from "../../stores";
+import { useTimeFormat24h, useToggleTimeFormat } from "@/stores";
 
 const TimeDisplay: FC = () => {
   const timeFormat24h = useTimeFormat24h();

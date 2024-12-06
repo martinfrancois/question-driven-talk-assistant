@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { QrCodeComponentPage } from "./pageobjects/QrCodeComponentPage";
-import { StorageName } from "../src/stores";
+import { StorageName } from "@/stores";
 
 test.describe("QrCodeComponent e2e tests", () => {
   let qrCodeComponentPage: QrCodeComponentPage;

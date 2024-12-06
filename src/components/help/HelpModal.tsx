@@ -9,7 +9,7 @@ import {
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { SelectableTextFocusLock } from "../ui/SelectableTextFocusLock.tsx";
 import { About } from "./About";
-import { useRestartTour } from "../../stores";
+import { useRestartTour } from "@/stores";
 import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
 
 function Kbd(props: { children: React.ReactNode }) {

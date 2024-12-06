@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "vitest-browser-react";
 import { describe, it, expect, beforeEach } from "vitest";
 import QuestionItem from "./QuestionItem.tsx";
-import { Question, useQuestions, useSetQuestions } from "../../stores";
+import { Question, useQuestions, useSetQuestions } from "@/stores";
 
 describe("QuestionItem Component with Zustand", () => {
   let initialQuestions: Question[];
@@ -19,7 +19,7 @@ describe("QuestionItem Component with Zustand", () => {
     const questions = useQuestions();
     const setQuestions = useSetQuestions();
     const questionRefs = React.useRef<
-      Record<string, React.RefObject<HTMLTextAreaElement>>
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
     >({});
 
     React.useEffect(() => {

@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { ModalPage } from "./pageobjects/ModalPage";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
 import { AppPage } from "./pageobjects/AppPage";
-import { Question } from "../src/stores";
+import { Question } from "@/stores";
 
 test.describe("Modal e2e tests", () => {
   let modalPage: ModalPage;

@@ -20,15 +20,15 @@ import {
   useQuestions,
   useRemoveQuestion,
   useUpdateQuestionText,
-} from "../../stores";
+} from "@/stores";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 interface QuestionItemProps {
   question: Question;
-  questionRefs: React.MutableRefObject<
-    Record<string, React.RefObject<HTMLTextAreaElement>>
+  questionRefs: React.RefObject<
+    Record<string, React.RefObject<HTMLTextAreaElement | null>>
   >;
-  textareaRef: React.RefObject<HTMLTextAreaElement>;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   index: number;
 }
 

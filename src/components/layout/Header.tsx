@@ -1,4 +1,4 @@
-import { useSetTitle, useTitle } from "../../stores";
+import { useSetTitle, useTitle } from "@/stores";
 import { useCallback } from "react";
 import TimeDisplay from "./TimeDisplay.tsx";
 import { useHotkeys } from "react-hotkeys-hook";

@@ -3,7 +3,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 interface HelpIconProps {
   onClick: () => void;
-  buttonRef?: React.RefObject<HTMLButtonElement>;
+  buttonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
 const HelpIcon: React.FC<HelpIconProps> = ({ onClick, buttonRef }) => (
