@@ -10,37 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: lts/*
+          bun-version: latest
       - name: Install dependencies
-        run: npm ci
-      - name: Run type checks
-        run: npx tsc -p tsconfig.json --noEmit
-      - name: Build frontend
-        run: npm run build
+        run: bun install --frozen-lockfile
+
       - name: Lint
-        run: npm run lint
+        run: bun lint
+      - name: Run type checks
+        run: bun x tsc -p tsconfig.json --noEmit
+
+      - name: Build frontend
+        run: bun run build
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
+        run: bun x playwright install --with-deps
       - name: Unit & Component Tests
-        run: npm run test:unit
-
+        run: bun run test:unit
       # Start the frontend server in the background
       - name: Start frontend server
         run: |
-          nohup npm run preview -- --port 5173 &
+          nohup bun run preview -- --port 5173 &
         shell: bash
-
       # Wait for the server to be ready
       - name: Wait for server to be ready
-        run: npx wait-on http://localhost:5173
-
+        run: bun x wait-on http://localhost:5173
       - name: Run Playwright tests
-        run: npm run test:e2e
-
+        run: bun run test:e2e
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

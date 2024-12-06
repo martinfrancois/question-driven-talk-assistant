@@ -91,69 +91,73 @@ Supported Browsers: Chrome, Firefox
 
 ### Prerequisites
 
-- **Node.js**: Ensure you have Node.js installed (version 14 or higher recommended).
-- **npm or yarn**: Package manager to install dependencies.
+- **Node.js** (14+ recommended)
+- **Package manager** of your choice (bun, pnpm, yarn, npm)
 
 ### Steps to Run Locally
 
 1. **Clone the Repository**:
-
    ```bash
    git clone https://github.com/martinfrancois/question-driven-talk-assistant.git
    cd question-driven-talk-assistant
    ```
 
 2. **Install Dependencies**:
+   | Tool | Command         |
+   |------|-----------------|
+   | Bun  | `bun install`   |
+   | pnpm | `pnpm install`  |
+   | Yarn | `yarn install`  |
+   | npm  | `npm install`   |
 
-   Using npm:
+3. **Start Development Server**:
+   | Tool | Command      |
+   |------|--------------|
+   | Bun  | `bun dev`    |
+   | pnpm | `pnpm dev`   |
+   | Yarn | `yarn dev`   |
+   | npm  | `npm run dev`|
 
-   ```bash
-   npm install
-   ```
+4. **Open the Application**:
+   Open `http://localhost:5173/` in your browser.
 
-   Or using yarn:
+### Available Scripts
 
-   ```bash
-   yarn install
-   ```
+| Script                 | Bun             | pnpm             | Yarn             | npm                 |
+|------------------------|-----------------|------------------|------------------|---------------------|
+| Install dependencies   | `bun install`   | `pnpm install`   | `yarn install`   | `npm install`       |
+| Run during development | `bun dev`       | `pnpm dev`       | `yarn dev`       | `npm run dev`       |
+| Build                  | `bun run build` | `pnpm build`     | `yarn build`     | `npm run build`     |
+| Run build locally      | `bun preview`   | `pnpm preview`   | `yarn preview`   | `npm run preview`   |
+| Lint                   | `bun lint`      | `pnpm lint`      | `yarn lint`      | `npm run lint`      |
+| Unit tests             | `bun test:unit` | `pnpm test:unit` | `yarn test:unit` | `npm run test:unit` |
+| End-to-end tests       | `bun test:e2e`  | `pnpm test:e2e`  | `yarn test:e2e`  | `npm run test:e2e`  |
 
-3. **Start the Development Server**:
-
-   Using npm:
-
-   ```bash
-   npm run dev
-   ```
-
-   Or using yarn:
-
-   ```bash
-   yarn run dev
-   ```
-
-4. **Access the Application**:
-
-   Open your browser and navigate to `http://localhost:5173/` to view the app.
+**Note**: Offline support is off during development.
 
 ### Development Notes
 
 - **File Structure**:
-  - `src/components`: Contains all React components like `MainLayout`, `QuestionList`, `QuestionItem`, etc.
-  - `src/App.tsx`: Main application file.
+    - `src/components`: React components
+    - `src/components/ui`: Reusable React components
+    - `src/App.tsx`: Main application file
+    - `src/**/*.spec.ts(x)`: Unit tests
+    - `e2e`: Playwright end-to-end tests
 - **Styling**:
-  - Uses Tailwind CSS and shadcn/ui for styling. Classes are applied directly in the JSX.
-- **State Management**:
-  - Utilizes React's `useState` and `useEffect` hooks for state and lifecycle management.
+    - `tailwind`
+    - `shadcn/ui`
+- **State management**:
+    - `zustand`
 - **Keyboard Shortcuts**:
-  - Implemented using the `react-hotkeys-hook` library.
-
-### Available Scripts
-
-In the project directory, you can run:
-
-- `npm run dev` or `yarn run dev`: Runs the app in development mode. **Note**: Offline support is not turned on during development!
-- `npm build` or `yarn build`: Builds the app for production to the `dist` folder.
-- `npm run preview` or `yarn run preview`: Runs the production build locally on http://localhost:4173/
+    - `react-hotkeys-hook`
+- **Code style**:
+    - `eslint`
+    - `prettier`
+- **Testing**:
+    - `vitest`
+    - `vitest-browser-react`
+    - `@testing-library/react`
+    - `playwright`
 
 ### Contributing
 
