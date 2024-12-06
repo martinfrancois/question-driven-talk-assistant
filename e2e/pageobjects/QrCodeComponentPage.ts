@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { AppPage } from "./AppPage";
 import { MainLayoutPage } from "./MainLayoutPage";
-import { StorageName } from "../../src/stores";
+import { StorageName } from "@/stores";
 
 export class QrCodeComponentPage extends AppPage {
   readonly qrCodeContainer: Locator; // outer container

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { AppPage } from "./pageobjects/AppPage";
-import { StorageName } from "../src/stores";
+import { StorageName } from "@/stores";
 import { QuestionListPage } from "./pageobjects/QuestionListPage.ts";
 import { GuidedTourPage } from "./pageobjects/GuidedTourPage.ts";
 

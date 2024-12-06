@@ -54,16 +54,16 @@ export const generateFileName = (title: string, date: Date): string => {
 };
 
 /**
- * Generates markdown content for a questions document.
+ * Generates Markdown content for a questions document.
  *
- * The markdown includes the title, footer, formatted date, and a list of questions with checkboxes
+ * The Markdown includes the title, footer, formatted date, and a list of questions with checkboxes
  * indicating whether each question has been answered.
  *
- * @param title - The title of the markdown document.
+ * @param title - The title of the Markdown document.
  * @param footer - The footer text to include at the end of the document.
  * @param date - The date to include in the document, formatted as `do of MMMM yyyy`.
- * @param questions - An array of `Question` objects to include in the markdown.
- * @returns A string containing the generated markdown content.
+ * @param questions - An array of `Question` objects to include in the Markdown.
+ * @returns A string containing the generated Markdown content.
  *
  * @example
  * ```typescript

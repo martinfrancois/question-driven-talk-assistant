@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { Question, StorageName } from "../../src/stores";
+import { Question, StorageName } from "@/stores";
 
 export class AppPage {
   readonly page: Page;

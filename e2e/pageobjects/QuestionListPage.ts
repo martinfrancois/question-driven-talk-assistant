@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { AppPage } from "./AppPage";
 import { QuestionItemPage } from "./QuestionItemPage";
-import { Question } from "../../src/stores";
+import { Question } from "@/stores";
 
 export class QuestionListPage extends AppPage {
   readonly questionItems: Locator;

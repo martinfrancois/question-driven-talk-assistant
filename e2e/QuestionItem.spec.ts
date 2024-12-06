@@ -3,7 +3,7 @@ import { QuestionItemPage } from "./pageobjects/QuestionItemPage";
 import { AppPage } from "./pageobjects/AppPage";
 import { QuestionListPage } from "./pageobjects/QuestionListPage";
 import { v4 as uuidv4 } from "uuid";
-import { Question, StorageName } from "../src/stores";
+import { Question, StorageName } from "@/stores";
 
 const createQuestion = (overrides: Partial<Question> = {}): Question => ({
   id: overrides.id ?? uuidv4(),

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "../ui/Modal.tsx";
-import { useClearQuestions } from "../../stores";
+import { useClearQuestions } from "@/stores";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function ClearQuestionsModal() {

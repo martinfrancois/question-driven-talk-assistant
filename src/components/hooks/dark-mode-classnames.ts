@@ -1,4 +1,4 @@
-import { useDarkMode } from "../../stores";
+import { useDarkMode } from "@/stores";
 
 export const useDarkModeClassName = () => {
   const isDarkMode = useDarkMode();

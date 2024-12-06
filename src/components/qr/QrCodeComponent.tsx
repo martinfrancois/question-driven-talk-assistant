@@ -4,7 +4,7 @@ import {
   useQrCodeUrl,
   useSetQrCodeSize,
   useSetQrCodeUrl,
-} from "../../stores";
+} from "@/stores";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
 
