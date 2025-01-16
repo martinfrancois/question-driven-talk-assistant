@@ -1,18 +1,34 @@
 import React from "react";
 import { render } from "vitest-browser-react";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import QuestionItem from "./QuestionItem.tsx";
 import { Question, useQuestions, useSetQuestions } from "@/stores";
 
 describe("QuestionItem Component with Zustand", () => {
+  const BASE_YEAR = 2025;
+  const BASE_MONTH = 1;
+  const BASE_DAY = 1;
+  const baseTime = new Date(Date.UTC(BASE_YEAR, BASE_MONTH - 1, BASE_DAY));
+
   let initialQuestions: Question[];
 
   beforeEach(() => {
+    // Enable fake timers
+    vi.useFakeTimers();
+
+    // Set the system time to the base time
+    vi.setSystemTime(baseTime);
+
     initialQuestions = [
       { id: "1", text: "Question A", answered: false, highlighted: false },
       { id: "2", text: "Question B", answered: false, highlighted: false },
       { id: "3", text: "Question C", answered: false, highlighted: false },
     ];
+  });
+
+  afterEach(() => {
+    // Restore real timers after each test
+    vi.useRealTimers();
   });
 
   const TestWrapper = () => {
@@ -28,7 +44,7 @@ describe("QuestionItem Component with Zustand", () => {
 
     return (
       <>
-        {questions.map((question) => {
+        {questions.map((question, index) => {
           const textareaRef =
             questionRefs.current[question.id] ||
             React.createRef<HTMLTextAreaElement>();
@@ -40,7 +56,7 @@ describe("QuestionItem Component with Zustand", () => {
               question={question}
               questionRefs={questionRefs}
               textareaRef={textareaRef}
-              index={0}
+              index={index}
             />
           );
         })}
@@ -48,11 +64,24 @@ describe("QuestionItem Component with Zustand", () => {
     );
   };
 
+  // Helper function to simulate time passage
+  const advanceTime = (milliseconds = 1): void => {
+    if (milliseconds < 0) {
+      throw new Error("Time advancement must be non-negative");
+    }
+    vi.advanceTimersByTime(milliseconds);
+  };
+
   it("Pressing Enter adds a new question below and focuses it", async () => {
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot("Initial Render");
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1]; // Index 1 for Question B
     textarea.focus();
+
+    // Advance time to generate a unique timestamp for the new question
+    advanceTime();
 
     // Simulate pressing Enter
     const enterEvent = new KeyboardEvent("keydown", {
@@ -63,7 +92,7 @@ describe("QuestionItem Component with Zustand", () => {
     textarea.dispatchEvent(enterEvent);
 
     // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await vi.advanceTimersByTimeAsync(100);
 
     // Re-fetch the textareas after the update
     const updatedTextareas = container.querySelectorAll("textarea");
@@ -73,6 +102,8 @@ describe("QuestionItem Component with Zustand", () => {
 
     // Check that focus is on the new question
     expect(document.activeElement).toBe(updatedTextareas[2]);
+
+    expect(container).toMatchSnapshot("After Pressing Enter");
   });
 
   it("Pressing Enter does nothing if current or next question is empty", () => {
@@ -81,6 +112,8 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot("Initial Render with Empty Question B");
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1]; // Select the second textarea (now empty)
     textarea.focus();
@@ -93,8 +126,12 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(enterEvent);
 
+    // No need to advance time as no new question should be added
+
     // Assertions
     expect(container.querySelectorAll("textarea").length).toBe(3); // No new question should be added
+
+    expect(container).toMatchSnapshot("After Pressing Enter on Empty Question");
   });
 
   it("Pressing Tab on last empty question does nothing", () => {
@@ -103,6 +140,10 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot(
+      "Initial Render with Last Question Empty",
+    );
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[2]; // Last question
     textarea.focus();
@@ -115,8 +156,14 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(tabEvent);
 
+    // No need to advance time as no new question should be added
+
     // Assertions
     expect(container.querySelectorAll("textarea").length).toBe(3); // No new question should be added
+
+    expect(container).toMatchSnapshot(
+      "After Pressing Tab on Last Empty Question",
+    );
   });
 
   it("Pressing Tab on last non-empty question adds new question", async () => {
@@ -133,8 +180,11 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(tabEvent);
 
+    // Advance time to generate a unique timestamp for the new question
+    advanceTime();
+
     // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await vi.advanceTimersByTimeAsync(100);
 
     // Re-fetch the textareas after the update
     const updatedTextareas = container.querySelectorAll("textarea");
@@ -142,6 +192,10 @@ describe("QuestionItem Component with Zustand", () => {
     // Assertions
     expect(updatedTextareas.length).toBe(4); // New question should be added
     expect(updatedTextareas[3].value).toBe(""); // New question should have empty text
+
+    expect(container).toMatchSnapshot(
+      "After Pressing Tab on Last Non-Empty Question",
+    );
   });
 
   it("Pressing Backspace on empty question deletes it and focuses previous", async () => {
@@ -150,6 +204,8 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot("Initial Render with Empty Question B");
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
     textarea.focus();
@@ -162,8 +218,8 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(backspaceEvent);
 
-    // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // No new question is added or timestamp is needed, but ensure timers are run
+    await vi.advanceTimersByTimeAsync(100);
 
     const updatedTextareas = container.querySelectorAll("textarea");
 
@@ -172,6 +228,10 @@ describe("QuestionItem Component with Zustand", () => {
 
     // Check that focus is on the previous question
     expect(document.activeElement).toBe(updatedTextareas[0]);
+
+    expect(container).toMatchSnapshot(
+      "After Pressing Backspace on Empty Question B",
+    );
   });
 
   it("Pressing Backspace on empty first question deletes it and focuses new first question", async () => {
@@ -180,6 +240,8 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot("Initial Render with Empty Question A");
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[0];
     textarea.focus();
@@ -192,8 +254,8 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(backspaceEvent);
 
-    // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // No new question is added or timestamp is needed, but ensure timers are run
+    await vi.advanceTimersByTimeAsync(100);
 
     const updatedTextareas = container.querySelectorAll("textarea");
 
@@ -202,6 +264,10 @@ describe("QuestionItem Component with Zustand", () => {
 
     // Check that focus is on the new first question
     expect(document.activeElement).toBe(updatedTextareas[0]);
+
+    expect(container).toMatchSnapshot(
+      "After Pressing Backspace on Empty First Question",
+    );
   });
 
   it("Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line", () => {
@@ -210,6 +276,10 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot(
+      "Initial Render with Multi-Line Empty Question B",
+    );
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
     textarea.focus();
@@ -225,6 +295,11 @@ describe("QuestionItem Component with Zustand", () => {
 
     // Assertions
     expect(textarea.value).toBe("\n"); // The text should remain unchanged
+
+    // Snapshot to verify no changes
+    expect(container).toMatchSnapshot(
+      "After Pressing Backspace on Multi-Line Empty Question",
+    );
   });
 
   it("Pressing Backspace on second line removes that line", () => {
@@ -233,6 +308,10 @@ describe("QuestionItem Component with Zustand", () => {
     // The TestWrapper will set the store state with updated initialQuestions
 
     const { container } = render(<TestWrapper />);
+    expect(container).toMatchSnapshot(
+      "Initial Render with Multi-Line Empty Question B",
+    );
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1];
     textarea.focus();
@@ -254,10 +333,16 @@ describe("QuestionItem Component with Zustand", () => {
     // Assertions
     expect(textarea.value).toBe(""); // Line removed
     expect(document.activeElement).toBe(textarea); // Focus should remain on the textarea
+
+    // Snapshot after removing the line
+    expect(container).toMatchSnapshot(
+      "After Pressing Backspace on Second Line",
+    );
   });
 
   it("ArrowUp and ArrowDown navigation moves focus correctly", async () => {
     const { container } = render(<TestWrapper />);
+
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1]; // Select the second textarea (Question B)
     textarea.focus();
@@ -270,11 +355,17 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textarea.dispatchEvent(arrowUpEvent);
 
-    // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // Advance timers if any time-based logic is triggered
+    advanceTime();
+
+    // Wait for any potential state updates and re-rendering
+    await vi.advanceTimersByTimeAsync(100);
 
     // Assertions
     expect(document.activeElement).toBe(textareas[0]); // Focus should move to the first textarea
+
+    // Snapshot after pressing ArrowUp
+    expect(container).toMatchSnapshot("After Pressing ArrowUp");
 
     // Simulate pressing ArrowDown
     const arrowDownEvent = new KeyboardEvent("keydown", {
@@ -284,10 +375,15 @@ describe("QuestionItem Component with Zustand", () => {
     });
     textareas[0].dispatchEvent(arrowDownEvent);
 
+    // Advance timers if any time-based logic is triggered
+    advanceTime();
+
     // Wait for state updates and re-rendering
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await vi.advanceTimersByTimeAsync(100);
 
     // Assertions
     expect(document.activeElement).toBe(textareas[1]); // Focus should return to the second textarea
+
+    expect(container).toMatchSnapshot("After Pressing ArrowDown");
   });
 });

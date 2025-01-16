@@ -124,15 +124,16 @@ Supported Browsers: Chrome, Firefox
 
 ### Available Scripts
 
-| Script                 | Bun             | pnpm             | Yarn             | npm                 |
-| ---------------------- | --------------- | ---------------- | ---------------- | ------------------- |
-| Install dependencies   | `bun install`   | `pnpm install`   | `yarn install`   | `npm install`       |
-| Run during development | `bun dev`       | `pnpm dev`       | `yarn dev`       | `npm run dev`       |
-| Build                  | `bun run build` | `pnpm build`     | `yarn build`     | `npm run build`     |
-| Run build locally      | `bun preview`   | `pnpm preview`   | `yarn preview`   | `npm run preview`   |
-| Lint                   | `bun lint`      | `pnpm lint`      | `yarn lint`      | `npm run lint`      |
-| Unit tests             | `bun test:unit` | `pnpm test:unit` | `yarn test:unit` | `npm run test:unit` |
-| End-to-end tests       | `bun test:e2e`  | `pnpm test:e2e`  | `yarn test:e2e`  | `npm run test:e2e`  |
+| Script                     | Bun                    | pnpm                    | Yarn                    | npm                        |
+| -------------------------- | ---------------------- | ----------------------- | ----------------------- | -------------------------- |
+| Install dependencies       | `bun install`          | `pnpm install`          | `yarn install`          | `npm install`              |
+| Run during development     | `bun dev`              | `pnpm dev`              | `yarn dev`              | `npm run dev`              |
+| Build                      | `bun run build`        | `pnpm build`            | `yarn build`            | `npm run build`            |
+| Run build locally          | `bun preview`          | `pnpm preview`          | `yarn preview`          | `npm run preview`          |
+| Lint                       | `bun lint`             | `pnpm lint`             | `yarn lint`             | `npm run lint`             |
+| Unit tests                 | `bun test:unit`        | `pnpm test:unit`        | `yarn test:unit`        | `npm run test:unit`        |
+| Update unit test snapshots | `bun test:unit:update` | `pnpm test:unit:update` | `yarn test:unit:update` | `npm run test:unit:update` |
+| End-to-end tests           | `bun test:e2e`         | `pnpm test:e2e`         | `yarn test:e2e`         | `npm run test:e2e`         |
 
 **Note**: Offline support is off during development.
 
