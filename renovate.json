@@ -16,7 +16,13 @@
     },
     {
       "groupName": "vite-and-test",
-      "matchPackageNames": ["vite**", "@vite**", "**vite-plugin**"]
+      "matchPackageNames": [
+        "vite*",
+        "@vitejs/**",
+        "@vite-pwa/**",
+        "@vitest/**",
+        "**vite-plugin**"
+      ]
     },
     {
       "groupName": "workbox",
