@@ -1,0 +1,2532 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation moves focus correctly > After Pressing ArrowDown 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation moves focus correctly > After Pressing ArrowUp 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line > After Pressing Backspace on Multi-Line Empty Question 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: 
+"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: 
+"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      
+
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line > Initial Render with Multi-Line Empty Question B 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: 
+"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: 
+"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      
+
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first question deletes it and focuses new first question > After Pressing Backspace on Empty First Question 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first question deletes it and focuses new first question > Initial Render with Empty Question A 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on empty question deletes it and focuses previous > After Pressing Backspace on Empty Question B 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on empty question deletes it and focuses previous > Initial Render with Empty Question B 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on second line removes that line > After Pressing Backspace on Second Line 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: 
+"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: 
+"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      
+
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Backspace on second line removes that line > Initial Render with Multi-Line Empty Question B 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: 
+"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: 
+"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      
+
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Enter adds a new question below and focuses it > After Pressing Enter 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    >
+      Added a new question below and focused it.
+    </div>
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1735689600001"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1735689600001"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-3"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Enter adds a new question below and focuses it > Initial Render 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if current or next question is empty > After Pressing Enter on Empty Question 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if current or next question is empty > Initial Render with Empty Question B 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Tab on last empty question does nothing > After Pressing Tab on Last Empty Question 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Tab on last empty question does nothing > Initial Render with Last Question Empty 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;
+
+exports[`QuestionItem Component with Zustand > Pressing Tab on last non-empty question adds new question > After Pressing Tab on Last Non-Empty Question 1`] = `
+<div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question A"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question A"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-0"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question A
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-2"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question B"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-2"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question B"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-1"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question B
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-3"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Question: Question C"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-3"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Question text: Question C"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-2"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    >
+      Question C
+    </textarea>
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+  <div
+    class="flex items-center space-x-2 p-2 bg-transparent"
+    data-testid="question-item-1735689600000"
+    role="listitem"
+    style="opacity: 1;"
+  >
+    <span
+      aria-describedby=""
+      aria-disabled="false"
+      aria-hidden="true"
+      aria-roledescription="sortable"
+      class="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      data-testid="reorder-button"
+      role="button"
+      tabindex="-1"
+    >
+      ☰
+    </span>
+    <button
+      aria-checked="false"
+      aria-label="Empty Question"
+      class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
+      data-state="unchecked"
+      data-testid="question-checkbox-1735689600000"
+      role="checkbox"
+      type="button"
+      value="on"
+    />
+    <textarea
+      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-label="Empty Question Text"
+      class="border-b outline-none focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pl-2 pr-2 "
+      data-enable-grammarly="false"
+      data-gramm="false"
+      data-gramm_editor="false"
+      data-highlighted="false"
+      id="question-text-3"
+      rows="1"
+      spellcheck="false"
+      style="height: 20px;"
+    />
+    <div
+      aria-live="polite"
+      class="sr-only"
+    />
+  </div>
+</div>
+`;

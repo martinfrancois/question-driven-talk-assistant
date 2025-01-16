@@ -7,7 +7,7 @@
   "separateMinorPatch": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {
@@ -15,7 +15,7 @@
       "matchPackageNames": ["@dnd-kit**"]
     },
     {
-      "groupName": "vite",
+      "groupName": "vite-and-test",
       "matchPackageNames": ["vite**", "@vite**", "**vite-plugin**"]
     },
     {
