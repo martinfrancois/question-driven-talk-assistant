@@ -15,7 +15,7 @@
       "matchPackageNames": ["@dnd-kit**"]
     },
     {
-      "groupName": "vite",
+      "groupName": "vite-and-test",
       "matchPackageNames": ["vite**", "@vite**", "**vite-plugin**"]
     },
     {
