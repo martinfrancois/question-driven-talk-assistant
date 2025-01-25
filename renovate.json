@@ -12,7 +12,7 @@
     },
     {
       "groupName": "dnd-kit",
-      "matchPackageNames": ["@dnd-kit**"]
+      "matchPackageNames": ["@dnd-kit/**"]
     },
     {
       "groupName": "vite-and-test",
@@ -26,19 +26,19 @@
     },
     {
       "groupName": "workbox",
-      "matchPackageNames": ["workbox**"]
+      "matchPackageNames": ["workbox*"]
     },
     {
       "groupName": "prettier",
-      "matchPackageNames": ["prettier**"]
+      "matchPackageNames": ["*prettier*", "pretty-quick"]
     },
     {
       "groupName": "playwright",
-      "matchPackageNames": ["playwright**", "@playwright**"]
+      "matchPackageNames": ["playwright*", "@playwright/**"]
     },
     {
       "groupName": "tailwind",
-      "matchPackageNames": ["**tailwind**", "autoprefixer", "postcss"]
+      "matchPackageNames": ["*tailwind*", "autoprefixer", "postcss"]
     },
     {
       "groupName": "shadcn",
