@@ -17,8 +17,8 @@ export function Header() {
   ]);
 
   return (
-    <header className="flex flex-shrink-0 items-center">
-      <div className="flex-grow">
+    <header className="flex shrink-0 items-center">
+      <div className="grow">
         <h1
           onClick={editTitle}
           className="cursor-pointer text-3xl font-semibold"

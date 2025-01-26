@@ -74,7 +74,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               and a button to restart the guided tour.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex max-h-[70vh] overflow-y-auto pb-0 pt-0">
+          <div className="flex max-h-[70vh] overflow-y-auto pt-0 pb-0">
             <div className="flex flex-1 flex-col pr-2">
               <div className="modal scrollbar-minimal overflow-y-auto p-2">
                 <div className="font-normal" tabIndex={0}>
@@ -109,7 +109,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
               {/* Sidebar on the bottom for smaller screens */}
-              <aside className="border-t pl-4 pr-4 pt-4 lg:hidden">
+              <aside className="border-t pt-4 pr-4 pl-4 lg:hidden">
                 <About
                   newVersionAvailable={needRefresh}
                   updateVersion={handleUpdate}
@@ -118,7 +118,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               </aside>
             </div>
             {/* Sidebar on the right for larger screens */}
-            <aside className="w-65 hidden flex-shrink-0 flex-col border-l pl-4 lg:flex">
+            <aside className="hidden w-65 shrink-0 flex-col border-l pl-4 lg:flex">
               <div className="flex h-full flex-col justify-between">
                 <About
                   newVersionAvailable={needRefresh}

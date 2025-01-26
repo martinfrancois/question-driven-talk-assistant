@@ -1,61 +1,120 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@plugin 'tailwind-scrollbar';
+@plugin 'tailwindcss-animate';
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-body {
-  overflow: hidden;
-}
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-@layer utilities {
-  .scrollbar-minimal {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: var(--tw-scrollbar-thumb) var(--tw-scrollbar-track);
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
+}
 
-  .scrollbar-minimal::-webkit-scrollbar {
+@utility scrollbar-minimal {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--tw-scrollbar-thumb) var(--tw-scrollbar-track);
+
+  &::-webkit-scrollbar {
     width: 8px; /* Thin scrollbar */
     height: 8px; /* For horizontal scrollbars */
   }
 
   /* Custom track color */
-  .scrollbar-minimal::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background-color: var(--tw-scrollbar-track); /* Track color from variable */
   }
 
   /* Custom thumb color */
-  .scrollbar-minimal::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background-color: var(--tw-scrollbar-thumb); /* Thumb color from variable */
     border-radius: 4px; /* Rounded corners for thumb */
   }
 
   /* Light mode colors: white track, gray thumb */
-  .light .scrollbar-minimal {
+  .light & {
     --tw-scrollbar-track: #ffffff; /* White track */
     --tw-scrollbar-thumb: #bbb; /* Light gray thumb */
   }
 
   /* Dark mode colors: black track, dark gray thumb */
-  .dark .scrollbar-minimal {
-    --tw-scrollbar-track: theme("colors.neutral.900"); /* Black track */
+  .dark & {
+    --tw-scrollbar-track: var(--color-neutral-900); /* Black track */
     --tw-scrollbar-thumb: #555; /* Dark gray thumb */
   }
 
   /* Dark mode colors for modals: black track */
-  .dark .scrollbar-minimal.modal {
+  .dark &.modal {
     --tw-scrollbar-track: theme(
       "colors.neutral.800"
     ) !important; /* Black track */
+  }
+}
+
+@utility light {
+  /* Light mode colors: white track, gray thumb */
+  & .scrollbar-minimal {
+    --tw-scrollbar-track: #ffffff; /* White track */
+    --tw-scrollbar-thumb: #bbb; /* Light gray thumb */
+  }
+}
+
+@utility dark {
+  /* Dark mode colors: black track, dark gray thumb */
+  & .scrollbar-minimal {
+    --tw-scrollbar-track: var(--color-neutral-900); /* Black track */
+    --tw-scrollbar-thumb: #555; /* Dark gray thumb */
+  }
+
+  /* Dark mode colors for modals: black track */
+  & .scrollbar-minimal.modal {
+    --tw-scrollbar-track: theme(
+      "colors.neutral.800"
+    ) !important; /* Black track */
+  }
+}
+
+@utility modal {
+  /* Dark mode colors for modals: black track */
+  .dark &.scrollbar-minimal {
+    --tw-scrollbar-track: theme(
+      "colors.neutral.800"
+    ) !important; /* Black track */
+  }
+}
+
+@layer utilities {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow: hidden;
   }
 }
 
