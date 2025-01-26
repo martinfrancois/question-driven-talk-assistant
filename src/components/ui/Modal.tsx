@@ -46,7 +46,7 @@ const Modal: FC<ModalProps> = ({
         <SelectableTextFocusLock>
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">{title}</DialogTitle>
-            <DialogDescription className="pb-6 pt-4 text-lg font-normal leading-relaxed">
+            <DialogDescription className="pt-4 pb-6 text-lg leading-relaxed font-normal">
               {message}
             </DialogDescription>
           </DialogHeader>
