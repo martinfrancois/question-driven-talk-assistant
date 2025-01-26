@@ -81,7 +81,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
   };
 
   const baseClasses =
-    "border-b outline-none focus:border-blue-500 transition-colors w-full resize-none";
+    "border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none";
   const textColor = "text-black dark:text-white";
   const bgColor = question.highlighted
     ? "bg-neutral-200 dark:bg-neutral-600 rounded-lg"
@@ -397,7 +397,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="mb-1.5 cursor-grab text-2xl opacity-0 transition-opacity hover:text-neutral-500 hover:opacity-100 focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
@@ -414,7 +414,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       />
       <textarea
         ref={textareaRef}
-        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pl-2 pr-2 ${
+        className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 pl-2 ${
           question.answered ? "line-through" : ""
         }`}
         aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"

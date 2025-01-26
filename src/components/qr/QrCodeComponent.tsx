@@ -110,14 +110,14 @@ const QrCodeComponent: FC = () => {
         <>
           <span
             onPointerDown={(e) => handleResizeStart(e, "bottom-right")}
-            className="absolute bottom-0 right-0 h-4 w-4 cursor-se-resize focus:outline-none"
+            className="absolute right-0 bottom-0 h-4 w-4 cursor-se-resize focus:outline-hidden"
             data-testid="qr-code-resize-bottom-right"
             aria-hidden={true} // can't be resized with assistive technologies
             tabIndex={-1}
           />
           <span
             onPointerDown={(e) => handleResizeStart(e, "bottom-left")}
-            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize focus:outline-none"
+            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize focus:outline-hidden"
             data-testid="qr-code-resize-bottom-left"
             aria-hidden={true} // can't be resized with assistive technologies
             tabIndex={-1}
