@@ -22,7 +22,7 @@ export function About(props: {
       </p>
       {props.newVersionAvailable && (
         <div className={"mt-4"}>
-          <p className="mb-1 mt-4 pr-2 text-sm font-medium">
+          <p className="mt-4 mb-1 pr-2 text-sm font-medium">
             New version available:
           </p>
           <Button

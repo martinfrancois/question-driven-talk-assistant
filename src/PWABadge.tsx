@@ -56,7 +56,7 @@ function PWABadge() {
       role="alert"
       aria-labelledby="toast-message"
       aria-describedby="toast-description"
-      className="fixed bottom-4 right-4 z-50"
+      className="fixed right-4 bottom-4 z-50"
     >
       <Alert className="flex items-center justify-between border-neutral-300 bg-black p-4 text-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
         <div className="flex items-center space-x-4 pr-6">
