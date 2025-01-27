@@ -7,7 +7,11 @@ export default defineConfig({
     setupFiles: ["./setup-vitest.ts"],
     browser: {
       enabled: true,
-      name: "chromium",
+      instances: [
+        {
+          browser: "chromium",
+        },
+      ],
       provider: "playwright",
     },
     exclude: [...configDefaults.exclude, "e2e/*"],
