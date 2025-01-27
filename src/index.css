@@ -63,9 +63,7 @@
 
   /* Dark mode colors for modals: black track */
   .dark &.modal {
-    --tw-scrollbar-track: theme(
-      "colors.neutral.800"
-    ) !important; /* Black track */
+    --tw-scrollbar-track: var(--color-neutral-800) !important; /* Black track */
   }
 }
 
@@ -86,18 +84,14 @@
 
   /* Dark mode colors for modals: black track */
   & .scrollbar-minimal.modal {
-    --tw-scrollbar-track: theme(
-      "colors.neutral.800"
-    ) !important; /* Black track */
+    --tw-scrollbar-track: var(--color-neutral-800) !important; /* Black track */
   }
 }
 
 @utility modal {
   /* Dark mode colors for modals: black track */
   .dark &.scrollbar-minimal {
-    --tw-scrollbar-track: theme(
-      "colors.neutral.800"
-    ) !important; /* Black track */
+    --tw-scrollbar-track: var(--color-neutral-800) !important; /* Black track */
   }
 }
 
