@@ -36,7 +36,7 @@ export class AppPage {
     value: T,
   ) {
     let state: Record<string, T> | null =
-      await this.getLocalStorageData(storageName) ?? {};
+      (await this.getLocalStorageData(storageName)) ?? {};
     state[key] = value;
     await this.page.evaluate(
       ({ storageName, state }) => {
