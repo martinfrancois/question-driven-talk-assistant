@@ -44,7 +44,7 @@
   "devDependencies": {
     "@eslint/compat": "1.2.8",
     "@eslint/eslintrc": "3.3.1",
-    "@eslint/js": "9.23.0",
+    "@eslint/js": "9.24.0",
     "@playwright/test": "1.51.1",
     "@tailwindcss/vite": "4.1.2",
     "@testing-library/dom": "10.4.0",
@@ -58,7 +58,7 @@
     "@vite-pwa/assets-generator": "1.0.0",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/browser": "3.1.1",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "eslint-config-prettier": "10.1.1",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
