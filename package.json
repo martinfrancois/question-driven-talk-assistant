@@ -82,7 +82,7 @@
     "workbox-window": "7.3.0"
   },
   "overrides": {
-    "sharp": "0.33.5",
+    "sharp": "0.34.0",
     "sharp-ico": "0.1.5"
   },
   "simple-git-hooks": {
