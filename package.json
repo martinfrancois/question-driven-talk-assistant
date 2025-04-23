@@ -69,7 +69,7 @@
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "0.6.11",
     "pretty-quick": "4.1.1",
-    "simple-git-hooks": "2.12.1",
+    "simple-git-hooks": "2.13.0",
     "tailwind-scrollbar": "4.0.2",
     "tailwindcss": "4.1.4",
     "typescript": "5.8.3",
