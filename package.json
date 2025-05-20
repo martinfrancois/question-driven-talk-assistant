@@ -49,7 +49,7 @@
     "@tailwindcss/vite": "4.1.7",
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
-    "@types/node": "22.15.19",
+    "@types/node": "22.15.21",
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
     "@types/wicg-file-system-access": "2023.10.6",
