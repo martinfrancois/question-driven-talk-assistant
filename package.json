@@ -50,7 +50,7 @@
     "@testing-library/dom": "10.4.0",
     "@testing-library/react": "16.3.0",
     "@types/node": "22.15.21",
-    "@types/react": "19.1.5",
+    "@types/react": "19.1.6",
     "@types/react-dom": "19.1.5",
     "@types/wicg-file-system-access": "2023.10.6",
     "@typescript-eslint/eslint-plugin": "8.32.1",
