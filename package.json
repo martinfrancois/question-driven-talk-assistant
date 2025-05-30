@@ -67,7 +67,7 @@
     "playwright": "1.51.1",
     "postcss": "8.5.4",
     "prettier": "3.5.3",
-    "prettier-plugin-tailwindcss": "0.6.11",
+    "prettier-plugin-tailwindcss": "0.6.12",
     "pretty-quick": "4.1.1",
     "simple-git-hooks": "2.13.0",
     "tailwind-scrollbar": "4.0.2",
