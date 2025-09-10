@@ -165,7 +165,7 @@ Supported Browsers: Chrome, Firefox
 
 Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
-### License
+## License
 
 This project is licensed under the AGPL License.
 
