@@ -167,6 +167,6 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 
 ### License
 
-This project is licensed under the AGPL License.
+This project is licensed under the [AGPL License](./LICENSE.md).
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_large)
