@@ -91,7 +91,7 @@ Supported Browsers: Chrome, Firefox
 
 ### Prerequisites
 
-- **Node.js** (14+ recommended)
+- **Node.js** (20+ recommended)
 - **Package manager** of your choice (bun, pnpm, yarn, npm)
 
 ### Steps to Run Locally
