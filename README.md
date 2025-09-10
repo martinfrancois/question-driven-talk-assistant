@@ -91,7 +91,7 @@ Supported Browsers: Chrome, Firefox
 
 ### Prerequisites
 
-- **Node.js** (14+ recommended)
+- **Node.js** (20+ recommended)
 - **Package manager** of your choice (bun, pnpm, yarn, npm)
 
 ### Steps to Run Locally
@@ -169,8 +169,8 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 
 We are committed to providing a welcoming and inclusive environment for all contributors. Please review our [Code of Conduct](CODE_OF_CONDUCT.md) to understand our community guidelines.
 
-### License
+## License
 
-This project is licensed under the AGPL License.
+This project is licensed under the [AGPL License](./LICENSE.md).
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_large)
