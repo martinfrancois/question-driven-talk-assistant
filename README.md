@@ -165,6 +165,10 @@ Supported Browsers: Chrome, Firefox
 
 Contributions are welcome! Please fork the repository and submit a pull request for any enhancements or bug fixes.
 
+### Code of Conduct
+
+We are committed to providing a welcoming and inclusive environment for all contributors. Please review our [Code of Conduct](CODE_OF_CONDUCT.md) to understand our community guidelines.
+
 ### License
 
 This project is licensed under the AGPL License.
