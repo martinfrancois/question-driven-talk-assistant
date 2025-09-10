@@ -44,7 +44,7 @@ You can open this project in a [GitHub codespace](https://github.com/features/co
 #### Make changes locally
 
 1. Fork the repository:
-   - Go to <https://github.com/martinfrancois/question-driven-talk-assistant>. 
+   - Go to <https://github.com/martinfrancois/question-driven-talk-assistant>.
    - Hit the **Fork** button and choose your own GitHub account as the target. Check the box 'Copy main branch'.
    - For more details, see [fork a repo](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
 2. Clone your fork.
