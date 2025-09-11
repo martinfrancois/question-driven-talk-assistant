@@ -34,6 +34,8 @@ const QrCodeComponent: FC = () => {
     const startX = e.clientX;
     const startY = e.clientY;
     const startSize = qrCodeSize;
+    const MIN_QR_CODE_SIZE = 32;
+    const MAX_QR_CODE_SIZE = 256;
 
     const onPointerMove = (moveEvent: PointerEvent) => {
       const deltaX = moveEvent.clientX - startX;
@@ -45,7 +47,12 @@ const QrCodeComponent: FC = () => {
           ? Math.max(deltaX, deltaY)
           : Math.max(-deltaX, deltaY);
 
-      setQrCodeSize(Math.min(Math.max(startSize + delta, 32), 256));
+      setQrCodeSize(
+        Math.min(
+          Math.max(startSize + delta, MIN_QR_CODE_SIZE),
+          MAX_QR_CODE_SIZE,
+        ),
+      );
     };
 
     const onPointerUp = () => {
