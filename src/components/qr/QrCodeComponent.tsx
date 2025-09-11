@@ -55,7 +55,7 @@ const QrCodeComponent: FC = () => {
       );
     };
 
-    const onPointerUp = () => {
+    const onPointerUp = (event: PointerEvent) => {
       isResizing.current = false;
       preventClick.current = true;
       setTimeout(() => {
