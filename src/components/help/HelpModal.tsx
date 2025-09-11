@@ -12,6 +12,10 @@ import { About } from "./About";
 import { useRestartTour } from "@/stores";
 import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
 
+/**
+ * Keyboard key visual representation component.
+ * Renders a styled `<kbd>` element for displaying keyboard shortcuts.
+ */
 function Kbd(props: { children: React.ReactNode }) {
   return (
     <kbd className="rounded bg-neutral-200 px-1.5 py-0.5 dark:bg-neutral-700">
@@ -25,6 +29,13 @@ interface HelpModalProps {
   onClose: () => void;
 }
 
+/**
+ * HelpModal displays keyboard shortcuts, features, and helpful information.
+ * Includes controls for restarting the guided tour and updating the PWA service worker.
+ *
+ * @param isOpen - Controls whether the modal is open or closed.
+ * @param onClose - Callback to close the modal.
+ */
 export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   const restartTour = useRestartTour();
 

@@ -24,6 +24,18 @@ import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
+/**
+ * Root component of the application.
+ *
+ * Sets up global behaviors such as:
+ * - Font size management via hotkeys (Ctrl+P / Ctrl+M)
+ * - Theme toggling (Ctrl+D)
+ * - Fullscreen toggle via keyboard (Ctrl+F)
+ * - Save content to file (Ctrl+S)
+ * - Initializes layout, modals, and onboarding flow
+ *
+ * Also triggers localStorage migration and manages dark mode styling.
+ */
 const App = (): JSX.Element => {
   migrateLocalStorage();
 
