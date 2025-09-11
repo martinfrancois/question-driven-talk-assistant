@@ -1,5 +1,6 @@
 # Question-Driven Talk Assistant
 
+[![Tests](https://github.com/martinfrancois/question-driven-talk-assistant/actions/workflows/test.yml/badge.svg)](https://github.com/martinfrancois/question-driven-talk-assistant/actions/workflows/test.yml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_shield)
 
 A web application designed to help speakers manage audience questions during live sessions.
