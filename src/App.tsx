@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, JSX } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import screenfull from "screenfull";
@@ -24,7 +24,7 @@ import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
-const App = () => {
+const App = (): JSX.Element => {
   migrateLocalStorage();
 
   const toggleDarkMode = useToggleDarkMode();

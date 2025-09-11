@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { JSX, useCallback, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,7 @@ interface HelpModalProps {
   onClose: () => void;
 }
 
-export const HelpModal = ({ isOpen, onClose }: HelpModalProps) => {
+export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   const restartTour = useRestartTour();
 
   const darkModeClassName = useDarkModeClassName();

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { JSX } from "react";
 
 interface ExternalLinkProps {
   href: string;
   children: React.ReactNode;
 }
 
-export const ExternalLink = ({ href, children }: ExternalLinkProps) => {
+export const ExternalLink = ({
+  href,
+  children,
+}: ExternalLinkProps): JSX.Element => {
   return (
     <a
       href={href}

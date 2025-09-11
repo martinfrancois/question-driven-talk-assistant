@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 interface HelpIconProps {
@@ -6,7 +6,7 @@ interface HelpIconProps {
   buttonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-const HelpIcon = ({ onClick, buttonRef }: HelpIconProps) => (
+const HelpIcon = ({ onClick, buttonRef }: HelpIconProps): JSX.Element => (
   <button
     onClick={onClick}
     ref={buttonRef}
