@@ -25,7 +25,7 @@ interface HelpModalProps {
   onClose: () => void;
 }
 
-export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+export const HelpModal = ({ isOpen, onClose }: HelpModalProps) => {
   const restartTour = useRestartTour();
 
   const darkModeClassName = useDarkModeClassName();

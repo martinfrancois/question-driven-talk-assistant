@@ -5,10 +5,7 @@ interface ExternalLinkProps {
   children: React.ReactNode;
 }
 
-export const ExternalLink: React.FC<ExternalLinkProps> = ({
-  href,
-  children,
-}) => {
+export const ExternalLink = ({ href, children }: ExternalLinkProps) => {
   return (
     <a
       href={href}

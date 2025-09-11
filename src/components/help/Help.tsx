@@ -3,7 +3,7 @@ import { HelpModal } from "./HelpModal.tsx";
 import React, { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-export const Help: React.FC = () => {
+export const Help = () => {
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
 
   // Add hotkey to show help

@@ -24,7 +24,7 @@ import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
-const App: React.FC = () => {
+const App = () => {
   migrateLocalStorage();
 
   const toggleDarkMode = useToggleDarkMode();

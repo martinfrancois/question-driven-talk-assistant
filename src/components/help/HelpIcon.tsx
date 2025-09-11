@@ -6,7 +6,7 @@ interface HelpIconProps {
   buttonRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-const HelpIcon: React.FC<HelpIconProps> = ({ onClick, buttonRef }) => (
+const HelpIcon = ({ onClick, buttonRef }: HelpIconProps) => (
   <button
     onClick={onClick}
     ref={buttonRef}
