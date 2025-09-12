@@ -16,7 +16,6 @@ import {
   useTitle,
   useToggleDarkMode,
 } from "./stores";
-import { migrateLocalStorage } from "./migration.ts";
 import { Help } from "./components/help/Help.tsx";
 import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
@@ -25,8 +24,6 @@ import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
 const App: React.FC = () => {
-  migrateLocalStorage();
-
   const toggleDarkMode = useToggleDarkMode();
   const fontSize = useFontSize();
   const increaseFontSize = useIncreaseFontSize();

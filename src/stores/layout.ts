@@ -38,23 +38,3 @@ export const useSetTitle = () => useLayoutStore((state) => state.setTitle);
 
 export const useFooter = () => useLayoutStore((state) => state.footer);
 export const useSetFooter = () => useLayoutStore((state) => state.setFooter);
-
-// TODO remove from around 03/2025
-export function layoutMigrateFromLocalStorage() {
-  // Migrate title
-  const title = localStorage.getItem("title");
-  if (title !== null) {
-    useLayoutStore.setState({ title });
-    localStorage.removeItem("title");
-  }
-
-  // Migrate footer
-  let footer = localStorage.getItem("footer");
-  if (footer !== null) {
-    if (footer.startsWith("FancyCon 2024")) {
-      footer = "François Martin | www.fmartin.ch";
-    }
-    useLayoutStore.setState({ footer });
-    localStorage.removeItem("footer");
-  }
-}
