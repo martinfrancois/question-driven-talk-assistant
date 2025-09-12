@@ -67,6 +67,7 @@ const QrCodeComponent: FC = () => {
 
     document.addEventListener("pointermove", onPointerMove);
     document.addEventListener("pointerup", onPointerUp);
+    document.addEventListener("pointercancel", onPointerUp);
   };
 
   const handleClick = useCallback(() => {
