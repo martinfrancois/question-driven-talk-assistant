@@ -401,7 +401,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         onMouseDown={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         data-testid="reorder-button"
-        aria-hidden={true} // using the keyboard shortcuts is a better user experience with assistive technologies
+        aria-hidden // using the keyboard shortcuts is a better user experience with assistive technologies
         tabIndex={-1}
       >
         &#9776;
