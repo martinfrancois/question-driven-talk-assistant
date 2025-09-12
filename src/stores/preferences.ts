@@ -59,27 +59,3 @@ export const useTimeFormat24h = () =>
   usePreferencesStore((state) => state.timeFormat24h);
 export const useToggleTimeFormat = () =>
   usePreferencesStore((state) => state.toggleTimeFormat);
-
-// TODO remove from around 03/2025
-export function preferencesMigrateFromLocalStorage() {
-  // Migrate fontSize
-  const fontSize = localStorage.getItem("fontSize");
-  if (fontSize !== null) {
-    usePreferencesStore.setState({ fontSize: parseFloat(fontSize) });
-    localStorage.removeItem("fontSize");
-  }
-
-  // Migrate isDarkMode
-  const isDarkMode = localStorage.getItem("isDarkMode");
-  if (isDarkMode !== null) {
-    usePreferencesStore.setState({ darkMode: isDarkMode === "true" });
-    localStorage.removeItem("isDarkMode");
-  }
-
-  // Migrate timeFormat24h
-  const timeFormat24h = localStorage.getItem("timeFormat24h");
-  if (timeFormat24h !== null) {
-    usePreferencesStore.setState({ timeFormat24h: timeFormat24h === "true" });
-    localStorage.removeItem("timeFormat24h");
-  }
-}
