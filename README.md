@@ -91,49 +91,44 @@ Supported Browsers: Chrome, Firefox
 
 ### Prerequisites
 
-- **Node.js** (20+ recommended)
-- **Package manager** of your choice (bun, pnpm, yarn, npm)
+- [**Bun**](https://bun.com/get) (1.2.14 or newer recommended)
 
 ### Steps to Run Locally
 
 1. **Clone the Repository**:
 
-   ```bash
-   git clone https://github.com/martinfrancois/question-driven-talk-assistant.git
-   cd question-driven-talk-assistant
-   ```
+```bash
+git clone https://github.com/martinfrancois/question-driven-talk-assistant.git
+cd question-driven-talk-assistant
+```
 
 2. **Install Dependencies**:
-   | Tool | Command |
-   |------|-----------------|
-   | Bun | `bun install` |
-   | pnpm | `pnpm install` |
-   | Yarn | `yarn install` |
-   | npm | `npm install` |
+
+```bash
+bun install
+```
 
 3. **Start Development Server**:
-   | Tool | Command |
-   |------|--------------|
-   | Bun | `bun dev` |
-   | pnpm | `pnpm dev` |
-   | Yarn | `yarn dev` |
-   | npm | `npm run dev`|
+
+```bash
+bun dev
+```
 
 4. **Open the Application**:
    Open `http://localhost:5173/` in your browser.
 
 ### Available Scripts
 
-| Script                     | Bun                    | pnpm                    | Yarn                    | npm                        |
-| -------------------------- | ---------------------- | ----------------------- | ----------------------- | -------------------------- |
-| Install dependencies       | `bun install`          | `pnpm install`          | `yarn install`          | `npm install`              |
-| Run during development     | `bun dev`              | `pnpm dev`              | `yarn dev`              | `npm run dev`              |
-| Build                      | `bun run build`        | `pnpm build`            | `yarn build`            | `npm run build`            |
-| Run build locally          | `bun preview`          | `pnpm preview`          | `yarn preview`          | `npm run preview`          |
-| Lint                       | `bun lint`             | `pnpm lint`             | `yarn lint`             | `npm run lint`             |
-| Unit tests                 | `bun test:unit`        | `pnpm test:unit`        | `yarn test:unit`        | `npm run test:unit`        |
-| Update unit test snapshots | `bun test:unit:update` | `pnpm test:unit:update` | `yarn test:unit:update` | `npm run test:unit:update` |
-| End-to-end tests           | `bun test:e2e`         | `pnpm test:e2e`         | `yarn test:e2e`         | `npm run test:e2e`         |
+| Script                     | Command                |
+| -------------------------- | ---------------------- |
+| Install dependencies       | `bun install`          |
+| Run during development     | `bun dev`              |
+| Build                      | `bun run build`        |
+| Run build locally          | `bun preview`          |
+| Lint                       | `bun lint`             |
+| Unit tests                 | `bun test:unit`        |
+| Update unit test snapshots | `bun test:unit:update` |
+| End-to-end tests           | `bun test:e2e`         |
 
 **Note**: Offline support is off during development.
 
