@@ -125,20 +125,3 @@ export const useClickCheckbox = () =>
   useQuestionsStore((state) => state.clickCheckbox);
 export const useClearQuestions = () =>
   useQuestionsStore((state) => state.clearQuestions);
-
-// TODO remove from around 03/2025
-export function questionsMigrateFromLocalStorage() {
-  // Migrate questions
-  const questions = localStorage.getItem("questions");
-  if (questions !== null) {
-    try {
-      const parsedQuestions = JSON.parse(questions) as Question[];
-      if (Array.isArray(parsedQuestions)) {
-        useQuestionsStore.setState({ questions: parsedQuestions });
-      }
-    } catch (e) {
-      console.error("Failed to parse questions:", e);
-    }
-    localStorage.removeItem("questions");
-  }
-}

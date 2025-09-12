@@ -3,11 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "bun@1.2.14",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "check": "bun run lint && bun run test:unit && bun run test:e2e",
     "test:unit": "vitest",
     "test:unit:update": "vitest -u",
     "test:unit:watch": "vitest --watch",

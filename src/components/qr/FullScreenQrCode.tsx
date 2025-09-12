@@ -5,7 +5,6 @@ import { QRCodeSVG } from "qrcode.react";
 
 export function FullScreenQrCode() {
   const qrCodeUrl = useQrCodeUrl();
-
   const [showFullScreenQr, setShowFullScreenQr] = useState(false);
 
   useHotkeys(
@@ -38,7 +37,8 @@ export function FullScreenQrCode() {
         <QRCodeSVG
           aria-hidden
           value={qrCodeUrl}
-          size={window.innerHeight * 0.7}
+          size={128}
+          className="block h-[70vmin] w-[70vmin]"
         />
       </div>
     </div>
