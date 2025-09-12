@@ -7,8 +7,7 @@ import {
 } from "@/stores";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
-const MIN_QR_CODE_SIZE = 32;
-const MAX_QR_CODE_SIZE = 256;
+import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "./constants";
 
 const QrCodeComponent: FC = () => {
   const qrCodeUrl = useQrCodeUrl();
@@ -25,7 +24,7 @@ const QrCodeComponent: FC = () => {
   const handleResizeStart = (
     e: React.PointerEvent,
     direction: "bottom-right" | "bottom-left",
-  ) => {
+  ): void => {
     e.preventDefault();
     e.stopPropagation(); // Prevent the click from propagating
 
@@ -35,9 +34,9 @@ const QrCodeComponent: FC = () => {
 
     const startX = e.clientX;
     const startY = e.clientY;
-    const startSize = qrCodeSize;
+    const startSize = Number(qrCodeSize);
 
-    const onPointerMove = (moveEvent: PointerEvent) => {
+    const onPointerMove = (moveEvent: PointerEvent): void => {
       const deltaX = moveEvent.clientX - startX;
       const deltaY = moveEvent.clientY - startY;
 
@@ -55,7 +54,7 @@ const QrCodeComponent: FC = () => {
       );
     };
 
-    const onPointerUp = () => {
+    const onPointerUp = (): void => {
       isResizing.current = false;
       preventClick.current = true;
       setTimeout(() => {
