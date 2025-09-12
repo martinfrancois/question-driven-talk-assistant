@@ -1,113 +1,175 @@
-import React, { FC, useCallback, useRef } from "react";
-import {
-  useQrCodeSize,
-  useQrCodeUrl,
-  useSetQrCodeSize,
-  useSetQrCodeUrl,
-} from "@/stores";
+import { useRef, useCallback } from "react";
+import type { JSX, KeyboardEvent } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import { useMove } from "@react-aria/interactions";
 import { useHotkeys } from "react-hotkeys-hook";
-import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "./constants";
+import {
+  useQrCodeUrl,
+  useSetQrCodeUrl,
+  useQrCodeSize,
+  useSetQrCodeSize,
+} from "@/stores";
 
-const QrCodeComponent: FC = () => {
-  const qrCodeUrl = useQrCodeUrl();
-  const setQrCodeUrl = useSetQrCodeUrl();
-  const qrCodeSize = useQrCodeSize();
-  const setQrCodeSize = useSetQrCodeSize();
+type Direction = "bottom-right" | "bottom-left";
 
-  const isResizing = useRef(false); // Tracks if resizing is in progress
-  const preventClick = useRef(false); // Temporarily prevents click after resize
-  const resizeDirection = useRef<"bottom-right" | "bottom-left">(
-    "bottom-right",
-  ); // Tracks the resize handle direction
+const MIN_QR_CODE_SIZE = 32;
+const MAX_QR_CODE_SIZE = 256;
 
-  const handleResizeStart = (
-    e: React.PointerEvent,
-    direction: "bottom-right" | "bottom-left",
-  ): void => {
-    e.preventDefault();
-    e.stopPropagation(); // Prevent the click from propagating
+function clamp(n: number): number {
+  return Math.min(Math.max(n, MIN_QR_CODE_SIZE), MAX_QR_CODE_SIZE);
+}
 
-    isResizing.current = true;
-    preventClick.current = false;
-    resizeDirection.current = direction;
+function useResizeHandleProps(
+  direction: Direction,
+  label: string,
+  size: number,
+  setSize: (n: number) => void,
+  onResizeEnd: () => void,
+) {
+  const baseSize = useRef<number>(size);
+  const sumX = useRef(0);
+  const sumY = useRef(0);
+  const pending = useRef<number>(size);
+  const rafId = useRef<number | null>(null);
+  const prevUserSelect = useRef<string>("");
 
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const startSize = qrCodeSize;
-
-    // Centralized listener management
-    const controller = new AbortController();
-
-    const onPointerMove = (moveEvent: PointerEvent): void => {
-      const deltaX = moveEvent.clientX - startX;
-      const deltaY = moveEvent.clientY - startY;
-
-      // Adjust size based on the handle being dragged
-      const delta =
-        resizeDirection.current === "bottom-right"
-          ? Math.max(deltaX, deltaY)
-          : Math.max(-deltaX, deltaY);
-
-      setQrCodeSize(
-        Math.round(
-          Math.min(
-            Math.max(startSize + delta, MIN_QR_CODE_SIZE),
-            MAX_QR_CODE_SIZE,
-          ),
-        ),
-      );
-    };
-
-    const onPointerUp = (): void => {
-      isResizing.current = false;
-      preventClick.current = true;
-      setTimeout(() => {
-        preventClick.current = false;
-      }, 200);
-      controller?.abort?.();
-    };
-
-    globalThis.document.addEventListener("pointermove", onPointerMove);
-    globalThis.document.addEventListener("pointerup", onPointerUp);
-    globalThis.document.addEventListener("pointercancel", onPointerUp);
+  const schedule = () => {
+    if (rafId.current != null) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
+      setSize(Math.round(pending.current));
+    });
   };
 
-  const handleClick = useCallback(() => {
-    if (preventClick.current) {
-      // Ignore this click as it follows a resize action
-      return;
+  const flush = () => {
+    if (rafId.current != null) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+      setSize(Math.round(pending.current));
     }
-    const newURL = prompt("Enter QR Code URL", qrCodeUrl);
-    if (newURL !== null) setQrCodeUrl(newURL);
-  }, [qrCodeUrl, setQrCodeUrl]);
+  };
+
+  const { moveProps } = useMove({
+    onMoveStart() {
+      baseSize.current = Number(size) || MIN_QR_CODE_SIZE;
+      sumX.current = 0;
+      sumY.current = 0;
+      const doc = globalThis.document;
+      if (doc) {
+        prevUserSelect.current = doc.body.style.userSelect;
+        doc.body.style.userSelect = "none";
+      }
+    },
+    onMove(e) {
+      sumX.current += e.deltaX;
+      sumY.current += e.deltaY;
+      const delta =
+        direction === "bottom-right"
+          ? Math.max(sumX.current, sumY.current)
+          : Math.max(-sumX.current, sumY.current);
+      pending.current = clamp(baseSize.current + delta);
+      schedule();
+    },
+    onMoveEnd() {
+      const doc = globalThis.document;
+      if (doc) doc.body.style.userSelect = prevUserSelect.current;
+      flush();
+      onResizeEnd();
+    },
+  });
+
+  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
+    const step = e.shiftKey ? 16 : 4;
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+      e.preventDefault();
+      setSize(clamp(size + step));
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+      e.preventDefault();
+      setSize(clamp(size - step));
+    }
+  };
+
+  return {
+    ...moveProps,
+    role: "slider",
+    tabIndex: 0,
+    "aria-label": label,
+    "aria-valuemin": MIN_QR_CODE_SIZE,
+    "aria-valuemax": MAX_QR_CODE_SIZE,
+    "aria-valuenow": size,
+    onKeyDown,
+  } as const;
+}
+
+export default function QrCodeComponent(): JSX.Element {
+  const url = useQrCodeUrl() ?? "";
+  const setUrl = useSetQrCodeUrl();
+  const size = useQrCodeSize();
+  const setSize = useSetQrCodeSize();
+
+  const preventClick = useRef(false);
+  const afterResize = useCallback(() => {
+    preventClick.current = true;
+    setTimeout(() => (preventClick.current = false), 200);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    if (preventClick.current) return;
+    const newURL = prompt("Enter QR Code URL", url);
+    if (newURL !== null) setUrl(newURL);
+  }, [url, setUrl]);
 
   useHotkeys("ctrl+shift+q", handleClick, { enableOnFormTags: true }, [
     handleClick,
   ]);
 
+  const brHandleProps = useResizeHandleProps(
+    "bottom-right",
+    "Resize bottom right",
+    size,
+    setSize,
+    afterResize,
+  );
+  const blHandleProps = useResizeHandleProps(
+    "bottom-left",
+    "Resize bottom left",
+    size,
+    setSize,
+    afterResize,
+  );
+
+  const onWrapperKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={handleClick}
+      onKeyDown={onWrapperKeyDown}
       aria-label={
-        qrCodeUrl
+        url
           ? "QR Code. Click to change the URL"
           : "No QR Code set. Click to enter a URL"
       }
-      className="group relative cursor-pointer"
-      aria-keyshortcuts="Control+q to show the qr code full screen, Control+Shift+Q to edit QR code URL"
+      aria-keyshortcuts="Control+Q to show the QR code full screen, Control+Shift+Q to edit QR code URL"
+      className="group relative inline-block cursor-pointer"
       data-testid="qr-code"
     >
       <div
         className={`rounded-md border border-white !bg-white p-2 ${
-          qrCodeUrl ? "" : "invisible group-hover:visible"
+          url ? "" : "invisible group-hover:visible"
         }`}
         role="presentation"
       >
-        {qrCodeUrl ? (
+        {url ? (
           <QRCodeSVG
-            value={qrCodeUrl}
-            size={qrCodeSize}
+            value={url}
+            size={size}
             data-testid="qr-code-svg"
             role="presentation"
           />
@@ -117,26 +179,23 @@ const QrCodeComponent: FC = () => {
           </div>
         )}
       </div>
-      {qrCodeUrl && (
+
+      {url && (
         <>
-          <span
-            onPointerDown={(e) => handleResizeStart(e, "bottom-right")}
-            className="absolute right-0 bottom-0 h-4 w-4 cursor-se-resize focus:outline-hidden"
+          <button
+            type="button"
+            className="absolute right-0 bottom-0 z-10 h-7 w-7 translate-x-[8px] translate-y-[8px] cursor-se-resize touch-none rounded bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             data-testid="qr-code-resize-bottom-right"
-            aria-hidden={true} // can't be resized with assistive technologies
-            tabIndex={-1}
+            {...brHandleProps}
           />
-          <span
-            onPointerDown={(e) => handleResizeStart(e, "bottom-left")}
-            className="absolute bottom-0 left-0 h-4 w-4 cursor-sw-resize focus:outline-hidden"
+          <button
+            type="button"
+            className="absolute bottom-0 left-0 z-10 h-7 w-7 -translate-x-[8px] translate-y-[8px] cursor-sw-resize touch-none rounded bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             data-testid="qr-code-resize-bottom-left"
-            aria-hidden={true} // can't be resized with assistive technologies
-            tabIndex={-1}
+            {...blHandleProps}
           />
         </>
       )}
-    </button>
+    </div>
   );
-};
-
-export default QrCodeComponent;
+}
