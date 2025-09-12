@@ -35,6 +35,10 @@ const QrCodeComponent: FC = () => {
     const startX = e.clientX;
     const startY = e.clientY;
     const startSize = qrCodeSize;
+    if (!globalThis?.document) return;
+
+    // Centralized listener management
+    const controller = new AbortController();
 
     const onPointerMove = (moveEvent: PointerEvent): void => {
       const deltaX = moveEvent.clientX - startX;
@@ -62,9 +66,7 @@ const QrCodeComponent: FC = () => {
       setTimeout(() => {
         preventClick.current = false;
       }, 200);
-      globalThis?.document?.removeEventListener("pointermove", onPointerMove);
-      globalThis?.document?.removeEventListener("pointerup", onPointerUp);
-      globalThis?.document?.removeEventListener("pointercancel", onPointerUp);
+      controller?.abort?.();
     };
 
     globalThis?.document?.addEventListener("pointermove", onPointerMove);
