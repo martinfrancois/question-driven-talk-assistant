@@ -156,7 +156,7 @@ export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   );
 };
 
-function TableHeader(props: { children: ReactNode }) {
+function TableHeader(props: { children: ReactNode }): JSX.Element {
   return (
     <tr className="bg-neutral-100 dark:bg-neutral-800">
       <th
@@ -169,7 +169,7 @@ function TableHeader(props: { children: ReactNode }) {
   );
 }
 
-function TableCell(props: { children: ReactNode }) {
+function TableCell(props: { children: ReactNode }): JSX.Element {
   return (
     <td className="border-b px-2 py-2 text-neutral-950 dark:text-neutral-50">
       {props.children}
