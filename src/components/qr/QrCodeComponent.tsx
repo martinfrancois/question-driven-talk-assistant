@@ -7,7 +7,7 @@ import {
 } from "@/stores";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "./constants";
+import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "@/components/qr/constants";
 
 const QrCodeComponent: FC = () => {
   const qrCodeUrl = useQrCodeUrl();
@@ -34,7 +34,7 @@ const QrCodeComponent: FC = () => {
 
     const startX = e.clientX;
     const startY = e.clientY;
-    const startSize = Number(qrCodeSize);
+    const startSize = qrCodeSize;
 
     const onPointerMove = (moveEvent: PointerEvent): void => {
       const deltaX = moveEvent.clientX - startX;
@@ -47,9 +47,11 @@ const QrCodeComponent: FC = () => {
           : Math.max(-deltaX, deltaY);
 
       setQrCodeSize(
-        Math.min(
-          Math.max(startSize + delta, MIN_QR_CODE_SIZE),
-          MAX_QR_CODE_SIZE,
+        Math.round(
+          Math.min(
+            Math.max(startSize + delta, MIN_QR_CODE_SIZE),
+            MAX_QR_CODE_SIZE,
+          ),
         ),
       );
     };
@@ -60,14 +62,14 @@ const QrCodeComponent: FC = () => {
       setTimeout(() => {
         preventClick.current = false;
       }, 200);
-      document.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerup", onPointerUp);
-      document.removeEventListener("pointercancel", onPointerUp);
+      globalThis?.document?.removeEventListener("pointermove", onPointerMove);
+      globalThis?.document?.removeEventListener("pointerup", onPointerUp);
+      globalThis?.document?.removeEventListener("pointercancel", onPointerUp);
     };
 
-    document.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerup", onPointerUp);
-    document.addEventListener("pointercancel", onPointerUp);
+    globalThis?.document?.addEventListener("pointermove", onPointerMove);
+    globalThis?.document?.addEventListener("pointerup", onPointerUp);
+    globalThis?.document?.addEventListener("pointercancel", onPointerUp);
   };
 
   const handleClick = useCallback(() => {
