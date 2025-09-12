@@ -172,6 +172,9 @@ describe("QuestionItem Component with Zustand", () => {
     const textarea = textareas[2]; // Last question
     textarea.focus();
 
+    // Advance time to generate a unique timestamp for the new question
+    advanceTime();
+
     // Simulate pressing Tab
     const tabEvent = new KeyboardEvent("keydown", {
       key: "Tab",
@@ -179,9 +182,6 @@ describe("QuestionItem Component with Zustand", () => {
       bubbles: true,
     });
     textarea.dispatchEvent(tabEvent);
-
-    // Advance time to generate a unique timestamp for the new question
-    advanceTime();
 
     // Wait for state updates and re-rendering
     await vi.advanceTimersByTimeAsync(100);
