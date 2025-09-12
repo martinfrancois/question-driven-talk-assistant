@@ -7,7 +7,7 @@ import {
 } from "@/stores";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "@/components/qr/constants";
+import { MAX_QR_CODE_SIZE, MIN_QR_CODE_SIZE } from "./constants";
 
 const QrCodeComponent: FC = () => {
   const qrCodeUrl = useQrCodeUrl();
@@ -35,7 +35,6 @@ const QrCodeComponent: FC = () => {
     const startX = e.clientX;
     const startY = e.clientY;
     const startSize = qrCodeSize;
-    if (!globalThis?.document) return;
 
     // Centralized listener management
     const controller = new AbortController();
@@ -69,9 +68,9 @@ const QrCodeComponent: FC = () => {
       controller?.abort?.();
     };
 
-    globalThis?.document?.addEventListener("pointermove", onPointerMove);
-    globalThis?.document?.addEventListener("pointerup", onPointerUp);
-    globalThis?.document?.addEventListener("pointercancel", onPointerUp);
+    globalThis.document.addEventListener("pointermove", onPointerMove);
+    globalThis.document.addEventListener("pointerup", onPointerUp);
+    globalThis.document.addEventListener("pointercancel", onPointerUp);
   };
 
   const handleClick = useCallback(() => {
