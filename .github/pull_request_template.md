@@ -9,7 +9,7 @@ To help me review your change, please follow the instructions in the template.
 ## PR Checklist
 
 - [ ] There is an issue for this change, and I've been assigned to it. (Trivial fixes like typos don't require an issue.)
-- [ ] I confirm that I ran `bun run check` locally and it passed.
+- [ ] I ran `bun run check` locally and it passed.
 - [ ] Tests for the changes are included.
 - [ ] Documentation is updated if needed.
 
