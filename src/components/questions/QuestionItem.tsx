@@ -195,7 +195,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             if (newFirstRef?.current) {
               newFirstRef.current.focus();
               newFirstRef.current.setSelectionRange(0, 0);
-              announceLiveRegion(`First question was deleted.`); // TODO not read out?
+              announceLiveRegion("First question was deleted."); // TODO not read out?
             }
           } else {
             // Delete current question and focus previous question
@@ -207,7 +207,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
                 prevRef.current.focus();
                 const position = prevRef.current.value.length;
                 prevRef.current.setSelectionRange(position, position);
-                announceLiveRegion(`Deleted question.`); // TODO not read out?
+                announceLiveRegion("Deleted question."); // TODO not read out?
               }
             }, 0);
           }
@@ -237,7 +237,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       ) {
         const newQuestion = createEmptyQuestion();
         insertQuestion(currentIndex + 1, newQuestion);
-        announceLiveRegion(`Added a new question below and focused it.`);
+        announceLiveRegion("Added a new question below and focused it.");
         setTimeout(() => {
           const newRef = questionRefs.current[newQuestion.id];
           if (newRef?.current) {
@@ -330,7 +330,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
           // Text is not empty, add new question
           const newQuestion = createEmptyQuestion();
           addQuestion(newQuestion);
-          announceLiveRegion(`Added a new question below and focused it.`);
+          announceLiveRegion("Added a new question below and focused it.");
           setTimeout(() => {
             const newRef = questionRefs.current[newQuestion.id];
             if (newRef?.current) {

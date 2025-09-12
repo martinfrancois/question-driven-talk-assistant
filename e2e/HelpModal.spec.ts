@@ -37,7 +37,7 @@ test.describe("HelpModal e2e tests", () => {
     });
   });
 
-  test(`should restart the guided tour`, async ({ page }) => {
+  test("should restart the guided tour", async ({ page }) => {
     // given
     await helpModalPage.open(true);
     const guidedTourPage = new GuidedTourPage(page);
