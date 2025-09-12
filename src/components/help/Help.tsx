@@ -4,7 +4,7 @@ import { type JSX, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 /**
- * `Help` component that displays a help icon and opens a modal when triggered.
+ * Displays a help icon and opens a modal when triggered.
  *
  * Features:
  * - Renders a floating help icon in the UI.
