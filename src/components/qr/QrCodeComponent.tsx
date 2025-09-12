@@ -7,6 +7,8 @@ import {
 } from "@/stores";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
+const MIN_QR_CODE_SIZE = 32;
+const MAX_QR_CODE_SIZE = 256;
 
 const QrCodeComponent: FC = () => {
   const qrCodeUrl = useQrCodeUrl();
@@ -45,7 +47,12 @@ const QrCodeComponent: FC = () => {
           ? Math.max(deltaX, deltaY)
           : Math.max(-deltaX, deltaY);
 
-      setQrCodeSize(Math.min(Math.max(startSize + delta, 32), 256));
+      setQrCodeSize(
+        Math.min(
+          Math.max(startSize + delta, MIN_QR_CODE_SIZE),
+          MAX_QR_CODE_SIZE,
+        ),
+      );
     };
 
     const onPointerUp = () => {
@@ -56,6 +63,7 @@ const QrCodeComponent: FC = () => {
       }, 200);
       document.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerup", onPointerUp);
+      document.removeEventListener("pointercancel", onPointerUp);
     };
 
     document.addEventListener("pointermove", onPointerMove);
