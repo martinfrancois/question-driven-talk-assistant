@@ -35,7 +35,9 @@ export const SkipLink = ({
 }: SkipLinkProps) => (
   <a
     href={href}
-    className={`focus:outline-secondary text-md fixed top-2 left-2 z-1010 -translate-y-20 rounded-lg bg-neutral-100 p-1 text-neutral-800 outline-hidden transition-transform duration-200 ease-in-out focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 dark:bg-neutral-800 dark:text-neutral-100 print:hidden`}
+    className={
+      "focus:outline-secondary text-md fixed top-2 left-2 z-1010 -translate-y-20 rounded-lg bg-neutral-100 p-1 text-neutral-800 outline-hidden transition-transform duration-200 ease-in-out focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 dark:bg-neutral-800 dark:text-neutral-100 print:hidden"
+    }
     aria-keyshortcuts={shortcut}
   >
     {text}

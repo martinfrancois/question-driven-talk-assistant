@@ -6,7 +6,7 @@ import { SkipLink } from "@/components/ui/SkipLink.tsx";
 
 const MainLayout: FC = () => (
   <div
-    className={`flex h-screen w-screen flex-col p-4`}
+    className={"flex h-screen w-screen flex-col p-4"}
     data-testid="main-layout-container"
   >
     <SkipLink href="#question-text-0" shortcut="Control+Shift+E" />
