@@ -40,20 +40,3 @@ export const useSetQrCodeUrl = () =>
 export const useQrCodeSize = () => useQrCodeStore((state) => state.qrCodeSize);
 export const useSetQrCodeSize = () =>
   useQrCodeStore((state) => state.setQrCodeSize);
-
-// TODO remove from around 03/2025
-export function qrCodeMigrateFromLocalStorage() {
-  // Migrate qrCodeUrl
-  const qrCodeUrl = localStorage.getItem("qrCodeURL");
-  if (qrCodeUrl !== null) {
-    useQrCodeStore.setState({ qrCodeUrl });
-    localStorage.removeItem("qrCodeURL");
-  }
-
-  // Migrate qrCodeSize
-  const qrCodeSize = localStorage.getItem("qrCodeSize");
-  if (qrCodeSize !== null) {
-    useQrCodeStore.setState({ qrCodeSize: parseFloat(qrCodeSize) });
-    localStorage.removeItem("qrCodeSize");
-  }
-}
