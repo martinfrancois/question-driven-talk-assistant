@@ -40,13 +40,3 @@ export const useCompleteTour = () =>
   useOnboardingStore((state) => state.completeTour);
 export const useRestartTour = () =>
   useOnboardingStore((state) => state.restartTour);
-
-// TODO remove from around 03/2025
-export function onboardingMigrateFromLocalStorage() {
-  // Migrate tourCompleted
-  const tourCompleted = localStorage.getItem("tourCompleted");
-  if (tourCompleted !== null) {
-    useOnboardingStore.setState({ tourCompleted: tourCompleted === "true" });
-    localStorage.removeItem("tourCompleted");
-  }
-}

@@ -16,7 +16,6 @@ import {
   useTitle,
   useToggleDarkMode,
 } from "./stores";
-import { migrateLocalStorage } from "./migration.ts";
 import { Help } from "./components/help/Help.tsx";
 import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
@@ -38,8 +37,6 @@ import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts
  * Note: Ctrl+F is handled by the app and overrides the browser's default "Find".
  */
 const App = (): JSX.Element => {
-  migrateLocalStorage();
-
   const toggleDarkMode = useToggleDarkMode();
   const fontSize = useFontSize();
   const increaseFontSize = useIncreaseFontSize();
