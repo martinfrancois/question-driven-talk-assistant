@@ -2,10 +2,11 @@ import { useQrCodeUrl } from "@/stores";
 import { useCallback, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { QRCodeSVG } from "qrcode.react";
+import { useFullScreenQrSize } from "../hooks/useFullScreenQrSize";
 
 export function FullScreenQrCode() {
   const qrCodeUrl = useQrCodeUrl();
-
+  const qrCodeSize = useFullScreenQrSize();
   const [showFullScreenQr, setShowFullScreenQr] = useState(false);
 
   useHotkeys(
@@ -35,11 +36,7 @@ export function FullScreenQrCode() {
       role="dialog"
     >
       <div className="rounded-lg !bg-white p-8" aria-hidden>
-        <QRCodeSVG
-          aria-hidden
-          value={qrCodeUrl}
-          size={window.innerHeight * 0.7}
-        />
+        <QRCodeSVG aria-hidden value={qrCodeUrl} size={qrCodeSize} />
       </div>
     </div>
   );
