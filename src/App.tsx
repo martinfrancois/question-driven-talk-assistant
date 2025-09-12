@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
-import type { JSX } from "react";
+import { useState, useEffect, useCallback, type JSX } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import screenfull from "screenfull";
@@ -36,6 +35,7 @@ import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts
  * - Initializes layout, modals, and onboarding flow
  *
  * Also triggers localStorage migration and manages dark mode styling.
+ * Note: Ctrl+F is handled by the app and overrides the browser's default "Find".
  */
 const App = (): JSX.Element => {
   migrateLocalStorage();

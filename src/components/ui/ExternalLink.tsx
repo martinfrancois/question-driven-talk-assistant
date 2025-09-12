@@ -1,8 +1,8 @@
-import React, { JSX } from "react";
+import type { ReactNode, JSX } from "react";
 
 interface ExternalLinkProps {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**

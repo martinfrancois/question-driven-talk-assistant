@@ -1,4 +1,10 @@
-import React, { JSX, useCallback, useEffect, useRef } from "react";
+import {
+  type JSX,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +22,7 @@ import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
  * Keyboard key visual representation component.
  * Renders a styled `<kbd>` element for displaying keyboard shortcuts.
  */
-function Kbd(props: { children: React.ReactNode }) {
+function Kbd(props: { children: ReactNode }) {
   return (
     <kbd className="rounded bg-neutral-200 px-1.5 py-0.5 dark:bg-neutral-700">
       {props.children}
@@ -69,7 +75,12 @@ export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   }, [restartTour, onClose]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogContent
         data-testid="help-modal"
         className={`${darkModeClassName} max-w-6xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
@@ -145,7 +156,7 @@ export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   );
 };
 
-function TableHeader(props: { children: React.ReactNode }) {
+function TableHeader(props: { children: ReactNode }) {
   return (
     <tr className="bg-neutral-100 dark:bg-neutral-800">
       <th
@@ -158,7 +169,7 @@ function TableHeader(props: { children: React.ReactNode }) {
   );
 }
 
-function TableCell(props: { children: React.ReactNode }) {
+function TableCell(props: { children: ReactNode }) {
   return (
     <td className="border-b px-2 py-2 text-neutral-950 dark:text-neutral-50">
       {props.children}

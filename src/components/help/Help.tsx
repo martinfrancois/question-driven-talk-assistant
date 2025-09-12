@@ -1,6 +1,6 @@
 import HelpIcon from "./HelpIcon.tsx";
 import { HelpModal } from "./HelpModal.tsx";
-import React, { JSX, useState } from "react";
+import { type JSX, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 /**
