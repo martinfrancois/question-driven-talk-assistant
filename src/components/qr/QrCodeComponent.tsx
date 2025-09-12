@@ -1,7 +1,12 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import type { JSX, KeyboardEvent } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { useMove } from "@react-aria/interactions";
+import type {
+  MoveStartEvent,
+  MoveMoveEvent,
+  MoveEndEvent,
+} from "@react-aria/interactions";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   useQrCodeUrl,
@@ -33,7 +38,7 @@ function useResizeHandleProps(
   const rafId = useRef<number | null>(null);
   const prevUserSelect = useRef<string>("");
 
-  const schedule = () => {
+  const schedule = (): void => {
     if (rafId.current != null) return;
     rafId.current = requestAnimationFrame(() => {
       rafId.current = null;
@@ -41,7 +46,7 @@ function useResizeHandleProps(
     });
   };
 
-  const flush = () => {
+  const flush = (): void => {
     if (rafId.current != null) {
       cancelAnimationFrame(rafId.current);
       rafId.current = null;
@@ -50,7 +55,7 @@ function useResizeHandleProps(
   };
 
   const { moveProps } = useMove({
-    onMoveStart() {
+    onMoveStart(_: MoveStartEvent): void {
       baseSize.current = Number(size) || MIN_QR_CODE_SIZE;
       sumX.current = 0;
       sumY.current = 0;
@@ -60,7 +65,7 @@ function useResizeHandleProps(
         doc.body.style.userSelect = "none";
       }
     },
-    onMove(e) {
+    onMove(e: MoveMoveEvent): void {
       sumX.current += e.deltaX;
       sumY.current += e.deltaY;
       const delta =
@@ -70,7 +75,7 @@ function useResizeHandleProps(
       pending.current = clamp(baseSize.current + delta);
       schedule();
     },
-    onMoveEnd() {
+    onMoveEnd(_: MoveEndEvent): void {
       const doc = globalThis.document;
       if (doc) doc.body.style.userSelect = prevUserSelect.current;
       flush();
@@ -78,14 +83,20 @@ function useResizeHandleProps(
     },
   });
 
+  useEffect(() => {
+    return () => {
+      if (rafId.current != null) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
+
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
     const step = e.shiftKey ? 16 : 4;
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       e.preventDefault();
-      setSize(clamp(size + step));
+      setSize(clamp((size ?? MIN_QR_CODE_SIZE) + step));
     } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       e.preventDefault();
-      setSize(clamp(size - step));
+      setSize(clamp((size ?? MIN_QR_CODE_SIZE) - step));
     }
   };
 
@@ -97,6 +108,7 @@ function useResizeHandleProps(
     "aria-valuemin": MIN_QR_CODE_SIZE,
     "aria-valuemax": MAX_QR_CODE_SIZE,
     "aria-valuenow": size,
+    "aria-valuetext": `${size}px`,
     onKeyDown,
   } as const;
 }
