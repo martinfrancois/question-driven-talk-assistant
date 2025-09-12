@@ -22,7 +22,7 @@ import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
  * Keyboard key visual representation component.
  * Renders a styled `<kbd>` element for displaying keyboard shortcuts.
  */
-function Kbd(props: { children: ReactNode }) {
+function Kbd(props: { children: ReactNode }): JSX.Element {
   return (
     <kbd className="rounded bg-neutral-200 px-1.5 py-0.5 dark:bg-neutral-700">
       {props.children}
