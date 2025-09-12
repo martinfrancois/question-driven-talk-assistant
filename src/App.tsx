@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, JSX } from "react";
+import { useState, useEffect, useCallback } from "react";
+import type { JSX } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import screenfull from "screenfull";
