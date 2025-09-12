@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import {
+  type JSX,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +18,7 @@ import { About } from "./About";
 import { useRestartTour } from "@/stores";
 import { useDarkModeClassName } from "../hooks/dark-mode-classnames.ts";
 
-function Kbd(props: { children: React.ReactNode }) {
+function Kbd(props: { children: ReactNode }): JSX.Element {
   return (
     <kbd className="rounded bg-neutral-200 px-1.5 py-0.5 dark:bg-neutral-700">
       {props.children}
@@ -25,7 +31,14 @@ interface HelpModalProps {
   onClose: () => void;
 }
 
-export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+/**
+ * Displays keyboard shortcuts, features, and helpful information.
+ * Includes controls for restarting the guided tour and updating the PWA service worker.
+ *
+ * @param isOpen - Controls whether the modal is open or closed.
+ * @param onClose - Callback to close the modal.
+ */
+export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   const restartTour = useRestartTour();
 
   const darkModeClassName = useDarkModeClassName();
@@ -58,7 +71,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   }, [restartTour, onClose]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         data-testid="help-modal"
         className={`${darkModeClassName} max-w-6xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
@@ -134,7 +147,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-function TableHeader(props: { children: React.ReactNode }) {
+function TableHeader(props: { children: ReactNode }): JSX.Element {
   return (
     <tr className="bg-neutral-100 dark:bg-neutral-800">
       <th
@@ -147,7 +160,7 @@ function TableHeader(props: { children: React.ReactNode }) {
   );
 }
 
-function TableCell(props: { children: React.ReactNode }) {
+function TableCell(props: { children: ReactNode }): JSX.Element {
   return (
     <td className="border-b px-2 py-2 text-neutral-950 dark:text-neutral-50">
       {props.children}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type JSX } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import screenfull from "screenfull";
@@ -23,7 +23,20 @@ import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
 
-const App: React.FC = () => {
+/**
+ * Root component of the application.
+ *
+ * Sets up global behaviors such as:
+ * - Font size management via hotkeys (Ctrl+P / Ctrl+M)
+ * - Theme toggling (Ctrl+D)
+ * - Fullscreen toggle via keyboard (Ctrl+F)
+ * - Save content to file (Ctrl+S)
+ * - Initializes layout, modals, and onboarding flow
+ *
+ * Also triggers localStorage migration and manages dark mode styling.
+ * Note: Ctrl+F is handled by the app and overrides the browser's default "Find".
+ */
+const App = (): JSX.Element => {
   const toggleDarkMode = useToggleDarkMode();
   const fontSize = useFontSize();
   const increaseFontSize = useIncreaseFontSize();

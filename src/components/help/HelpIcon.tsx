@@ -1,12 +1,21 @@
-import React from "react";
+import type { JSX, RefObject } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 interface HelpIconProps {
   onClick: () => void;
-  buttonRef?: React.RefObject<HTMLButtonElement | null>;
+  buttonRef?: RefObject<HTMLButtonElement | null>;
 }
 
-const HelpIcon: React.FC<HelpIconProps> = ({ onClick, buttonRef }) => (
+/**
+ * A floating help button displayed in the bottom-right corner of the screen.
+ *
+ * When clicked, it triggers a callback (usually to open a help modal).
+ * Also supports an optional ref for testing or DOM access.
+ *
+ * @param onClick - Callback fired when the button is clicked.
+ * @param buttonRef - Optional React ref for the button element.
+ */
+const HelpIcon = ({ onClick, buttonRef }: HelpIconProps): JSX.Element => (
   <button
     onClick={onClick}
     ref={buttonRef}
