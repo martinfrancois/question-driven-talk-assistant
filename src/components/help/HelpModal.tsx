@@ -75,12 +75,7 @@ export const HelpModal = ({ isOpen, onClose }: HelpModalProps): JSX.Element => {
   }, [restartTour, onClose]);
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
-    >
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         data-testid="help-modal"
         className={`${darkModeClassName} max-w-6xl bg-white text-neutral-950 dark:bg-neutral-800 dark:text-neutral-50`}
