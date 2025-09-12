@@ -2,11 +2,7 @@ import { useRef, useCallback, useEffect } from "react";
 import type { JSX, KeyboardEvent } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { useMove } from "@react-aria/interactions";
-import type {
-  MoveStartEvent,
-  MoveMoveEvent,
-  MoveEndEvent,
-} from "@react-aria/interactions";
+import type { MoveMoveEvent } from "@react-aria/interactions";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   useQrCodeUrl,
@@ -55,7 +51,7 @@ function useResizeHandleProps(
   };
 
   const { moveProps } = useMove({
-    onMoveStart(_: MoveStartEvent): void {
+    onMoveStart(): void {
       baseSize.current = Number(size) || MIN_QR_CODE_SIZE;
       sumX.current = 0;
       sumY.current = 0;
@@ -75,7 +71,7 @@ function useResizeHandleProps(
       pending.current = clamp(baseSize.current + delta);
       schedule();
     },
-    onMoveEnd(_: MoveEndEvent): void {
+    onMoveEnd(): void {
       const doc = globalThis.document;
       if (doc) doc.body.style.userSelect = prevUserSelect.current;
       flush();
