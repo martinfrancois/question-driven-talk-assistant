@@ -183,8 +183,9 @@ describe("QuestionItem Component with Zustand", () => {
     // Advance time to generate a unique timestamp for the new question
     advanceTime();
 
-    // Wait for state updates and re-rendering
-    await vi.advanceTimersByTimeAsync(100);
+    // Wait slightly longer than the live region reset timeout to ensure
+    // the announcement has been cleared before taking the snapshot.
+    await vi.advanceTimersByTimeAsync(200);
 
     // Re-fetch the textareas after the update
     const updatedTextareas = container.querySelectorAll("textarea");
