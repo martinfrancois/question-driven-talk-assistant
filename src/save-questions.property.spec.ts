@@ -7,22 +7,26 @@ import {
 } from "./save-questions.ts";
 import type { Question } from "./stores";
 
-describe("generateFileName", () => {
-  it("creates sanitized file names", () => {
-    const samples = fc.sample(fc.string(), 100);
+describe("generateFileName (properties)", () => {
+  it("creates sanitized file names for any title and date", () => {
+    fc.assert(
+      fc.property(
+        fc.string(),
+        fc.integer({ min: 0, max: Date.parse("2100-12-31") }),
+        (title, ms) => {
+          const date = new Date(ms);
+          const result = generateFileName(title, date);
+          const parts = result.split("_");
 
-    for (const title of ["Hello  World!!", "--Example--", ...samples]) {
-      const date = new Date(2020, 0, 1);
-      const result = generateFileName(title, date);
-      const parts = result.split("_");
-
-      expect(parts).toHaveLength(3);
-      const [datePart, formattedTitle, suffix] = parts;
-      expect(suffix).toBe("questions.md");
-      expect(/\d{4}-\d{2}-\d{2}/.test(datePart)).toBe(true);
-      // only lowercase letters, digits and dashes allowed
-      expect(/^[a-z0-9-]*$/.test(formattedTitle)).toBe(true);
-    }
+          expect(parts).toHaveLength(3);
+          const [datePart, formattedTitle, suffix] = parts;
+          expect(suffix).toBe("questions.md");
+          expect(/^\d{4}-\d{2}-\d{2}$/.test(datePart)).toBe(true);
+          // only lowercase letters, digits and dashes allowed
+          expect(/^[a-z0-9-]*$/.test(formattedTitle)).toBe(true);
+        },
+      ),
+    );
   });
 });
 
