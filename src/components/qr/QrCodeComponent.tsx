@@ -11,14 +11,13 @@ import {
   useSetQrCodeSize,
 } from "@/stores";
 
-type Direction = "bottom-right" | "bottom-left";
-
-const MIN_QR_CODE_SIZE = 32;
-const MAX_QR_CODE_SIZE = 256;
-
-function clamp(n: number): number {
-  return Math.min(Math.max(n, MIN_QR_CODE_SIZE), MAX_QR_CODE_SIZE);
-}
+import {
+  clampQrSize,
+  computeResizeDelta,
+  MIN_QR_CODE_SIZE,
+  MAX_QR_CODE_SIZE,
+  type ResizeDirection as Direction,
+} from "@/lib/qr.ts";
 
 function useResizeHandleProps(
   direction: Direction,
@@ -64,11 +63,8 @@ function useResizeHandleProps(
     onMove(e: MoveMoveEvent): void {
       sumX.current += e.deltaX;
       sumY.current += e.deltaY;
-      const delta =
-        direction === "bottom-right"
-          ? Math.max(sumX.current, sumY.current)
-          : Math.max(-sumX.current, sumY.current);
-      pending.current = clamp(baseSize.current + delta);
+      const delta = computeResizeDelta(direction, sumX.current, sumY.current);
+      pending.current = clampQrSize(baseSize.current + delta);
       schedule();
     },
     onMoveEnd(): void {
@@ -89,10 +85,10 @@ function useResizeHandleProps(
     const step = e.shiftKey ? 16 : 4;
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       e.preventDefault();
-      setSize(clamp((size ?? MIN_QR_CODE_SIZE) + step));
+      setSize(clampQrSize((size ?? MIN_QR_CODE_SIZE) + step));
     } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       e.preventDefault();
-      setSize(clamp((size ?? MIN_QR_CODE_SIZE) - step));
+      setSize(clampQrSize((size ?? MIN_QR_CODE_SIZE) - step));
     }
   };
 
