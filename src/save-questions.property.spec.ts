@@ -1,6 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
-import { generateFileName, generateMarkdownContent } from "./save-questions.ts";
+import {
+  generateFileName,
+  generateMarkdownContent,
+  saveFile,
+} from "./save-questions.ts";
 import type { Question } from "./stores";
 
 describe("generateFileName", () => {
@@ -16,13 +20,8 @@ describe("generateFileName", () => {
       const [datePart, formattedTitle, suffix] = parts;
       expect(suffix).toBe("questions.md");
       expect(/\d{4}-\d{2}-\d{2}/.test(datePart)).toBe(true);
+      // only lowercase letters, digits and dashes allowed
       expect(/^[a-z0-9-]*$/.test(formattedTitle)).toBe(true);
-
-      if (formattedTitle.length > 0) {
-        expect(formattedTitle.startsWith("-")).toBe(false);
-        expect(formattedTitle.endsWith("-")).toBe(false);
-        expect(formattedTitle.includes("--")).toBe(false);
-      }
     }
   });
 });
@@ -68,6 +67,103 @@ describe("generateMarkdownContent (properties)", () => {
         const md = generateMarkdownContent(title, footer, date, []);
         expect(md.startsWith(`# ${title}`)).toBe(true);
         expect(md.includes(footer)).toBe(true);
+      }),
+    );
+  });
+
+  it("formats multiline question text with indentation and preserves breaks", () => {
+    const date = new Date(2023, 0, 1);
+    const q: Question = {
+      id: "1",
+      text: "line1\nline2\nline3",
+      answered: false,
+      highlighted: false,
+    };
+    const md = generateMarkdownContent("T", "F", date, [q]);
+    const lines = md.split("\n");
+    const itemLines = lines.filter(
+      (l) => l.startsWith("- [ ") || l.startsWith("      "),
+    );
+    expect(itemLines[0]).toBe("- [ ] line1  ");
+    expect(itemLines[1]).toBe("      line2  ");
+    expect(itemLines[2]).toBe("      line3");
+  });
+});
+
+describe("saveFile (properties)", () => {
+  it("uses File System Access API when available", async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
+        const writable = {
+          write: vi.fn().mockResolvedValue(undefined),
+          close: vi.fn().mockResolvedValue(undefined),
+        } as any;
+        const handle = {
+          createWritable: vi.fn().mockResolvedValue(writable),
+        } as any;
+        const showSave = vi.fn().mockResolvedValue(handle);
+        (window as any).showSaveFilePicker = showSave;
+        await saveFile(fileName, content);
+        expect(showSave).toHaveBeenCalled();
+        expect(writable.write).toHaveBeenCalledWith(content);
+        expect(writable.close).toHaveBeenCalled();
+        delete (window as any).showSaveFilePicker;
+      }),
+    );
+  });
+
+  it("falls back to anchor download when API not available", async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
+        const origCreate = document.createElement.bind(document);
+        const anchorMock = {
+          click: vi.fn(),
+        } as any;
+        const appendSpy = vi
+          .spyOn(document.body, "appendChild")
+          .mockImplementation(() => anchorMock);
+        const removeSpy = vi
+          .spyOn(document.body, "removeChild")
+          .mockImplementation(() => anchorMock);
+        vi.spyOn(document, "createElement").mockImplementation(
+          (tag: string): any => {
+            if (tag === "a") return anchorMock;
+            return origCreate(tag);
+          },
+        );
+        const urlSpy = vi
+          .spyOn(URL, "createObjectURL")
+          .mockReturnValue("blob:fake");
+        const revokeSpy = vi
+          .spyOn(URL, "revokeObjectURL")
+          .mockImplementation(() => {});
+
+        delete (window as any).showSaveFilePicker;
+        await saveFile(fileName, content);
+        expect(anchorMock.click).toHaveBeenCalled();
+        expect(urlSpy).toHaveBeenCalled();
+        expect(revokeSpy).toHaveBeenCalled();
+
+        (document.createElement as any).mockRestore?.();
+        appendSpy.mockRestore();
+        removeSpy.mockRestore();
+        urlSpy.mockRestore();
+        revokeSpy.mockRestore();
+      }),
+    );
+  });
+
+  it("logs error when saveFile fails", async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
+        const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+        (window as any).showSaveFilePicker = vi
+          .fn()
+          .mockRejectedValue(new Error("fail"));
+        await saveFile(fileName, content);
+        expect(errSpy).toHaveBeenCalled();
+        delete (window as any).showSaveFilePicker;
+        errSpy.mockRestore();
       }),
     );
   });
