@@ -23,6 +23,12 @@ import {
 } from "@/stores";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
 import { getCheckboxState } from "@/lib/get-checkbox-state.ts";
+import {
+  currentLineNumberForCursor,
+  isMultiLineAndEmptyText,
+  positionAtEndOfLine,
+  totalLines,
+} from "@/lib/text-cursor.ts";
 
 interface QuestionItemProps {
   question: Question;
@@ -143,9 +149,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
     const cursorPosition = textarea.selectionStart;
 
     // Split textarea content into lines
-    const lines = textarea.value.split("\n");
-    const isMultiLineAndEmpty =
-      lines.length > 1 && lines.every((line) => line.trim() === "");
+    const isMultiLineAndEmpty = isMultiLineAndEmptyText(textarea.value);
 
     if (e.key === "Backspace") {
       // Prevent action when cursor is on the first line of an empty multi-line textarea
@@ -199,15 +203,13 @@ const QuestionItem: FC<QuestionItemProps> = ({
       }
     }
 
-    // Get text before cursor
-    const textBeforeCursor = textarea.value.substring(0, cursorPosition);
-    // Split text before cursor into lines
-    const linesBeforeCursor = textBeforeCursor.split("\n");
-    // Current line number (0-based)
-    const currentLineNumber = linesBeforeCursor.length - 1;
+    const currentLineNumber = currentLineNumberForCursor(
+      textarea.value,
+      cursorPosition,
+    );
 
     // Total lines in the current textarea
-    const totalLines = textarea.value.split("\n").length;
+    const total = totalLines(textarea.value);
 
     const currentIndex = questions.findIndex((q) => q.id === question.id);
     if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
@@ -235,7 +237,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       !e.ctrlKey &&
       !e.altKey
     ) {
-      const isAtLastLine = currentLineNumber === totalLines - 1;
+      const isAtLastLine = currentLineNumber === total - 1;
 
       if (isAtLastLine) {
         // Cursor is at last line, move focus to next textarea
@@ -248,16 +250,8 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
             // Place cursor at the end of the first line in the next textarea
             const nextTextarea = nextRef.current;
-            const nextTextLines = nextTextarea.value.split("\n");
-
-            // First line index (0)
-            const lineIndex = 0;
-            let position = 0;
-            for (let i = 0; i <= lineIndex; i++) {
-              position += nextTextLines[i]?.length ?? 0;
-              if (i < lineIndex) position += 1; // +1 for newline
-            }
-            nextTextarea.setSelectionRange(position, position);
+            const pos = positionAtEndOfLine(nextTextarea.value, 0);
+            nextTextarea.setSelectionRange(pos, pos);
           }
         }
       } else {
@@ -277,16 +271,11 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
             // Place cursor at the end of the last line in the previous textarea
             const prevTextarea = prevRef.current;
-            const prevTextLines = prevTextarea.value.split("\n");
-
-            // Last line index
-            const lineIndex = prevTextLines.length - 1;
-            let position = 0;
-            for (let i = 0; i <= lineIndex; i++) {
-              position += prevTextLines[i]?.length ?? 0;
-              if (i < lineIndex) position += 1; // +1 for newline
-            }
-            prevTextarea.setSelectionRange(position, position);
+            const pos = positionAtEndOfLine(
+              prevTextarea.value,
+              totalLines(prevTextarea.value) - 1,
+            );
+            prevTextarea.setSelectionRange(pos, pos);
           }
         }
       } else {
