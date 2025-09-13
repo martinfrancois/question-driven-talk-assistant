@@ -24,6 +24,7 @@
 - Prettier (with tailwindcss plugin) formats code; a pre-commit hook auto-formats staged files.
 - Unit tests use Vitest and run in a Playwright-provided Chromium browser.
 - End-to-end tests use Playwright.
+- When running tests, include the `--browser.headless` flag to ensure headless execution.
 - Playwright browsers **must** be installed before running any tests (including unit tests):
   ```bash
   bun x playwright install --with-deps
@@ -36,7 +37,7 @@
 3. Type check: `bun x tsc -p tsconfig.json --noEmit`.
 4. Build: `bun run build`.
 5. Install Playwright browsers (required even for unit tests): `bun x playwright install --with-deps`.
-6. Run unit tests: `bun run test:unit`.
+6. Run unit tests: `bun run test:unit -- --browser.headless`.
 7. For end-to-end tests:
    - Start preview server: `bun run preview -- --port 5173`.
    - In another terminal, run: `bun run test:e2e`.
