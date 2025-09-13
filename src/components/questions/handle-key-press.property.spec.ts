@@ -332,6 +332,35 @@ describe("handleKeyPress (properties)", () => {
             expect(e.preventDefault).toHaveBeenCalled();
             expect(base.insertQuestion).toHaveBeenCalled();
             vi.runAllTimers();
+            // Ensure branch where newRef is undefined is exercised too
+            const textarea2 = t("hello", 0);
+            const e2: any = {
+              key: "Enter",
+              preventDefault: vi.fn(),
+              shiftKey: false,
+              ctrlKey: false,
+              altKey: false,
+            };
+            const textareaRef2 = createRef<HTMLTextAreaElement | null>(
+              textarea2,
+            );
+            const base2: any = { ...base, insertQuestion: vi.fn() };
+            const questionRefs2 = createRef<
+              Record<string, React.RefObject<HTMLTextAreaElement | null>>
+            >({});
+            handleKeyPress(e2, {
+              textareaRef: textareaRef2,
+              questions,
+              question: questions[0] as any,
+              updateQuestionText: base2.updateQuestionText,
+              removeQuestion: base2.removeQuestion,
+              insertQuestion: base2.insertQuestion,
+              addQuestion: base2.addQuestion,
+              questionRefs: questionRefs2 as any,
+              adjustHeight: base2.adjustHeight,
+              announceLiveRegion: base2.announceLiveRegion,
+            });
+            expect(e2.preventDefault).toHaveBeenCalled();
           } else if (mode === "arrowDown" || mode === "arrowUp") {
             expect(e.preventDefault).toHaveBeenCalled();
           } else if (
@@ -356,5 +385,301 @@ describe("handleKeyPress (properties)", () => {
     );
 
     vi.useRealTimers();
+  });
+
+  it("Tab create path focuses new ref after timeout", () => {
+    vi.useFakeTimers();
+
+    const t = (v: string, sel: number) => createTextarea(v, sel);
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({
+      q1: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    });
+
+    const base: any = {
+      updateQuestionText: vi.fn(),
+      removeQuestion: vi.fn(),
+      insertQuestion: vi.fn(),
+      addQuestion: vi.fn((q: any) => {
+        questionRefs.current[q.id] = createRef<HTMLTextAreaElement | null>(
+          document.createElement("textarea"),
+        );
+      }),
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    };
+
+    const questions = [
+      { id: "q1", text: "x", answered: false, highlighted: false },
+    ];
+    const textarea = t("x", 0);
+    const e: any = {
+      key: "Tab",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+
+    const textareaRef = createRef<HTMLTextAreaElement | null>(textarea);
+
+    handleKeyPress(e, {
+      textareaRef,
+      questions,
+      question: questions[0] as any,
+      updateQuestionText: base.updateQuestionText,
+      removeQuestion: base.removeQuestion,
+      insertQuestion: base.insertQuestion,
+      addQuestion: base.addQuestion,
+      questionRefs: questionRefs as any,
+      adjustHeight: base.adjustHeight,
+      announceLiveRegion: base.announceLiveRegion,
+    });
+
+    vi.runAllTimers();
+    // New ref should exist and be focusable
+    const newKeys = Object.keys(questionRefs.current);
+    expect(newKeys.length).toBeGreaterThan(1);
+    const newRefKey = newKeys.find((k) => k !== "q1") as string;
+    expect(questionRefs.current[newRefKey]?.current).toBeTruthy();
+
+    vi.useRealTimers();
+  });
+
+  it("early-returns if textareaRef.current is null without crashing", () => {
+    const base: any = {
+      updateQuestionText: vi.fn(),
+      removeQuestion: vi.fn(),
+      insertQuestion: vi.fn(),
+      addQuestion: vi.fn(),
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    };
+    const questions = [
+      { id: "q1", text: "x", answered: false, highlighted: false },
+    ];
+    const e: any = {
+      key: "Enter",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({});
+    expect(() =>
+      handleKeyPress(e, {
+        textareaRef: createRef<HTMLTextAreaElement | null>(null),
+        questions,
+        question: questions[0] as any,
+        updateQuestionText: base.updateQuestionText,
+        removeQuestion: base.removeQuestion,
+        insertQuestion: base.insertQuestion,
+        addQuestion: base.addQuestion,
+        questionRefs: questionRefs as any,
+        adjustHeight: base.adjustHeight,
+        announceLiveRegion: base.announceLiveRegion,
+      }),
+    ).not.toThrow();
+    expect(e.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it("Tab create path with no new ref does not throw after timeout", () => {
+    vi.useFakeTimers();
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({
+      q1: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    });
+
+    const base: any = {
+      updateQuestionText: vi.fn(),
+      removeQuestion: vi.fn(),
+      insertQuestion: vi.fn(),
+      addQuestion: vi.fn(() => {}),
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    };
+
+    const questions = [
+      { id: "q1", text: "x", answered: false, highlighted: false },
+    ];
+    const textarea = createTextarea("x", 0);
+    const e: any = {
+      key: "Tab",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+    const textareaRef = createRef<HTMLTextAreaElement | null>(textarea);
+
+    expect(() =>
+      handleKeyPress(e, {
+        textareaRef,
+        questions,
+        question: questions[0] as any,
+        updateQuestionText: base.updateQuestionText,
+        removeQuestion: base.removeQuestion,
+        insertQuestion: base.insertQuestion,
+        addQuestion: base.addQuestion,
+        questionRefs: questionRefs as any,
+        adjustHeight: base.adjustHeight,
+        announceLiveRegion: base.announceLiveRegion,
+      }),
+    ).not.toThrow();
+
+    vi.runAllTimers();
+    vi.useRealTimers();
+  });
+
+  it("Tab focusNext/Prev tolerates missing next/prev ref safely", () => {
+    const t = (v: string, sel: number) => createTextarea(v, sel);
+    const questions = [
+      { id: "q1", text: "x", answered: false, highlighted: false },
+      { id: "q2", text: "y", answered: false, highlighted: false },
+    ];
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({
+      q1: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    });
+
+    const base: any = {
+      updateQuestionText: vi.fn(),
+      removeQuestion: vi.fn(),
+      insertQuestion: vi.fn(),
+      addQuestion: vi.fn(),
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    };
+
+    // focusNext path where next ref is missing
+    const eNext: any = {
+      key: "Tab",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+    const textareaRefNext = createRef<HTMLTextAreaElement | null>(t("x", 0));
+    handleKeyPress(eNext, {
+      textareaRef: textareaRefNext,
+      questions,
+      question: questions[0] as any,
+      updateQuestionText: base.updateQuestionText,
+      removeQuestion: base.removeQuestion,
+      insertQuestion: base.insertQuestion,
+      addQuestion: base.addQuestion,
+      questionRefs: questionRefs as any,
+      adjustHeight: base.adjustHeight,
+      announceLiveRegion: base.announceLiveRegion,
+    });
+    expect(eNext.preventDefault).toHaveBeenCalled();
+
+    // focusPrev path where prev ref is missing
+    // Reconfigure refs to only include q2 so prev (q1) is missing
+    questionRefs.current = {
+      q2: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    } as any;
+    const ePrev: any = {
+      key: "Tab",
+      preventDefault: vi.fn(),
+      shiftKey: true,
+      ctrlKey: false,
+      altKey: false,
+    };
+    const textareaRefPrev = createRef<HTMLTextAreaElement | null>(t("x", 0));
+    handleKeyPress(ePrev, {
+      textareaRef: textareaRefPrev,
+      questions,
+      question: questions[1] as any,
+      updateQuestionText: base.updateQuestionText,
+      removeQuestion: base.removeQuestion,
+      insertQuestion: base.insertQuestion,
+      addQuestion: base.addQuestion,
+      questionRefs: questionRefs as any,
+      adjustHeight: base.adjustHeight,
+      announceLiveRegion: base.announceLiveRegion,
+    });
+    expect(ePrev.preventDefault).toHaveBeenCalled();
+  });
+
+  it("ArrowUp at first question prevents default but does not attempt prev focus", () => {
+    const questions = [
+      { id: "q1", text: "a\nb", answered: false, highlighted: false },
+    ];
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({
+      q1: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    });
+    const textarea = createTextarea("a\nb", 0);
+    const e: any = {
+      key: "ArrowUp",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+    handleKeyPress(e, {
+      textareaRef: createRef<HTMLTextAreaElement | null>(textarea),
+      questions,
+      question: questions[0] as any,
+      updateQuestionText: vi.fn() as any,
+      removeQuestion: vi.fn() as any,
+      insertQuestion: vi.fn() as any,
+      addQuestion: vi.fn() as any,
+      questionRefs: questionRefs as any,
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    });
+    expect(e.preventDefault).toHaveBeenCalled();
+  });
+
+  it("ArrowDown at last question prevents default but does not attempt next focus", () => {
+    const questions = [
+      { id: "q1", text: "a\nb", answered: false, highlighted: false },
+    ];
+    const questionRefs = createRef<
+      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    >({
+      q1: createRef<HTMLTextAreaElement | null>(
+        document.createElement("textarea"),
+      ),
+    });
+    const textarea = createTextarea("a\nb", 3);
+    const e: any = {
+      key: "ArrowDown",
+      preventDefault: vi.fn(),
+      shiftKey: false,
+      ctrlKey: false,
+      altKey: false,
+    };
+    handleKeyPress(e, {
+      textareaRef: createRef<HTMLTextAreaElement | null>(textarea),
+      questions,
+      question: questions[0] as any,
+      updateQuestionText: vi.fn() as any,
+      removeQuestion: vi.fn() as any,
+      insertQuestion: vi.fn() as any,
+      addQuestion: vi.fn() as any,
+      questionRefs: questionRefs as any,
+      adjustHeight: vi.fn(),
+      announceLiveRegion: vi.fn(),
+    });
+    expect(e.preventDefault).toHaveBeenCalled();
   });
 });

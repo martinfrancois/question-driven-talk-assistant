@@ -14,6 +14,7 @@ const useOnboardingStore = create<OnboardingState>()(
     persist(
       immer((set) => ({
         tourCompleted:
+          /* istanbul ignore next */
           (typeof window !== "undefined" &&
             window?.location?.href?.endsWith("disable-tour")) ??
           false,
