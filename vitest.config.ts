@@ -1,8 +1,7 @@
-import { configDefaults, defineConfig } from "vitest/config";
+import { configDefaults, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config";
 
-export default defineConfig({
-  ...viteConfig,
+export default mergeConfig(viteConfig, {
   test: {
     setupFiles: ["./setup-vitest.ts"],
     browser: {
