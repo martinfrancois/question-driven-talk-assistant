@@ -21,6 +21,7 @@ export default [
   {
     ignores: [
       "**/dist",
+      "**/coverage",
       "**/eslint.config.js",
       "**/postcss.config.js",
       "**/tailwind.config.js",

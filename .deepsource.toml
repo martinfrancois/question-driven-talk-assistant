@@ -5,7 +5,7 @@ test_patterns = [
   "**/*.spec.*"
 ]
 
-exclude_patterns = ["/dist/**"]
+exclude_patterns = ["/dist/**", "/coverage/**"]
 
 [[analyzers]]
 name = "javascript"

@@ -7,6 +7,7 @@ export default defineConfig({
     setupFiles: ["./setup-vitest.ts"],
     browser: {
       enabled: true,
+      headless: true,
       instances: [
         {
           browser: "chromium",
@@ -15,5 +16,9 @@ export default defineConfig({
       provider: "playwright",
     },
     exclude: [...configDefaults.exclude, "e2e/*"],
+    coverage: {
+      provider: "istanbul",
+      reporter: ["text", "html", "lcov"],
+    },
   },
 });
