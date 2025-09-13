@@ -129,6 +129,7 @@ bun dev
 | Unit tests                 | `bun test:unit`        |
 | Update unit test snapshots | `bun test:unit:update` |
 | End-to-end tests           | `bun test:e2e`         |
+| Check                      | `bun run check`        |
 
 **Note**: Offline support is off during development.
 
