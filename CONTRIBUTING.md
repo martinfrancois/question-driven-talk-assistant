@@ -21,6 +21,19 @@ Refer to the [development setup](./README.md#development-setup) for details on t
 
 Before making changes, review the existing [issues](https://github.com/martinfrancois/question-driven-talk-assistant/issues) to see the types of contributions that are welcome. Improvements to code, documentation, and tests are all appreciated.
 
+## Conventions
+
+- Unit/integration tests are in the same folder as the code, with the same filename as the file that is tested, ending in `.spec.ts`/`.spec.tsx`
+- Mocks for unit/integration tests are in the src/**mocks** folder
+- Property-based tests with fast-check are in a separate file ending in `.property.spec.ts`
+- Automated end-to-end tests using Playwright are in the `e2e` folder, and are using the page object pattern.
+  - Page objects are in the `pageobjects` subfolder.
+  - All page objects extend `AppPage`
+  - Test files end with `.spec.ts`
+- File name conventions:
+  - React components: PascalCase with `.tsx` suffix.
+  - Pure logic/utils/zhooks/constants/etc.: kebab-case with `.ts` suffix.
+
 ### Issues
 
 #### Create a new issue
