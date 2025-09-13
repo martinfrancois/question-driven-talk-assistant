@@ -22,6 +22,7 @@ import {
   useUpdateQuestionText,
 } from "@/stores";
 import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { getCheckboxState } from "@/lib/get-checkbox-state.ts";
 
 interface QuestionItemProps {
   question: Question;
@@ -30,24 +31,6 @@ interface QuestionItemProps {
   >;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   index: number;
-}
-
-function getCheckboxState(question: Question): string {
-  const { answered, highlighted, text } = question;
-
-  const constructMessage = (action: string, text: string | null): string => {
-    return text ? `${action} question: ${text}` : `${action} empty question`;
-  };
-
-  if (answered) {
-    return constructMessage("Answered", text);
-  }
-
-  if (highlighted) {
-    return constructMessage("Currently answering", text);
-  }
-
-  return text ? `Question: ${text}` : "Empty Question";
 }
 
 const QuestionItem: FC<QuestionItemProps> = ({
