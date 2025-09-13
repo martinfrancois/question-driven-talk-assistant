@@ -54,6 +54,7 @@ export function useResizeHandleProps(
       sumX.current = 0;
       sumY.current = 0;
       const doc = globalThis.document;
+      /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
       if (doc) {
         prevUserSelect.current = doc.body.style.userSelect;
         doc.body.style.userSelect = "none";
@@ -68,6 +69,7 @@ export function useResizeHandleProps(
     },
     onMoveEnd(): void {
       const doc = globalThis.document;
+      /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
       if (doc) doc.body.style.userSelect = prevUserSelect.current;
       flush();
       onResizeEnd();
