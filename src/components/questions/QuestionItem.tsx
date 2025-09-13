@@ -29,6 +29,12 @@ import {
   positionAtEndOfLine,
   totalLines,
 } from "@/lib/text-cursor.ts";
+import {
+  decideBackspaceAction,
+  decideEnterAction,
+  decideTabAction,
+} from "@/lib/question-keypress.ts";
+import { useAutoResizeTextArea } from "@/components/hooks/use-auto-resize-textarea.ts";
 
 interface QuestionItemProps {
   question: Question;
@@ -76,12 +82,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
     ? "bg-neutral-200 dark:bg-neutral-600 rounded-lg"
     : "bg-transparent";
 
-  const adjustHeight = useCallback(() => {
-    if (textareaRef?.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [textareaRef]);
+  const { adjustHeight } = useAutoResizeTextArea(textareaRef);
 
   const clickCheckboxHandler = useCallback<
     MouseEventHandler<HTMLButtonElement>
@@ -152,54 +153,53 @@ const QuestionItem: FC<QuestionItemProps> = ({
     const isMultiLineAndEmpty = isMultiLineAndEmptyText(textarea.value);
 
     if (e.key === "Backspace") {
-      // Prevent action when cursor is on the first line of an empty multi-line textarea
-      if (isMultiLineAndEmpty && cursorPosition === 0) {
+      const currentIndex = questions.findIndex((q) => q.id === question.id);
+      const action = decideBackspaceAction({
+        textareaValue: textarea.value,
+        cursorPosition,
+        isCurrentTextEmpty: question.text.trim() === "",
+        isMultiLineAndEmpty,
+        currentIndex,
+        questionsLength: questions.length,
+      });
+      if (action.type !== "none") {
         e.preventDefault();
-        return;
-      }
-
-      // Remove a line if on the second line and pressing Backspace
-      if (isMultiLineAndEmpty && cursorPosition > 0) {
-        e.preventDefault();
-        const newText =
-          textarea.value.slice(0, cursorPosition - 1) +
-          textarea.value.slice(cursorPosition);
-
-        updateQuestionText(question.id, newText);
-        adjustHeight();
-        return;
-      }
-
-      // Delete question if it is completely empty
-      if (question.text.trim() === "") {
-        e.preventDefault();
-        if (questions.length > 1) {
-          const currentIndex = questions.findIndex((q) => q.id === question.id);
-          if (currentIndex === 0) {
-            // Delete first question and focus the new first question
-            removeQuestion(currentIndex);
-            const newFirstRef = questionRefs.current[questions[1].id];
-            if (newFirstRef?.current) {
-              newFirstRef.current.focus();
-              newFirstRef.current.setSelectionRange(0, 0);
-              announceLiveRegion("First question was deleted."); // TODO not read out?
-            }
-          } else {
-            // Delete current question and focus previous question
-            removeQuestion(currentIndex);
-            setTimeout(() => {
-              const prevQuestion = questions[currentIndex - 1];
-              const prevRef = questionRefs.current[prevQuestion.id];
-              if (prevRef?.current) {
-                prevRef.current.focus();
-                const position = prevRef.current.value.length;
-                prevRef.current.setSelectionRange(position, position);
-                announceLiveRegion("Deleted question."); // TODO not read out?
-              }
-            }, 0);
-          }
+        if (action.type === "prevent") return;
+        if (action.type === "updateText") {
+          updateQuestionText(question.id, action.newText);
+          adjustHeight();
+          return;
         }
-        return;
+        if (action.type === "deleteQuestion") {
+          if (questions.length > 1) {
+            if (action.target === "firstNext") {
+              removeQuestion(0);
+              const firstId = questions[1]?.id;
+              const newFirstRef = firstId
+                ? questionRefs.current[firstId]
+                : undefined;
+              if (newFirstRef?.current) {
+                newFirstRef.current.focus();
+                newFirstRef.current.setSelectionRange(0, 0);
+                announceLiveRegion("First question was deleted."); // TODO not read out?
+              }
+            } else {
+              const currentIdx = currentIndex;
+              removeQuestion(currentIdx);
+              setTimeout(() => {
+                const prevQuestion = questions[currentIdx - 1];
+                const prevRef = questionRefs.current[prevQuestion.id];
+                if (prevRef?.current) {
+                  prevRef.current.focus();
+                  const position = prevRef.current.value.length;
+                  prevRef.current.setSelectionRange(position, position);
+                  announceLiveRegion("Deleted question."); // TODO not read out?
+                }
+              }, 0);
+            }
+          }
+          return;
+        }
       }
     }
 
@@ -213,13 +213,13 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
     const currentIndex = questions.findIndex((q) => q.id === question.id);
     if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-      // Handle Enter key
+      const action = decideEnterAction({
+        currentTextTrimmed: question.text.trim(),
+        hasNext: Boolean(questions[currentIndex + 1]),
+        nextTextTrimmed: questions[currentIndex + 1]?.text ?? null,
+      });
       e.preventDefault();
-      if (
-        question.text.trim() !== "" &&
-        (!questions[currentIndex + 1] ||
-          questions[currentIndex + 1].text.trim() !== "")
-      ) {
+      if (action.type === "insertBelow") {
         const newQuestion = createEmptyQuestion();
         insertQuestion(currentIndex + 1, newQuestion);
         announceLiveRegion("Added a new question below and focused it.");
@@ -281,25 +281,32 @@ const QuestionItem: FC<QuestionItemProps> = ({
       } else {
         // Allow default behavior (move cursor up within textarea)
       }
-    } else if (e.key === "Tab" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-      // Handle Tab key
-      e.preventDefault();
-      if (currentIndex < questions.length - 1) {
-        // Not the last question
-        const nextQuestion = questions[currentIndex + 1];
-        const nextRef = questionRefs.current[nextQuestion.id];
-        if (nextRef?.current) {
-          nextRef.current.focus();
-
-          // Set cursor at the end of the text in the next textarea
-          const nextTextarea = nextRef.current;
-          const position = nextTextarea.value.length;
-          nextTextarea.setSelectionRange(position, position);
-        }
-      } else {
-        // Last textarea
-        if (question.text.trim() !== "") {
-          // Text is not empty, add new question
+    } else if (e.key === "Tab" && !e.ctrlKey && !e.altKey) {
+      const tabAction = decideTabAction({
+        shiftKey: e.shiftKey,
+        currentIndex,
+        questionsLength: questions.length,
+        isCurrentEmpty: question.text.trim() === "",
+      });
+      if (tabAction.type !== "none") {
+        e.preventDefault();
+        if (tabAction.type === "focusNext") {
+          const nextQuestion = questions[currentIndex + 1];
+          const nextRef = questionRefs.current[nextQuestion.id];
+          if (nextRef?.current) {
+            nextRef.current.focus();
+            const position = nextRef.current.value.length;
+            nextRef.current.setSelectionRange(position, position);
+          }
+        } else if (tabAction.type === "focusPrev") {
+          const prevQuestion = questions[currentIndex - 1];
+          const prevRef = questionRefs.current[prevQuestion.id];
+          if (prevRef?.current) {
+            prevRef.current.focus();
+            const position = prevRef.current.value.length;
+            prevRef.current.setSelectionRange(position, position);
+          }
+        } else if (tabAction.type === "createNewAndFocus") {
           const newQuestion = createEmptyQuestion();
           addQuestion(newQuestion);
           announceLiveRegion("Added a new question below and focused it.");
@@ -307,28 +314,9 @@ const QuestionItem: FC<QuestionItemProps> = ({
             const newRef = questionRefs.current[newQuestion.id];
             if (newRef?.current) {
               newRef.current.focus();
-              // Cursor at position 0 in new empty textarea
               newRef.current.setSelectionRange(0, 0);
             }
           }, 0);
-        } else {
-          // Text is empty, do nothing
-          // No action needed
-        }
-      }
-    } else if (e.key === "Tab" && e.shiftKey && !e.ctrlKey && !e.altKey) {
-      // Handle Shift+Tab key
-      e.preventDefault();
-      if (currentIndex > 0) {
-        const prevQuestion = questions[currentIndex - 1];
-        const prevRef = questionRefs.current[prevQuestion.id];
-        if (prevRef?.current) {
-          prevRef.current.focus();
-
-          // Set cursor at the end of the text in the previous textarea
-          const prevTextarea = prevRef.current;
-          const position = prevTextarea.value.length;
-          prevTextarea.setSelectionRange(position, position);
         }
       }
     }

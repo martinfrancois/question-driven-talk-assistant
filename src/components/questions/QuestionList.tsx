@@ -8,7 +8,6 @@ import {
   KeyboardSensor,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   rectSortingStrategy,
   sortableKeyboardCoordinates,
@@ -16,6 +15,7 @@ import {
 import QuestionItem from "./QuestionItem.tsx";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
 import { useQuestions, useSetQuestions } from "@/stores";
+import { reorderQuestionsByIds } from "@/lib/questions-utils.ts";
 
 const QuestionList: FC = () => {
   const questions = useQuestions();
@@ -30,11 +30,10 @@ const QuestionList: FC = () => {
 
   const handleDragEnd: Props["onDragEnd"] = (event) => {
     const { active, over } = event;
-    if (active.id !== over?.id) {
-      const oldIndex = questions.findIndex((q) => q.id === active.id);
-      const newIndex = questions.findIndex((q) => q.id === over?.id);
-      setQuestions(arrayMove(questions, oldIndex, newIndex));
-    }
+    const activeId = String(active.id);
+    const overId = over?.id == null ? over?.id : String(over.id);
+    const reordered = reorderQuestionsByIds(questions, activeId, overId);
+    if (reordered !== questions) setQuestions(reordered);
   };
 
   // Use a mapping from question ID to ref, creating refs only once
