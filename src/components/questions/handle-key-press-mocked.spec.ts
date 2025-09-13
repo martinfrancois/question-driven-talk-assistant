@@ -12,7 +12,7 @@ function createRef<T>(current: T) {
   return { current } as React.RefObject<T>;
 }
 
-describe("handleKeyPress with mocks (properties)", () => {
+describe("handleKeyPress with mocks (unit)", () => {
   it("Enter preventOnly branch prevents default without inserting", async () => {
     vi.resetModules();
     vi.doMock("@/lib/question-keypress.ts", async () => {
