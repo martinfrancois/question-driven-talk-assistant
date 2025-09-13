@@ -43,10 +43,10 @@ export const generateFileName = (title: string, date: Date): string => {
   }
 
   // Remove any leading or trailing dashes
-  if (formattedTitle.startsWith("-")) {
+  while (formattedTitle.startsWith("-")) {
     formattedTitle = formattedTitle.slice(1);
   }
-  if (formattedTitle.endsWith("-")) {
+  while (formattedTitle.endsWith("-")) {
     formattedTitle = formattedTitle.slice(0, -1);
   }
 
