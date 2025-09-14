@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import * as fc from "fast-check";
 import {
   generateFileName,
   generateMarkdownContent,
@@ -99,19 +99,28 @@ describe("saveFile (properties)", () => {
     await fc.assert(
       fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
         const writable = {
-          write: vi.fn().mockResolvedValue(undefined),
-          close: vi.fn().mockResolvedValue(undefined),
-        } as any;
+          write: vi
+            .fn<(content: string) => Promise<void>>()
+            .mockResolvedValue(undefined),
+          close: vi.fn<() => Promise<void>>().mockResolvedValue(undefined),
+        };
         const handle = {
-          createWritable: vi.fn().mockResolvedValue(writable),
-        } as any;
-        const showSave = vi.fn().mockResolvedValue(handle);
-        (window as any).showSaveFilePicker = showSave;
+          createWritable: vi
+            .fn<() => Promise<typeof writable>>()
+            .mockResolvedValue(writable),
+        };
+        const showSave = vi
+          .fn<() => Promise<typeof handle>>()
+          .mockResolvedValue(handle);
+        const win = window as unknown as {
+          showSaveFilePicker?: () => Promise<typeof handle>;
+        };
+        win.showSaveFilePicker = showSave;
         await saveFile(fileName, content);
         expect(showSave).toHaveBeenCalled();
         expect(writable.write).toHaveBeenCalledWith(content);
         expect(writable.close).toHaveBeenCalled();
-        delete (window as any).showSaveFilePicker;
+        delete win.showSaveFilePicker;
       }),
     );
   });
@@ -119,36 +128,28 @@ describe("saveFile (properties)", () => {
   it("falls back to anchor download when API not available", async () => {
     await fc.assert(
       fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
-        const origCreate = document.createElement.bind(document);
-        const anchorMock = {
-          click: vi.fn(),
-        } as any;
-        const appendSpy = vi
-          .spyOn(document.body, "appendChild")
-          .mockImplementation(() => anchorMock);
-        const removeSpy = vi
-          .spyOn(document.body, "removeChild")
-          .mockImplementation(() => anchorMock);
-        vi.spyOn(document, "createElement").mockImplementation(
-          (tag: string): any => {
-            if (tag === "a") return anchorMock;
-            return origCreate(tag);
-          },
-        );
+        const anchor = document.createElement("a");
+        const clickSpy = vi.spyOn(anchor, "click");
+        const createSpy = vi
+          .spyOn(document, "createElement")
+          .mockReturnValue(anchor);
+        const appendSpy = vi.spyOn(document.body, "appendChild");
+        const removeSpy = vi.spyOn(document.body, "removeChild");
         const urlSpy = vi
           .spyOn(URL, "createObjectURL")
           .mockReturnValue("blob:fake");
         const revokeSpy = vi
           .spyOn(URL, "revokeObjectURL")
-          .mockImplementation(() => {});
+          .mockImplementation(() => undefined);
 
-        delete (window as any).showSaveFilePicker;
+        const win = window as unknown as { showSaveFilePicker?: unknown };
+        delete win.showSaveFilePicker;
         await saveFile(fileName, content);
-        expect(anchorMock.click).toHaveBeenCalled();
+        expect(clickSpy).toHaveBeenCalled();
         expect(urlSpy).toHaveBeenCalled();
         expect(revokeSpy).toHaveBeenCalled();
 
-        (document.createElement as any).mockRestore?.();
+        createSpy.mockRestore();
         appendSpy.mockRestore();
         removeSpy.mockRestore();
         urlSpy.mockRestore();
@@ -160,13 +161,18 @@ describe("saveFile (properties)", () => {
   it("logs error when saveFile fails", async () => {
     await fc.assert(
       fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
-        const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-        (window as any).showSaveFilePicker = vi
-          .fn()
+        const errSpy = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => undefined);
+        const win = window as unknown as {
+          showSaveFilePicker?: () => Promise<never>;
+        };
+        win.showSaveFilePicker = vi
+          .fn<() => Promise<never>>()
           .mockRejectedValue(new Error("fail"));
         await saveFile(fileName, content);
         expect(errSpy).toHaveBeenCalled();
-        delete (window as any).showSaveFilePicker;
+        delete win.showSaveFilePicker;
         errSpy.mockRestore();
       }),
     );

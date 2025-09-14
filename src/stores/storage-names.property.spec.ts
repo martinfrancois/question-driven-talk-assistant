@@ -1,14 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
-
-vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return {
-    ...actual,
-    persist: (fn: any) => fn,
-    devtools: (fn: any) => fn,
-  };
-});
+import { describe, it, expect } from "vitest";
+import * as fc from "fast-check";
 
 describe("StorageName enum (properties)", () => {
   it("has unique, non-empty, '-storage' suffixed values", async () => {
@@ -22,7 +13,7 @@ describe("StorageName enum (properties)", () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...values),
-        (v) => v.length > 0 && /-storage$/.test(v),
+        (v: string) => v.length > 0 && v.endsWith("-storage"),
       ),
     );
   });

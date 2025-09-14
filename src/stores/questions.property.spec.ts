@@ -1,11 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import { describe, it, expect } from "vitest";
+import * as fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
-
-vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return { ...actual, persist: (fn: any) => fn, devtools: (fn: any) => fn };
-});
+import type { Question } from "./questions.ts";
 
 describe("questions store (properties)", () => {
   it("setQuestions replaces list and updateQuestionText mutates by id", async () => {
@@ -49,7 +45,7 @@ describe("questions store (properties)", () => {
           { maxLength: 8 },
         ),
         fc.string(),
-        (arr, newText) => {
+        (arr: Question[], newText: string) => {
           const base = arr.length ? arr : [createEmptyQuestion()];
           act(() => result.current.setQs(base));
 
@@ -75,11 +71,11 @@ describe("questions store (properties)", () => {
           }
 
           const countBefore = result.current.qs.filter(
-            (x: any) => x.id === inserted.id,
+            (x: Question) => x.id === inserted.id,
           ).length;
           act(() => result.current.remove(0));
           const countAfter = result.current.qs.filter(
-            (x: any) => x.id === inserted.id,
+            (x: Question) => x.id === inserted.id,
           ).length;
           expect(countAfter).toBeLessThan(countBefore);
 
@@ -87,7 +83,7 @@ describe("questions store (properties)", () => {
             const before = result.current.qs[0];
             const id = before.id;
             act(() => result.current.toggle(id));
-            const after = result.current.qs.find((x: any) => x.id === id)!;
+            const after = result.current.qs.find((x: Question) => x.id === id)!;
             if (before.answered) {
               expect(after.answered).toBe(false);
             } else if (!before.highlighted) {

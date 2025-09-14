@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import * as fc from "fast-check";
 import { formatTime } from "./time.ts";
 
 describe("formatTime (properties)", () => {

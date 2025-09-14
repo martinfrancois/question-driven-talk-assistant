@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, vi } from "vitest";
 
 vi.mock("zustand"); // to make it work like Jest (auto-mocking)
+vi.mock("zustand/middleware");
 
 // Mocks the textarea's scrollHeight to a fixed value to ensure consistent height calculations
 // across different test environments and runs to make snapshot tests deterministic.

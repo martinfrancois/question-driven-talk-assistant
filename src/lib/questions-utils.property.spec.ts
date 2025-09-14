@@ -1,13 +1,13 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import { describe, it, expect } from "vitest";
+import * as fc from "fast-check";
 import { reorderQuestionsByIds } from "./questions-utils.ts";
 
-type Question = {
+interface Question {
   id: string;
   text: string;
   answered: boolean;
   highlighted: boolean;
-};
+}
 
 describe("questions-utils (properties)", () => {
   it("reorderQuestionsByIds is a stable permutation and only moves active to over index", () => {
@@ -23,7 +23,7 @@ describe("questions-utils (properties)", () => {
           { minLength: 0, maxLength: 12 },
         ),
         fc.string(),
-        fc.option(fc.string(), { nil: true }),
+        fc.option(fc.string(), { nil: null }),
         (arr, activeId, overId) => {
           const questions = arr as Question[];
           const result = reorderQuestionsByIds(questions, activeId, overId);

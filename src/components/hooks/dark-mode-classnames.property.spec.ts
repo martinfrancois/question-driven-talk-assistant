@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import { describe, it, expect, vi, type Mock } from "vitest";
+import * as fc from "fast-check";
 
 vi.mock("@/stores", () => {
   return { useDarkMode: vi.fn(() => true) };
@@ -12,7 +12,7 @@ describe("useDarkModeClassName (property)", () => {
 
     fc.assert(
       fc.property(fc.boolean(), (isDark) => {
-        (Stores.useDarkMode as unknown as jest.Mock).mockReturnValue(isDark);
+        (Stores.useDarkMode as Mock<() => boolean>).mockReturnValue(isDark);
         const cls = useDarkModeClassName();
         expect(cls).toBe(isDark ? "dark" : "light");
       }),
