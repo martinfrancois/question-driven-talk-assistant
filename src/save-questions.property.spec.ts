@@ -107,13 +107,23 @@ describe("saveFile (properties)", () => {
         } satisfies Pick<FileSystemFileHandle, "createWritable">;
         const showSave = vi
           .fn()
-          .mockResolvedValue(handle) as unknown as typeof window.showSaveFilePicker;
-        (window as unknown as { showSaveFilePicker: typeof window.showSaveFilePicker }).showSaveFilePicker = showSave;
+          .mockResolvedValue(
+            handle,
+          ) as unknown as typeof window.showSaveFilePicker;
+        (
+          window as unknown as {
+            showSaveFilePicker: typeof window.showSaveFilePicker;
+          }
+        ).showSaveFilePicker = showSave;
         await saveFile(fileName, content);
         expect(showSave).toHaveBeenCalled();
         expect(writable.write).toHaveBeenCalledWith(content);
         expect(writable.close).toHaveBeenCalled();
-        delete (window as any).showSaveFilePicker;
+        delete (
+          window as unknown as {
+            showSaveFilePicker?: typeof window.showSaveFilePicker;
+          }
+        ).showSaveFilePicker;
       }),
     );
   });
@@ -122,18 +132,18 @@ describe("saveFile (properties)", () => {
     await fc.assert(
       fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
         const origCreate = document.createElement.bind(document);
-        const anchorMock = {
+        const anchorMock: { click: ReturnType<typeof vi.fn> } = {
           click: vi.fn(),
-        } as HTMLAnchorElement;
+        };
         const appendSpy = vi
           .spyOn(document.body, "appendChild")
-          .mockImplementation(() => anchorMock);
+          .mockImplementation(() => anchorMock as unknown as HTMLAnchorElement);
         const removeSpy = vi
           .spyOn(document.body, "removeChild")
-          .mockImplementation(() => anchorMock);
+          .mockImplementation(() => anchorMock as unknown as HTMLAnchorElement);
         vi.spyOn(document, "createElement").mockImplementation(
           (tag: string): HTMLElement => {
-            if (tag === "a") return anchorMock;
+            if (tag === "a") return anchorMock as unknown as HTMLAnchorElement;
             return origCreate(tag);
           },
         );
@@ -142,15 +152,21 @@ describe("saveFile (properties)", () => {
           .mockReturnValue("blob:fake");
         const revokeSpy = vi
           .spyOn(URL, "revokeObjectURL")
-          .mockImplementation(() => {});
+          .mockImplementation(vi.fn());
 
-        delete (window as any).showSaveFilePicker;
+        delete (
+          window as unknown as {
+            showSaveFilePicker?: typeof window.showSaveFilePicker;
+          }
+        ).showSaveFilePicker;
         await saveFile(fileName, content);
         expect(anchorMock.click).toHaveBeenCalled();
         expect(urlSpy).toHaveBeenCalled();
         expect(revokeSpy).toHaveBeenCalled();
 
-        (document.createElement as unknown as { mockRestore?: () => void }).mockRestore?.();
+        (
+          document.createElement as unknown as { mockRestore?: () => void }
+        ).mockRestore?.();
         appendSpy.mockRestore();
         removeSpy.mockRestore();
         urlSpy.mockRestore();
@@ -162,13 +178,19 @@ describe("saveFile (properties)", () => {
   it("logs error when saveFile fails", async () => {
     await fc.assert(
       fc.asyncProperty(fc.string(), fc.string(), async (fileName, content) => {
-        const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-        (window as unknown as { showSaveFilePicker: typeof window.showSaveFilePicker }).showSaveFilePicker = vi
-          .fn()
-          .mockRejectedValue(new Error("fail"));
+        const errSpy = vi.spyOn(console, "error").mockImplementation(vi.fn());
+        (
+          window as unknown as {
+            showSaveFilePicker: typeof window.showSaveFilePicker;
+          }
+        ).showSaveFilePicker = vi.fn().mockRejectedValue(new Error("fail"));
         await saveFile(fileName, content);
         expect(errSpy).toHaveBeenCalled();
-        delete (window as unknown as { showSaveFilePicker?: typeof window.showSaveFilePicker }).showSaveFilePicker;
+        delete (
+          window as unknown as {
+            showSaveFilePicker?: typeof window.showSaveFilePicker;
+          }
+        ).showSaveFilePicker;
         errSpy.mockRestore();
       }),
     );
