@@ -14,7 +14,7 @@
   },
   "include": [
     "vite.config.ts",
-    "vitest.config.ts",
+    "vitest*.ts",
     "setup-vitest.ts",
     "pwa-assets.config.ts"
   ]
