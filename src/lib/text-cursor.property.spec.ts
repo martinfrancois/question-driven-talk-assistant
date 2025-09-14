@@ -59,7 +59,7 @@ describe("text-cursor utilities", () => {
         (text, pos) => {
           const safeText = text;
           const clamped = Math.max(0, Math.min(pos, safeText.length));
-          const expected = (safeText.substring(0, clamped).match(/\n/g) || [])
+          const expected = (safeText.substring(0, clamped).match(/\n/g) ?? [])
             .length;
           expect(currentLineNumberForCursor(safeText, pos)).toBe(expected);
         },

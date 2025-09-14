@@ -3,8 +3,15 @@ import { renderHook, act } from "@testing-library/react";
 import fc from "fast-check";
 
 vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return { ...actual, persist: (fn: any) => fn, devtools: (fn: any) => fn };
+  const actual =
+    await vi.importActual<typeof import("zustand/middleware")>(
+      "zustand/middleware",
+    );
+  return {
+    ...actual,
+    persist: <T>(fn: T) => fn,
+    devtools: <T>(fn: T) => fn,
+  } satisfies typeof import("zustand/middleware");
 });
 
 describe("onboarding store (property)", () => {

@@ -29,6 +29,11 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "e2e", "playwright.config.ts"],
+  "include": [
+    "src",
+    "e2e",
+    "playwright.config.ts",
+    "vitest.property.config.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

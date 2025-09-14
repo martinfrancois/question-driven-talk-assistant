@@ -1,36 +1,41 @@
 import { describe, it, expect, vi } from "vitest";
+import type { KeyboardEvent, RefObject } from "react";
+import type { HandleKeyPressDeps } from "./handle-key-press.ts";
+import type { Question } from "@/stores";
 
 function createTextarea(value: string, selectionStart: number) {
   const el = document.createElement("textarea");
   el.value = value;
-  el.selectionStart = selectionStart as any;
-  el.selectionEnd = selectionStart as any;
+  el.selectionStart = selectionStart;
+  el.selectionEnd = selectionStart;
   return el;
 }
 
 function createRef<T>(current: T) {
-  return { current } as React.RefObject<T>;
+  return { current } as unknown as RefObject<T>;
 }
 
 describe("handleKeyPress with mocks (unit)", () => {
   it("Enter preventOnly branch prevents default without inserting", async () => {
     vi.resetModules();
     vi.doMock("@/lib/question-keypress.ts", async () => {
-      const actual = await vi.importActual<any>("@/lib/question-keypress.ts");
+      const actual = await vi.importActual<
+        typeof import("@/lib/question-keypress.ts")
+      >("@/lib/question-keypress.ts");
       return {
         ...actual,
         decideEnterAction: () => ({ type: "preventOnly" as const }),
-      };
+      } satisfies typeof import("@/lib/question-keypress.ts");
     });
 
     const { handleKeyPress } = await import("./handle-key-press.ts");
 
-    const questions = [
+    const questions: Question[] = [
       { id: "q1", text: "hello", answered: false, highlighted: false },
       { id: "q2", text: "world", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, RefObject<HTMLTextAreaElement | null>>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
@@ -43,27 +48,29 @@ describe("handleKeyPress with mocks (unit)", () => {
       createTextarea("hello", 0),
     );
 
-    const insertQuestion = vi.fn();
-    const e: any = {
+    const insertQuestion = vi.fn<(index: number, q: Question) => void>();
+    const e = {
       key: "Enter",
-      preventDefault: vi.fn(),
+      preventDefault: vi.fn<() => void>(),
       shiftKey: false,
       ctrlKey: false,
       altKey: false,
-    };
+    } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
 
-    handleKeyPress(e, {
+    const deps: HandleKeyPressDeps = {
       textareaRef,
       questions,
-      question: questions[0] as any,
-      updateQuestionText: vi.fn() as any,
-      removeQuestion: vi.fn() as any,
-      insertQuestion: insertQuestion as any,
-      addQuestion: vi.fn() as any,
-      questionRefs: questionRefs as any,
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
-    });
+      question: questions[0],
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion,
+      addQuestion: vi.fn<(q: Question) => void>(),
+      questionRefs,
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(message: string) => void>(),
+    };
+
+    handleKeyPress(e, deps);
 
     expect(e.preventDefault).toHaveBeenCalled();
     expect(insertQuestion).not.toHaveBeenCalled();
@@ -78,33 +85,34 @@ describe("handleKeyPress with mocks (unit)", () => {
     {
       const q0 = { id: "a", text: "", answered: false, highlighted: false };
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
-      const questions = [q0, q1];
+      const questions: Question[] = [q0, q1];
       const questionRefs = createRef<
-        Record<string, React.RefObject<HTMLTextAreaElement | null>>
+        Record<string, RefObject<HTMLTextAreaElement | null>>
       >({});
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
-      const e: any = {
+      const e = {
         key: "Backspace",
-        preventDefault: vi.fn(),
+        preventDefault: vi.fn<() => void>(),
         shiftKey: false,
         ctrlKey: false,
         altKey: false,
-      };
-      const removeQuestion = vi.fn();
-      handleKeyPress(e, {
+      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const removeQuestion = vi.fn<(index: number) => void>();
+      const deps: HandleKeyPressDeps = {
         textareaRef,
         questions,
-        question: q0 as any,
-        updateQuestionText: vi.fn() as any,
-        removeQuestion: removeQuestion as any,
-        insertQuestion: vi.fn() as any,
-        addQuestion: vi.fn() as any,
-        questionRefs: questionRefs as any,
-        adjustHeight: vi.fn(),
-        announceLiveRegion: vi.fn(),
-      });
+        question: q0,
+        updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+        removeQuestion,
+        insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+        addQuestion: vi.fn<(q: Question) => void>(),
+        questionRefs,
+        adjustHeight: vi.fn<() => void>(),
+        announceLiveRegion: vi.fn<(message: string) => void>(),
+      };
+      handleKeyPress(e, deps);
       expect(e.preventDefault).toHaveBeenCalled();
       expect(removeQuestion).toHaveBeenCalledWith(0);
     }
@@ -113,33 +121,34 @@ describe("handleKeyPress with mocks (unit)", () => {
     {
       const q0 = { id: "a", text: "", answered: false, highlighted: false };
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
-      const questions = [q0, q1];
+      const questions: Question[] = [q0, q1];
       const questionRefs = createRef<
-        Record<string, React.RefObject<HTMLTextAreaElement | null>>
+        Record<string, RefObject<HTMLTextAreaElement | null>>
       >({});
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
-      const e: any = {
+      const e = {
         key: "Backspace",
-        preventDefault: vi.fn(),
+        preventDefault: vi.fn<() => void>(),
         shiftKey: false,
         ctrlKey: false,
         altKey: false,
-      };
-      const removeQuestion = vi.fn();
-      handleKeyPress(e, {
+      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const removeQuestion = vi.fn<(index: number) => void>();
+      const deps: HandleKeyPressDeps = {
         textareaRef,
         questions,
-        question: q1 as any,
-        updateQuestionText: vi.fn() as any,
-        removeQuestion: removeQuestion as any,
-        insertQuestion: vi.fn() as any,
-        addQuestion: vi.fn() as any,
-        questionRefs: questionRefs as any,
-        adjustHeight: vi.fn(),
-        announceLiveRegion: vi.fn(),
-      });
+        question: q1,
+        updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+        removeQuestion,
+        insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+        addQuestion: vi.fn<(q: Question) => void>(),
+        questionRefs,
+        adjustHeight: vi.fn<() => void>(),
+        announceLiveRegion: vi.fn<(message: string) => void>(),
+      };
+      handleKeyPress(e, deps);
       expect(e.preventDefault).toHaveBeenCalled();
       expect(removeQuestion).toHaveBeenCalledWith(1);
     }
@@ -149,65 +158,67 @@ describe("handleKeyPress with mocks (unit)", () => {
     vi.resetModules();
     const { handleKeyPress } = await import("./handle-key-press.ts");
 
-    const questions = [
+    const questions: Question[] = [
       { id: "q1", text: "a", answered: false, highlighted: false },
       { id: "q2", text: "b", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, RefObject<HTMLTextAreaElement | null>>
     >({});
 
     // ArrowDown at last line, missing next ref
     {
-      const e: any = {
+      const e = {
         key: "ArrowDown",
-        preventDefault: vi.fn(),
+        preventDefault: vi.fn<() => void>(),
         shiftKey: false,
         ctrlKey: false,
         altKey: false,
-      };
+      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("x\ny", 3),
       );
-      handleKeyPress(e, {
+      const deps: HandleKeyPressDeps = {
         textareaRef,
         questions,
-        question: questions[0] as any,
-        updateQuestionText: vi.fn() as any,
-        removeQuestion: vi.fn() as any,
-        insertQuestion: vi.fn() as any,
-        addQuestion: vi.fn() as any,
-        questionRefs: questionRefs as any,
-        adjustHeight: vi.fn(),
-        announceLiveRegion: vi.fn(),
-      });
+        question: questions[0],
+        updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+        removeQuestion: vi.fn<(index: number) => void>(),
+        insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+        addQuestion: vi.fn<(q: Question) => void>(),
+        questionRefs,
+        adjustHeight: vi.fn<() => void>(),
+        announceLiveRegion: vi.fn<(message: string) => void>(),
+      };
+      handleKeyPress(e, deps);
       expect(e.preventDefault).toHaveBeenCalled();
     }
 
     // ArrowUp at first line, missing prev ref
     {
-      const e: any = {
+      const e = {
         key: "ArrowUp",
-        preventDefault: vi.fn(),
+        preventDefault: vi.fn<() => void>(),
         shiftKey: false,
         ctrlKey: false,
         altKey: false,
-      };
+      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("x\ny", 0),
       );
-      handleKeyPress(e, {
+      const deps: HandleKeyPressDeps = {
         textareaRef,
         questions,
-        question: questions[1] as any,
-        updateQuestionText: vi.fn() as any,
-        removeQuestion: vi.fn() as any,
-        insertQuestion: vi.fn() as any,
-        addQuestion: vi.fn() as any,
-        questionRefs: questionRefs as any,
-        adjustHeight: vi.fn(),
-        announceLiveRegion: vi.fn(),
-      });
+        question: questions[1],
+        updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+        removeQuestion: vi.fn<(index: number) => void>(),
+        insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+        addQuestion: vi.fn<(q: Question) => void>(),
+        questionRefs,
+        adjustHeight: vi.fn<() => void>(),
+        announceLiveRegion: vi.fn<(message: string) => void>(),
+      };
+      handleKeyPress(e, deps);
       expect(e.preventDefault).toHaveBeenCalled();
     }
   });
@@ -217,45 +228,46 @@ describe("handleKeyPress with mocks (unit)", () => {
     vi.resetModules();
     const { handleKeyPress } = await import("./handle-key-press.ts");
 
-    const questions = [
+    const questions: Question[] = [
       { id: "q1", text: "hello", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, RefObject<HTMLTextAreaElement | null>>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
 
-    const insertQuestion = vi.fn();
-    const addQuestion = vi.fn();
-    const e: any = {
+    const insertQuestion = vi.fn<(index: number, q: Question) => void>();
+    const addQuestion = vi.fn<(q: Question) => void>();
+    const e = {
       key: "Enter",
-      preventDefault: vi.fn(),
+      preventDefault: vi.fn<() => void>(),
       shiftKey: false,
       ctrlKey: false,
       altKey: false,
-    };
+    } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
     const textareaRef = createRef<HTMLTextAreaElement | null>(
       createTextarea("hello", 0),
     );
 
-    handleKeyPress(e, {
+    const deps: HandleKeyPressDeps = {
       textareaRef,
       questions,
-      question: questions[0] as any,
-      updateQuestionText: vi.fn() as any,
-      removeQuestion: vi.fn() as any,
-      insertQuestion: ((index: number, q: any) => {
+      question: questions[0],
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: (index, q) => {
         insertQuestion(index, q);
-        // Intentionally do NOT create a ref for the new question to cover the false branch
-      }) as any,
-      addQuestion: addQuestion as any,
-      questionRefs: questionRefs as any,
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
-    });
+        // Intentionally skip creating a ref for the new question to exercise false branch
+      },
+      addQuestion,
+      questionRefs,
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(message: string) => void>(),
+    };
+    handleKeyPress(e, deps);
 
     expect(e.preventDefault).toHaveBeenCalled();
     vi.runAllTimers();

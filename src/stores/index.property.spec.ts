@@ -2,12 +2,15 @@ import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
 
 vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
+  const actual =
+    await vi.importActual<typeof import("zustand/middleware")>(
+      "zustand/middleware",
+    );
   return {
     ...actual,
-    persist: (fn: any) => fn,
-    devtools: (fn: any) => fn,
-  };
+    persist: <T>(fn: T) => fn,
+    devtools: <T>(fn: T) => fn,
+  } satisfies typeof import("zustand/middleware");
 });
 
 describe("stores index re-exports (properties)", () => {
@@ -24,7 +27,9 @@ describe("stores index re-exports (properties)", () => {
     ]);
 
     const entries = modules.flatMap((m) =>
-      Object.keys(m).map((k) => [k, m[k as keyof typeof m]] as const),
+      Object.keys(m).map(
+        (k) => [k, (m as Record<string, unknown>)[k]] as const,
+      ),
     );
 
     expect(entries.length).toBeGreaterThan(0);

@@ -12,7 +12,11 @@ describe("useDarkModeClassName (property)", () => {
 
     fc.assert(
       fc.property(fc.boolean(), (isDark) => {
-        (Stores.useDarkMode as unknown as jest.Mock).mockReturnValue(isDark);
+        (
+          Stores.useDarkMode as unknown as {
+            mockReturnValue: (v: boolean) => void;
+          }
+        ).mockReturnValue(isDark);
         const cls = useDarkModeClassName();
         expect(cls).toBe(isDark ? "dark" : "light");
       }),

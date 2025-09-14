@@ -3,11 +3,16 @@ import fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
 
 vi.mock("@react-aria/interactions", () => {
+  type Handlers = {
+    onMoveStart?: () => void;
+    onMove?: (e: { deltaX: number; deltaY: number }) => void;
+    onMoveEnd?: () => void;
+  };
   return {
-    useMove: (handlers: any) => ({
+    useMove: (handlers: Handlers) => ({
       moveProps: {
         onMoveStart: () => handlers.onMoveStart?.(),
-        onMove: (e: any) => handlers.onMove?.(e),
+        onMove: (e: { deltaX: number; deltaY: number }) => handlers.onMove?.(e),
         onMoveEnd: () => handlers.onMoveEnd?.(),
       },
     }),
@@ -40,9 +45,9 @@ describe("useResizeHandleProps (properties)", () => {
           act(() => {
             result.current.onKeyDown({
               key: "ArrowRight",
-              preventDefault() {},
+              preventDefault: () => {},
               shiftKey: shift,
-            } as any);
+            } as unknown as KeyboardEvent<HTMLButtonElement>);
           });
           expect(size).toBeGreaterThanOrEqual(32);
           expect(size).toBeLessThanOrEqual(256);
@@ -50,9 +55,9 @@ describe("useResizeHandleProps (properties)", () => {
           act(() => {
             result.current.onKeyDown({
               key: "ArrowLeft",
-              preventDefault() {},
+              preventDefault: () => {},
               shiftKey: shift,
-            } as any);
+            } as unknown as KeyboardEvent<HTMLButtonElement>);
           });
           expect(size).toBeGreaterThanOrEqual(32);
           expect(size).toBeLessThanOrEqual(256);
@@ -76,18 +81,18 @@ describe("useResizeHandleProps (properties)", () => {
     act(() => {
       result.current.onKeyDown({
         key: "ArrowUp",
-        preventDefault() {},
+        preventDefault: () => {},
         shiftKey: false,
-      } as any);
+      } as unknown as KeyboardEvent<HTMLButtonElement>);
     });
     expect(size).toBeGreaterThanOrEqual(32);
     const afterUp = size;
     act(() => {
       result.current.onKeyDown({
         key: "ArrowDown",
-        preventDefault() {},
+        preventDefault: () => {},
         shiftKey: false,
-      } as any);
+      } as unknown as KeyboardEvent<HTMLButtonElement>);
     });
     expect(size).toBeLessThanOrEqual(afterUp);
   });
@@ -107,18 +112,18 @@ describe("useResizeHandleProps (properties)", () => {
     act(() => {
       result.current.onKeyDown({
         key: "ArrowRight",
-        preventDefault() {},
+        preventDefault: () => {},
         shiftKey: true,
-      } as any);
+      } as unknown as KeyboardEvent<HTMLButtonElement>);
     });
     const afterRight = size;
     // Without shift, increment should be smaller
     act(() => {
       result.current.onKeyDown({
         key: "ArrowUp",
-        preventDefault() {},
+        preventDefault: () => {},
         shiftKey: false,
-      } as any);
+      } as unknown as KeyboardEvent<HTMLButtonElement>);
     });
     expect(afterRight - 100).toBeGreaterThan(size - afterRight ? 0 : 0);
   });
@@ -145,19 +150,19 @@ describe("useResizeHandleProps (properties)", () => {
           );
 
           act(() => {
-            (result.current as any).onMoveStart?.();
+            (result.current as { onMoveStart?: () => void }).onMoveStart?.();
           });
 
           act(() => {
             for (const m of moves)
-              (result.current as any).onMove?.({
+              (result.current as { onMove?: (e: { deltaX: number; deltaY: number }) => void }).onMove?.({
                 deltaX: m.dx,
                 deltaY: m.dy,
-              } as any);
+              });
           });
 
           act(() => {
-            (result.current as any).onMoveEnd?.();
+            (result.current as { onMoveEnd?: () => void }).onMoveEnd?.();
           });
           expect(onEnd).toHaveBeenCalled();
           expect(setSize).toHaveBeenCalled();
@@ -178,8 +183,8 @@ describe("useResizeHandleProps (properties)", () => {
       useResizeHandleProps("bottom-right", "label", 100, setSize, onEnd),
     );
     act(() => {
-      (result.current as any).onMoveStart?.();
-      (result.current as any).onMove?.({ deltaX: 5, deltaY: 2 } as any);
+      (result.current as { onMoveStart?: () => void }).onMoveStart?.();
+      (result.current as { onMove?: (e: { deltaX: number; deltaY: number }) => void }).onMove?.({ deltaX: 5, deltaY: 2 });
     });
     // unmount mid-drag should not throw and should not call onEnd
     unmount();
@@ -194,9 +199,9 @@ describe("useResizeHandleProps (properties)", () => {
     const originalCAF = globalThis.cancelAnimationFrame;
     vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
       cb(performance.now());
-      return 1 as any;
+      return 1 as unknown as number;
     });
-    vi.stubGlobal("cancelAnimationFrame", (_: number) => 0 as any);
+    vi.stubGlobal("cancelAnimationFrame", (_: number) => 0 as unknown as number);
 
     const setSize = vi.fn();
     const { result, unmount } = renderHook(() =>

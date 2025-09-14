@@ -3,8 +3,15 @@ import fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
 
 vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return { ...actual, persist: (fn: any) => fn, devtools: (fn: any) => fn };
+  const actual =
+    await vi.importActual<typeof import("zustand/middleware")>(
+      "zustand/middleware",
+    );
+  return {
+    ...actual,
+    persist: <T>(fn: T) => fn,
+    devtools: <T>(fn: T) => fn,
+  } satisfies typeof import("zustand/middleware");
 });
 
 describe("questions store (properties)", () => {
@@ -75,11 +82,11 @@ describe("questions store (properties)", () => {
           }
 
           const countBefore = result.current.qs.filter(
-            (x: any) => x.id === inserted.id,
+            (x) => x.id === inserted.id,
           ).length;
           act(() => result.current.remove(0));
           const countAfter = result.current.qs.filter(
-            (x: any) => x.id === inserted.id,
+            (x) => x.id === inserted.id,
           ).length;
           expect(countAfter).toBeLessThan(countBefore);
 
@@ -87,7 +94,7 @@ describe("questions store (properties)", () => {
             const before = result.current.qs[0];
             const id = before.id;
             act(() => result.current.toggle(id));
-            const after = result.current.qs.find((x: any) => x.id === id)!;
+            const after = result.current.qs.find((x) => x.id === id)!;
             if (before.answered) {
               expect(after.answered).toBe(false);
             } else if (!before.highlighted) {
