@@ -12,7 +12,7 @@ function createTextarea(value: string, selectionStart: number) {
 }
 
 function createRef<T>(current: T) {
-  return { current } as unknown as RefObject<T>;
+  return { current } as { current: T };
 }
 
 function makeKeyEvent(

@@ -9,8 +9,8 @@ vi.mock("zustand/middleware", async () => {
     );
   return {
     ...actual,
-    persist: <T>(fn: T) => fn,
-    devtools: <T>(fn: T) => fn,
+    persist: ((fn: unknown) => fn) as typeof actual.persist,
+    devtools: ((fn: unknown) => fn) as typeof actual.devtools,
   } satisfies typeof import("zustand/middleware");
 });
 
