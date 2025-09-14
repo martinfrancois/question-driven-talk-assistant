@@ -14,7 +14,7 @@ import {
 export function useResizeHandleProps(
   direction: Direction,
   label: string,
-  size: number,
+  size: number | undefined,
   setSize: (n: number) => void,
   onResizeEnd: () => void,
 ) {
@@ -83,7 +83,11 @@ export function useResizeHandleProps(
     };
   }, []);
 
-  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
+  type ResizeKeyEvent = Pick<
+    KeyboardEvent<HTMLButtonElement>,
+    "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
+  >;
+  const onKeyDown = (e: ResizeKeyEvent): void => {
     const step = e.shiftKey ? 16 : 4;
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       e.preventDefault();

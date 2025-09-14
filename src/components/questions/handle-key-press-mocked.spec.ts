@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import type { KeyboardEvent, RefObject } from "react";
+import type { RefObject } from "react";
 import type { HandleKeyPressDeps } from "./handle-key-press.ts";
 import type { Question } from "@/stores";
 
@@ -13,6 +13,23 @@ function createTextarea(value: string, selectionStart: number) {
 
 function createRef<T>(current: T) {
   return { current } as unknown as RefObject<T>;
+}
+
+function makeKeyEvent(
+  key: string,
+  extras?: Partial<{ shiftKey: boolean; ctrlKey: boolean; altKey: boolean }>,
+) {
+  const preventDefault = vi.fn<() => void>();
+  return {
+    e: {
+      key,
+      preventDefault,
+      shiftKey: extras?.shiftKey ?? false,
+      ctrlKey: extras?.ctrlKey ?? false,
+      altKey: extras?.altKey ?? false,
+    },
+    preventDefault,
+  } as const;
 }
 
 describe("handleKeyPress with mocks (unit)", () => {
@@ -49,13 +66,7 @@ describe("handleKeyPress with mocks (unit)", () => {
     );
 
     const insertQuestion = vi.fn<(index: number, q: Question) => void>();
-    const e = {
-      key: "Enter",
-      preventDefault: vi.fn<() => void>(),
-      shiftKey: false,
-      ctrlKey: false,
-      altKey: false,
-    } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+    const { e, preventDefault } = makeKeyEvent("Enter");
 
     const deps: HandleKeyPressDeps = {
       textareaRef,
@@ -72,16 +83,14 @@ describe("handleKeyPress with mocks (unit)", () => {
 
     handleKeyPress(e, deps);
 
-    expect(e.preventDefault).toHaveBeenCalled();
+    expect(preventDefault).toHaveBeenCalled();
     expect(insertQuestion).not.toHaveBeenCalled();
   });
 
   it("Backspace deleteQuestion path tolerates missing prev/first refs", async () => {
     vi.resetModules();
-    // Do not mock decideBackspaceAction; construct conditions to trigger both targets
     const { handleKeyPress } = await import("./handle-key-press.ts");
 
-    // Case 1: delete first and next exists, but no ref for next
     {
       const q0 = { id: "a", text: "", answered: false, highlighted: false };
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
@@ -92,13 +101,7 @@ describe("handleKeyPress with mocks (unit)", () => {
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
-      const e = {
-        key: "Backspace",
-        preventDefault: vi.fn<() => void>(),
-        shiftKey: false,
-        ctrlKey: false,
-        altKey: false,
-      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const { e, preventDefault } = makeKeyEvent("Backspace");
       const removeQuestion = vi.fn<(index: number) => void>();
       const deps: HandleKeyPressDeps = {
         textareaRef,
@@ -113,11 +116,10 @@ describe("handleKeyPress with mocks (unit)", () => {
         announceLiveRegion: vi.fn<(message: string) => void>(),
       };
       handleKeyPress(e, deps);
-      expect(e.preventDefault).toHaveBeenCalled();
+      expect(preventDefault).toHaveBeenCalled();
       expect(removeQuestion).toHaveBeenCalledWith(0);
     }
 
-    // Case 2: delete prev when current is second, but no ref for prev
     {
       const q0 = { id: "a", text: "", answered: false, highlighted: false };
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
@@ -128,13 +130,7 @@ describe("handleKeyPress with mocks (unit)", () => {
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
-      const e = {
-        key: "Backspace",
-        preventDefault: vi.fn<() => void>(),
-        shiftKey: false,
-        ctrlKey: false,
-        altKey: false,
-      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const { e, preventDefault } = makeKeyEvent("Backspace");
       const removeQuestion = vi.fn<(index: number) => void>();
       const deps: HandleKeyPressDeps = {
         textareaRef,
@@ -149,7 +145,7 @@ describe("handleKeyPress with mocks (unit)", () => {
         announceLiveRegion: vi.fn<(message: string) => void>(),
       };
       handleKeyPress(e, deps);
-      expect(e.preventDefault).toHaveBeenCalled();
+      expect(preventDefault).toHaveBeenCalled();
       expect(removeQuestion).toHaveBeenCalledWith(1);
     }
   });
@@ -166,15 +162,8 @@ describe("handleKeyPress with mocks (unit)", () => {
       Record<string, RefObject<HTMLTextAreaElement | null>>
     >({});
 
-    // ArrowDown at last line, missing next ref
     {
-      const e = {
-        key: "ArrowDown",
-        preventDefault: vi.fn<() => void>(),
-        shiftKey: false,
-        ctrlKey: false,
-        altKey: false,
-      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const { e, preventDefault } = makeKeyEvent("ArrowDown");
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("x\ny", 3),
       );
@@ -191,18 +180,11 @@ describe("handleKeyPress with mocks (unit)", () => {
         announceLiveRegion: vi.fn<(message: string) => void>(),
       };
       handleKeyPress(e, deps);
-      expect(e.preventDefault).toHaveBeenCalled();
+      expect(preventDefault).toHaveBeenCalled();
     }
 
-    // ArrowUp at first line, missing prev ref
     {
-      const e = {
-        key: "ArrowUp",
-        preventDefault: vi.fn<() => void>(),
-        shiftKey: false,
-        ctrlKey: false,
-        altKey: false,
-      } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+      const { e, preventDefault } = makeKeyEvent("ArrowUp");
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("x\ny", 0),
       );
@@ -219,7 +201,7 @@ describe("handleKeyPress with mocks (unit)", () => {
         announceLiveRegion: vi.fn<(message: string) => void>(),
       };
       handleKeyPress(e, deps);
-      expect(e.preventDefault).toHaveBeenCalled();
+      expect(preventDefault).toHaveBeenCalled();
     }
   });
 
@@ -241,13 +223,7 @@ describe("handleKeyPress with mocks (unit)", () => {
 
     const insertQuestion = vi.fn<(index: number, q: Question) => void>();
     const addQuestion = vi.fn<(q: Question) => void>();
-    const e = {
-      key: "Enter",
-      preventDefault: vi.fn<() => void>(),
-      shiftKey: false,
-      ctrlKey: false,
-      altKey: false,
-    } satisfies Pick<KeyboardEvent, "key" | "preventDefault" | "shiftKey" | "ctrlKey" | "altKey"> as unknown as KeyboardEvent;
+    const { e, preventDefault } = makeKeyEvent("Enter");
     const textareaRef = createRef<HTMLTextAreaElement | null>(
       createTextarea("hello", 0),
     );
@@ -260,7 +236,6 @@ describe("handleKeyPress with mocks (unit)", () => {
       removeQuestion: vi.fn<(index: number) => void>(),
       insertQuestion: (index, q) => {
         insertQuestion(index, q);
-        // Intentionally skip creating a ref for the new question to exercise false branch
       },
       addQuestion,
       questionRefs,
@@ -269,7 +244,7 @@ describe("handleKeyPress with mocks (unit)", () => {
     };
     handleKeyPress(e, deps);
 
-    expect(e.preventDefault).toHaveBeenCalled();
+    expect(preventDefault).toHaveBeenCalled();
     vi.runAllTimers();
     vi.useRealTimers();
   });
