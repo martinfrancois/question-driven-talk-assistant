@@ -23,7 +23,9 @@ describe("useAutoResizeTextArea (properties)", () => {
   });
 
   it("does nothing when ref current is null", () => {
-    const ref = { current: null } as React.RefObject<HTMLTextAreaElement>;
+    const ref = {
+      current: null,
+    } as React.RefObject<HTMLTextAreaElement | null>;
     const { result } = renderHook(() => useAutoResizeTextArea(ref));
     // should not throw
     act(() => {
