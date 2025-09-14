@@ -26,7 +26,11 @@ describe("questions-utils (properties)", () => {
         fc.option(fc.string(), { nil: true }),
         (arr, activeId, overId) => {
           const questions = arr as Question[];
-          const result = reorderQuestionsByIds(questions, activeId, overId);
+          const result = reorderQuestionsByIds(
+            questions,
+            activeId,
+            overId as string | null | undefined,
+          );
 
           if (!overId || activeId === overId) {
             expect(result).toBe(questions); // same reference per implementation

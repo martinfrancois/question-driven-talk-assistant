@@ -19,7 +19,7 @@ function createTextarea(value: string, selectionStart: number) {
 }
 
 function createRef<T>(current: T) {
-  return { current } as unknown as { current: T };
+  return { current };
 }
 
 function makeKeyEvent(
@@ -147,7 +147,7 @@ describe("handleKeyPress (properties)", () => {
           const base = {
             updateQuestionText: vi.fn<(id: string, text: string) => void>(),
             removeQuestion: vi.fn<(index: number) => void>(),
-            insertQuestion: vi.fn((index: number, q: Question) => {
+            insertQuestion: vi.fn((_index: number, q: Question) => {
               questionRefs.current[q.id] =
                 createRef<HTMLTextAreaElement | null>(
                   document.createElement("textarea"),
@@ -619,7 +619,7 @@ describe("handleKeyPress (properties)", () => {
       q2: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
-    } as unknown as Record<string, { current: HTMLTextAreaElement | null }>;
+    };
     const ePrev = {
       key: "Tab",
       preventDefault: vi.fn(),

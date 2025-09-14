@@ -22,10 +22,10 @@ export function useResizeHandleProps(
    * These refs keep track of the base size, accumulated pointer deltas, and
    * pending size updates while dragging the resize handle.
    */
-  const baseSize = useRef<number>(size);
+  const baseSize = useRef<number>(size ?? MIN_QR_CODE_SIZE);
   const sumX = useRef(0);
   const sumY = useRef(0);
-  const pending = useRef<number>(size);
+  const pending = useRef<number>(size ?? MIN_QR_CODE_SIZE);
   const rafId = useRef<number | null>(null);
   const prevUserSelect = useRef<string>("");
 

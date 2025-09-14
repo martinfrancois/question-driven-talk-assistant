@@ -223,14 +223,15 @@ describe("useResizeHandleProps (properties)", () => {
     );
     const originalRAF = globalThis.requestAnimationFrame;
     const originalCAF = globalThis.cancelAnimationFrame;
-    vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    const raf: typeof requestAnimationFrame = (cb: FrameRequestCallback) => {
       cb(performance.now());
-      return 1 as unknown as number;
-    });
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      (id: number) => id as unknown as number,
-    );
+      return 1;
+    };
+    const caf: typeof cancelAnimationFrame = (id: number) => {
+      void id;
+    };
+    vi.stubGlobal("requestAnimationFrame", raf);
+    vi.stubGlobal("cancelAnimationFrame", caf);
 
     const setSize = vi.fn<(n: number) => void>();
     const { result, unmount } = renderHook(() =>
@@ -249,14 +250,8 @@ describe("useResizeHandleProps (properties)", () => {
     expect(setSize).toHaveBeenCalled();
 
     unmount();
-    vi.stubGlobal(
-      "requestAnimationFrame",
-      originalRAF as unknown as typeof requestAnimationFrame,
-    );
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      originalCAF as unknown as typeof cancelAnimationFrame,
-    );
+    vi.stubGlobal("requestAnimationFrame", originalRAF);
+    vi.stubGlobal("cancelAnimationFrame", originalCAF);
   });
 
   it("flush cancels a pending rAF and commits the last pending size", async () => {
@@ -268,14 +263,12 @@ describe("useResizeHandleProps (properties)", () => {
     const originalCAF = globalThis.cancelAnimationFrame;
     const caf = vi.fn<(id: number) => void>();
     // Do NOT invoke the callback to keep rafId non-null until flush
-    vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    const raf: typeof requestAnimationFrame = (cb) => {
       void cb;
-      return 7 as unknown as number;
-    });
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      caf as unknown as typeof cancelAnimationFrame,
-    );
+      return 7;
+    };
+    vi.stubGlobal("requestAnimationFrame", raf);
+    vi.stubGlobal("cancelAnimationFrame", caf);
 
     const setSize = vi.fn<(n: number) => void>();
     const onEnd = vi.fn();
@@ -298,14 +291,8 @@ describe("useResizeHandleProps (properties)", () => {
     expect(onEnd).toHaveBeenCalled();
 
     unmount();
-    vi.stubGlobal(
-      "requestAnimationFrame",
-      originalRAF as unknown as typeof requestAnimationFrame,
-    );
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      originalCAF as unknown as typeof cancelAnimationFrame,
-    );
+    vi.stubGlobal("requestAnimationFrame", originalRAF);
+    vi.stubGlobal("cancelAnimationFrame", originalCAF);
   });
 
   it("disables and restores document.body userSelect during drag", async () => {
@@ -384,16 +371,12 @@ describe("useResizeHandleProps (properties)", () => {
 
     const originalRAF = globalThis.requestAnimationFrame;
     const originalCAF = globalThis.cancelAnimationFrame;
-    const raf = vi.fn<() => number>().mockReturnValue(9 as unknown as number);
+    const raf = vi
+      .fn<(cb: FrameRequestCallback) => number>()
+      .mockReturnValue(9);
     const caf = vi.fn<(id: number) => void>();
-    vi.stubGlobal(
-      "requestAnimationFrame",
-      raf as unknown as typeof requestAnimationFrame,
-    );
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      caf as unknown as typeof cancelAnimationFrame,
-    );
+    vi.stubGlobal("requestAnimationFrame", raf);
+    vi.stubGlobal("cancelAnimationFrame", caf);
 
     const { result, unmount } = renderHook(() =>
       useResizeHandleProps("bottom-right", "label", 100, setSize, onEnd),
@@ -413,17 +396,11 @@ describe("useResizeHandleProps (properties)", () => {
     act(() => {
       (result.current as { onMoveEnd?: () => void }).onMoveEnd?.();
     });
-    expect(caf).toHaveBeenCalledWith(9 as unknown as number);
+    expect(caf).toHaveBeenCalledWith(9);
 
     unmount();
-    vi.stubGlobal(
-      "requestAnimationFrame",
-      originalRAF as unknown as typeof requestAnimationFrame,
-    );
-    vi.stubGlobal(
-      "cancelAnimationFrame",
-      originalCAF as unknown as typeof cancelAnimationFrame,
-    );
+    vi.stubGlobal("requestAnimationFrame", originalRAF);
+    vi.stubGlobal("cancelAnimationFrame", originalCAF);
   });
 
   // Skipping attempting to simulate missing document in browser env; covered behavior elsewhere.
@@ -464,10 +441,11 @@ describe("useResizeHandleProps (properties)", () => {
       "./use-resize-handle-props.ts"
     );
     const originalRAF = globalThis.requestAnimationFrame;
-    vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    const raf: typeof requestAnimationFrame = (cb: FrameRequestCallback) => {
       cb(performance.now());
-      return 1 as unknown as number;
-    });
+      return 1;
+    };
+    vi.stubGlobal("requestAnimationFrame", raf);
 
     let size = 0 as number;
     const setSize = (n: number) => {
@@ -487,9 +465,6 @@ describe("useResizeHandleProps (properties)", () => {
     expect(size).toBeGreaterThanOrEqual(32);
 
     unmount();
-    vi.stubGlobal(
-      "requestAnimationFrame",
-      originalRAF as unknown as typeof requestAnimationFrame,
-    );
+    vi.stubGlobal("requestAnimationFrame", originalRAF);
   });
 });

@@ -2,7 +2,8 @@ import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
 
 vi.mock("@/stores", () => {
-  return { useDarkMode: vi.fn(() => true) };
+  const useDarkMode = vi.fn(() => true);
+  return { useDarkMode };
 });
 
 describe("useDarkModeClassName (property)", () => {
@@ -12,11 +13,8 @@ describe("useDarkModeClassName (property)", () => {
 
     fc.assert(
       fc.property(fc.boolean(), (isDark) => {
-        (
-          Stores.useDarkMode as unknown as {
-            mockReturnValue: (v: boolean) => void;
-          }
-        ).mockReturnValue(isDark);
+        const mockedStores = vi.mocked(Stores);
+        mockedStores.useDarkMode.mockReturnValue(isDark);
         const cls = useDarkModeClassName();
         expect(cls).toBe(isDark ? "dark" : "light");
       }),
