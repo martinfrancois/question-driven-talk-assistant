@@ -2,17 +2,41 @@ import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
 import { handleKeyPress } from "./handle-key-press.ts";
 
+interface Question {
+  id: string;
+  text: string;
+  answered: boolean;
+  highlighted: boolean;
+}
+
 function createTextarea(value: string, selectionStart: number) {
   const el = document.createElement("textarea");
   el.value = value;
-  el.selectionStart = selectionStart as any;
-  el.selectionEnd = selectionStart as any;
+  el.selectionStart = selectionStart;
+  el.selectionEnd = selectionStart;
   // setSelectionRange exists on HTMLTextAreaElement; JSDOM supports it
   return el;
 }
 
 function createRef<T>(current: T) {
-  return { current } as React.RefObject<T>;
+  return { current } as unknown as { current: T };
+}
+
+function makeKeyEvent(
+  key: string,
+  extras?: Partial<{ shiftKey: boolean; ctrlKey: boolean; altKey: boolean }>,
+) {
+  const preventDefault = vi.fn<() => void>();
+  return {
+    e: {
+      key,
+      preventDefault,
+      shiftKey: extras?.shiftKey ?? false,
+      ctrlKey: extras?.ctrlKey ?? false,
+      altKey: extras?.altKey ?? false,
+    },
+    preventDefault,
+  } as const;
 }
 
 describe("handleKeyPress (properties)", () => {
@@ -39,12 +63,13 @@ describe("handleKeyPress (properties)", () => {
           const textarea = createTextarea(textareaValue, cursor);
           const textareaRef = createRef<HTMLTextAreaElement | null>(textarea);
 
-          const updateQuestionText = vi.fn();
-          const removeQuestion = vi.fn();
-          const insertQuestion = vi.fn();
-          const addQuestion = vi.fn();
-          const announce = vi.fn();
-          const adjustHeight = vi.fn();
+          const updateQuestionText =
+            vi.fn<(id: string, text: string) => void>();
+          const removeQuestion = vi.fn<(index: number) => void>();
+          const insertQuestion = vi.fn<(index: number, q: typeof q0) => void>();
+          const addQuestion = vi.fn<(q: typeof q0) => void>();
+          const announce = vi.fn<(m: string) => void>();
+          const adjustHeight = vi.fn<() => void>();
 
           const firstRef = createRef<HTMLTextAreaElement | null>(
             document.createElement("textarea"),
@@ -53,49 +78,43 @@ describe("handleKeyPress (properties)", () => {
             document.createElement("textarea"),
           );
           const questionRefs = createRef<
-            Record<string, React.RefObject<HTMLTextAreaElement | null>>
+            Record<string, { current: HTMLTextAreaElement | null }>
           >({
             [questions[0].id]: firstRef,
             ...(questions[1] ? { [questions[1].id]: prevRef } : {}),
           });
 
-          const e: any = {
-            key: "Backspace",
-            preventDefault: vi.fn(),
-            shiftKey: false,
-            ctrlKey: false,
-            altKey: false,
-          };
+          const { e, preventDefault } = makeKeyEvent("Backspace");
 
           handleKeyPress(e, {
             textareaRef,
             questions,
             question,
-            updateQuestionText: updateQuestionText as any,
-            removeQuestion: removeQuestion as any,
-            insertQuestion: insertQuestion as any,
-            addQuestion: addQuestion as any,
-            questionRefs: questionRefs as any,
+            updateQuestionText,
+            removeQuestion,
+            insertQuestion,
+            addQuestion,
+            questionRefs,
             adjustHeight,
             announceLiveRegion: announce,
           });
 
           if (mode === "prevent") {
-            expect(e.preventDefault).toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
             expect(updateQuestionText).not.toHaveBeenCalled();
             expect(removeQuestion).not.toHaveBeenCalled();
           } else if (mode === "update") {
-            expect(e.preventDefault).toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
             expect(updateQuestionText).toHaveBeenCalledTimes(1);
             expect(adjustHeight).toHaveBeenCalled();
           } else if (mode === "deleteFirst") {
-            expect(e.preventDefault).toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
             expect(removeQuestion).toHaveBeenCalledWith(0);
           } else if (mode === "deletePrev") {
-            expect(e.preventDefault).toHaveBeenCalled();
+            expect(preventDefault).toHaveBeenCalled();
             expect(removeQuestion).toHaveBeenCalledWith(1);
             vi.runAllTimers();
-            expect(prevRef.current?.focus).toBeDefined();
+            expect(() => prevRef.current!.focus()).not.toThrow();
           }
         },
       ),
@@ -125,23 +144,23 @@ describe("handleKeyPress (properties)", () => {
         (mode) => {
           const t = (v: string, sel: number) => createTextarea(v, sel);
 
-          const base: any = {
-            updateQuestionText: vi.fn(),
-            removeQuestion: vi.fn(),
-            insertQuestion: vi.fn((index: number, q: any) => {
+          const base = {
+            updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+            removeQuestion: vi.fn<(index: number) => void>(),
+            insertQuestion: vi.fn((index: number, q: Question) => {
               questionRefs.current[q.id] =
                 createRef<HTMLTextAreaElement | null>(
                   document.createElement("textarea"),
                 );
             }),
-            addQuestion: vi.fn((q: any) => {
+            addQuestion: vi.fn((q: Question) => {
               questionRefs.current[q.id] =
                 createRef<HTMLTextAreaElement | null>(
                   document.createElement("textarea"),
                 );
             }),
-            adjustHeight: vi.fn(),
-            announceLiveRegion: vi.fn(),
+            adjustHeight: vi.fn<() => void>(),
+            announceLiveRegion: vi.fn<(m: string) => void>(),
           };
 
           let questions = [
@@ -158,7 +177,7 @@ describe("handleKeyPress (properties)", () => {
             },
             { id: "q2", text: "next", answered: false, highlighted: false },
           ];
-          let currentQuestion: any =
+          let currentQuestion: Question =
             mode === "arrowDown" ||
             mode === "tabNext" ||
             mode === "arrowDownMid" ||
@@ -169,7 +188,7 @@ describe("handleKeyPress (properties)", () => {
                 : questions[0];
 
           const questionRefs = createRef<
-            Record<string, React.RefObject<HTMLTextAreaElement | null>>
+            Record<string, { current: HTMLTextAreaElement | null }>
           >({
             q1: createRef<HTMLTextAreaElement | null>(
               document.createElement("textarea"),
@@ -180,7 +199,13 @@ describe("handleKeyPress (properties)", () => {
           });
 
           let textarea: HTMLTextAreaElement;
-          let e: any;
+          let e: {
+            key: string;
+            preventDefault: () => void;
+            shiftKey: boolean;
+            ctrlKey: boolean;
+            altKey: boolean;
+          };
           if (mode === "enter") {
             textarea = t("hello", 0);
             currentQuestion.text = "hello";
@@ -318,12 +343,12 @@ describe("handleKeyPress (properties)", () => {
           handleKeyPress(e, {
             textareaRef,
             questions,
-            question: currentQuestion as any,
+            question: currentQuestion,
             updateQuestionText: base.updateQuestionText,
             removeQuestion: base.removeQuestion,
             insertQuestion: base.insertQuestion,
             addQuestion: base.addQuestion,
-            questionRefs: questionRefs as any,
+            questionRefs,
             adjustHeight: base.adjustHeight,
             announceLiveRegion: base.announceLiveRegion,
           });
@@ -334,7 +359,7 @@ describe("handleKeyPress (properties)", () => {
             vi.runAllTimers();
             // Ensure branch where newRef is undefined is exercised too
             const textarea2 = t("hello", 0);
-            const e2: any = {
+            const e2 = {
               key: "Enter",
               preventDefault: vi.fn(),
               shiftKey: false,
@@ -344,19 +369,22 @@ describe("handleKeyPress (properties)", () => {
             const textareaRef2 = createRef<HTMLTextAreaElement | null>(
               textarea2,
             );
-            const base2: any = { ...base, insertQuestion: vi.fn() };
+            const base2 = {
+              ...base,
+              insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+            };
             const questionRefs2 = createRef<
-              Record<string, React.RefObject<HTMLTextAreaElement | null>>
+              Record<string, { current: HTMLTextAreaElement | null }>
             >({});
             handleKeyPress(e2, {
               textareaRef: textareaRef2,
               questions,
-              question: questions[0] as any,
+              question: questions[0],
               updateQuestionText: base2.updateQuestionText,
               removeQuestion: base2.removeQuestion,
               insertQuestion: base2.insertQuestion,
               addQuestion: base2.addQuestion,
-              questionRefs: questionRefs2 as any,
+              questionRefs: questionRefs2,
               adjustHeight: base2.adjustHeight,
               announceLiveRegion: base2.announceLiveRegion,
             });
@@ -392,31 +420,31 @@ describe("handleKeyPress (properties)", () => {
 
     const t = (v: string, sel: number) => createTextarea(v, sel);
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
 
-    const base: any = {
-      updateQuestionText: vi.fn(),
-      removeQuestion: vi.fn(),
-      insertQuestion: vi.fn(),
-      addQuestion: vi.fn((q: any) => {
+    const base = {
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn((q: Question) => {
         questionRefs.current[q.id] = createRef<HTMLTextAreaElement | null>(
           document.createElement("textarea"),
         );
       }),
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(m: string) => void>(),
     };
 
     const questions = [
       { id: "q1", text: "x", answered: false, highlighted: false },
     ];
     const textarea = t("x", 0);
-    const e: any = {
+    const e = {
       key: "Tab",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -429,12 +457,12 @@ describe("handleKeyPress (properties)", () => {
     handleKeyPress(e, {
       textareaRef,
       questions,
-      question: questions[0] as any,
+      question: questions[0],
       updateQuestionText: base.updateQuestionText,
       removeQuestion: base.removeQuestion,
       insertQuestion: base.insertQuestion,
       addQuestion: base.addQuestion,
-      questionRefs: questionRefs as any,
+      questionRefs,
       adjustHeight: base.adjustHeight,
       announceLiveRegion: base.announceLiveRegion,
     });
@@ -443,25 +471,25 @@ describe("handleKeyPress (properties)", () => {
     // New ref should exist and be focusable
     const newKeys = Object.keys(questionRefs.current);
     expect(newKeys.length).toBeGreaterThan(1);
-    const newRefKey = newKeys.find((k) => k !== "q1") as string;
+    const newRefKey = newKeys.find((k) => k !== "q1")!;
     expect(questionRefs.current[newRefKey]?.current).toBeTruthy();
 
     vi.useRealTimers();
   });
 
   it("early-returns if textareaRef.current is null without crashing", () => {
-    const base: any = {
-      updateQuestionText: vi.fn(),
-      removeQuestion: vi.fn(),
-      insertQuestion: vi.fn(),
-      addQuestion: vi.fn(),
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
+    const base = {
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn<(q: Question) => void>(),
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(m: string) => void>(),
     };
     const questions = [
       { id: "q1", text: "x", answered: false, highlighted: false },
     ];
-    const e: any = {
+    const e = {
       key: "Enter",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -469,18 +497,18 @@ describe("handleKeyPress (properties)", () => {
       altKey: false,
     };
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({});
     expect(() =>
       handleKeyPress(e, {
         textareaRef: createRef<HTMLTextAreaElement | null>(null),
         questions,
-        question: questions[0] as any,
+        question: questions[0],
         updateQuestionText: base.updateQuestionText,
         removeQuestion: base.removeQuestion,
         insertQuestion: base.insertQuestion,
         addQuestion: base.addQuestion,
-        questionRefs: questionRefs as any,
+        questionRefs,
         adjustHeight: base.adjustHeight,
         announceLiveRegion: base.announceLiveRegion,
       }),
@@ -491,27 +519,27 @@ describe("handleKeyPress (properties)", () => {
   it("Tab create path with no new ref does not throw after timeout", () => {
     vi.useFakeTimers();
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
 
-    const base: any = {
-      updateQuestionText: vi.fn(),
-      removeQuestion: vi.fn(),
-      insertQuestion: vi.fn(),
-      addQuestion: vi.fn(() => {}),
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
+    const base = {
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn<() => void>(),
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(m: string) => void>(),
     };
 
     const questions = [
       { id: "q1", text: "x", answered: false, highlighted: false },
     ];
     const textarea = createTextarea("x", 0);
-    const e: any = {
+    const e = {
       key: "Tab",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -524,12 +552,12 @@ describe("handleKeyPress (properties)", () => {
       handleKeyPress(e, {
         textareaRef,
         questions,
-        question: questions[0] as any,
+        question: questions[0],
         updateQuestionText: base.updateQuestionText,
         removeQuestion: base.removeQuestion,
         insertQuestion: base.insertQuestion,
         addQuestion: base.addQuestion,
-        questionRefs: questionRefs as any,
+        questionRefs,
         adjustHeight: base.adjustHeight,
         announceLiveRegion: base.announceLiveRegion,
       }),
@@ -546,24 +574,24 @@ describe("handleKeyPress (properties)", () => {
       { id: "q2", text: "y", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
 
-    const base: any = {
-      updateQuestionText: vi.fn(),
-      removeQuestion: vi.fn(),
-      insertQuestion: vi.fn(),
-      addQuestion: vi.fn(),
-      adjustHeight: vi.fn(),
-      announceLiveRegion: vi.fn(),
+    const base = {
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn<(q: Question) => void>(),
+      adjustHeight: vi.fn<() => void>(),
+      announceLiveRegion: vi.fn<(m: string) => void>(),
     };
 
     // focusNext path where next ref is missing
-    const eNext: any = {
+    const eNext = {
       key: "Tab",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -574,12 +602,12 @@ describe("handleKeyPress (properties)", () => {
     handleKeyPress(eNext, {
       textareaRef: textareaRefNext,
       questions,
-      question: questions[0] as any,
+      question: questions[0],
       updateQuestionText: base.updateQuestionText,
       removeQuestion: base.removeQuestion,
       insertQuestion: base.insertQuestion,
       addQuestion: base.addQuestion,
-      questionRefs: questionRefs as any,
+      questionRefs,
       adjustHeight: base.adjustHeight,
       announceLiveRegion: base.announceLiveRegion,
     });
@@ -591,8 +619,8 @@ describe("handleKeyPress (properties)", () => {
       q2: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
-    } as any;
-    const ePrev: any = {
+    } as unknown as Record<string, { current: HTMLTextAreaElement | null }>;
+    const ePrev = {
       key: "Tab",
       preventDefault: vi.fn(),
       shiftKey: true,
@@ -603,12 +631,12 @@ describe("handleKeyPress (properties)", () => {
     handleKeyPress(ePrev, {
       textareaRef: textareaRefPrev,
       questions,
-      question: questions[1] as any,
+      question: questions[1],
       updateQuestionText: base.updateQuestionText,
       removeQuestion: base.removeQuestion,
       insertQuestion: base.insertQuestion,
       addQuestion: base.addQuestion,
-      questionRefs: questionRefs as any,
+      questionRefs,
       adjustHeight: base.adjustHeight,
       announceLiveRegion: base.announceLiveRegion,
     });
@@ -620,14 +648,14 @@ describe("handleKeyPress (properties)", () => {
       { id: "q1", text: "a\nb", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
     const textarea = createTextarea("a\nb", 0);
-    const e: any = {
+    const e = {
       key: "ArrowUp",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -637,12 +665,12 @@ describe("handleKeyPress (properties)", () => {
     handleKeyPress(e, {
       textareaRef: createRef<HTMLTextAreaElement | null>(textarea),
       questions,
-      question: questions[0] as any,
-      updateQuestionText: vi.fn() as any,
-      removeQuestion: vi.fn() as any,
-      insertQuestion: vi.fn() as any,
-      addQuestion: vi.fn() as any,
-      questionRefs: questionRefs as any,
+      question: questions[0],
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn<(q: Question) => void>(),
+      questionRefs,
       adjustHeight: vi.fn(),
       announceLiveRegion: vi.fn(),
     });
@@ -654,14 +682,14 @@ describe("handleKeyPress (properties)", () => {
       { id: "q1", text: "a\nb", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
+      Record<string, { current: HTMLTextAreaElement | null }>
     >({
       q1: createRef<HTMLTextAreaElement | null>(
         document.createElement("textarea"),
       ),
     });
     const textarea = createTextarea("a\nb", 3);
-    const e: any = {
+    const e = {
       key: "ArrowDown",
       preventDefault: vi.fn(),
       shiftKey: false,
@@ -671,12 +699,12 @@ describe("handleKeyPress (properties)", () => {
     handleKeyPress(e, {
       textareaRef: createRef<HTMLTextAreaElement | null>(textarea),
       questions,
-      question: questions[0] as any,
-      updateQuestionText: vi.fn() as any,
-      removeQuestion: vi.fn() as any,
-      insertQuestion: vi.fn() as any,
-      addQuestion: vi.fn() as any,
-      questionRefs: questionRefs as any,
+      question: questions[0],
+      updateQuestionText: vi.fn<(id: string, text: string) => void>(),
+      removeQuestion: vi.fn<(index: number) => void>(),
+      insertQuestion: vi.fn<(index: number, q: Question) => void>(),
+      addQuestion: vi.fn<(q: Question) => void>(),
+      questionRefs,
       adjustHeight: vi.fn(),
       announceLiveRegion: vi.fn(),
     });

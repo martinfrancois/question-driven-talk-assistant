@@ -38,8 +38,13 @@ export interface HandleKeyPressDeps {
  * Handles keypress events within the textarea to manage custom behaviors.
  * @param {React.KeyboardEvent} e - The keyboard event.
  */
+type MinimalKeyboardEvent = Pick<
+  KeyboardEvent,
+  "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
+>;
+
 export function handleKeyPress(
-  e: KeyboardEvent,
+  e: MinimalKeyboardEvent,
   {
     textareaRef,
     questions,
