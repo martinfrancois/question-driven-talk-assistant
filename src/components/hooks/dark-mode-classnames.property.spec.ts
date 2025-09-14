@@ -1,18 +1,17 @@
 import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import * as fc from "fast-check";
 
-vi.mock("@/stores", () => {
-  return { useDarkMode: vi.fn(() => true) };
-});
+const useDarkMode = vi.fn<[], boolean>(() => true);
+vi.mock("@/stores", () => ({ useDarkMode }));
 
 describe("useDarkModeClassName (property)", () => {
   it("maps arbitrary boolean to expected class name", async () => {
-    const Stores = await import("@/stores");
     const { useDarkModeClassName } = await import("./dark-mode-classnames.ts");
+    const { useDarkMode } = await import("@/stores");
 
     fc.assert(
-      fc.property(fc.boolean(), (isDark) => {
-        (Stores.useDarkMode as unknown as jest.Mock).mockReturnValue(isDark);
+      fc.property(fc.boolean(), (isDark: boolean) => {
+        vi.mocked(useDarkMode).mockReturnValue(isDark);
         const cls = useDarkModeClassName();
         expect(cls).toBe(isDark ? "dark" : "light");
       }),

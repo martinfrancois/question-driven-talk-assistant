@@ -14,7 +14,7 @@ export function currentLineNumberForCursor(
   const safePos = Math.max(0, Math.min(cursorPosition, text.length));
   const before = text.substring(0, safePos);
   let count = 0;
-  for (let i = 0; i < before.length; i++) if (before[i] === "\n") count++;
+  for (const ch of before) if (ch === "\n") count++;
   return count;
 }
 

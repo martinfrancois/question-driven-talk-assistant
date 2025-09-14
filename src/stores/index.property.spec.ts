@@ -1,14 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
-
-vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return {
-    ...actual,
-    persist: (fn: any) => fn,
-    devtools: (fn: any) => fn,
-  };
-});
+import { describe, it, expect } from "vitest";
+import * as fc from "fast-check";
 
 describe("stores index re-exports (properties)", () => {
   it("re-exports all symbols from submodules", async () => {

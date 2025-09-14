@@ -1,11 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
-import fc from "fast-check";
+import { describe, it, expect } from "vitest";
+import * as fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
-
-vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
-  return { ...actual, persist: (fn: any) => fn, devtools: (fn: any) => fn };
-});
 
 describe("preferences store (properties)", () => {
   it("increase/decrease font size respects lower bound and step", async () => {
@@ -19,7 +14,7 @@ describe("preferences store (properties)", () => {
     });
 
     fc.assert(
-      fc.property(fc.integer({ min: 0, max: 50 }), (steps) => {
+      fc.property(fc.integer({ min: 0, max: 50 }), (steps: number) => {
         act(() => {
           for (let i = 0; i < steps; i++) result.current.inc();
         });
