@@ -128,43 +128,37 @@ describe("onboarding store (unit)", () => {
   });
 
   it("does not crash when endsWith returns undefined and defaults to false", async () => {
-    const originalEndsWith = String.prototype.endsWith;
-    // eslint-disable-next-line no-extend-native
-    (String.prototype as any).endsWith = function (
+    const spy = vi.spyOn(String.prototype, "endsWith");
+    spy.mockImplementation(function (
       this: string,
       search: string,
-      ...rest: any[]
+      ...rest: unknown[]
     ) {
-      if (search === "disable-tour") return undefined as any;
-      return originalEndsWith.call(this, search, ...rest);
-    } as any;
+      if (search === "disable-tour") return undefined as unknown as boolean;
+      return String.prototype.endsWith.apply(this, [search, ...rest]);
+    });
     localStorage.clear();
     vi.resetModules();
     const { useTourCompleted } = await import("./onboarding.ts");
-    // restore
-    // eslint-disable-next-line no-extend-native
-    String.prototype.endsWith = originalEndsWith;
+    spy.mockRestore();
     const { result } = renderHook(() => useTourCompleted());
     expect(result.current).toBe(false);
   });
 
   it("initializes tourCompleted true when String.prototype.endsWith yields true for 'disable-tour'", async () => {
-    const originalEndsWith = String.prototype.endsWith;
-    // eslint-disable-next-line no-extend-native
-    (String.prototype as any).endsWith = function (
+    const spy = vi.spyOn(String.prototype, "endsWith");
+    spy.mockImplementation(function (
       this: string,
       search: string,
-      ...rest: any[]
+      ...rest: unknown[]
     ) {
       if (search === "disable-tour") return true;
-      return originalEndsWith.call(this, search, ...rest);
-    } as any;
+      return String.prototype.endsWith.apply(this, [search, ...rest]);
+    });
     localStorage.clear();
     vi.resetModules();
     const { useTourCompleted } = await import("./onboarding.ts");
-    // restore immediately to avoid leaking the override
-    // eslint-disable-next-line no-extend-native
-    String.prototype.endsWith = originalEndsWith;
+    spy.mockRestore();
     const { result } = renderHook(() => useTourCompleted());
     expect(result.current).toBe(true);
   });
