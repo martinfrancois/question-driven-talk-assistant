@@ -82,7 +82,7 @@ describe("question-keypress decisions (properties)", () => {
             expect(action).toEqual({ type: "deleteQuestion", target: "prev" });
           } else {
             // Out-of-range index is not expected by production code; ensure it does not throw
-            expect(["deleteQuestion", "none"]).toContain((action as any).type);
+            expect(["deleteQuestion", "none"]).toContain(action.type);
           }
         },
       ),

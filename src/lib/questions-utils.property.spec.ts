@@ -1,13 +1,13 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import fc from "fast-check";
 import { reorderQuestionsByIds } from "./questions-utils.ts";
 
-type Question = {
+interface Question {
   id: string;
   text: string;
   answered: boolean;
   highlighted: boolean;
-};
+}
 
 describe("questions-utils (properties)", () => {
   it("reorderQuestionsByIds is a stable permutation and only moves active to over index", () => {

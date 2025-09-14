@@ -2,12 +2,15 @@ import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
 
 vi.mock("zustand/middleware", async () => {
-  const actual = await vi.importActual<any>("zustand/middleware");
+  const actual =
+    await vi.importActual<typeof import("zustand/middleware")>(
+      "zustand/middleware",
+    );
   return {
     ...actual,
-    persist: (fn: any) => fn,
-    devtools: (fn: any) => fn,
-  };
+    persist: <T>(fn: T) => fn,
+    devtools: <T>(fn: T) => fn,
+  } satisfies typeof import("zustand/middleware");
 });
 
 describe("StorageName enum (properties)", () => {
@@ -22,7 +25,7 @@ describe("StorageName enum (properties)", () => {
     fc.assert(
       fc.property(
         fc.constantFrom(...values),
-        (v) => v.length > 0 && /-storage$/.test(v),
+        (v) => v.length > 0 && v.endsWith("-storage"),
       ),
     );
   });
