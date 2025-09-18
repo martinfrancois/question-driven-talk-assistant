@@ -30,6 +30,19 @@
   bun x playwright install --with-deps
   ```
 
+## Conventions
+
+- Unit/integration tests are in the same folder as the code, with the same filename as the file that is tested, ending in `.spec.ts`/`.spec.tsx`
+- Mocks for unit/integration tests are in the src/**mocks** folder
+- Property-based tests with fast-check are in a separate file ending in `.property.spec.ts`
+- Automated end-to-end tests using Playwright are in the `e2e` folder, and are using the page object pattern.
+  - Page objects are in the `pageobjects` subfolder.
+  - All page objects extend `AppPage`
+  - Test files end with `.spec.ts`
+- File name conventions:
+  - React components: PascalCase with `.tsx` suffix.
+  - Pure logic/utils/zhooks/constants/etc.: kebab-case with `.ts` suffix.
+
 ## Development Workflow
 
 1. Install dependencies: `bun install`.

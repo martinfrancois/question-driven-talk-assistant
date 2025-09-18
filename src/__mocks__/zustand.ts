@@ -3,7 +3,7 @@ export * from "zustand";
 import { afterEach, vi } from "vitest";
 
 const { create: actualCreate, createStore: actualCreateStore } =
-  await vi.importActual<typeof ZustandExportedTypes>("zustand");
+  await vi.importActual<typeof import("zustand")>("zustand");
 
 // a variable to hold reset functions for all stores declared in the app
 export const storeResetFns = new Set<() => void>();

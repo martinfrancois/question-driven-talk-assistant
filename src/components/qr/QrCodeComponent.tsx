@@ -1,8 +1,6 @@
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback } from "react";
 import type { JSX, KeyboardEvent } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { useMove } from "@react-aria/interactions";
-import type { MoveMoveEvent } from "@react-aria/interactions";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   useQrCodeUrl,
@@ -11,103 +9,7 @@ import {
   useSetQrCodeSize,
 } from "@/stores";
 
-type Direction = "bottom-right" | "bottom-left";
-
-const MIN_QR_CODE_SIZE = 32;
-const MAX_QR_CODE_SIZE = 256;
-
-function clamp(n: number): number {
-  return Math.min(Math.max(n, MIN_QR_CODE_SIZE), MAX_QR_CODE_SIZE);
-}
-
-function useResizeHandleProps(
-  direction: Direction,
-  label: string,
-  size: number,
-  setSize: (n: number) => void,
-  onResizeEnd: () => void,
-) {
-  const baseSize = useRef<number>(size);
-  const sumX = useRef(0);
-  const sumY = useRef(0);
-  const pending = useRef<number>(size);
-  const rafId = useRef<number | null>(null);
-  const prevUserSelect = useRef<string>("");
-
-  const schedule = (): void => {
-    if (rafId.current != null) return;
-    rafId.current = requestAnimationFrame(() => {
-      rafId.current = null;
-      setSize(Math.round(pending.current));
-    });
-  };
-
-  const flush = (): void => {
-    if (rafId.current != null) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-      setSize(Math.round(pending.current));
-    }
-  };
-
-  const { moveProps } = useMove({
-    onMoveStart(): void {
-      baseSize.current = Number(size) || MIN_QR_CODE_SIZE;
-      sumX.current = 0;
-      sumY.current = 0;
-      const doc = globalThis.document;
-      if (doc) {
-        prevUserSelect.current = doc.body.style.userSelect;
-        doc.body.style.userSelect = "none";
-      }
-    },
-    onMove(e: MoveMoveEvent): void {
-      sumX.current += e.deltaX;
-      sumY.current += e.deltaY;
-      const delta =
-        direction === "bottom-right"
-          ? Math.max(sumX.current, sumY.current)
-          : Math.max(-sumX.current, sumY.current);
-      pending.current = clamp(baseSize.current + delta);
-      schedule();
-    },
-    onMoveEnd(): void {
-      const doc = globalThis.document;
-      if (doc) doc.body.style.userSelect = prevUserSelect.current;
-      flush();
-      onResizeEnd();
-    },
-  });
-
-  useEffect(() => {
-    return () => {
-      if (rafId.current != null) cancelAnimationFrame(rafId.current);
-    };
-  }, []);
-
-  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
-    const step = e.shiftKey ? 16 : 4;
-    if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-      e.preventDefault();
-      setSize(clamp((size ?? MIN_QR_CODE_SIZE) + step));
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-      e.preventDefault();
-      setSize(clamp((size ?? MIN_QR_CODE_SIZE) - step));
-    }
-  };
-
-  return {
-    ...moveProps,
-    role: "slider",
-    tabIndex: 0,
-    "aria-label": label,
-    "aria-valuemin": MIN_QR_CODE_SIZE,
-    "aria-valuemax": MAX_QR_CODE_SIZE,
-    "aria-valuenow": size,
-    "aria-valuetext": `${size}px`,
-    onKeyDown,
-  } as const;
-}
+import { useResizeHandleProps } from "./use-resize-handle-props.ts";
 
 export default function QrCodeComponent(): JSX.Element {
   const url = useQrCodeUrl() ?? "";

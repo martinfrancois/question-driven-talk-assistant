@@ -1,24 +1,21 @@
-import { configDefaults, defineConfig } from "vitest/config";
+import { configDefaults, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config";
+import { sharedVitestConfig } from "./vitest.shared";
 
-export default defineConfig({
-  ...viteConfig,
-  test: {
-    setupFiles: ["./setup-vitest.ts"],
-    browser: {
-      enabled: true,
-      headless: true,
-      instances: [
-        {
-          browser: "chromium",
+export default mergeConfig(
+  viteConfig,
+  mergeConfig(sharedVitestConfig, {
+    test: {
+      // Exclude property-based tests from the default/unit run
+      exclude: [...configDefaults.exclude, "e2e/*", "**/*.property.spec.ts"],
+      coverage: {
+        thresholds: {
+          statements: 61,
+          branches: 64,
+          functions: 59,
+          lines: 59,
         },
-      ],
-      provider: "playwright",
+      },
     },
-    exclude: [...configDefaults.exclude, "e2e/*"],
-    coverage: {
-      provider: "istanbul",
-      reporter: ["text", "html", "lcov"],
-    },
-  },
-});
+  }),
+);
