@@ -1,5 +1,5 @@
 import { useFooter, useSetFooter } from "@/stores";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export function Footer() {
@@ -15,14 +15,20 @@ export function Footer() {
     editFooter,
   ]);
 
+  const createFooterAriaLabel = useMemo(() => {
+    if (footer.trim().length == 0) {
+      return "Empty footer. Click to add footer.";
+    } else {
+      return "Footer text: " + footer + ". Click to edit footer.";
+    }
+  }, [footer]);
+
   return (
     <footer
       onClick={editFooter}
-      className="shrink-0 cursor-pointer p-2 text-center text-xl"
+      className="min-h-11 shrink-0 cursor-pointer p-2 text-center text-xl"
       data-testid="main-footer"
-      aria-label={
-        "Footer text: " + (footer ?? "empty") + ". Click to edit footer."
-      }
+      aria-label={createFooterAriaLabel}
       aria-keyshortcuts="Control+Shift+F to edit footer text"
     >
       {footer}
