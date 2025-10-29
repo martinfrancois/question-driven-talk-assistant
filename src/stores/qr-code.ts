@@ -10,12 +10,14 @@ interface QrCodeState {
   setQrCodeSize: (size: number) => void;
 }
 
+const DEFAULT_QR_CODE_SIZE = 100;
+
 const useQrCodeStore = create<QrCodeState>()(
   devtools(
     persist(
       immer((set) => ({
         qrCodeUrl: "",
-        qrCodeSize: 100,
+        qrCodeSize: DEFAULT_QR_CODE_SIZE,
         setQrCodeUrl: (url) =>
           set((state) => {
             state.qrCodeUrl = url;
