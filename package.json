@@ -82,8 +82,8 @@
     "vite-plugin-pwa": "1.1.0",
     "vitest": "3.2.4",
     "vitest-browser-react": "1.0.1",
-    "workbox-core": "7.3.0",
-    "workbox-window": "7.3.0"
+    "workbox-core": "7.4.0",
+    "workbox-window": "7.4.0"
   },
   "overrides": {
     "sharp": "0.34.5",
