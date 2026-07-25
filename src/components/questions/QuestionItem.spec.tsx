@@ -73,7 +73,7 @@ describe("QuestionItem Component with Zustand", () => {
   };
 
   it("Pressing Enter adds a new question below and focuses it", async () => {
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot("Initial Render");
 
     const textareas = container.querySelectorAll("textarea");
@@ -106,12 +106,12 @@ describe("QuestionItem Component with Zustand", () => {
     expect(container).toMatchSnapshot("After Pressing Enter");
   });
 
-  it("Pressing Enter does nothing if current or next question is empty", () => {
+  it("Pressing Enter does nothing if current or next question is empty", async () => {
     // Modify the second question to be empty
     initialQuestions[1].text = "";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot("Initial Render with Empty Question B");
 
     const textareas = container.querySelectorAll("textarea");
@@ -134,12 +134,12 @@ describe("QuestionItem Component with Zustand", () => {
     expect(container).toMatchSnapshot("After Pressing Enter on Empty Question");
   });
 
-  it("Pressing Tab on last empty question does nothing", () => {
+  it("Pressing Tab on last empty question does nothing", async () => {
     // Make the last question empty
     initialQuestions[2].text = "";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot(
       "Initial Render with Last Question Empty",
     );
@@ -167,7 +167,7 @@ describe("QuestionItem Component with Zustand", () => {
   });
 
   it("Pressing Tab on last non-empty question adds new question", async () => {
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[2]; // Last question
     textarea.focus();
@@ -183,8 +183,8 @@ describe("QuestionItem Component with Zustand", () => {
     // Advance time to generate a unique timestamp for the new question
     advanceTime();
 
-    // Wait for state updates and re-rendering
-    await vi.advanceTimersByTimeAsync(100);
+    // Flush the focus timer while retaining the live-region announcement.
+    await vi.advanceTimersByTimeAsync(1);
 
     // Re-fetch the textareas after the update
     const updatedTextareas = container.querySelectorAll("textarea");
@@ -203,7 +203,7 @@ describe("QuestionItem Component with Zustand", () => {
     initialQuestions[1].text = "";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot("Initial Render with Empty Question B");
 
     const textareas = container.querySelectorAll("textarea");
@@ -239,7 +239,7 @@ describe("QuestionItem Component with Zustand", () => {
     initialQuestions[0].text = "";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot("Initial Render with Empty Question A");
 
     const textareas = container.querySelectorAll("textarea");
@@ -270,12 +270,12 @@ describe("QuestionItem Component with Zustand", () => {
     );
   });
 
-  it("Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line", () => {
+  it("Pressing Backspace in multi-line empty textarea does nothing when cursor is on first line", async () => {
     // Set the second question to have multiple lines with the first line empty
     initialQuestions[1].text = "\n";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot(
       "Initial Render with Multi-Line Empty Question B",
     );
@@ -302,12 +302,12 @@ describe("QuestionItem Component with Zustand", () => {
     );
   });
 
-  it("Pressing Backspace on second line removes that line", () => {
+  it("Pressing Backspace on second line removes that line", async () => {
     // Set the second question to have multiple lines
     initialQuestions[1].text = "\n";
     // The TestWrapper will set the store state with updated initialQuestions
 
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot(
       "Initial Render with Multi-Line Empty Question B",
     );
@@ -341,7 +341,7 @@ describe("QuestionItem Component with Zustand", () => {
   });
 
   it("ArrowUp and ArrowDown navigation moves focus correctly", async () => {
-    const { container } = render(<TestWrapper />);
+    const { container } = await render(<TestWrapper />);
 
     const textareas = container.querySelectorAll("textarea");
     const textarea = textareas[1]; // Select the second textarea (Question B)

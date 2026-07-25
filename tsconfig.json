@@ -19,10 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": [
-      "@vitest/browser/providers/playwright",
-      "@types/wicg-file-system-access"
-    ],
+    "types": ["node", "@types/wicg-file-system-access"],
     // shadcn
     "baseUrl": ".",
     "paths": {
