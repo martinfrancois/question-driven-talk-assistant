@@ -232,8 +232,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       e.preventDefault();
       if (
         question.text.trim() !== "" &&
-        (!questions[currentIndex + 1] ||
-          questions[currentIndex + 1].text.trim() !== "")
+        questions[currentIndex + 1]?.text.trim() !== ""
       ) {
         const newQuestion = createEmptyQuestion();
         insertQuestion(currentIndex + 1, newQuestion);
