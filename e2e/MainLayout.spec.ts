@@ -77,15 +77,13 @@ test.describe("MainLayout e2e tests", () => {
 
   test("should toggle time format in TimeDisplay", async () => {
     // given
-    const initialFormat = await mainLayoutPage.timeDisplay.getAttribute(
-      "data-time-format",
-    );
+    const initialFormat =
+      await mainLayoutPage.timeDisplay.getAttribute("data-time-format");
 
     // when
     await mainLayoutPage.toggleTimeFormat();
-    const toggledFormat = await mainLayoutPage.timeDisplay.getAttribute(
-      "data-time-format",
-    );
+    const toggledFormat =
+      await mainLayoutPage.timeDisplay.getAttribute("data-time-format");
 
     // then
     expect(toggledFormat).not.toEqual(initialFormat);
