@@ -36,6 +36,7 @@ const TimeDisplay: FC = () => {
       onClick={toggleTimeFormat}
       className="cursor-pointer pr-2 text-right text-sm opacity-70 hover:opacity-100"
       data-testid="time-display"
+      data-time-format={timeFormat24h ? "24h" : "12h"}
       aria-label={"Time: " + time}
     >
       {time}

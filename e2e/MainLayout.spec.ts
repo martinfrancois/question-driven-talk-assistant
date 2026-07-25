@@ -77,15 +77,18 @@ test.describe("MainLayout e2e tests", () => {
 
   test("should toggle time format in TimeDisplay", async () => {
     // given
-    const initialTime = await mainLayoutPage.timeDisplay.textContent();
+    const initialFormat = await mainLayoutPage.timeDisplay.getAttribute(
+      "data-time-format",
+    );
 
     // when
     await mainLayoutPage.toggleTimeFormat();
-    const toggledTime = await mainLayoutPage.timeDisplay.textContent();
+    const toggledFormat = await mainLayoutPage.timeDisplay.getAttribute(
+      "data-time-format",
+    );
 
     // then
-    // TODO potentially flaky, if toggled right before minute advances
-    expect(toggledTime).not.toEqual(initialTime);
+    expect(toggledFormat).not.toEqual(initialFormat);
   });
 
   test("should not open fullscreen QR code when URL is empty", async () => {
