@@ -1,10 +1,10 @@
-import { Step } from "react-joyride";
+import type { Step } from "react-joyride";
 
 export const steps: Step[] = [
   {
     target: '[data-testid="main-header"]',
     content: "Click the title to edit it.",
-    disableBeacon: true, // Start the tour immediately
+    skipBeacon: true, // Start the tour immediately
   },
   {
     target: '[data-testid="main-footer"]',
@@ -18,16 +18,12 @@ export const steps: Step[] = [
     target: "textarea:first-of-type",
     content:
       "Click on the text of the first question, then press Enter to add a new question below.",
-    styles: {
-      options: { overlayColor: "rgba(0, 0, 0, 0.2)" },
-    },
+    overlayColor: "rgba(0, 0, 0, 0.2)",
   },
   {
     target: '[data-testid^="question-checkbox-"]',
     content: "Click the checkbox to highlight the question you're answering.",
-    styles: {
-      options: { overlayColor: "rgba(0, 0, 0, 0.2)" },
-    },
+    overlayColor: "rgba(0, 0, 0, 0.2)",
   },
   {
     target: '[data-testid^="question-checkbox"]',
@@ -66,8 +62,6 @@ export const steps: Step[] = [
     target: '[data-testid="help-icon"] svg',
     content: "Click the help icon to view all features and keyboard shortcuts.",
     placement: "top-end",
-    styles: {
-      options: { overlayColor: "rgba(0, 0, 0, 0.1)" },
-    },
+    overlayColor: "rgba(0, 0, 0, 0.1)",
   },
 ];
