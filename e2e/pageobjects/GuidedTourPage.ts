@@ -7,8 +7,14 @@ export class GuidedTourPage extends AppPage {
 
   constructor(page: Page) {
     super(page);
-    this.nextButton = page.locator('button[data-test-id="button-primary"]');
-    this.skipButton = page.locator('button[data-test-id="button-skip"]');
+    const tourDialog = page.getByRole("alertdialog");
+    this.nextButton = tourDialog.getByRole("button", {
+      name: /^(Last|Next)$/,
+    });
+    this.skipButton = tourDialog.getByRole("button", {
+      name: "Skip",
+      exact: true,
+    });
   }
 
   async goto() {

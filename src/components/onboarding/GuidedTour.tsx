@@ -1,17 +1,16 @@
 import { useCompleteTour, useTourCompleted } from "@/stores";
 import { useCallback } from "react";
-import Joyride, { CallBackProps } from "react-joyride";
+import { Joyride, type EventData } from "react-joyride";
 import { steps } from "./guided-tour-steps.ts";
 
 const GuidedTour = () => {
   const isTourCompleted = useTourCompleted();
   const completeTour = useCompleteTour();
 
-  const handleJoyrideCallback = useCallback(
-    (data: CallBackProps) => {
+  const handleJoyrideEvent = useCallback(
+    (data: EventData) => {
       const { status } = data;
-      const finishedStatuses = ["finished", "skipped"];
-      if (finishedStatuses.includes(status)) {
+      if (status === "finished" || status === "skipped") {
         completeTour();
       }
     },
@@ -23,16 +22,16 @@ const GuidedTour = () => {
       steps={steps}
       run={!isTourCompleted}
       continuous
-      showSkipButton
-      disableOverlayClose
-      disableCloseOnEsc
-      spotlightClicks
-      callback={handleJoyrideCallback}
+      onEvent={handleJoyrideEvent}
+      options={{
+        blockTargetInteraction: false,
+        buttons: ["back", "close", "primary", "skip"],
+        dismissKeyAction: false,
+        overlayClickAction: false,
+        primaryColor: "#00aaff",
+        zIndex: 10000,
+      }}
       styles={{
-        options: {
-          primaryColor: "#00aaff",
-          zIndex: 10000,
-        },
         buttonClose: { display: "none" },
       }}
     />
