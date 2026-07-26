@@ -75,15 +75,10 @@ const QuestionList: FC = () => {
     }
   };
 
-  const questionRefs = useRef(
-    new Map<string, TextareaRef>(),
-  );
+  const questionRefs = useRef(new Map<string, TextareaRef>());
 
   const registerQuestionRef = useCallback(
-    (
-      questionId: string,
-      textareaRef: TextareaRef | null,
-    ): void => {
+    (questionId: string, textareaRef: TextareaRef | null): void => {
       if (textareaRef) {
         questionRefs.current.set(questionId, textareaRef);
       } else {

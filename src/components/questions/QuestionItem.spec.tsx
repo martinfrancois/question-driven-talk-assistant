@@ -36,9 +36,7 @@ describe("QuestionItem Component with Zustand", () => {
   const TestWrapper = () => {
     const questions = useQuestions();
     const setQuestions = useSetQuestions();
-    const questionRefs = React.useRef(
-      new Map<string, TextareaRef>(),
-    );
+    const questionRefs = React.useRef(new Map<string, TextareaRef>());
 
     React.useEffect(() => {
       setQuestions(initialQuestions);
