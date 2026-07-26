@@ -1,35 +1,30 @@
-import { FC, useState, useEffect, useCallback } from "react";
+import { FC, useEffect, useState } from "react";
 import { useTimeFormat24h, useToggleTimeFormat } from "@/stores";
+
+const formatTime = (time: Date, timeFormat24h: boolean): string =>
+  time.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: !timeFormat24h,
+  });
 
 const TimeDisplay: FC = () => {
   const timeFormat24h = useTimeFormat24h();
   const toggleTimeFormat = useToggleTimeFormat();
 
-  const [time, setTime] = useState("");
-
-  const updateTime = useCallback(() => {
-    const now = new Date();
-    setTime(
-      timeFormat24h
-        ? now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })
-        : now.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          }),
-    );
-  }, [timeFormat24h]);
+  const [time, setTime] = useState(() => new Date());
 
   useEffect(() => {
-    updateTime();
     // Update time every minute: it's not very accurate, but good enough for a talk
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
-  }, [timeFormat24h, updateTime]);
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 60000);
+    return (): void => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const formattedTime = formatTime(time, timeFormat24h);
 
   return (
     <button
@@ -37,9 +32,9 @@ const TimeDisplay: FC = () => {
       className="cursor-pointer pr-2 text-right text-sm opacity-70 hover:opacity-100"
       data-testid="time-display"
       data-time-format={timeFormat24h ? "24h" : "12h"}
-      aria-label={"Time: " + time}
+      aria-label={"Time: " + formattedTime}
     >
-      {time}
+      {formattedTime}
     </button>
   );
 };

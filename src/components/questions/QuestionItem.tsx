@@ -14,6 +14,7 @@ import {
   Question,
   useAddQuestion,
   useClickCheckbox,
+  useFontSize,
   useInsertQuestion,
   useMoveQuestionDown,
   useMoveQuestionUp,
@@ -26,7 +27,7 @@ import { Checkbox } from "@/components/ui/checkbox.tsx";
 interface QuestionItemProps {
   question: Question;
   questionRefs: React.RefObject<
-    Record<string, React.RefObject<HTMLTextAreaElement | null>>
+    Map<string, React.RefObject<HTMLTextAreaElement | null>>
   >;
   textareaRef: React.RefObject<HTMLTextAreaElement | null>;
   index: number;
@@ -64,6 +65,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
   const insertQuestion = useInsertQuestion();
   const addQuestion = useAddQuestion();
   const clickCheckbox = useClickCheckbox();
+  const fontSize = useFontSize();
 
   const {
     attributes,
@@ -100,7 +102,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
 
   useEffect(() => {
     adjustHeight();
-  }, [question.text, adjustHeight]);
+  }, [question.text, fontSize, adjustHeight]);
 
   const [isFocused, setIsFocused] = useState(false);
   const [liveMessage, setLiveMessage] = useState("");
@@ -191,7 +193,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
           if (currentIndex === 0) {
             // Delete first question and focus the new first question
             removeQuestion(currentIndex);
-            const newFirstRef = questionRefs.current[questions[1].id];
+            const newFirstRef = questionRefs.current.get(questions[1].id);
             if (newFirstRef?.current) {
               newFirstRef.current.focus();
               newFirstRef.current.setSelectionRange(0, 0);
@@ -202,7 +204,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
             removeQuestion(currentIndex);
             setTimeout(() => {
               const prevQuestion = questions[currentIndex - 1];
-              const prevRef = questionRefs.current[prevQuestion.id];
+              const prevRef = questionRefs.current.get(prevQuestion.id);
               if (prevRef?.current) {
                 prevRef.current.focus();
                 const position = prevRef.current.value.length;
@@ -238,7 +240,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         insertQuestion(currentIndex + 1, newQuestion);
         announceLiveRegion("Added a new question below and focused it.");
         setTimeout(() => {
-          const newRef = questionRefs.current[newQuestion.id];
+          const newRef = questionRefs.current.get(newQuestion.id);
           if (newRef?.current) {
             newRef.current.focus();
             newRef.current.setSelectionRange(0, 0);
@@ -258,7 +260,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         e.preventDefault();
         if (currentIndex < questions.length - 1) {
           const nextQuestion = questions[currentIndex + 1];
-          const nextRef = questionRefs.current[nextQuestion.id];
+          const nextRef = questionRefs.current.get(nextQuestion.id);
           if (nextRef?.current) {
             nextRef.current.focus();
 
@@ -287,7 +289,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         e.preventDefault();
         if (currentIndex > 0) {
           const prevQuestion = questions[currentIndex - 1];
-          const prevRef = questionRefs.current[prevQuestion.id];
+          const prevRef = questionRefs.current.get(prevQuestion.id);
           if (prevRef?.current) {
             prevRef.current.focus();
 
@@ -314,7 +316,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       if (currentIndex < questions.length - 1) {
         // Not the last question
         const nextQuestion = questions[currentIndex + 1];
-        const nextRef = questionRefs.current[nextQuestion.id];
+        const nextRef = questionRefs.current.get(nextQuestion.id);
         if (nextRef?.current) {
           nextRef.current.focus();
 
@@ -331,7 +333,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
           addQuestion(newQuestion);
           announceLiveRegion("Added a new question below and focused it.");
           setTimeout(() => {
-            const newRef = questionRefs.current[newQuestion.id];
+            const newRef = questionRefs.current.get(newQuestion.id);
             if (newRef?.current) {
               newRef.current.focus();
               // Cursor at position 0 in new empty textarea
@@ -348,7 +350,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
       e.preventDefault();
       if (currentIndex > 0) {
         const prevQuestion = questions[currentIndex - 1];
-        const prevRef = questionRefs.current[prevQuestion.id];
+        const prevRef = questionRefs.current.get(prevQuestion.id);
         if (prevRef?.current) {
           prevRef.current.focus();
 

@@ -4,6 +4,8 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import QuestionItem from "./QuestionItem.tsx";
 import { Question, useQuestions, useSetQuestions } from "@/stores";
 
+type TextareaRef = React.RefObject<HTMLTextAreaElement | null>;
+
 describe("QuestionItem Component with Zustand", () => {
   const BASE_YEAR = 2025;
   const BASE_MONTH = 1;
@@ -34,9 +36,7 @@ describe("QuestionItem Component with Zustand", () => {
   const TestWrapper = () => {
     const questions = useQuestions();
     const setQuestions = useSetQuestions();
-    const questionRefs = React.useRef<
-      Record<string, React.RefObject<HTMLTextAreaElement | null>>
-    >({});
+    const questionRefs = React.useRef(new Map<string, TextareaRef>());
 
     React.useEffect(() => {
       setQuestions(initialQuestions);
@@ -46,9 +46,9 @@ describe("QuestionItem Component with Zustand", () => {
       <>
         {questions.map((question, index) => {
           const textareaRef =
-            questionRefs.current[question.id] ||
+            questionRefs.current.get(question.id) ??
             React.createRef<HTMLTextAreaElement>();
-          questionRefs.current[question.id] = textareaRef;
+          questionRefs.current.set(question.id, textareaRef);
 
           return (
             <QuestionItem
