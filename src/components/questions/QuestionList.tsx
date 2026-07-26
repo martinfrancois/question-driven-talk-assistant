@@ -17,16 +17,15 @@ import QuestionItem from "./QuestionItem.tsx";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
 import { Question, useQuestions, useSetQuestions } from "@/stores";
 
-type QuestionRefs = React.RefObject<
-  Record<string, React.RefObject<HTMLTextAreaElement | null>>
->;
+type TextareaRef = React.RefObject<HTMLTextAreaElement | null>;
+type QuestionRefs = React.RefObject<Map<string, TextareaRef>>;
 
 interface RegisteredQuestionItemProps {
   question: Question;
   questionRefs: QuestionRefs;
   registerQuestionRef: (
     questionId: string,
-    textareaRef: React.RefObject<HTMLTextAreaElement | null> | null,
+    textareaRef: TextareaRef | null,
   ) => void;
   index: number;
 }
@@ -41,7 +40,9 @@ const RegisteredQuestionItem: FC<RegisteredQuestionItemProps> = ({
 
   useEffect(() => {
     registerQuestionRef(question.id, textareaRef);
-    return () => registerQuestionRef(question.id, null);
+    return (): void => {
+      registerQuestionRef(question.id, null);
+    };
   }, [question.id, registerQuestionRef]);
 
   return (
@@ -74,20 +75,19 @@ const QuestionList: FC = () => {
     }
   };
 
-  // Use a mapping from question ID to ref, creating refs only once
-  const questionRefs = useRef<
-    Record<string, React.RefObject<HTMLTextAreaElement | null>>
-  >({});
+  const questionRefs = useRef(
+    new Map<string, TextareaRef>(),
+  );
 
   const registerQuestionRef = useCallback(
     (
       questionId: string,
-      textareaRef: React.RefObject<HTMLTextAreaElement | null> | null,
-    ) => {
+      textareaRef: TextareaRef | null,
+    ): void => {
       if (textareaRef) {
-        questionRefs.current[questionId] = textareaRef;
+        questionRefs.current.set(questionId, textareaRef);
       } else {
-        delete questionRefs.current[questionId];
+        questionRefs.current.delete(questionId);
       }
     },
     [],

@@ -428,11 +428,14 @@ test.describe("QuestionItem e2e tests", () => {
       page,
     }) => {
       // given
-      const testQuestion = createQuestion({ text: "Original text" });
+      const testQuestion = createQuestion({
+        text: "First line\nSecond line\nThird line",
+      });
       const testQuestions: Question[] = [testQuestion];
       await setupQuestions(page, testQuestions);
       const questionItemPage = getQuestionItemPage(page, testQuestion.id);
       const originalFontSize = await questionItemPage.getFontSize();
+      const originalHeight = await questionItemPage.getTextareaHeight();
 
       // when
       await questionItemPage.focusTextarea();
@@ -441,6 +444,9 @@ test.describe("QuestionItem e2e tests", () => {
       // then
       const newFontSize = await questionItemPage.getFontSize();
       expect(newFontSize).toBeGreaterThan(originalFontSize);
+      await expect
+        .poll(() => questionItemPage.getTextareaHeight())
+        .toBeGreaterThan(originalHeight);
     });
   });
 });

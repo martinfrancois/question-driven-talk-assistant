@@ -16,8 +16,12 @@ const TimeDisplay: FC = () => {
 
   useEffect(() => {
     // Update time every minute: it's not very accurate, but good enough for a talk
-    const interval = setInterval(() => setTime(new Date()), 60000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 60000);
+    return (): void => {
+      clearInterval(interval);
+    };
   }, []);
 
   const formattedTime = formatTime(time, timeFormat24h);

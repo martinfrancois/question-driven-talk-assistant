@@ -110,4 +110,10 @@ export class QuestionItemPage extends AppPage {
       parseFloat(getComputedStyle(el).fontSize),
     );
   }
+
+  public async getTextareaHeight(): Promise<number> {
+    return await this.textarea.evaluate(
+      (el: HTMLTextAreaElement) => el.getBoundingClientRect().height,
+    );
+  }
 }
