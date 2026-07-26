@@ -47,13 +47,6 @@ const App = (): JSX.Element => {
 
   const darkModeClassName = useDarkModeClassName();
 
-  const [key, setKey] = useState(0); // Key to force re-render on font size change
-
-  useEffect(() => {
-    // TODO is there a better way to do this?
-    setKey((prev) => prev + 1); // Update key to force a re-render
-  }, [fontSize]);
-
   // TODO is there a way to use react-hotkeys-hook that doesn't cause it to exit fullscreen mode when pressing ctrl?
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -131,7 +124,6 @@ const App = (): JSX.Element => {
 
   return (
     <div
-      key={key}
       className={`${darkModeClassName} bg-white text-black dark:bg-neutral-900 dark:text-white`}
       style={{ fontSize: `${fontSize}px` }}
     >

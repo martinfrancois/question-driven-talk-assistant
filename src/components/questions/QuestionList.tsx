@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useCallback, useEffect, useRef } from "react";
 import {
   DndContext,
   closestCenter,
@@ -15,7 +15,44 @@ import {
 } from "@dnd-kit/sortable";
 import QuestionItem from "./QuestionItem.tsx";
 import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
-import { useQuestions, useSetQuestions } from "@/stores";
+import { Question, useQuestions, useSetQuestions } from "@/stores";
+
+type QuestionRefs = React.RefObject<
+  Record<string, React.RefObject<HTMLTextAreaElement | null>>
+>;
+
+interface RegisteredQuestionItemProps {
+  question: Question;
+  questionRefs: QuestionRefs;
+  registerQuestionRef: (
+    questionId: string,
+    textareaRef: React.RefObject<HTMLTextAreaElement | null> | null,
+  ) => void;
+  index: number;
+}
+
+const RegisteredQuestionItem: FC<RegisteredQuestionItemProps> = ({
+  question,
+  questionRefs,
+  registerQuestionRef,
+  index,
+}) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    registerQuestionRef(question.id, textareaRef);
+    return () => registerQuestionRef(question.id, null);
+  }, [question.id, registerQuestionRef]);
+
+  return (
+    <QuestionItem
+      question={question}
+      questionRefs={questionRefs}
+      textareaRef={textareaRef}
+      index={index}
+    />
+  );
+};
 
 const QuestionList: FC = () => {
   const questions = useQuestions();
@@ -42,6 +79,20 @@ const QuestionList: FC = () => {
     Record<string, React.RefObject<HTMLTextAreaElement | null>>
   >({});
 
+  const registerQuestionRef = useCallback(
+    (
+      questionId: string,
+      textareaRef: React.RefObject<HTMLTextAreaElement | null> | null,
+    ) => {
+      if (textareaRef) {
+        questionRefs.current[questionId] = textareaRef;
+      } else {
+        delete questionRefs.current[questionId];
+      }
+    },
+    [],
+  );
+
   return (
     <DndContext
       sensors={sensors}
@@ -53,22 +104,15 @@ const QuestionList: FC = () => {
         strategy={rectSortingStrategy}
       >
         <div className="space-y-0" role="list">
-          {questions.map((question, index) => {
-            // Create a ref for each question if it doesn't exist
-            if (!questionRefs.current[question.id]) {
-              questionRefs.current[question.id] =
-                React.createRef<HTMLTextAreaElement>();
-            }
-            return (
-              <QuestionItem
-                key={question.id}
-                question={question}
-                questionRefs={questionRefs}
-                textareaRef={questionRefs.current[question.id]}
-                index={index}
-              />
-            );
-          })}
+          {questions.map((question, index) => (
+            <RegisteredQuestionItem
+              key={question.id}
+              question={question}
+              questionRefs={questionRefs}
+              registerQuestionRef={registerQuestionRef}
+              index={index}
+            />
+          ))}
         </div>
       </SortableContext>
     </DndContext>
