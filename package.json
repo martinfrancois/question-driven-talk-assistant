@@ -69,7 +69,7 @@
     "eslint-plugin-react-refresh": "0.5.3",
     "globals": "17.8.0",
     "playwright": "1.62.0",
-    "postcss": "8.5.24",
+    "postcss": "8.5.25",
     "prettier": "3.9.6",
     "prettier-plugin-tailwindcss": "0.8.1",
     "pretty-quick": "4.2.2",
