@@ -6,8 +6,6 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    // shadcn
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
