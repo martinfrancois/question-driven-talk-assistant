@@ -1,4 +1,5 @@
 import { configDefaults, defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
 import viteConfig from "./vite.config";
 
 export default defineConfig({
@@ -13,7 +14,7 @@ export default defineConfig({
           browser: "chromium",
         },
       ],
-      provider: "playwright",
+      provider: playwright(),
     },
     exclude: [...configDefaults.exclude, "e2e/*"],
     coverage: {
