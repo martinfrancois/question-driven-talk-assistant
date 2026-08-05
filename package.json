@@ -30,7 +30,7 @@
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "date-fns": "4.4.0",
-    "immer": "11.1.15",
+    "immer": "11.1.16",
     "lucide-react": "1.28.0",
     "qrcode.react": "4.2.0",
     "react": "19.2.8",
