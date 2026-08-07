@@ -28,7 +28,9 @@ jobs:
 
       - name: Install Playwright Browsers
         run: bun x playwright install --with-deps
-      - name: Unit & Component Tests
+      # Fails the build when line coverage over src/** drops below the
+      # threshold configured in vitest.config.ts.
+      - name: Unit & Component Tests (enforces 80% line coverage)
         run: bun run test:unit
       # Start the frontend server in the background
       - name: Start frontend server

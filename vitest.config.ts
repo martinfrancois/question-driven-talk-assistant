@@ -20,6 +20,19 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       reporter: ["text", "html", "lcov"],
+      // Without an explicit include, only files that a test happens to import
+      // are counted, which silently hides every untested file from the report.
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        // Test code, not shipped application code.
+        "src/**/*.spec.{ts,tsx}",
+        "src/__mocks__/**",
+        "src/test-utils/**",
+        "src/vite-env.d.ts",
+      ],
+      thresholds: {
+        lines: 80,
+      },
     },
   },
 });
