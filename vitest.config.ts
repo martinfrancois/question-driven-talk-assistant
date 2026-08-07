@@ -26,7 +26,6 @@ export default defineConfig({
       exclude: [
         // Test code, not shipped application code.
         "src/**/*.spec.{ts,tsx}",
-        "src/__mocks__/**",
         "src/test-utils/**",
         "src/vite-env.d.ts",
       ],
