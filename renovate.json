@@ -1,18 +1,58 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "ignorePresets": ["group:vite", "group:vitestMonorepo"],
-  "reviewers": ["martinfrancois"],
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    ":rebaseStalePrs"
+  ],
+  "ignorePresets": [
+    "group:vite",
+    "group:vitestMonorepo"
+  ],
+  "reviewers": [
+    "martinfrancois"
+  ],
+  "labels": [
+    "dependencies"
+  ],
   "rangeStrategy": "replace",
-  "separateMinorPatch": true,
+  "pinDigests": true,
+  "prConcurrentLimit": 0,
+  "branchConcurrentLimit": 0,
+  "minimumReleaseAge": "7 days",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+  "internalChecksFilter": "strict",
+  "statusCheckWhen": {
+    "minimumReleaseAge": "never"
+  },
+  "dependencyDashboardApproval": false,
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ]
+  },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "description": "Bundle every non-major update into one automergeable pull request. Major updates are deliberately excluded so that a pending major never holds back the bundle.",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-non-major",
       "automerge": true
     },
     {
       "groupName": "dnd-kit",
-      "matchPackageNames": ["@dnd-kit/**"]
+      "matchPackageNames": [
+        "@dnd-kit/**"
+      ]
     },
     {
       "groupName": "vite-and-test",
@@ -26,19 +66,31 @@
     },
     {
       "groupName": "workbox",
-      "matchPackageNames": ["workbox*"]
+      "matchPackageNames": [
+        "workbox*"
+      ]
     },
     {
       "groupName": "prettier",
-      "matchPackageNames": ["*prettier*", "pretty-quick"]
+      "matchPackageNames": [
+        "*prettier*",
+        "pretty-quick"
+      ]
     },
     {
       "groupName": "playwright",
-      "matchPackageNames": ["playwright*", "@playwright/**"]
+      "matchPackageNames": [
+        "playwright*",
+        "@playwright/**"
+      ]
     },
     {
       "groupName": "tailwind",
-      "matchPackageNames": ["*tailwind*", "autoprefixer", "postcss"]
+      "matchPackageNames": [
+        "*tailwind*",
+        "autoprefixer",
+        "postcss"
+      ]
     },
     {
       "groupName": "shadcn",
@@ -49,6 +101,16 @@
         "lucide-react",
         "tailwind-merge",
         "tailwindcss-animate"
+      ]
+    },
+    {
+      "description": "Major updates land one at a time and require a human merge after review of the migration notes. No groupName is set: majors are already ungrouped because the bundle rule matches non-major types only, and forcing one would split the lockstep groups above.",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "addLabels": [
+        "major update"
       ]
     }
   ]
