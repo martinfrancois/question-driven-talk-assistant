@@ -34,6 +34,12 @@
       "security"
     ]
   },
+  "lockFileMaintenance": {
+    "description": "Rewrite bun.lock from scratch every week so that transitive dependencies pick up upstream fixes. Regular updates only touch the entries of the packages they bump, so an advisory against a package nothing depends on directly is never resolved by them and vulnerabilityAlerts above cannot reach it either. Runs early on Friday morning to keep dependency work off the working week, and automerges on the same terms as the non-major bundle below: Renovate still waits for the required status checks to pass before it merges anything.",
+    "enabled": true,
+    "schedule": ["* 0-4 * * 5"],
+    "automerge": true
+  },
   "packageRules": [
     {
       "description": "Bundle every non-major update into one automergeable pull request. Major updates are deliberately excluded so that a pending major never holds back the bundle.",
