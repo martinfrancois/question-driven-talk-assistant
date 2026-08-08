@@ -35,10 +35,10 @@
     ]
   },
   "lockFileMaintenance": {
-    "description": "Rewrite bun.lock from scratch every week so that transitive dependencies pick up upstream fixes. Regular updates only touch the entries of the packages they bump, so an advisory against a package nothing depends on directly is never resolved by them and vulnerabilityAlerts above cannot reach it either. Runs early on Friday morning to keep dependency work off the working week, and automerges on the same terms as the non-major bundle below: Renovate still waits for the required status checks to pass before it merges anything.",
+    "description": "Rewrite bun.lock from scratch every week so that transitive dependencies pick up upstream fixes. Regular updates only touch the entries of the packages they bump, so an advisory against a package nothing depends on directly is never resolved by them and vulnerabilityAlerts above cannot reach it either. Deliberately not automerged: lockFileMaintenance is not subject to the minimumReleaseAge of 7 days set above, because Renovate does not resolve these versions itself, it hands the regeneration to the package manager, and bun 1.2.14, the version pinned in packageManager, has no resolution-time cooldown of its own (bun gained minimumReleaseAge only in 1.3). A refresh could therefore resolve a package published hours ago into the lockfile, so the weekly pull request is raised for human review instead of being merged automatically. Runs early on Friday morning to keep dependency work off the working week.",
     "enabled": true,
     "schedule": ["* 0-4 * * 5"],
-    "automerge": true
+    "automerge": false
   },
   "packageRules": [
     {
