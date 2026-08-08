@@ -8,7 +8,7 @@
   "ignorePresets": ["group:vite", "group:vitestMonorepo"],
   "reviewers": ["martinfrancois"],
   "labels": ["dependencies"],
-  "rangeStrategy": "replace",
+  "rangeStrategy": "pin",
   "pinDigests": true,
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,
