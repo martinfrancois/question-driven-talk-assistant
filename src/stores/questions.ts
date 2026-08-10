@@ -58,7 +58,7 @@ const useQuestionsStore = create<QuestionsState>()(
         updateQuestionText: (id, text) =>
           set((state) => {
             const index = state.questions.findIndex((q) => q.id === id);
-            if (index != -1) {
+            if (index !== -1) {
               const question = state.questions[index];
               question.text = text;
             }
