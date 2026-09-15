@@ -91,7 +91,8 @@ Supported Browsers: Chrome, Firefox
 
 ### Prerequisites
 
-- [**Bun**](https://bun.com/get) (1.2.14 or newer recommended)
+- [**Node.js**](https://nodejs.org/) (`^22.18.0`, `^24.11.0`, or `>=26.0.0`)
+- [**Bun**](https://bun.com/get) (use the version pinned by `packageManager` in `package.json`)
 
 ### Steps to Run Locally
 
