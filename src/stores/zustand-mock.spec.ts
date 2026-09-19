@@ -1,19 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { create } from "zustand";
+import { create, createStore } from "zustand";
 
-/**
- * Guards the wiring that isolates store state between tests.
- *
- * `setup-vitest.ts` calls `vi.mock("zustand")`, which only picks up the manual
- * mock in `__mocks__/zustand.ts` when that folder sits at the project root:
- * for `node_modules` packages vitest resolves `__mocks__` relative to the root,
- * never relative to `src/`. If the folder is moved, vitest silently falls back
- * to auto-mocking, the mock's `afterEach` reset never registers, and every
- * store carries its state into the following test.
- *
- * These tests deliberately run in order: the second one mutates a store and the
- * third one asserts the mock reset it.
- */
+// Run these tests in order through the global setup, without a local mock or
+// cleanup hook. A mutation must survive its own test and reset before the next.
 
 interface CounterState {
   count: number;
@@ -27,17 +16,31 @@ const useCounterStore = create<CounterState>()((set) => ({
   },
 }));
 
-describe("zustand manual mock", () => {
-  it("starts from the store's initial state", () => {
-    expect(useCounterStore.getState().count).toBe(0);
-  });
+const stores = [
+  { name: "curried create", store: useCounterStore },
+  { name: "uncurried create", store: create(() => ({ count: 0 })) },
+  {
+    name: "curried createStore",
+    store: createStore<{ count: number }>()(() => ({ count: 0 })),
+  },
+  { name: "uncurried createStore", store: createStore(() => ({ count: 0 })) },
+];
 
-  it("keeps a mutation visible within the test that made it", () => {
-    useCounterStore.getState().increment();
-    expect(useCounterStore.getState().count).toBe(1);
-  });
+describe.each(stores)(
+  "zustand manual mock: $name",
+  { concurrent: false },
+  ({ store }) => {
+    it("starts from the store's initial state", () => {
+      expect(store.getState().count).toBe(0);
+    });
 
-  it("resets every store after each test, so the mutation does not leak", () => {
-    expect(useCounterStore.getState().count).toBe(0);
-  });
-});
+    it("keeps a mutation visible within the test that made it", () => {
+      store.setState({ count: 1 });
+      expect(store.getState().count).toBe(1);
+    });
+
+    it("resets every store after each test, so the mutation does not leak", () => {
+      expect(store.getState().count).toBe(0);
+    });
+  },
+);

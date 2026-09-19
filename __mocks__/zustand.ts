@@ -1,9 +1,10 @@
 import type * as ZustandExportedTypes from "zustand";
-export * from "zustand";
-import { afterEach, vi } from "vitest";
-
-const { create: actualCreate, createStore: actualCreateStore } =
-  await vi.importActual<typeof ZustandExportedTypes>("zustand");
+// Use the unaliased entry points to avoid importing this wrapper again.
+export * from "zustand/react";
+export * from "zustand/vanilla";
+import { create as actualCreate } from "zustand/react";
+import { createStore as actualCreateStore } from "zustand/vanilla";
+import { afterEach } from "vitest";
 
 // a variable to hold reset functions for all stores declared in the app
 export const storeResetFns = new Set<() => void>();
