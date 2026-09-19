@@ -33,10 +33,8 @@
   },
   "packageRules": [
     {
-      "description": "Bundle every non-major update into one automergeable pull request. Major updates are deliberately excluded so that a pending major never holds back the bundle.",
+      "description": "Public repository: merge eligible non-major updates after checks pass. Group only dependencies that need coordinated updates; keep unrelated updates separate.",
       "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-non-major",
       "automerge": true
     },
     {
@@ -81,7 +79,7 @@
       ]
     },
     {
-      "description": "Major updates land one at a time and require a human merge after review of the migration notes. No groupName is set: majors are already ungrouped because the bundle rule matches non-major types only, and forcing one would split the lockstep groups above.",
+      "description": "Major updates require human review of migration notes. Preserve compatibility groups whose members must move together across a major boundary.",
       "matchUpdateTypes": ["major"],
       "automerge": false,
       "addLabels": ["major update"]
