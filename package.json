@@ -62,7 +62,7 @@
     "@typescript/native": "npm:typescript@7.0.2",
     "@typescript-eslint/eslint-plugin": "8.70.0",
     "@typescript-eslint/parser": "8.70.0",
-    "@vite-pwa/assets-generator": "1.0.4",
+    "@vite-pwa/assets-generator": "2.0.0",
     "@vitejs/plugin-react": "6.1.1",
     "@vitest/browser": "5.0.0",
     "@vitest/browser-playwright": "5.0.0",
