@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/.vitest-attachments/
+/.vitest/
 
 # production
 /build
@@ -317,7 +317,3 @@ Temporary Items
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-
-# Failure screenshots written by the vitest browser runner. These are uploaded
-# as CI artifacts, never committed (committed snapshots live in __snapshots__).
-__screenshots__/

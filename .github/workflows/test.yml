@@ -54,5 +54,6 @@ jobs:
           name: test-artifacts
           path: |
             playwright-report/
-            src/**/__screenshots__/**/*.png
+            .vitest/attachments/failure-screenshots/**/*.png
+          include-hidden-files: true
           retention-days: 30
