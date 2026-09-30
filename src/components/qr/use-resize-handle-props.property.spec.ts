@@ -21,9 +21,8 @@ vi.mock("@react-aria/interactions", () => {
 
 describe("useResizeHandleProps (properties)", () => {
   it("keyboard arrows adjust size within bounds with step and clamping", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     fc.assert(
       fc.property(
         fc.integer({ min: 0, max: 300 }),
@@ -74,9 +73,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("increases size with ArrowUp and decreases with ArrowDown", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     let size = 100;
     const setSize = (n: number) => {
       size = n;
@@ -110,9 +108,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("uses larger step when Shift is held for ArrowRight/ArrowUp", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     let size = 100;
     const setSize = (n: number) => {
       size = n;
@@ -147,9 +144,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("batches mouse move size updates and flushes on end", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     fc.assert(
       fc.property(
         fc.array(
@@ -196,9 +192,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("cancels any pending rAF on unmount during drag", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     const setSize = vi.fn<(n: number) => void>();
     const onEnd = vi.fn();
     const { result, unmount } = renderHook(() =>
@@ -218,9 +213,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("schedules setSize via requestAnimationFrame during move", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     const originalRAF = globalThis.requestAnimationFrame;
     const originalCAF = globalThis.cancelAnimationFrame;
     const raf: typeof requestAnimationFrame = (cb: FrameRequestCallback) => {
@@ -255,9 +249,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("flush cancels a pending rAF and commits the last pending size", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
 
     const originalRAF = globalThis.requestAnimationFrame;
     const originalCAF = globalThis.cancelAnimationFrame;
@@ -296,9 +289,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("disables and restores document.body userSelect during drag", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
 
     const original = document.body.style.userSelect;
     document.body.style.userSelect = "auto";
@@ -323,9 +315,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("decreases size with ArrowLeft respecting clamping and step", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     fc.assert(
       fc.property(
         fc.integer({ min: 0, max: 300 }),
@@ -363,9 +354,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("schedules only one rAF for many moves until flushed", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     const setSize = vi.fn<(n: number) => void>();
     const onEnd = vi.fn();
 
@@ -406,9 +396,8 @@ describe("useResizeHandleProps (properties)", () => {
   // Skipping attempting to simulate missing document in browser env; covered behavior elsewhere.
 
   it("onKeyDown uses MIN_QR_CODE_SIZE when size is undefined (nullish coalescing)", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     let size: number | undefined = undefined;
     const setSize = (n: number) => {
       size = n;
@@ -437,9 +426,8 @@ describe("useResizeHandleProps (properties)", () => {
   });
 
   it("uses MIN_QR_CODE_SIZE when initial size is falsy (e.g., 0 or NaN)", async () => {
-    const { useResizeHandleProps } = await import(
-      "./use-resize-handle-props.ts"
-    );
+    const { useResizeHandleProps } =
+      await import("./use-resize-handle-props.ts");
     const originalRAF = globalThis.requestAnimationFrame;
     const raf: typeof requestAnimationFrame = (cb: FrameRequestCallback) => {
       cb(performance.now());

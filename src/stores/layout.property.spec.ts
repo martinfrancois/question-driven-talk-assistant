@@ -16,9 +16,8 @@ vi.mock("zustand/middleware", async () => {
 
 describe("layout store (properties)", () => {
   it("setters update title and footer (property)", async () => {
-    const { useTitle, useSetTitle, useFooter, useSetFooter } = await import(
-      "./layout.ts"
-    );
+    const { useTitle, useSetTitle, useFooter, useSetFooter } =
+      await import("./layout.ts");
 
     fc.assert(
       fc.property(fc.string(), fc.string(), (title, footer) => {
