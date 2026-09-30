@@ -16,9 +16,8 @@ vi.mock("zustand/middleware", async () => {
 
 describe("onboarding store (property)", () => {
   it("final state equals last action in any sequence of complete/restart", async () => {
-    const { useTourCompleted, useCompleteTour, useRestartTour } = await import(
-      "./onboarding.ts"
-    );
+    const { useTourCompleted, useCompleteTour, useRestartTour } =
+      await import("./onboarding.ts");
 
     fc.assert(
       fc.property(fc.array(fc.boolean(), { maxLength: 50 }), (actions) => {
