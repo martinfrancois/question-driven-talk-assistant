@@ -14,7 +14,7 @@ describe("getCheckboxState", () => {
           highlighted: fc.boolean(),
         }),
         (q) => {
-          const question = q as Question;
+          const question: Question = q;
           const expected = question.answered
             ? question.text
               ? `Answered question: ${question.text}`

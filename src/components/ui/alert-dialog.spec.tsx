@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./alert-dialog.tsx";
-import { buttonVariants } from "./button-variants.tsx";
+import { buttonVariants } from "./button-variants.ts";
 import { cn } from "@/lib/utils.ts";
 import { interact } from "@/test-utils/react.ts";
 
