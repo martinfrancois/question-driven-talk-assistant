@@ -12,7 +12,7 @@ function createTextarea(value: string, selectionStart: number) {
 }
 
 function createRef<T>(current: T) {
-  return { current } as { current: T };
+  return { current };
 }
 
 function makeKeyEvent(
@@ -52,15 +52,23 @@ describe("handleKeyPress with mocks (unit)", () => {
       { id: "q2", text: "world", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, RefObject<HTMLTextAreaElement | null>>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-      q2: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, RefObject<HTMLTextAreaElement | null>>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+        [
+          "q2",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
     const textareaRef = createRef<HTMLTextAreaElement | null>(
       createTextarea("hello", 0),
     );
@@ -96,8 +104,8 @@ describe("handleKeyPress with mocks (unit)", () => {
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
       const questions: Question[] = [q0, q1];
       const questionRefs = createRef<
-        Record<string, RefObject<HTMLTextAreaElement | null>>
-      >({});
+        Map<string, RefObject<HTMLTextAreaElement | null>>
+      >(new Map());
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
@@ -125,8 +133,8 @@ describe("handleKeyPress with mocks (unit)", () => {
       const q1 = { id: "b", text: "", answered: false, highlighted: false };
       const questions: Question[] = [q0, q1];
       const questionRefs = createRef<
-        Record<string, RefObject<HTMLTextAreaElement | null>>
-      >({});
+        Map<string, RefObject<HTMLTextAreaElement | null>>
+      >(new Map());
       const textareaRef = createRef<HTMLTextAreaElement | null>(
         createTextarea("", 0),
       );
@@ -159,8 +167,8 @@ describe("handleKeyPress with mocks (unit)", () => {
       { id: "q2", text: "b", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, RefObject<HTMLTextAreaElement | null>>
-    >({});
+      Map<string, RefObject<HTMLTextAreaElement | null>>
+    >(new Map());
 
     {
       const { e, preventDefault } = makeKeyEvent("ArrowDown");
@@ -214,12 +222,17 @@ describe("handleKeyPress with mocks (unit)", () => {
       { id: "q1", text: "hello", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, RefObject<HTMLTextAreaElement | null>>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, RefObject<HTMLTextAreaElement | null>>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
 
     const insertQuestion = vi.fn<(index: number, q: Question) => void>();
     const addQuestion = vi.fn<(q: Question) => void>();

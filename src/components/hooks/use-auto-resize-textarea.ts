@@ -9,10 +9,10 @@ export function useAutoResizeTextArea(
    * Set height to auto, then to scrollHeight so the textarea grows with content.
    */
   const adjustHeight = useCallback(() => {
-    const el = textareaRef?.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${el.scrollHeight}px`;
+    if (textareaRef?.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
   }, [textareaRef]);
 
   return { adjustHeight } as const;

@@ -78,11 +78,13 @@ describe("handleKeyPress (properties)", () => {
             document.createElement("textarea"),
           );
           const questionRefs = createRef<
-            Record<string, { current: HTMLTextAreaElement | null }>
-          >({
-            [questions[0].id]: firstRef,
-            ...(questions[1] ? { [questions[1].id]: prevRef } : {}),
-          });
+            Map<string, { current: HTMLTextAreaElement | null }>
+          >(
+            new Map([
+              [questions[0].id, firstRef],
+              ...(questions[1] ? [[questions[1].id, prevRef] as const] : []),
+            ]),
+          );
 
           const { e, preventDefault } = makeKeyEvent("Backspace");
 
@@ -148,16 +150,20 @@ describe("handleKeyPress (properties)", () => {
             updateQuestionText: vi.fn<(id: string, text: string) => void>(),
             removeQuestion: vi.fn<(index: number) => void>(),
             insertQuestion: vi.fn((_index: number, q: Question) => {
-              questionRefs.current[q.id] =
+              questionRefs.current.set(
+                q.id,
                 createRef<HTMLTextAreaElement | null>(
                   document.createElement("textarea"),
-                );
+                ),
+              );
             }),
             addQuestion: vi.fn((q: Question) => {
-              questionRefs.current[q.id] =
+              questionRefs.current.set(
+                q.id,
                 createRef<HTMLTextAreaElement | null>(
                   document.createElement("textarea"),
-                );
+                ),
+              );
             }),
             adjustHeight: vi.fn<() => void>(),
             announceLiveRegion: vi.fn<(m: string) => void>(),
@@ -188,15 +194,23 @@ describe("handleKeyPress (properties)", () => {
                 : questions[0];
 
           const questionRefs = createRef<
-            Record<string, { current: HTMLTextAreaElement | null }>
-          >({
-            q1: createRef<HTMLTextAreaElement | null>(
-              document.createElement("textarea"),
-            ),
-            q2: createRef<HTMLTextAreaElement | null>(
-              document.createElement("textarea"),
-            ),
-          });
+            Map<string, { current: HTMLTextAreaElement | null }>
+          >(
+            new Map([
+              [
+                "q1",
+                createRef<HTMLTextAreaElement | null>(
+                  document.createElement("textarea"),
+                ),
+              ],
+              [
+                "q2",
+                createRef<HTMLTextAreaElement | null>(
+                  document.createElement("textarea"),
+                ),
+              ],
+            ]),
+          );
 
           let textarea: HTMLTextAreaElement;
           let e: {
@@ -231,8 +245,11 @@ describe("handleKeyPress (properties)", () => {
               { id: "q0", text: "z", answered: false, highlighted: false },
               ...questions,
             ];
-            questionRefs.current.q0 = createRef<HTMLTextAreaElement | null>(
-              document.createElement("textarea"),
+            questionRefs.current.set(
+              "q0",
+              createRef<HTMLTextAreaElement | null>(
+                document.createElement("textarea"),
+              ),
             );
             currentQuestion = questions[1];
             e = {
@@ -275,8 +292,11 @@ describe("handleKeyPress (properties)", () => {
               { id: "q0", text: "z", answered: false, highlighted: false },
               ...questions,
             ];
-            questionRefs.current.q0 = createRef<HTMLTextAreaElement | null>(
-              document.createElement("textarea"),
+            questionRefs.current.set(
+              "q0",
+              createRef<HTMLTextAreaElement | null>(
+                document.createElement("textarea"),
+              ),
             );
             currentQuestion = questions[1];
             e = {
@@ -374,8 +394,8 @@ describe("handleKeyPress (properties)", () => {
               insertQuestion: vi.fn<(index: number, q: Question) => void>(),
             };
             const questionRefs2 = createRef<
-              Record<string, { current: HTMLTextAreaElement | null }>
-            >({});
+              Map<string, { current: HTMLTextAreaElement | null }>
+            >(new Map());
             handleKeyPress(e2, {
               textareaRef: textareaRef2,
               questions,
@@ -420,20 +440,28 @@ describe("handleKeyPress (properties)", () => {
 
     const t = (v: string, sel: number) => createTextarea(v, sel);
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
 
     const base = {
       updateQuestionText: vi.fn<(id: string, text: string) => void>(),
       removeQuestion: vi.fn<(index: number) => void>(),
       insertQuestion: vi.fn<(index: number, q: Question) => void>(),
       addQuestion: vi.fn((q: Question) => {
-        questionRefs.current[q.id] = createRef<HTMLTextAreaElement | null>(
-          document.createElement("textarea"),
+        questionRefs.current.set(
+          q.id,
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
         );
       }),
       adjustHeight: vi.fn<() => void>(),
@@ -469,10 +497,10 @@ describe("handleKeyPress (properties)", () => {
 
     vi.runAllTimers();
     // New ref should exist and be focusable
-    const newKeys = Object.keys(questionRefs.current);
+    const newKeys = [...questionRefs.current.keys()];
     expect(newKeys.length).toBeGreaterThan(1);
     const newRefKey = newKeys.find((k) => k !== "q1")!;
-    expect(questionRefs.current[newRefKey]?.current).toBeTruthy();
+    expect(questionRefs.current.get(newRefKey)?.current).toBeTruthy();
 
     vi.useRealTimers();
   });
@@ -497,8 +525,8 @@ describe("handleKeyPress (properties)", () => {
       altKey: false,
     };
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({});
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(new Map());
     expect(() =>
       handleKeyPress(e, {
         textareaRef: createRef<HTMLTextAreaElement | null>(null),
@@ -519,12 +547,17 @@ describe("handleKeyPress (properties)", () => {
   it("Tab create path with no new ref does not throw after timeout", () => {
     vi.useFakeTimers();
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
 
     const base = {
       updateQuestionText: vi.fn<(id: string, text: string) => void>(),
@@ -574,12 +607,17 @@ describe("handleKeyPress (properties)", () => {
       { id: "q2", text: "y", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
 
     const base = {
       updateQuestionText: vi.fn<(id: string, text: string) => void>(),
@@ -615,11 +653,14 @@ describe("handleKeyPress (properties)", () => {
 
     // focusPrev path where prev ref is missing
     // Reconfigure refs to only include q2 so prev (q1) is missing
-    questionRefs.current = {
-      q2: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    };
+    questionRefs.current = new Map([
+      [
+        "q2",
+        createRef<HTMLTextAreaElement | null>(
+          document.createElement("textarea"),
+        ),
+      ],
+    ]);
     const ePrev = {
       key: "Tab",
       preventDefault: vi.fn(),
@@ -648,12 +689,17 @@ describe("handleKeyPress (properties)", () => {
       { id: "q1", text: "a\nb", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
     const textarea = createTextarea("a\nb", 0);
     const e = {
       key: "ArrowUp",
@@ -682,12 +728,17 @@ describe("handleKeyPress (properties)", () => {
       { id: "q1", text: "a\nb", answered: false, highlighted: false },
     ];
     const questionRefs = createRef<
-      Record<string, { current: HTMLTextAreaElement | null }>
-    >({
-      q1: createRef<HTMLTextAreaElement | null>(
-        document.createElement("textarea"),
-      ),
-    });
+      Map<string, { current: HTMLTextAreaElement | null }>
+    >(
+      new Map([
+        [
+          "q1",
+          createRef<HTMLTextAreaElement | null>(
+            document.createElement("textarea"),
+          ),
+        ],
+      ]),
+    );
     const textarea = createTextarea("a\nb", 3);
     const e = {
       key: "ArrowDown",

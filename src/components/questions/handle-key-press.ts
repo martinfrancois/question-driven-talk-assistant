@@ -27,9 +27,7 @@ export interface HandleKeyPressDeps {
   removeQuestion: ReturnType<typeof useRemoveQuestion>;
   insertQuestion: ReturnType<typeof useInsertQuestion>;
   addQuestion: ReturnType<typeof useAddQuestion>;
-  questionRefs: RefObject<
-    Map<string, RefObject<HTMLTextAreaElement | null>>
-  >;
+  questionRefs: RefObject<Map<string, RefObject<HTMLTextAreaElement | null>>>;
   adjustHeight: () => void;
   announceLiveRegion: (message: string) => void;
 }
