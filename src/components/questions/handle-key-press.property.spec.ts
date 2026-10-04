@@ -1,20 +1,13 @@
 import { describe, it, expect, vi } from "vitest";
 import fc from "fast-check";
+import type { Question } from "@/stores";
 import { handleKeyPress } from "./handle-key-press.ts";
-
-interface Question {
-  id: string;
-  text: string;
-  answered: boolean;
-  highlighted: boolean;
-}
 
 function createTextarea(value: string, selectionStart: number) {
   const el = document.createElement("textarea");
   el.value = value;
   el.selectionStart = selectionStart;
   el.selectionEnd = selectionStart;
-  // setSelectionRange exists on HTMLTextAreaElement; JSDOM supports it
   return el;
 }
 

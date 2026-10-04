@@ -6,6 +6,7 @@ import {
   useSensor,
   useSensors,
   KeyboardSensor,
+  type DragEndEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -13,7 +14,6 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import QuestionItem from "./QuestionItem.tsx";
-import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
 import { Question, useQuestions, useSetQuestions } from "@/stores";
 import { reorderQuestionsByIds } from "@/lib/questions-utils.ts";
 
@@ -66,10 +66,10 @@ const QuestionList: FC = () => {
     }),
   );
 
-  const handleDragEnd: Props["onDragEnd"] = (event) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     const activeId = String(active.id);
-    const overId = over?.id == null ? over?.id : String(over.id);
+    const overId = over ? String(over.id) : null;
     const reordered = reorderQuestionsByIds(questions, activeId, overId);
     if (reordered !== questions) setQuestions(reordered);
   };

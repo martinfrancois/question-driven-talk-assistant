@@ -14,29 +14,32 @@ vi.mock("zustand/middleware", async () => {
   } satisfies typeof import("zustand/middleware");
 });
 
+const MIN_FONT_SIZE = 12;
+const FONT_SIZE_STEP = 2;
+
 describe("preferences store (properties)", () => {
-  it("increase/decrease font size respects lower bound and step", async () => {
+  it("any sequence of font size changes steps by 2 and never drops below 12", async () => {
     const { useFontSize, useIncreaseFontSize, useDecreaseFontSize } =
       await import("./preferences.ts");
-    const { result } = renderHook(() => {
-      const font = useFontSize();
-      const inc = useIncreaseFontSize();
-      const dec = useDecreaseFontSize();
-      return { font, inc, dec };
-    });
 
     fc.assert(
-      fc.property(fc.integer({ min: 0, max: 50 }), (steps) => {
-        act(() => {
-          for (let i = 0; i < steps; i++) result.current.inc();
-        });
-        const afterInc = result.current.font;
-        act(() => {
-          for (let i = 0; i < steps * 2; i++) result.current.dec();
-        });
-        const afterDec = result.current.font;
-        expect(afterDec).toBeGreaterThanOrEqual(12);
-        expect(afterInc).toBeGreaterThanOrEqual(afterDec);
+      fc.property(fc.array(fc.boolean(), { maxLength: 60 }), (increases) => {
+        const { result, unmount } = renderHook(() => ({
+          font: useFontSize(),
+          inc: useIncreaseFontSize(),
+          dec: useDecreaseFontSize(),
+        }));
+
+        // The store outlives a single run, so the model starts where it is.
+        let expected = result.current.font;
+        for (const increase of increases) {
+          act(() => (increase ? result.current.inc() : result.current.dec()));
+          expected = increase
+            ? expected + FONT_SIZE_STEP
+            : Math.max(MIN_FONT_SIZE, expected - FONT_SIZE_STEP);
+          expect(result.current.font).toBe(expected);
+        }
+        unmount();
       }),
     );
   });

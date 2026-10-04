@@ -6,15 +6,9 @@
  * @returns The formatted time string.
  */
 export function formatTime(now: Date, use24h: boolean): string {
-  return use24h
-    ? now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      })
-    : now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
+  return now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: !use24h,
+  });
 }
