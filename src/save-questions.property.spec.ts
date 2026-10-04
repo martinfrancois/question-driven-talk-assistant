@@ -22,8 +22,9 @@ describe("generateFileName (properties)", () => {
           const [datePart, formattedTitle, suffix] = parts;
           expect(suffix).toBe("questions.md");
           expect(/^\d{4}-\d{2}-\d{2}$/.test(datePart)).toBe(true);
-          // only lowercase letters, digits and dashes allowed
-          expect(/^[a-z0-9-]*$/.test(formattedTitle)).toBe(true);
+          // only lowercase letters, digits and inner dashes allowed
+          expect(formattedTitle).toMatch(/^[a-z0-9-]*$/);
+          expect(formattedTitle).not.toMatch(/^-|-$/);
         },
       ),
     );

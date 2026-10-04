@@ -1,22 +1,26 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import fc from "fast-check";
-
-vi.mock("@/stores", () => {
-  const useDarkMode = vi.fn(() => true);
-  return { useDarkMode };
-});
+import { renderHook, act } from "@testing-library/react";
+import { useDarkMode, useToggleDarkMode } from "@/stores";
+import { useDarkModeClassName } from "./dark-mode-classnames.ts";
 
 describe("useDarkModeClassName (property)", () => {
-  it("maps arbitrary boolean to expected class name", async () => {
-    const Stores = await import("@/stores");
-    const { useDarkModeClassName } = await import("./dark-mode-classnames.ts");
-
+  it("follows the dark mode flag through any sequence of toggles", () => {
     fc.assert(
-      fc.property(fc.boolean(), (isDark) => {
-        const mockedStores = vi.mocked(Stores);
-        mockedStores.useDarkMode.mockReturnValue(isDark);
-        const cls = useDarkModeClassName();
-        expect(cls).toBe(isDark ? "dark" : "light");
+      fc.property(fc.nat({ max: 20 }), (toggles) => {
+        const { result, unmount } = renderHook(() => ({
+          className: useDarkModeClassName(),
+          darkMode: useDarkMode(),
+          toggle: useToggleDarkMode(),
+        }));
+
+        for (let i = 0; i < toggles; i++) {
+          act(() => result.current.toggle());
+          expect(result.current.className).toBe(
+            result.current.darkMode ? "dark" : "light",
+          );
+        }
+        unmount();
       }),
     );
   });

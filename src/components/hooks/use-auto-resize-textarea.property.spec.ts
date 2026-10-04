@@ -27,11 +27,7 @@ describe("useAutoResizeTextArea (properties)", () => {
       current: null,
     } as React.RefObject<HTMLTextAreaElement | null>;
     const { result } = renderHook(() => useAutoResizeTextArea(ref));
-    // should not throw
-    act(() => {
-      result.current.adjustHeight();
-    });
-    // nothing to assert; just covering the early return branch
-    expect(true).toBe(true);
+
+    expect(() => act(() => result.current.adjustHeight())).not.toThrow();
   });
 });
