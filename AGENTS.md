@@ -41,7 +41,7 @@
   - Test files end with `.spec.ts`
 - File name conventions:
   - React components: PascalCase with `.tsx` suffix.
-  - Pure logic/utils/zhooks/constants/etc.: kebab-case with `.ts` suffix.
+  - Pure logic/utils/hooks/constants/etc.: kebab-case with `.ts` suffix.
 
 ## Development Workflow
 

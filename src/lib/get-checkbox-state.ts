@@ -19,5 +19,3 @@ export const getCheckboxState = (question: Question): string => {
 
   return text ? `Question: ${text}` : "Empty Question";
 };
-
-export default getCheckboxState;

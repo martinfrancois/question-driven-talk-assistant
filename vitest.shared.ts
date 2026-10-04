@@ -5,7 +5,6 @@ import { playwright } from "@vitest/browser-playwright";
 export const coverageExcludesCommon = [
   "**/*.spec.ts",
   "**/*.spec.tsx",
-  "**/*.property.spec.ts",
   "**/playwright-report/**",
   "**/test-results/**",
   "**/coverage/**",

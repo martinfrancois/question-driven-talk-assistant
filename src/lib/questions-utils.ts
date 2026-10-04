@@ -1,5 +1,5 @@
 import { arrayMove } from "@dnd-kit/sortable";
-import type { Question } from "@/stores/questions.ts";
+import type { Question } from "@/stores";
 
 export function reorderQuestionsByIds(
   questions: Question[],
