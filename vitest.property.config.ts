@@ -5,6 +5,11 @@ import { coverageExcludesCommon, sharedVitestConfig } from "./vitest.shared";
 export default mergeConfig(
   viteConfig,
   mergeConfig(sharedVitestConfig, {
+    // Only the property specs import fast-check. Without this, a run after a
+    // unit run discovers it mid-run, and Vite's reload breaks the browser test.
+    optimizeDeps: {
+      include: ["fast-check"],
+    },
     test: {
       include: ["**/*.property.spec.ts"],
       coverage: {
