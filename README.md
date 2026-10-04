@@ -1,5 +1,6 @@
 # Question-Driven Talk Assistant
 
+[![Tests](https://github.com/martinfrancois/question-driven-talk-assistant/actions/workflows/test.yml/badge.svg)](https://github.com/martinfrancois/question-driven-talk-assistant/actions/workflows/test.yml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmartinfrancois%2Fquestion-driven-talk-assistant?ref=badge_shield)
 
 A web application designed to help speakers manage audience questions during live sessions.
@@ -53,6 +54,21 @@ Supported Browsers: Chrome, Firefox
     - Press `Ctrl + Shift + Backspace` to clear all questions. A confirmation dialog will appear to prevent accidental deletion.
 15. **Accessing Help**:
     - Click the help icon in the bottom right corner or press `Ctrl + H` to open a pop-up window displaying all keyboard shortcuts and features for quick reference.
+
+### Accessibility Features
+
+This application is designed with accessibility in mind and includes numerous features to ensure it's usable by everyone, including users with disabilities and those who rely on assistive technologies:
+
+- **Skip Links**: Quick navigation bypass blocks that appear when pressing Tab, allowing users to jump directly to the main content area (WCAG 2.1, 2.4.1, Level A compliance).
+- **Comprehensive Keyboard Support**: All functionality is accessible via keyboard shortcuts, eliminating the need for mouse interaction.
+- **ARIA Attributes**: Extensive use of ARIA labels, descriptions, and live regions to provide context and feedback to screen readers.
+- **Semantic HTML**: Proper use of headings, labels, and form elements for clear document structure.
+- **Focus Management**: Visible focus indicators and logical tab order throughout the interface.
+- **Live Announcements**: ARIA live regions announce important state changes (like moving questions) to assistive technologies.
+- **High Contrast Support**: Compatible with high contrast mode and custom color schemes.
+- **Font Scaling**: Built-in font size controls that work with system-level accessibility settings.
+- **Screen Reader Optimized**: All interactive elements include descriptive labels and keyboard shortcut information.
+- **Alternative Text**: Meaningful descriptions for all visual elements and controls.
 
 ### Keyboard Shortcuts Reference
 
