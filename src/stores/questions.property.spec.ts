@@ -1,23 +1,22 @@
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
+import {
+  useQuestions,
+  useSetQuestions,
+  useUpdateQuestionText,
+  useInsertQuestion,
+  useAddQuestion,
+  useRemoveQuestion,
+  useMoveQuestionUp,
+  useMoveQuestionDown,
+  useClickCheckbox,
+  useClearQuestions,
+  createEmptyQuestion,
+} from "./questions.ts";
 
 describe("questions store (properties)", () => {
-  it("setQuestions replaces list and updateQuestionText mutates by id", async () => {
-    const {
-      useQuestions,
-      useSetQuestions,
-      useUpdateQuestionText,
-      useInsertQuestion,
-      useAddQuestion,
-      useRemoveQuestion,
-      useMoveQuestionUp,
-      useMoveQuestionDown,
-      useClickCheckbox,
-      useClearQuestions,
-      createEmptyQuestion,
-    } = await import("./questions.ts");
-
+  it("setQuestions replaces list and updateQuestionText mutates by id", () => {
     const { result } = renderHook(() => {
       const qs = useQuestions();
       const setQs = useSetQuestions();

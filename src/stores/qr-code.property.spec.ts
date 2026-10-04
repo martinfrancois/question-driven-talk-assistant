@@ -1,11 +1,15 @@
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
+import {
+  useQrCodeUrl,
+  useSetQrCodeUrl,
+  useQrCodeSize,
+  useSetQrCodeSize,
+} from "./qr-code.ts";
 
 describe("qr-code store (properties)", () => {
-  it("setters write new url and size", async () => {
-    const { useQrCodeUrl, useSetQrCodeUrl, useQrCodeSize, useSetQrCodeSize } =
-      await import("./qr-code.ts");
+  it("setters write new url and size", () => {
     const { result } = renderHook(() => {
       const url = useQrCodeUrl();
       const setUrl = useSetQrCodeUrl();

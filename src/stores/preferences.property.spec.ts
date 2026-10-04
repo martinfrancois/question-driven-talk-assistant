@@ -1,15 +1,21 @@
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
 import { renderHook, act } from "@testing-library/react";
+import {
+  useFontSize,
+  useIncreaseFontSize,
+  useDecreaseFontSize,
+  useDarkMode,
+  useToggleDarkMode,
+  useTimeFormat24h,
+  useToggleTimeFormat,
+} from "./preferences.ts";
 
 const MIN_FONT_SIZE = 12;
 const FONT_SIZE_STEP = 2;
 
 describe("preferences store (properties)", () => {
-  it("any sequence of font size changes steps by 2 and never drops below 12", async () => {
-    const { useFontSize, useIncreaseFontSize, useDecreaseFontSize } =
-      await import("./preferences.ts");
-
+  it("any sequence of font size changes steps by 2 and never drops below 12", () => {
     fc.assert(
       fc.property(fc.array(fc.boolean(), { maxLength: 60 }), (increases) => {
         const { result, unmount } = renderHook(() => ({
@@ -32,13 +38,7 @@ describe("preferences store (properties)", () => {
     );
   });
 
-  it("toggles flip booleans", async () => {
-    const {
-      useDarkMode,
-      useToggleDarkMode,
-      useTimeFormat24h,
-      useToggleTimeFormat,
-    } = await import("./preferences.ts");
+  it("toggles flip booleans", () => {
     const { result } = renderHook(() => {
       const dark = useDarkMode();
       const toggleDark = useToggleDarkMode();

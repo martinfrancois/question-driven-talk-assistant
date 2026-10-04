@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
+import { StorageName } from "./storage-names.ts";
 
 describe("StorageName enum (properties)", () => {
-  it("has unique, non-empty, '-storage' suffixed values", async () => {
-    const { StorageName } = await import("./storage-names.ts");
-
+  it("has unique, non-empty, '-storage' suffixed values", () => {
     const values = Object.values(StorageName) as string[];
 
     expect(values.length).toBeGreaterThan(0);

@@ -1,15 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import fc from "fast-check";
+import {
+  useTourCompleted,
+  useCompleteTour,
+  useRestartTour,
+} from "./onboarding.ts";
 
 describe("onboarding store (property)", () => {
-  it("final state equals last action in any sequence of complete/restart", async () => {
-    const { useTourCompleted, useCompleteTour, useRestartTour } =
-      await import("./onboarding.ts");
-
+  it("final state equals last action in any sequence of complete/restart", () => {
     fc.assert(
       fc.property(fc.array(fc.boolean(), { maxLength: 50 }), (actions) => {
-        const { result } = renderHook(() => ({
+        const { result, unmount } = renderHook(() => ({
           completed: useTourCompleted(),
           complete: useCompleteTour(),
           restart: useRestartTour(),
@@ -27,6 +29,7 @@ describe("onboarding store (property)", () => {
         const expected =
           actions.length === 0 ? initial : actions[actions.length - 1];
         expect(result.current.completed).toBe(expected);
+        unmount();
       }),
     );
   });
