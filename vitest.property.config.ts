@@ -1,6 +1,6 @@
 import { mergeConfig } from "vitest/config";
-import viteConfig from "./vite.config";
-import { coverageExcludesCommon, sharedVitestConfig } from "./vitest.shared";
+import viteConfig from "./vite.config.ts";
+import { coverageExcludesCommon, sharedVitestConfig } from "./vitest.shared.ts";
 
 export default mergeConfig(
   viteConfig,
