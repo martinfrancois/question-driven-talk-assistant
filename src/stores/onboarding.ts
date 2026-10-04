@@ -9,15 +9,17 @@ interface OnboardingState {
   restartTour: () => void;
 }
 
+// Links ending in "disable-tour" open the app without the guided tour.
+export const isTourDisabledByUrl = (href: string | undefined): boolean =>
+  href?.endsWith("disable-tour") ?? false;
+
 const useOnboardingStore = create<OnboardingState>()(
   devtools(
     persist(
       immer((set) => ({
-        tourCompleted:
-          /* istanbul ignore next */
-          (typeof window !== "undefined" &&
-            window?.location?.href?.endsWith("disable-tour")) ??
-          false,
+        tourCompleted: isTourDisabledByUrl(
+          typeof window === "undefined" ? undefined : window.location.href,
+        ),
         completeTour: () =>
           set((state) => {
             state.tourCompleted = true;
