@@ -23,14 +23,10 @@ describe("questions-utils (properties)", () => {
           { minLength: 0, maxLength: 12 },
         ),
         fc.string(),
-        fc.option(fc.string(), { nil: true }),
+        fc.option(fc.string(), { nil: null }),
         (arr, activeId, overId) => {
           const questions = arr as Question[];
-          const result = reorderQuestionsByIds(
-            questions,
-            activeId,
-            overId as string | null | undefined,
-          );
+          const result = reorderQuestionsByIds(questions, activeId, overId);
 
           if (!overId || activeId === overId) {
             expect(result).toBe(questions); // same reference per implementation

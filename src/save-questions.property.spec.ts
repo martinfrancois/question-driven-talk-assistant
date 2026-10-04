@@ -11,7 +11,11 @@ describe("generateFileName (properties)", () => {
   it("creates sanitized file names for any title and date", () => {
     fc.assert(
       fc.property(
-        fc.string(),
+        // Weighted toward spaces and dashes so titles often start or end with them.
+        fc.oneof(
+          fc.string(),
+          fc.string({ unit: fc.constantFrom(" ", "-", "a", "Z", "7", "#") }),
+        ),
         fc.integer({ min: 0, max: Date.parse("2100-12-31") }),
         (title, ms) => {
           const date = new Date(ms);
@@ -62,7 +66,7 @@ describe("generateMarkdownContent (properties)", () => {
     );
   });
 
-  it("includes a date header line and a title heading", () => {
+  it("starts with the title heading, the footer and the date", () => {
     const min = Date.parse("1970-01-01T00:00:00.000Z");
     const max = Date.parse("2100-12-31T23:59:59.999Z");
     const dateMsArb = fc.integer({ min, max });
@@ -70,8 +74,15 @@ describe("generateMarkdownContent (properties)", () => {
       fc.property(fc.string(), fc.string(), dateMsArb, (title, footer, ms) => {
         const date = new Date(ms);
         const md = generateMarkdownContent(title, footer, date, []);
-        expect(md.startsWith(`# ${title}`)).toBe(true);
-        expect(md.includes(footer)).toBe(true);
+        const header = `# ${title}\n\n${footer}\n\n`;
+        expect(md.startsWith(header)).toBe(true);
+        const dateLine = md.slice(header.length).split("\n")[0];
+        const month = date.toLocaleString("en-US", { month: "long" });
+        expect(dateLine).toMatch(
+          new RegExp(
+            `^\\d{1,2}(st|nd|rd|th) of ${month} ${date.getFullYear()}$`,
+          ),
+        );
       }),
     );
   });
