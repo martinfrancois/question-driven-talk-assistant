@@ -51,6 +51,7 @@
 4. Build: `bun run build`.
 5. Install Playwright browsers (required even for unit tests): `bun x playwright install --with-deps`.
 6. Run unit tests: `bun run test:unit -- --browser.headless`.
+   Run property-based tests: `bun run test:property -- --browser.headless`.
 7. For end-to-end tests:
    - Start preview server: `bun run preview -- --port 5173`.
    - In another terminal, run: `bun run test:e2e`.
@@ -68,4 +69,4 @@ Other checks (type checking, tests, build) are unnecessary.
 
 ## Continuous Integration
 
-GitHub Actions execute the same workflow: lint → type check → build → install Playwright browsers → unit tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.
+GitHub Actions execute the same workflow: lint → type check → build → install Playwright browsers → unit tests → property-based tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.

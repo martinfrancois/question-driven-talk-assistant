@@ -22,6 +22,7 @@ export default [
     ignores: [
       "**/dist",
       "**/coverage",
+      "**/coverage-property",
       "**/playwright-report",
       "**/test-results",
       "**/eslint.config.js",

@@ -8,6 +8,9 @@ export default mergeConfig(
     test: {
       include: ["**/*.property.spec.ts"],
       coverage: {
+        // A separate directory lets the unit and property runs execute at the
+        // same time without deleting each other's reports.
+        reportsDirectory: "coverage-property",
         include: ["src/**/*.ts"],
         exclude: [...coverageExcludesCommon, "src/**/*.tsx"],
         thresholds: {
