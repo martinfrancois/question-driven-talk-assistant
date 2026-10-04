@@ -61,9 +61,15 @@ describe("question-keypress decisions (properties)", () => {
   it("decideBackspaceAction deletes question when empty and multiple questions", () => {
     fc.assert(
       fc.property(
-        fc.integer({ min: 0, max: 5 }),
-        fc.integer({ min: 2, max: 8 }),
-        (currentIndex, questionsLength) => {
+        fc
+          .integer({ min: 2, max: 8 })
+          .chain((questionsLength) =>
+            fc.tuple(
+              fc.integer({ min: 0, max: questionsLength - 1 }),
+              fc.constant(questionsLength),
+            ),
+          ),
+        ([currentIndex, questionsLength]) => {
           const action = decideBackspaceAction({
             textareaValue: "",
             cursorPosition: 0,
@@ -78,12 +84,29 @@ describe("question-keypress decisions (properties)", () => {
               type: "deleteQuestion",
               target: "firstNext",
             });
-          } else if (currentIndex < questionsLength) {
-            expect(action).toEqual({ type: "deleteQuestion", target: "prev" });
           } else {
-            // Out-of-range index is not expected by production code; ensure it does not throw
-            expect(["deleteQuestion", "none"]).toContain(action.type);
+            expect(action).toEqual({ type: "deleteQuestion", target: "prev" });
           }
+        },
+      ),
+    );
+  });
+
+  it("decideBackspaceAction keeps the only question and blocks the key", () => {
+    fc.assert(
+      fc.property(
+        fc.stringMatching(/^[ \t]*$/),
+        fc.nat(),
+        (textareaValue, cursorPosition) => {
+          const action = decideBackspaceAction({
+            textareaValue,
+            cursorPosition: Math.min(cursorPosition, textareaValue.length),
+            isCurrentTextEmpty: true,
+            isMultiLineAndEmpty: false,
+            currentIndex: 0,
+            questionsLength: 1,
+          });
+          expect(action).toEqual({ type: "prevent" });
         },
       ),
     );
@@ -117,16 +140,15 @@ describe("question-keypress decisions (properties)", () => {
         fc.option(fc.string(), { nil: null }),
         (text, hasNext, nextText) => {
           const currentTextTrimmed = text.trim();
-          const nextTextTrimmed = nextText ?? null;
           const action: EnterAction = decideEnterAction({
             currentTextTrimmed,
             hasNext,
-            nextTextTrimmed,
+            nextText,
           });
 
           const shouldInsert =
             currentTextTrimmed !== "" &&
-            (!hasNext || (nextTextTrimmed ?? "").trim() !== "");
+            (!hasNext || (nextText ?? "").trim() !== "");
           expect(action.type).toBe(
             shouldInsert ? "insertBelow" : "preventOnly",
           );

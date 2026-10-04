@@ -32,15 +32,15 @@ export interface HandleKeyPressDeps {
   announceLiveRegion: (message: string) => void;
 }
 
-/**
- * Handles keypress events within the textarea to manage custom behaviors.
- * @param {React.KeyboardEvent} e - The keyboard event.
- */
 type MinimalKeyboardEvent = Pick<
   KeyboardEvent,
   "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
 >;
 
+/**
+ * Handles keypress events within a question textarea: deleting, inserting,
+ * and moving between questions.
+ */
 export function handleKeyPress(
   e: MinimalKeyboardEvent,
   {
@@ -60,17 +60,15 @@ export function handleKeyPress(
 
   const textarea = textareaRef.current;
   const cursorPosition = textarea.selectionStart;
-
-  // Split textarea content into lines
-  const isMultiLineAndEmpty = isMultiLineAndEmptyText(textarea.value);
+  const currentIndex = questions.findIndex((q) => q.id === question.id);
+  const isCurrentEmpty = question.text.trim() === "";
 
   if (e.key === "Backspace") {
-    const currentIndex = questions.findIndex((q) => q.id === question.id);
     const action = decideBackspaceAction({
       textareaValue: textarea.value,
       cursorPosition,
-      isCurrentTextEmpty: question.text.trim() === "",
-      isMultiLineAndEmpty,
+      isCurrentTextEmpty: isCurrentEmpty,
+      isMultiLineAndEmpty: isMultiLineAndEmptyText(textarea.value),
       currentIndex,
       questionsLength: questions.length,
     });
@@ -83,32 +81,26 @@ export function handleKeyPress(
         return;
       }
       if (action.type === "deleteQuestion") {
-        if (questions.length > 1) {
-          if (action.target === "firstNext") {
-            removeQuestion(0);
-            const firstId = questions[1]?.id;
-            const newFirstRef = firstId
-              ? questionRefs.current.get(firstId)
-              : undefined;
-            if (newFirstRef?.current) {
-              newFirstRef.current.focus();
-              newFirstRef.current.setSelectionRange(0, 0);
-              announceLiveRegion("First question was deleted."); // TODO not read out?
-            }
-          } else {
-            const currentIdx = currentIndex;
-            removeQuestion(currentIdx);
-            setTimeout(() => {
-              const prevQuestion = questions[currentIdx - 1];
-              const prevRef = questionRefs.current.get(prevQuestion.id);
-              if (prevRef?.current) {
-                prevRef.current.focus();
-                const position = prevRef.current.value.length;
-                prevRef.current.setSelectionRange(position, position);
-                announceLiveRegion("Deleted question."); // TODO not read out?
-              }
-            }, 0);
+        if (action.target === "firstNext") {
+          removeQuestion(0);
+          const newFirstRef = questionRefs.current.get(questions[1].id);
+          if (newFirstRef?.current) {
+            newFirstRef.current.focus();
+            newFirstRef.current.setSelectionRange(0, 0);
+            announceLiveRegion("First question was deleted."); // TODO not read out?
           }
+        } else {
+          removeQuestion(currentIndex);
+          setTimeout(() => {
+            const prevQuestion = questions[currentIndex - 1];
+            const prevRef = questionRefs.current.get(prevQuestion.id);
+            if (prevRef?.current) {
+              prevRef.current.focus();
+              const position = prevRef.current.value.length;
+              prevRef.current.setSelectionRange(position, position);
+              announceLiveRegion("Deleted question."); // TODO not read out?
+            }
+          }, 0);
         }
         return;
       }
@@ -123,12 +115,11 @@ export function handleKeyPress(
   // Total lines in the current textarea
   const total = totalLines(textarea.value);
 
-  const currentIndex = questions.findIndex((q) => q.id === question.id);
   if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
     const action = decideEnterAction({
       currentTextTrimmed: question.text.trim(),
       hasNext: Boolean(questions[currentIndex + 1]),
-      nextTextTrimmed: questions[currentIndex + 1]?.text ?? null,
+      nextText: questions[currentIndex + 1]?.text ?? null,
     });
     e.preventDefault();
     if (action.type === "insertBelow") {
@@ -189,14 +180,16 @@ export function handleKeyPress(
       // Allow default behavior (move cursor up within textarea)
     }
   } else if (e.key === "Tab" && !e.ctrlKey && !e.altKey) {
+    // Tab and Shift+Tab never leave the question list, even when there is
+    // nothing to move to.
+    e.preventDefault();
     const tabAction = decideTabAction({
       shiftKey: e.shiftKey,
       currentIndex,
       questionsLength: questions.length,
-      isCurrentEmpty: question.text.trim() === "",
+      isCurrentEmpty,
     });
     if (tabAction.type !== "none") {
-      e.preventDefault();
       if (tabAction.type === "focusNext") {
         const nextQuestion = questions[currentIndex + 1];
         const nextRef = questionRefs.current.get(nextQuestion.id);

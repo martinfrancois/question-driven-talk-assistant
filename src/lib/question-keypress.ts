@@ -39,8 +39,9 @@ export function decideBackspaceAction(params: {
     return { type: "updateText", newText };
   }
 
-  // Delete question if it is completely empty
-  if (isCurrentTextEmpty && questionsLength > 1) {
+  // Delete question if it is completely empty; the last one is kept
+  if (isCurrentTextEmpty) {
+    if (questionsLength <= 1) return { type: "prevent" };
     if (currentIndex === 0)
       return { type: "deleteQuestion", target: "firstNext" };
     return { type: "deleteQuestion", target: "prev" };
@@ -60,12 +61,11 @@ export type EnterAction = { type: "insertBelow" } | { type: "preventOnly" };
 export function decideEnterAction(params: {
   currentTextTrimmed: string;
   hasNext: boolean;
-  nextTextTrimmed: string | null;
+  nextText: string | null;
 }): EnterAction {
-  const { currentTextTrimmed, hasNext, nextTextTrimmed } = params;
+  const { currentTextTrimmed, hasNext, nextText } = params;
   const shouldInsert =
-    currentTextTrimmed !== "" &&
-    (!hasNext || (nextTextTrimmed ?? "").trim() !== "");
+    currentTextTrimmed !== "" && (!hasNext || (nextText ?? "").trim() !== "");
   if (shouldInsert) return { type: "insertBelow" };
   return { type: "preventOnly" };
 }
