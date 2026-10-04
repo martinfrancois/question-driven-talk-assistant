@@ -80,7 +80,7 @@ describe("generateMarkdownContent (properties)", () => {
         const month = date.toLocaleString("en-US", { month: "long" });
         expect(dateLine).toMatch(
           new RegExp(
-            `^\\d{1,2}(st|nd|rd|th) of ${month} ${date.getFullYear()}$`,
+            `^${date.getDate()}(st|nd|rd|th) of ${month} ${date.getFullYear()}$`,
           ),
         );
       }),

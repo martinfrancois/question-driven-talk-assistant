@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import fc from "fast-check";
 import * as indexModule from "./index.ts";
 import * as layout from "./layout.ts";
 import * as onboarding from "./onboarding.ts";
@@ -27,13 +26,9 @@ describe("stores index re-exports (properties)", () => {
 
     expect(entries.length).toBeGreaterThan(0);
 
-    fc.assert(
-      fc.property(fc.constantFrom(...entries), ([key, value]) => {
-        return (
-          key in indexModule &&
-          indexModule[key as keyof typeof indexModule] === value
-        );
-      }),
-    );
+    // Every entry, not a random sample: one missing re-export must fail.
+    for (const [key, value] of entries) {
+      expect(indexModule, key).toHaveProperty(key, value);
+    }
   });
 });
