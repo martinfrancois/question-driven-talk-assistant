@@ -1,18 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import fc from "fast-check";
-
-vi.mock("zustand/middleware", async () => {
-  const actual =
-    await vi.importActual<typeof import("zustand/middleware")>(
-      "zustand/middleware",
-    );
-  return {
-    ...actual,
-    persist: ((fn: unknown) => fn) as typeof actual.persist,
-    devtools: ((fn: unknown) => fn) as typeof actual.devtools,
-  } satisfies typeof import("zustand/middleware");
-});
 
 describe("layout store (properties)", () => {
   it("setters update title and footer (property)", async () => {
