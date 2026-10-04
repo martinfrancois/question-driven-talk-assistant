@@ -45,8 +45,6 @@ const dragHandlers = (props: HandleProps): DragHandlers =>
 const keyEvent = (key: string, shiftKey = false): ResizeKeyEvent => ({
   key,
   shiftKey,
-  ctrlKey: false,
-  altKey: false,
   preventDefault: vi.fn(),
 });
 
@@ -63,13 +61,13 @@ const GROWING_KEYS = ["ArrowRight", "ArrowUp"];
 const SHRINKING_KEYS = ["ArrowLeft", "ArrowDown"];
 
 function expectedKeyboardSize(
-  size: number | undefined,
+  size: number,
   key: string,
   shift: boolean,
 ): number {
   const step = shift ? QR_RESIZE_STEP_LARGE : QR_RESIZE_STEP;
   const sign = GROWING_KEYS.includes(key) ? 1 : -1;
-  return clampQrSize((size ?? MIN_QR_CODE_SIZE) + sign * step);
+  return clampQrSize(size + sign * step);
 }
 
 afterEach(() => {
@@ -81,9 +79,7 @@ describe("useResizeHandleProps (properties)", () => {
   it("arrow keys change the size by the step and clamp it", () => {
     fc.assert(
       fc.property(
-        fc.option(fc.integer({ min: 0, max: MAX_QR_CODE_SIZE + 50 }), {
-          nil: undefined,
-        }),
+        fc.integer({ min: 0, max: MAX_QR_CODE_SIZE + 50 }),
         fc.constantFrom(...GROWING_KEYS, ...SHRINKING_KEYS),
         fc.boolean(),
         (size, key, shift) => {
@@ -227,6 +223,36 @@ describe("useResizeHandleProps (properties)", () => {
       ),
     );
   });
+
+  // Fixed examples pin the direction rule, which the property above shares
+  // with the code through computeResizeDelta.
+  it.each<[ResizeDirection, { deltaX: number; deltaY: number }, number]>([
+    ["bottom-right", { deltaX: 20, deltaY: 0 }, 120],
+    ["bottom-right", { deltaX: 0, deltaY: 20 }, 120],
+    ["bottom-right", { deltaX: -20, deltaY: -20 }, 80],
+    ["bottom-left", { deltaX: -20, deltaY: 0 }, 120],
+    ["bottom-left", { deltaX: 0, deltaY: 20 }, 120],
+    ["bottom-left", { deltaX: 20, deltaY: -20 }, 80],
+  ])(
+    "dragging the %s handle by %o resizes 100 to %i",
+    (direction, move, expected) => {
+      stubPendingAnimationFrame(1);
+      const setSize = vi.fn<(n: number) => void>();
+      const { result, unmount } = renderHook(() =>
+        useResizeHandleProps(direction, "label", 100, setSize, vi.fn()),
+      );
+      const drag = dragHandlers(result.current);
+
+      act(() => {
+        drag.onMoveStart();
+        drag.onMove(move);
+        drag.onMoveEnd();
+      });
+
+      expect(setSize).toHaveBeenLastCalledWith(expected);
+      unmount();
+    },
+  );
 
   it("schedules one animation frame for many moves until flushed", () => {
     const { raf, caf } = stubPendingAnimationFrame(9);

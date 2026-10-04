@@ -16,7 +16,7 @@ import {
 export function useResizeHandleProps(
   direction: Direction,
   label: string,
-  size: number | undefined,
+  size: number,
   setSize: (n: number) => void,
   onResizeEnd: () => void,
 ) {
@@ -24,10 +24,10 @@ export function useResizeHandleProps(
    * These refs keep track of the base size, accumulated pointer deltas, and
    * pending size updates while dragging the resize handle.
    */
-  const baseSize = useRef<number>(size ?? MIN_QR_CODE_SIZE);
+  const baseSize = useRef<number>(size);
   const sumX = useRef(0);
   const sumY = useRef(0);
-  const pending = useRef<number>(size ?? MIN_QR_CODE_SIZE);
+  const pending = useRef<number>(size);
   const rafId = useRef<number | null>(null);
   const prevUserSelect = useRef<string>("");
   const dragging = useRef(false);
@@ -96,16 +96,16 @@ export function useResizeHandleProps(
 
   type ResizeKeyEvent = Pick<
     KeyboardEvent<HTMLButtonElement>,
-    "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
+    "key" | "shiftKey" | "preventDefault"
   >;
   const onKeyDown = (e: ResizeKeyEvent): void => {
     const step = e.shiftKey ? QR_RESIZE_STEP_LARGE : QR_RESIZE_STEP;
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       e.preventDefault();
-      setSize(clampQrSize((size ?? MIN_QR_CODE_SIZE) + step));
+      setSize(clampQrSize(size + step));
     } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       e.preventDefault();
-      setSize(clampQrSize((size ?? MIN_QR_CODE_SIZE) - step));
+      setSize(clampQrSize(size - step));
     }
   };
 
