@@ -32,7 +32,7 @@ Before making changes, review the existing [issues](https://github.com/martinfra
   - Test files end with `.spec.ts`
 - File name conventions:
   - React components: PascalCase with `.tsx` suffix.
-  - Pure logic/utils/zhooks/constants/etc.: kebab-case with `.ts` suffix.
+  - Pure logic/utils/hooks/constants/etc.: kebab-case with `.ts` suffix.
 
 ### Issues
 
@@ -73,6 +73,7 @@ bun lint
 bun x tsc -p tsconfig.json --noEmit
 bun run build
 bun run test:unit
+bun run test:property
 bun x playwright install --with-deps
 bun run preview -- --port 5173  # run this in a separate terminal window and keep it open
 bun run test:e2e
