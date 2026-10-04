@@ -28,6 +28,7 @@ export function useResizeHandleProps(
   const pending = useRef<number>(size ?? MIN_QR_CODE_SIZE);
   const rafId = useRef<number | null>(null);
   const prevUserSelect = useRef<string>("");
+  const dragging = useRef(false);
 
   // Batch size updates with rAF to limit layout thrashing while dragging
   const schedule = (): void => {
@@ -47,12 +48,20 @@ export function useResizeHandleProps(
     }
   };
 
+  const restoreUserSelect = (): void => {
+    dragging.current = false;
+    const doc = globalThis.document;
+    /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
+    if (doc) doc.body.style.userSelect = prevUserSelect.current;
+  };
+
   const { moveProps } = useMove({
     onMoveStart(): void {
       // Initialize drag state and temporarily disable text selection during drag
       baseSize.current = Number(size) || MIN_QR_CODE_SIZE;
       sumX.current = 0;
       sumY.current = 0;
+      dragging.current = true;
       const doc = globalThis.document;
       /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
       if (doc) {
@@ -68,9 +77,7 @@ export function useResizeHandleProps(
       schedule();
     },
     onMoveEnd(): void {
-      const doc = globalThis.document;
-      /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
-      if (doc) doc.body.style.userSelect = prevUserSelect.current;
+      restoreUserSelect();
       flush();
       onResizeEnd();
     },
@@ -78,8 +85,10 @@ export function useResizeHandleProps(
 
   useEffect(() => {
     return () => {
-      // Ensure any pending rAF is cancelled if the component unmounts mid-drag
+      // Unmounting mid-drag skips onMoveEnd, which would leave the frame
+      // pending and the whole page unselectable.
       if (rafId.current != null) cancelAnimationFrame(rafId.current);
+      if (dragging.current) restoreUserSelect();
     };
   }, []);
 
