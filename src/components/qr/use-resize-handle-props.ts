@@ -8,6 +8,8 @@ import {
   computeResizeDelta,
   MIN_QR_CODE_SIZE,
   MAX_QR_CODE_SIZE,
+  QR_RESIZE_STEP,
+  QR_RESIZE_STEP_LARGE,
   type ResizeDirection as Direction,
 } from "@/lib/qr.ts";
 
@@ -51,7 +53,7 @@ export function useResizeHandleProps(
   const restoreUserSelect = (): void => {
     dragging.current = false;
     const doc = globalThis.document;
-    /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
+    /* istanbul ignore else: document only goes missing outside a browser, where these tests never run */
     if (doc) doc.body.style.userSelect = prevUserSelect.current;
   };
 
@@ -63,7 +65,7 @@ export function useResizeHandleProps(
       sumY.current = 0;
       dragging.current = true;
       const doc = globalThis.document;
-      /* istanbul ignore if: exercising missing document reliably in browser env is flaky */
+      /* istanbul ignore else: document only goes missing outside a browser, where these tests never run */
       if (doc) {
         prevUserSelect.current = doc.body.style.userSelect;
         doc.body.style.userSelect = "none";
@@ -97,7 +99,7 @@ export function useResizeHandleProps(
     "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
   >;
   const onKeyDown = (e: ResizeKeyEvent): void => {
-    const step = e.shiftKey ? 16 : 4;
+    const step = e.shiftKey ? QR_RESIZE_STEP_LARGE : QR_RESIZE_STEP;
     if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       e.preventDefault();
       setSize(clampQrSize((size ?? MIN_QR_CODE_SIZE) + step));

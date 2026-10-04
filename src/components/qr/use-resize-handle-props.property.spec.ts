@@ -4,7 +4,10 @@ import { renderHook, act } from "@testing-library/react";
 import {
   clampQrSize,
   computeResizeDelta,
+  MAX_QR_CODE_SIZE,
   MIN_QR_CODE_SIZE,
+  QR_RESIZE_STEP,
+  QR_RESIZE_STEP_LARGE,
   type ResizeDirection,
 } from "@/lib/qr.ts";
 import { useResizeHandleProps } from "./use-resize-handle-props.ts";
@@ -64,7 +67,7 @@ function expectedKeyboardSize(
   key: string,
   shift: boolean,
 ): number {
-  const step = shift ? 16 : 4;
+  const step = shift ? QR_RESIZE_STEP_LARGE : QR_RESIZE_STEP;
   const sign = GROWING_KEYS.includes(key) ? 1 : -1;
   return clampQrSize((size ?? MIN_QR_CODE_SIZE) + sign * step);
 }
@@ -78,7 +81,9 @@ describe("useResizeHandleProps (properties)", () => {
   it("arrow keys change the size by the step and clamp it", () => {
     fc.assert(
       fc.property(
-        fc.option(fc.integer({ min: 0, max: 300 }), { nil: undefined }),
+        fc.option(fc.integer({ min: 0, max: MAX_QR_CODE_SIZE + 50 }), {
+          nil: undefined,
+        }),
         fc.constantFrom(...GROWING_KEYS, ...SHRINKING_KEYS),
         fc.boolean(),
         (size, key, shift) => {
@@ -109,7 +114,7 @@ describe("useResizeHandleProps (properties)", () => {
   it("each key press starts from the size the previous one committed", () => {
     fc.assert(
       fc.property(
-        fc.integer({ min: 0, max: 300 }),
+        fc.integer({ min: 0, max: MAX_QR_CODE_SIZE + 50 }),
         fc.array(
           fc.record({
             key: fc.constantFrom(...GROWING_KEYS, ...SHRINKING_KEYS),
@@ -180,7 +185,7 @@ describe("useResizeHandleProps (properties)", () => {
   it("a drag commits the clamped size of the summed pointer deltas on end", () => {
     fc.assert(
       fc.property(
-        fc.integer({ min: MIN_QR_CODE_SIZE, max: 256 }),
+        fc.integer({ min: MIN_QR_CODE_SIZE, max: MAX_QR_CODE_SIZE }),
         fc.constantFrom<ResizeDirection>("bottom-right", "bottom-left"),
         fc.array(
           fc.record({
