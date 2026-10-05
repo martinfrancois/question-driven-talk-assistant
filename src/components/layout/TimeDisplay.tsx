@@ -1,12 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useTimeFormat24h, useToggleTimeFormat } from "@/stores";
-
-const formatTime = (time: Date, timeFormat24h: boolean): string =>
-  time.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: !timeFormat24h,
-  });
+import { formatTime } from "@/lib/time.ts";
 
 const TimeDisplay: FC = () => {
   const timeFormat24h = useTimeFormat24h();

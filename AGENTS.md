@@ -30,6 +30,19 @@
   bun x playwright install --with-deps
   ```
 
+## Conventions
+
+- Unit/integration tests are in the same folder as the code, with the same filename as the file that is tested, ending in `.spec.ts`/`.spec.tsx`
+- Mocks for unit/integration tests are in the `__mocks__` folder at the repository root
+- Property-based tests with fast-check are in a separate file ending in `.property.spec.ts`
+- Automated end-to-end tests using Playwright are in the `e2e` folder, and are using the page object pattern.
+  - Page objects are in the `pageobjects` subfolder.
+  - All page objects extend `AppPage`
+  - Test files end with `.spec.ts`
+- File name conventions:
+  - React components: PascalCase with `.tsx` suffix.
+  - Pure logic/utils/hooks/constants/etc.: kebab-case with `.ts` suffix.
+
 ## Development Workflow
 
 1. Install dependencies: `bun install`.
@@ -38,6 +51,7 @@
 4. Build: `bun run build`.
 5. Install Playwright browsers (required even for unit tests): `bun x playwright install --with-deps`.
 6. Run unit tests: `bun run test:unit -- --browser.headless`.
+   Run property-based tests: `bun run test:property -- --browser.headless`.
 7. For end-to-end tests:
    - Start preview server: `bun run preview -- --port 5173`.
    - In another terminal, run: `bun run test:e2e`.
@@ -55,4 +69,4 @@ Other checks (type checking, tests, build) are unnecessary.
 
 ## Continuous Integration
 
-GitHub Actions execute the same workflow: lint → type check → build → install Playwright browsers → unit tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.
+GitHub Actions execute the same workflow: lint → type check → build → install Playwright browsers → unit tests → property-based tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.

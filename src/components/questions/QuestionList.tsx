@@ -6,16 +6,16 @@ import {
   useSensor,
   useSensors,
   KeyboardSensor,
+  type DragEndEvent,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   rectSortingStrategy,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import QuestionItem from "./QuestionItem.tsx";
-import { Props } from "@dnd-kit/core/dist/components/DndContext/DndContext";
 import { Question, useQuestions, useSetQuestions } from "@/stores";
+import { reorderQuestionsByIds } from "@/lib/questions-utils.ts";
 
 type TextareaRef = React.RefObject<HTMLTextAreaElement | null>;
 type QuestionRefs = React.RefObject<Map<string, TextareaRef>>;
@@ -66,13 +66,12 @@ const QuestionList: FC = () => {
     }),
   );
 
-  const handleDragEnd: Props["onDragEnd"] = (event) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (active.id !== over?.id) {
-      const oldIndex = questions.findIndex((q) => q.id === active.id);
-      const newIndex = questions.findIndex((q) => q.id === over?.id);
-      setQuestions(arrayMove(questions, oldIndex, newIndex));
-    }
+    const activeId = String(active.id);
+    const overId = over ? String(over.id) : null;
+    const reordered = reorderQuestionsByIds(questions, activeId, overId);
+    if (reordered !== questions) setQuestions(reordered);
   };
 
   const questionRefs = useRef(new Map<string, TextareaRef>());

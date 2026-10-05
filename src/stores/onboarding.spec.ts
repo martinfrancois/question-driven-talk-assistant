@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import {
+  isTourDisabledByUrl,
   useCompleteTour,
   useRestartTour,
   useTourCompleted,
@@ -112,5 +113,17 @@ describe("onboarding store", () => {
       state: { tourCompleted: false },
       version: 0,
     });
+  });
+});
+
+describe("isTourDisabledByUrl", () => {
+  it.each([
+    ["https://example.com/", false],
+    ["https://example.com/?disable-tour", true],
+    ["https://example.com/#disable-tour", true],
+    ["https://example.com/disable-tour/", false],
+    [undefined, false],
+  ])("%s -> %s", (href, expected) => {
+    expect(isTourDisabledByUrl(href)).toBe(expected);
   });
 });

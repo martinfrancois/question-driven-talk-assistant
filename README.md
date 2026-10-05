@@ -128,6 +128,7 @@ bun dev
 | Run build locally          | `bun preview`          |
 | Lint                       | `bun lint`             |
 | Unit tests                 | `bun test:unit`        |
+| Property-based tests       | `bun test:property`    |
 | Update unit test snapshots | `bun test:unit:update` |
 | End-to-end tests           | `bun test:e2e`         |
 | Check                      | `bun run check`        |

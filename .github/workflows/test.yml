@@ -38,6 +38,10 @@ jobs:
       # threshold configured in vitest.config.ts.
       - name: Unit & Component Tests (enforces 80% line coverage)
         run: bun run test:unit
+      # Runs the *.property.spec.ts files that the unit config excludes, with
+      # the coverage thresholds from vitest.property.config.ts.
+      - name: Property-based Tests
+        run: bun run test:property
       # Start the frontend server in the background
       - name: Start frontend server
         run: |
