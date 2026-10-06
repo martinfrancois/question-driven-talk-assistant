@@ -46,10 +46,7 @@
       "automerge": true
     },
     {
-      "groupName": "dnd-kit",
-      "matchPackageNames": ["@dnd-kit/**"]
-    },
-    {
+      "description": "Every @vitest package requires vitest at the exact same version, and vitest, @vitejs/plugin-react and vite-plugin-pwa declare vite as a peer, so Vite, its plugins and Vitest share one branch. This replaces the group:vite and group:vitestMonorepo presets ignored above.",
       "groupName": "vite-and-test",
       "matchPackageNames": [
         "vite*",
@@ -60,22 +57,17 @@
       ]
     },
     {
-      "groupName": "workbox",
-      "matchPackageNames": ["workbox*"]
-    },
-    {
+      "description": "pretty-quick runs Prettier in the pre-commit hook and declares prettier ^3 as a peer, and eslint-config-prettier turns off the ESLint rules that conflict with Prettier's output, so both move with Prettier.",
       "groupName": "prettier",
       "matchPackageNames": ["*prettier*", "pretty-quick"]
     },
     {
-      "groupName": "playwright",
-      "matchPackageNames": ["playwright*", "@playwright/**"]
-    },
-    {
+      "description": "@tailwindcss/vite requires tailwindcss at the exact same version, tailwind-scrollbar declares tailwindcss 4.x as a peer and src/index.css loads it as a plugin, and prettier-plugin-tailwindcss sorts classes in the order the installed Tailwind defines.",
       "groupName": "tailwind",
-      "matchPackageNames": ["*tailwind*", "autoprefixer", "postcss"]
+      "matchPackageNames": ["*tailwind*", "@tailwindcss/**"]
     },
     {
+      "description": "The shadcn/ui components in src/components/ui are built on these packages: the Radix primitives, class-variance-authority, clsx and tailwind-merge in cn(), lucide-react icons and the tailwindcss-animate classes. Updating them together lets the component tests check the set in one run.",
       "groupName": "shadcn",
       "matchPackageNames": [
         "@radix-ui/**",
