@@ -129,6 +129,23 @@ describe("handleKeyPress (properties)", () => {
     );
   });
 
+  it("Backspace removes a newline from a blank multiline question", () => {
+    pressIn(
+      { texts: [" \n "], index: 0, cursor: 2 },
+      "Backspace",
+      {},
+      ({ preventDefault, questions, store }) => {
+        expect(preventDefault).toHaveBeenCalled();
+        expect(store.updateQuestionText).toHaveBeenCalledExactlyOnceWith(
+          questions[0].id,
+          "  ",
+        );
+        expect(store.adjustHeight).toHaveBeenCalledOnce();
+        expect(store.removeQuestion).not.toHaveBeenCalled();
+      },
+    );
+  });
+
   it("arrow keys take over only on the boundary line and move to the neighbouring question", () => {
     fc.assert(
       fc.property(
