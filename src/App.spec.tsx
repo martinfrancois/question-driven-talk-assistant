@@ -7,6 +7,7 @@ import {
   StorageName,
   useCompleteTour,
   useFontSize,
+  useRestartTour,
   useSetFooter,
   useSetQuestions,
   useSetTitle,
@@ -289,6 +290,39 @@ describe("App", () => {
     expect(
       document.body.querySelector("[data-testid='help-modal']"),
     ).not.toBeNull();
+  });
+
+  it("loads the guided tour on first start, drops it when skipped and brings it back on restart", async () => {
+    const tour = renderHook(() => useRestartTour());
+    act(() => {
+      tour.result.current();
+    });
+    const tooltip = (): HTMLElement | null =>
+      document.getElementById("joyride-tooltip-content");
+    const waitForTooltip = (shown: boolean) =>
+      vi.waitFor(
+        () => {
+          if ((tooltip() !== null) !== shown) {
+            throw new Error(`tour tooltip not ${shown ? "shown" : "gone"} yet`);
+          }
+        },
+        { timeout: 3000 },
+      );
+    await render(<App />);
+
+    await waitForTooltip(true);
+    await interact(() =>
+      document.body
+        .querySelector<HTMLElement>("[data-testid='button-skip']")
+        ?.click(),
+    );
+    await waitForTooltip(false);
+    act(() => {
+      tour.result.current();
+    });
+    await waitForTooltip(true);
+
+    expect(tooltip()).not.toBeNull();
   });
 
   // Kept last: unmounting tears down the shared render root that the
