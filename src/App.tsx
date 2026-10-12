@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, type JSX } from "react";
+import {
+  lazy,
+  Suspense,
+  useState,
+  useEffect,
+  useCallback,
+  type JSX,
+} from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import PWABadge from "./PWABadge.tsx";
 import screenfull from "screenfull";
@@ -15,13 +22,17 @@ import {
   useQuestions,
   useTitle,
   useToggleDarkMode,
+  useTourCompleted,
 } from "./stores";
 import { Help } from "./components/help/Help.tsx";
-import GuidedTour from "./components/onboarding/GuidedTour.tsx";
 import MainLayout from "./components/layout/MainLayout.tsx";
 import { FullScreenQrCode } from "./components/qr/FullScreenQrCode.tsx";
 import { ClearQuestionsModal } from "./components/questions/ClearQuestionsModal.tsx";
 import { useDarkModeClassName } from "./components/hooks/dark-mode-classnames.ts";
+
+// Split out because react-joyride is only needed while the tour runs, so users
+// who completed it never load or execute it.
+const GuidedTour = lazy(() => import("./components/onboarding/GuidedTour.tsx"));
 
 /**
  * Root component of the application.
@@ -44,6 +55,7 @@ const App = (): JSX.Element => {
   const title = useTitle();
   const footer = useFooter();
   const questions = useQuestions();
+  const isTourCompleted = useTourCompleted();
 
   const darkModeClassName = useDarkModeClassName();
 
@@ -132,7 +144,11 @@ const App = (): JSX.Element => {
       <FullScreenQrCode />
       <Help />
       <PWABadge />
-      <GuidedTour />
+      {!isTourCompleted && (
+        <Suspense fallback={null}>
+          <GuidedTour />
+        </Suspense>
+      )}
     </div>
   );
 };
