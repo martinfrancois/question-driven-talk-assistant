@@ -6,7 +6,6 @@
     ":rebaseStalePrs"
   ],
   "ignorePresets": ["group:vite", "group:vitestMonorepo"],
-  "reviewers": ["martinfrancois"],
   "labels": ["dependencies"],
   "rangeStrategy": "pin",
   "pinDigests": true,
