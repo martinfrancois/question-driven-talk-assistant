@@ -27,15 +27,17 @@ export function Header() {
   return (
     <header className="flex shrink-0 items-center">
       <div className="grow">
-        <h1
-          onClick={editTitle}
-          className="min-h-8 cursor-pointer text-3xl font-semibold"
-          data-testid="main-header"
-          aria-label={createTitleAriaLabel}
-          tabIndex={0}
-          aria-keyshortcuts="Control+Shift+T to edit title text"
-        >
-          {title}
+        <h1>
+          <button
+            type="button"
+            onClick={editTitle}
+            className="block min-h-8 w-full cursor-pointer p-0 text-left text-3xl font-semibold"
+            data-testid="main-header"
+            aria-label={createTitleAriaLabel}
+            aria-keyshortcuts="Control+Shift+T to edit title text"
+          >
+            {title}
+          </button>
         </h1>
       </div>
       <TimeDisplay />

@@ -29,17 +29,17 @@ describe("Header", () => {
     vi.unstubAllGlobals();
   });
 
-  const heading = (container: HTMLElement): HTMLHeadingElement => {
-    const el = container.querySelector<HTMLHeadingElement>(
+  const titleButton = (container: HTMLElement): HTMLButtonElement => {
+    const el = container.querySelector<HTMLButtonElement>(
       "[data-testid='main-header']",
     );
-    if (!el) throw new Error("header not rendered");
+    if (!el) throw new Error("title button not rendered");
     return el;
   };
 
-  const clickHeading = async (container: HTMLElement): Promise<void> => {
+  const clickTitleButton = async (container: HTMLElement): Promise<void> => {
     await act(async () => {
-      heading(container).click();
+      titleButton(container).click();
       await Promise.resolve();
     });
   };
@@ -51,7 +51,7 @@ describe("Header", () => {
   const renderWithTitle = async (title: string): Promise<HTMLElement> => {
     const { container } = await render(<Header />);
     promptAnswer = title;
-    await clickHeading(container);
+    await clickTitleButton(container);
     promptCalls = [];
     promptAnswer = null;
     return container;
@@ -60,36 +60,36 @@ describe("Header", () => {
   it("renders the title held in the store", async () => {
     const container = await renderWithTitle("Ask me anything");
 
-    expect(heading(container).textContent).toBe("Ask me anything");
+    expect(titleButton(container).textContent).toBe("Ask me anything");
   });
 
   it("writes the prompt answer back into the store", async () => {
     const container = await renderWithTitle("Old title");
 
     promptAnswer = "New title";
-    await clickHeading(container);
+    await clickTitleButton(container);
 
     expect(promptCalls).toEqual(["Edit Title"]);
-    expect(heading(container).textContent).toBe("New title");
+    expect(titleButton(container).textContent).toBe("New title");
   });
 
   it("keeps the title when the prompt is cancelled", async () => {
     const container = await renderWithTitle("Unchanged");
 
     promptAnswer = null;
-    await clickHeading(container);
+    await clickTitleButton(container);
 
     expect(promptCalls).toEqual(["Edit Title"]);
-    expect(heading(container).textContent).toBe("Unchanged");
+    expect(titleButton(container).textContent).toBe("Unchanged");
   });
 
   it("accepts an empty title from the prompt", async () => {
     const container = await renderWithTitle("Something");
 
     promptAnswer = "";
-    await clickHeading(container);
+    await clickTitleButton(container);
 
-    expect(heading(container).textContent).toBe("");
+    expect(titleButton(container).textContent).toBe("");
   });
 
   it("opens the title prompt via the ctrl+shift+t hotkey", async () => {
@@ -102,7 +102,7 @@ describe("Header", () => {
     });
 
     expect(promptCalls).toEqual(["Edit Title"]);
-    expect(heading(container).textContent).toBe("After hotkey");
+    expect(titleButton(container).textContent).toBe("After hotkey");
   });
 
   it("ignores the hotkey when the shift modifier is missing", async () => {
@@ -119,7 +119,7 @@ describe("Header", () => {
   it("describes a filled title for assistive technology", async () => {
     const container = await renderWithTitle("My talk");
 
-    expect(heading(container).getAttribute("aria-label")).toBe(
+    expect(titleButton(container).getAttribute("aria-label")).toBe(
       "Title text: My talk. Click to edit title.",
     );
   });
@@ -127,7 +127,7 @@ describe("Header", () => {
   it("describes a whitespace-only title as empty for assistive technology", async () => {
     const container = await renderWithTitle("   ");
 
-    expect(heading(container).getAttribute("aria-label")).toBe(
+    expect(titleButton(container).getAttribute("aria-label")).toBe(
       "Empty title. Click to add title.",
     );
   });
@@ -135,7 +135,7 @@ describe("Header", () => {
   it("announces its keyboard shortcut", async () => {
     const container = await renderWithTitle("Shortcut");
 
-    expect(heading(container).getAttribute("aria-keyshortcuts")).toBe(
+    expect(titleButton(container).getAttribute("aria-keyshortcuts")).toBe(
       "Control+Shift+T to edit title text",
     );
   });
@@ -146,5 +146,18 @@ describe("Header", () => {
     expect(
       container.querySelector("[data-testid='time-display']"),
     ).not.toBeNull();
+  });
+
+  it("makes the click target a button inside the heading", async () => {
+    const container = await renderWithTitle("Button title");
+
+    // The heading stays a heading and the control inside it is a real button,
+    // so Enter and Space activate it, it takes its place in the tab order and
+    // assistive technology announces a button instead of a clickable heading.
+    const button = titleButton(container);
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.type).toBe("button");
+    expect(button.closest("h1")).not.toBeNull();
+    expect(button.tabIndex).toBe(0);
   });
 });
