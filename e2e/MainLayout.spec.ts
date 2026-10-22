@@ -37,6 +37,20 @@ test.describe("MainLayout e2e tests", () => {
     expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
   });
 
+  ["Enter", "Space"].forEach((key: string) => {
+    test(`should edit header in MainLayout with the ${key} key`, async () => {
+      // given
+      const newTitle = "New Title";
+      expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
+
+      // when
+      await mainLayoutPage.editHeaderWithKeyboard(newTitle, key);
+
+      // then
+      expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
+    });
+  });
+
   test("should edit footer in MainLayout", async () => {
     // given
     const newFooter = "New Footer";
@@ -73,6 +87,20 @@ test.describe("MainLayout e2e tests", () => {
 
     // then
     expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
+  });
+
+  ["Enter", "Space"].forEach((key: string) => {
+    test(`should edit footer in MainLayout with the ${key} key`, async () => {
+      // given
+      const newFooter = "New Footer";
+      expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
+
+      // when
+      await mainLayoutPage.editFooterWithKeyboard(newFooter, key);
+
+      // then
+      expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
+    });
   });
 
   test("should toggle time format in TimeDisplay", async () => {

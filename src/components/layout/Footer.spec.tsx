@@ -28,11 +28,11 @@ describe("Footer", () => {
     vi.unstubAllGlobals();
   });
 
-  const footer = (container: HTMLElement): HTMLElement => {
-    const el = container.querySelector<HTMLElement>(
+  const footerButton = (container: HTMLElement): HTMLButtonElement => {
+    const el = container.querySelector<HTMLButtonElement>(
       "[data-testid='main-footer']",
     );
-    if (!el) throw new Error("footer not rendered");
+    if (!el) throw new Error("footer button not rendered");
     return el;
   };
 
@@ -43,7 +43,7 @@ describe("Footer", () => {
   const renderWithFooter = async (text: string): Promise<HTMLElement> => {
     const { container } = await render(<Footer />);
     promptAnswer = text;
-    await interact(() => footer(container).click());
+    await interact(() => footerButton(container).click());
     promptCalls = [];
     promptAnswer = null;
     return container;
@@ -52,26 +52,26 @@ describe("Footer", () => {
   it("renders the footer held in the store", async () => {
     const container = await renderWithFooter("François Martin");
 
-    expect(footer(container).textContent).toBe("François Martin");
+    expect(footerButton(container).textContent).toBe("François Martin");
   });
 
   it("writes the prompt answer back into the store", async () => {
     const container = await renderWithFooter("Old footer");
 
     promptAnswer = "New footer";
-    await interact(() => footer(container).click());
+    await interact(() => footerButton(container).click());
 
     expect(promptCalls).toEqual(["Edit Footer"]);
-    expect(footer(container).textContent).toBe("New footer");
+    expect(footerButton(container).textContent).toBe("New footer");
   });
 
   it("keeps the footer when the prompt is cancelled", async () => {
     const container = await renderWithFooter("Unchanged");
 
     promptAnswer = null;
-    await interact(() => footer(container).click());
+    await interact(() => footerButton(container).click());
 
-    expect(footer(container).textContent).toBe("Unchanged");
+    expect(footerButton(container).textContent).toBe("Unchanged");
   });
 
   it("opens the footer prompt via the ctrl+shift+f hotkey", async () => {
@@ -83,7 +83,7 @@ describe("Footer", () => {
     });
 
     expect(promptCalls).toEqual(["Edit Footer"]);
-    expect(footer(container).textContent).toBe("After hotkey");
+    expect(footerButton(container).textContent).toBe("After hotkey");
   });
 
   it("ignores the hotkey when the ctrl modifier is missing", async () => {
@@ -99,7 +99,7 @@ describe("Footer", () => {
   it("describes a filled footer for assistive technology", async () => {
     const container = await renderWithFooter("My footer");
 
-    expect(footer(container).getAttribute("aria-label")).toBe(
+    expect(footerButton(container).getAttribute("aria-label")).toBe(
       "Footer text: My footer. Click to edit footer.",
     );
   });
@@ -107,7 +107,7 @@ describe("Footer", () => {
   it("describes a whitespace-only footer as empty for assistive technology", async () => {
     const container = await renderWithFooter("  ");
 
-    expect(footer(container).getAttribute("aria-label")).toBe(
+    expect(footerButton(container).getAttribute("aria-label")).toBe(
       "Empty footer. Click to add footer.",
     );
   });
@@ -115,8 +115,21 @@ describe("Footer", () => {
   it("announces its keyboard shortcut", async () => {
     const container = await renderWithFooter("Shortcut");
 
-    expect(footer(container).getAttribute("aria-keyshortcuts")).toBe(
+    expect(footerButton(container).getAttribute("aria-keyshortcuts")).toBe(
       "Control+Shift+F to edit footer text",
     );
+  });
+
+  it("makes the click target a button inside the footer", async () => {
+    const container = await renderWithFooter("Button footer");
+
+    // The footer keeps its contentinfo landmark and the control inside it is a
+    // real button, so Enter and Space activate it, it takes its place in the
+    // tab order and assistive technology announces a button.
+    const button = footerButton(container);
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.type).toBe("button");
+    expect(button.closest("footer")).not.toBeNull();
+    expect(button.tabIndex).toBe(0);
   });
 });
