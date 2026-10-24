@@ -72,6 +72,15 @@ describe("QuestionItem Component with Zustand", () => {
     vi.advanceTimersByTime(milliseconds);
   };
 
+  it("labels a whitespace-only question as empty", async () => {
+    initialQuestions[0].text = "   ";
+
+    const { container } = await render(<TestWrapper />);
+    const textarea = container.querySelector("textarea");
+
+    expect(textarea?.getAttribute("aria-label")).toBe("Empty Question Text");
+  });
+
   it("Pressing Enter adds a new question below and focuses it", async () => {
     const { container } = await render(<TestWrapper />);
     expect(container).toMatchSnapshot("Initial Render");
