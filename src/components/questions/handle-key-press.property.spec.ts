@@ -24,6 +24,8 @@ const questionList = fc
   );
 
 const isBlank = (text: string) => text.trim() === "";
+// Backspace deletes a blank question only when it has no line break left.
+const isBlankMultiLine = (text: string) => isBlank(text) && text.includes("\n");
 
 /**
  * Renders the questions, presses `key` in question `index`, lets the delayed
@@ -110,7 +112,7 @@ describe("handleKeyPress (properties)", () => {
       fc.property(
         questionList.filter(
           ({ texts, index }) =>
-            isBlank(texts[index]) && !texts[index].includes("\n"),
+            isBlank(texts[index]) && !isBlankMultiLine(texts[index]),
         ),
         (list) => {
           pressIn(list, "Backspace", {}, ({ preventDefault, store }) => {
@@ -124,6 +126,42 @@ describe("handleKeyPress (properties)", () => {
               expect(store.removeQuestion).not.toHaveBeenCalled();
             }
           });
+        },
+      ),
+    );
+  });
+
+  it("Backspace in a blank multi-line question never reaches the browser, removes only the character before the caret and keeps the question", () => {
+    fc.assert(
+      fc.property(
+        questionList.filter(({ texts, index }) =>
+          isBlankMultiLine(texts[index]),
+        ),
+        (list) => {
+          pressIn(
+            list,
+            "Backspace",
+            {},
+            ({ preventDefault, questions, store, caret }) => {
+              const { texts, index } = list;
+              const text = texts[index];
+
+              expect(preventDefault).toHaveBeenCalled();
+              expect(store.removeQuestion).not.toHaveBeenCalled();
+              if (caret > 0) {
+                expect(
+                  store.updateQuestionText,
+                ).toHaveBeenCalledExactlyOnceWith(
+                  questions[index].id,
+                  text.slice(0, caret - 1) + text.slice(caret),
+                );
+                expect(store.adjustHeight).toHaveBeenCalledOnce();
+              } else {
+                expect(store.updateQuestionText).not.toHaveBeenCalled();
+                expect(store.adjustHeight).not.toHaveBeenCalled();
+              }
+            },
+          );
         },
       ),
     );
