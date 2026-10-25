@@ -17,21 +17,31 @@ export class MainLayoutPage extends AppPage {
     this.timeDisplay = page.getByTestId("time-display");
   }
 
-  async editHeader(newTitle: string) {
+  async editHeader(newTitle: string): Promise<void> {
     this.page.on("dialog", (dialog) => dialog.accept(newTitle));
     await this.header.click();
   }
 
-  async editFooter(newFooter: string) {
+  async editHeaderWithKeyboard(newTitle: string, key: string): Promise<void> {
+    this.page.on("dialog", (dialog) => dialog.accept(newTitle));
+    await this.header.press(key);
+  }
+
+  async editFooter(newFooter: string): Promise<void> {
     this.page.on("dialog", (dialog) => dialog.accept(newFooter));
     await this.footer.click();
   }
 
-  async toggleTimeFormat() {
+  async editFooterWithKeyboard(newFooter: string, key: string): Promise<void> {
+    this.page.on("dialog", (dialog) => dialog.accept(newFooter));
+    await this.footer.press(key);
+  }
+
+  async toggleTimeFormat(): Promise<void> {
     await this.timeDisplay.click();
   }
 
-  async toggleFullscreenQrCode() {
+  async toggleFullscreenQrCode(): Promise<void> {
     await this.container.press("Control+q");
   }
 }
