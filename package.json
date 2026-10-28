@@ -35,7 +35,7 @@
     "clsx": "2.1.1",
     "date-fns": "4.4.0",
     "immer": "11.2.6",
-    "lucide-react": "1.60.0",
+    "lucide-react": "1.61.0",
     "qrcode.react": "4.2.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
