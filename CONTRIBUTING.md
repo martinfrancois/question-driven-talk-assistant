@@ -102,3 +102,5 @@ Once you submit your PR, maintainers will review your proposal and may ask quest
 Congratulations :tada::tada: and thank you for contributing :sparkles:.
 
 Once your PR is merged, your contributions will be publicly visible on the [project repository](https://github.com/martinfrancois/question-driven-talk-assistant).
+
+**Coffee on me.** If you've had a pull request merged here and we meet in person, at a conference or anywhere else, tell me your GitHub handle and I'll buy you a coffee or a drink. It's one per person, however many pull requests you've made. It's a thank-you, not payment: the project doesn't pay for contributions or offer bounties.
