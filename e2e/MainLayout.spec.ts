@@ -37,6 +37,30 @@ test.describe("MainLayout e2e tests", () => {
     expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
   });
 
+  test("should edit header in MainLayout with the Enter key", async () => {
+    // given
+    const newTitle = "New Title";
+    expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
+
+    // when
+    await mainLayoutPage.editHeaderWithKeyboard(newTitle, "Enter");
+
+    // then
+    expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
+  });
+
+  test("should edit header in MainLayout with the Space key", async () => {
+    // given
+    const newTitle = "New Title";
+    expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
+
+    // when
+    await mainLayoutPage.editHeaderWithKeyboard(newTitle, "Space");
+
+    // then
+    expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
+  });
+
   test("should edit footer in MainLayout", async () => {
     // given
     const newFooter = "New Footer";
@@ -70,6 +94,30 @@ test.describe("MainLayout e2e tests", () => {
       expect(heightWithoutPadding).toBeGreaterThan(0);
     }
     await mainLayoutPage.editFooter(newFooter);
+
+    // then
+    expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
+  });
+
+  test("should edit footer in MainLayout with the Enter key", async () => {
+    // given
+    const newFooter = "New Footer";
+    expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
+
+    // when
+    await mainLayoutPage.editFooterWithKeyboard(newFooter, "Enter");
+
+    // then
+    expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
+  });
+
+  test("should edit footer in MainLayout with the Space key", async () => {
+    // given
+    const newFooter = "New Footer";
+    expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
+
+    // when
+    await mainLayoutPage.editFooterWithKeyboard(newFooter, "Space");
 
     // then
     expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);

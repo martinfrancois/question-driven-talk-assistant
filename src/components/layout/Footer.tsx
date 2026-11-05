@@ -24,14 +24,17 @@ export function Footer() {
   }, [footer]);
 
   return (
-    <footer
-      onClick={editFooter}
-      className="min-h-11 shrink-0 cursor-pointer p-2 text-center text-xl"
-      data-testid="main-footer"
-      aria-label={createFooterAriaLabel}
-      aria-keyshortcuts="Control+Shift+F to edit footer text"
-    >
-      {footer}
+    <footer className="shrink-0">
+      <button
+        type="button"
+        onClick={editFooter}
+        className="block min-h-11 w-full cursor-pointer p-2 text-center text-xl"
+        data-testid="main-footer"
+        aria-label={createFooterAriaLabel}
+        aria-keyshortcuts="Control+Shift+F to edit footer text"
+      >
+        {footer}
+      </button>
     </footer>
   );
 }

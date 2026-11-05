@@ -28,11 +28,11 @@ describe("Footer", () => {
     vi.unstubAllGlobals();
   });
 
-  const footer = (container: HTMLElement): HTMLElement => {
-    const el = container.querySelector<HTMLElement>(
+  const footer = (container: HTMLElement): HTMLButtonElement => {
+    const el = container.querySelector<HTMLButtonElement>(
       "[data-testid='main-footer']",
     );
-    if (!el) throw new Error("footer not rendered");
+    if (!el) throw new Error("footer button not rendered");
     return el;
   };
 
@@ -118,5 +118,18 @@ describe("Footer", () => {
     expect(footer(container).getAttribute("aria-keyshortcuts")).toBe(
       "Control+Shift+F to edit footer text",
     );
+  });
+
+  it("makes the click target a button inside the footer", async () => {
+    const container = await renderWithFooter("Button footer");
+
+    // The footer keeps its contentinfo landmark and the control inside it is a
+    // real button, so Enter and Space activate it, it takes its place in the
+    // tab order and assistive technology announces a button.
+    const button = footer(container);
+    expect(button.tagName).toBe("BUTTON");
+    expect(button.type).toBe("button");
+    expect(button.closest("footer")).not.toBeNull();
+    expect(button.tabIndex).toBe(0);
   });
 });
