@@ -205,7 +205,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
         data-highlighted={question.highlighted}
         aria-label={
-          question.text
+          question.text.trim()
             ? `Question text: ${question.text}`
             : "Empty Question Text"
         }

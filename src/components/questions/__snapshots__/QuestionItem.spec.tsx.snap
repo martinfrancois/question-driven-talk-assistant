@@ -368,8 +368,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
     </span>
     <button
       aria-checked="false"
-      aria-label="Question: 
-"
+      aria-label="Empty Question"
       class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:ring-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
       data-state="unchecked"
       data-testid="question-checkbox-2"
@@ -379,8 +378,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
     />
     <textarea
       aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
-      aria-label="Question text: 
-"
+      aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
       data-gramm="false"
@@ -520,8 +518,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
     </span>
     <button
       aria-checked="false"
-      aria-label="Question: 
-"
+      aria-label="Empty Question"
       class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:ring-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
       data-state="unchecked"
       data-testid="question-checkbox-2"
@@ -531,8 +528,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
     />
     <textarea
       aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
-      aria-label="Question text: 
-"
+      aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
       data-gramm="false"
@@ -1168,8 +1164,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
     </span>
     <button
       aria-checked="false"
-      aria-label="Question: 
-"
+      aria-label="Empty Question"
       class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:ring-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
       data-state="unchecked"
       data-testid="question-checkbox-2"
@@ -1179,8 +1174,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
     />
     <textarea
       aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
-      aria-label="Question text: 
-"
+      aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
       data-gramm="false"
@@ -1320,8 +1314,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
     </span>
     <button
       aria-checked="false"
-      aria-label="Question: 
-"
+      aria-label="Empty Question"
       class="peer h-5 w-5 shrink-0 rounded-md border border-neutral-500 text-neutral-900 ring-offset-white focus:ring-0 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-900 dark:text-neutral-50 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300"
       data-state="unchecked"
       data-testid="question-checkbox-2"
@@ -1331,8 +1324,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
     />
     <textarea
       aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
-      aria-label="Question text: 
-"
+      aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
       data-gramm="false"
