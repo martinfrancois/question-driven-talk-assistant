@@ -55,9 +55,9 @@ describe("QrCodeComponent", () => {
     return render(<QrCodeComponent />);
   };
 
-  const wrapper = (container: HTMLElement): HTMLElement => {
+  const urlButton = (container: HTMLElement): HTMLElement => {
     const el = container.querySelector<HTMLElement>("[data-testid='qr-code']");
-    if (!el) throw new Error("qr code wrapper not rendered");
+    if (!el) throw new Error("qr code url button not rendered");
     return el;
   };
 
@@ -68,7 +68,7 @@ describe("QrCodeComponent", () => {
       container.querySelector("[data-testid='qr-code-placeholder']"),
     ).not.toBeNull();
     expect(container.querySelector("[data-testid='qr-code-svg']")).toBeNull();
-    expect(wrapper(container).getAttribute("aria-label")).toBe(
+    expect(urlButton(container).getAttribute("aria-label")).toBe(
       "No QR Code set. Click to enter a URL",
     );
   });
@@ -123,10 +123,10 @@ describe("QrCodeComponent", () => {
     const { container } = await renderWith("https://example.com/old");
 
     promptAnswer = "https://example.com/new";
-    await interact(() => wrapper(container).click());
+    await interact(() => urlButton(container).click());
 
     expect(promptCalls).toEqual(["Enter QR Code URL"]);
-    expect(wrapper(container).getAttribute("aria-label")).toBe(
+    expect(urlButton(container).getAttribute("aria-label")).toBe(
       "QR Code. Click to change the URL",
     );
   });
@@ -135,7 +135,7 @@ describe("QrCodeComponent", () => {
     const { container } = await renderWith("https://example.com/keep");
 
     promptAnswer = null;
-    await interact(() => wrapper(container).click());
+    await interact(() => urlButton(container).click());
 
     expect(
       container.querySelector("[data-testid='qr-code-svg']"),
@@ -146,7 +146,7 @@ describe("QrCodeComponent", () => {
     const { container } = await renderWith("https://example.com/clear-me");
 
     promptAnswer = "";
-    await interact(() => wrapper(container).click());
+    await interact(() => urlButton(container).click());
 
     expect(
       container.querySelector("[data-testid='qr-code-placeholder']"),
@@ -164,33 +164,33 @@ describe("QrCodeComponent", () => {
     expect(promptCalls).toEqual(["Enter QR Code URL"]);
   });
 
-  it("opens the url prompt when Enter is pressed on the wrapper", async () => {
+  it("opens the url prompt when Enter is pressed on the QR code", async () => {
     const { container } = await renderWith("https://example.com/enter");
 
     promptAnswer = null;
     await interact(() => {
-      keyDown({ key: "Enter", code: "Enter", target: wrapper(container) });
+      keyDown({ key: "Enter", code: "Enter", target: urlButton(container) });
     });
 
     expect(promptCalls).toEqual(["Enter QR Code URL"]);
   });
 
-  it("opens the url prompt when Space is pressed on the wrapper", async () => {
+  it("opens the url prompt when Space is pressed on the QR code", async () => {
     const { container } = await renderWith("https://example.com/space");
 
     promptAnswer = null;
     await interact(() => {
-      keyDown({ key: " ", code: "Space", target: wrapper(container) });
+      keyDown({ key: " ", code: "Space", target: urlButton(container) });
     });
 
     expect(promptCalls).toEqual(["Enter QR Code URL"]);
   });
 
-  it("ignores unrelated keys on the wrapper", async () => {
+  it("ignores unrelated keys on the QR code", async () => {
     const { container } = await renderWith("https://example.com/ignore");
 
     await interact(() => {
-      keyDown({ key: "a", code: "KeyA", target: wrapper(container) });
+      keyDown({ key: "a", code: "KeyA", target: urlButton(container) });
     });
 
     expect(promptCalls).toEqual([]);
@@ -342,6 +342,41 @@ describe("QrCodeComponent", () => {
     });
 
     expect(svgWidth(container)).toBe("100");
+  });
+
+  it("keeps the resize handles outside the URL button", async () => {
+    const { container } = await renderWith("https://example.com/outside");
+
+    for (const corner of ["right", "left"] as const) {
+      const handle = handleAt(container, corner);
+      expect(handle.tagName).not.toBe("BUTTON");
+      expect(handle.closest("[role='button']")).toBeNull();
+    }
+  });
+
+  it("does not open the url prompt when Enter or Space is pressed on a handle", async () => {
+    const { container } = await renderWith("https://example.com/handle-keys");
+
+    await interact(() => {
+      keyDown({
+        key: "Enter",
+        code: "Enter",
+        target: handleAt(container, "right"),
+      });
+      keyDown({ key: " ", code: "Space", target: handleAt(container, "left") });
+    });
+
+    expect(promptCalls).toEqual([]);
+  });
+
+  it("does not open the url prompt when a handle is clicked without dragging", async () => {
+    const { container } = await renderWith("https://example.com/handle-click");
+
+    await interact(() => {
+      handleAt(container, "right").click();
+    });
+
+    expect(promptCalls).toEqual([]);
   });
 
   it("prevents the default scroll behaviour of the arrow keys", async () => {

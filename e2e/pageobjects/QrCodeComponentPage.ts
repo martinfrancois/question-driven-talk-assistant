@@ -4,7 +4,7 @@ import { MainLayoutPage } from "./MainLayoutPage";
 import { StorageName } from "@/stores";
 
 export class QrCodeComponentPage extends AppPage {
-  readonly qrCodeContainer: Locator; // outer container
+  readonly qrCodeButton: Locator; // opens the URL prompt
   readonly qrCodeSvg: Locator; // qr code itself as an SVG
   readonly qrCodePlaceholder: Locator; // placeholder text when URL is empty
   readonly resizeHandleBottomRight: Locator;
@@ -14,7 +14,7 @@ export class QrCodeComponentPage extends AppPage {
 
   constructor(page: Page) {
     super(page);
-    this.qrCodeContainer = page.getByTestId("qr-code");
+    this.qrCodeButton = page.getByTestId("qr-code");
     this.qrCodeSvg = page.getByTestId("qr-code-svg");
     this.qrCodePlaceholder = page.getByTestId("qr-code-placeholder");
     this.resizeHandleBottomRight = page.getByTestId(
@@ -28,7 +28,7 @@ export class QrCodeComponentPage extends AppPage {
 
   async setQrCodeURL(url: string) {
     this.page.on("dialog", (dialog) => dialog.accept(url));
-    await this.qrCodeContainer.click();
+    await this.qrCodeButton.click();
   }
 
   async resizeQrCode(direction: "bottom-right" | "bottom-left") {
@@ -36,11 +36,11 @@ export class QrCodeComponentPage extends AppPage {
       direction === "bottom-right"
         ? this.resizeHandleBottomRight
         : this.resizeHandleBottomLeft;
-    await handle.dragTo(this.qrCodeContainer, { force: true });
+    await handle.dragTo(this.qrCodeButton, { force: true });
   }
 
-  async hoverOverContainer() {
-    await this.qrCodeContainer.hover();
+  async hoverOverQrCode() {
+    await this.qrCodeButton.hover();
   }
 
   async setExampleQrCodeURL() {
@@ -56,7 +56,7 @@ export class QrCodeComponentPage extends AppPage {
     const qrCodeUrl = await this.getQrCodeUrl();
     expect(qrCodeUrl).toEqual("");
 
-    await expect(this.qrCodeContainer).toBeVisible();
+    await expect(this.qrCodeButton).toBeVisible();
     await expect(this.qrCodeSvg).toBeHidden();
     await expect(this.resizeHandleBottomRight).toBeHidden();
     await expect(this.resizeHandleBottomLeft).toBeHidden();
@@ -68,7 +68,7 @@ export class QrCodeComponentPage extends AppPage {
     await expect(this.qrCodePlaceholder).toBeHidden();
 
     // when
-    await this.hoverOverContainer();
+    await this.hoverOverQrCode();
 
     // then
     await expect(this.qrCodePlaceholder).toBeVisible();
@@ -80,7 +80,7 @@ export class QrCodeComponentPage extends AppPage {
     const qrCodeUrl = await this.getQrCodeUrl();
     expect(qrCodeUrl).not.toEqual("");
 
-    await expect(this.qrCodeContainer).toBeVisible();
+    await expect(this.qrCodeButton).toBeVisible();
     await expect(this.qrCodeSvg).toBeVisible();
     await expect(this.qrCodePlaceholder).toBeHidden();
   }
