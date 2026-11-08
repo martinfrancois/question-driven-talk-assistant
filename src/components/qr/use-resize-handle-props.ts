@@ -33,7 +33,7 @@ export function useResizeHandleProps(
 
   // Batch size updates with rAF to limit layout thrashing while dragging
   const schedule = (): void => {
-    if (rafId.current != null) return;
+    if (rafId.current !== null) return;
     rafId.current = requestAnimationFrame(() => {
       rafId.current = null;
       setSize(Math.round(pending.current));
@@ -42,7 +42,7 @@ export function useResizeHandleProps(
 
   // Flush a pending update (used at the end of the drag)
   const flush = (): void => {
-    if (rafId.current != null) {
+    if (rafId.current !== null) {
       cancelAnimationFrame(rafId.current);
       rafId.current = null;
       setSize(Math.round(pending.current));
@@ -87,7 +87,7 @@ export function useResizeHandleProps(
     return () => {
       // Unmounting mid-drag skips onMoveEnd, which would leave the frame
       // pending and the whole page unselectable.
-      if (rafId.current != null) cancelAnimationFrame(rafId.current);
+      if (rafId.current !== null) cancelAnimationFrame(rafId.current);
       if (dragging.current) restoreUserSelect();
     };
   }, []);

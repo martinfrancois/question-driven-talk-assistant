@@ -63,6 +63,7 @@ export default [
       },
     },
     rules: {
+      eqeqeq: ["error", "always"],
       "react-refresh/only-export-components": [
         "warn",
         {

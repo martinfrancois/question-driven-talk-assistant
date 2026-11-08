@@ -17,7 +17,7 @@ export function Header() {
   ]);
 
   const createTitleAriaLabel = useMemo(() => {
-    if (title.trim().length == 0) {
+    if (title.trim().length === 0) {
       return "Empty title. Click to add title.";
     } else {
       return "Title text: " + title + ". Click to edit title.";
