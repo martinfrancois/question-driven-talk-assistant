@@ -18,7 +18,6 @@ export function useResizeHandleProps(
   label: string,
   size: number,
   setSize: (n: number) => void,
-  onResizeEnd: () => void,
 ) {
   /**
    * These refs keep track of the base size, accumulated pointer deltas, and
@@ -81,7 +80,6 @@ export function useResizeHandleProps(
     onMoveEnd(): void {
       restoreUserSelect();
       flush();
-      onResizeEnd();
     },
   });
 
