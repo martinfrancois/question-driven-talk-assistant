@@ -26,6 +26,24 @@ const caretOf = (textarea: HTMLTextAreaElement | null | undefined) => [
 
 describe("handleKeyPress", () => {
   describe("Backspace", () => {
+    it("with key code 229 outside a composition still deletes a blank question", () => {
+      const { press, store } = render(["previous", ""]);
+
+      const preventDefault = press(1, "Backspace", { keyCode: 229 });
+
+      expect(preventDefault).toHaveBeenCalled();
+      expect(store.removeQuestion).toHaveBeenCalledExactlyOnceWith(1);
+    });
+
+    it("during an IME composition leaves a blank question in place", () => {
+      const { press, store } = render(["previous", ""]);
+
+      const preventDefault = press(1, "Backspace", { isComposing: true });
+
+      expect(preventDefault).not.toHaveBeenCalled();
+      expect(store.removeQuestion).not.toHaveBeenCalled();
+    });
+
     it("on the first line of a blank multi-line question blocks the key", () => {
       const { press, store } = render(["a", "\n\n"]);
 
@@ -136,6 +154,24 @@ describe("handleKeyPress", () => {
       expect(store.insertQuestion).not.toHaveBeenCalled();
     });
 
+    it("that confirms an IME composition is left to the input method", () => {
+      const { press, store } = render(["one"]);
+
+      const preventDefault = press(0, "Enter", { isComposing: true });
+
+      expect(preventDefault).not.toHaveBeenCalled();
+      expect(store.insertQuestion).not.toHaveBeenCalled();
+    });
+
+    it("with the IME key code 229 is left to the input method", () => {
+      const { press, store } = render(["one"]);
+
+      const preventDefault = press(0, "Enter", { keyCode: 229 });
+
+      expect(preventDefault).not.toHaveBeenCalled();
+      expect(store.insertQuestion).not.toHaveBeenCalled();
+    });
+
     it("with Shift leaves the line break to the browser", () => {
       const { press, store } = render(["one"]);
 
@@ -147,6 +183,15 @@ describe("handleKeyPress", () => {
   });
 
   describe("ArrowDown", () => {
+    it("during an IME composition stays in the question", () => {
+      const { press, textareas } = render(["last", "next"]);
+
+      const preventDefault = press(0, "ArrowDown", { isComposing: true });
+
+      expect(preventDefault).not.toHaveBeenCalled();
+      expect(document.activeElement).toBe(textareas[0]);
+    });
+
     it("on the last line moves to the end of the next question's first line", () => {
       const { press, textareas } = render(["a\nlast", "first line\nsecond"]);
 
@@ -294,6 +339,8 @@ describe("handleKeyPress", () => {
         shiftKey: false,
         ctrlKey: false,
         altKey: false,
+        keyCode: 0,
+        nativeEvent: { isComposing: false },
         preventDefault,
       },
       {

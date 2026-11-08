@@ -34,8 +34,18 @@ export interface HandleKeyPressDeps {
 
 type MinimalKeyboardEvent = Pick<
   KeyboardEvent,
-  "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault"
->;
+  "key" | "shiftKey" | "ctrlKey" | "altKey" | "preventDefault" | "keyCode"
+> & { nativeEvent: Pick<globalThis.KeyboardEvent, "isComposing"> };
+
+const IME_KEY_CODE = 229;
+
+// Safari fires the Enter keydown that confirms a composition after
+// compositionend, so isComposing is already false and only keyCode 229 marks
+// it. Android keyboards report 229 for ordinary keys too, so that check stays
+// limited to Enter.
+const isImeKeyPress = (e: MinimalKeyboardEvent) =>
+  e.nativeEvent.isComposing ||
+  (e.key === "Enter" && e.keyCode === IME_KEY_CODE);
 
 /**
  * Handles keypress events within a question textarea: deleting, inserting,
@@ -57,6 +67,10 @@ export function handleKeyPress(
   }: HandleKeyPressDeps,
 ) {
   if (!textareaRef?.current) return;
+  // While an input method editor composes text, its keys (Enter to confirm,
+  // arrows and Tab to pick a candidate, Backspace to edit) belong to the
+  // composition.
+  if (isImeKeyPress(e)) return;
 
   const textarea = textareaRef.current;
   const cursorPosition = textarea.selectionStart;
