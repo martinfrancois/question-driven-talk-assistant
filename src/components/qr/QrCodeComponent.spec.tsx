@@ -548,11 +548,16 @@ describe("QrCodeComponent pointer resizing", () => {
     const { container } = await renderAtSize(100);
 
     await drag(container, "right", 20, 0);
-    const promptsBefore = promptCalls.length;
+    // A drag from the handle that ends over the QR code clicks the closest
+    // element holding both, which is the handle's parent, not the URL button.
     await interact(() => {
-      container.querySelector<HTMLElement>("[data-testid='qr-code']")?.click();
+      container
+        .querySelector<HTMLElement>(
+          "[data-testid='qr-code-resize-bottom-right']",
+        )
+        ?.parentElement?.click();
     });
 
-    expect(promptCalls.length).toBe(promptsBefore);
+    expect(promptCalls).toEqual([]);
   });
 });

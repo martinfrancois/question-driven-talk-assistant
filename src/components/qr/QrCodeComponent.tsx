@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
 import type { JSX, KeyboardEvent } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -17,14 +17,7 @@ export default function QrCodeComponent(): JSX.Element {
   const size = useQrCodeSize();
   const setSize = useSetQrCodeSize();
 
-  const preventClick = useRef(false);
-  const afterResize = useCallback(() => {
-    preventClick.current = true;
-    setTimeout(() => (preventClick.current = false), 200);
-  }, []);
-
   const handleClick = useCallback(() => {
-    if (preventClick.current) return;
     const newURL = prompt("Enter QR Code URL", url);
     if (newURL !== null) setUrl(newURL);
   }, [url, setUrl]);
@@ -38,14 +31,12 @@ export default function QrCodeComponent(): JSX.Element {
     "Resize bottom right",
     size,
     setSize,
-    afterResize,
   );
   const blHandleProps = useResizeHandleProps(
     "bottom-left",
     "Resize bottom left",
     size,
     setSize,
-    afterResize,
   );
 
   const onUrlButtonKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {

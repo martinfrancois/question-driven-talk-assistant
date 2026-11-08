@@ -85,13 +85,7 @@ describe("useResizeHandleProps (properties)", () => {
         (size, key, shift) => {
           const setSize = vi.fn<(n: number) => void>();
           const { result, unmount } = renderHook(() =>
-            useResizeHandleProps(
-              "bottom-right",
-              "label",
-              size,
-              setSize,
-              vi.fn(),
-            ),
+            useResizeHandleProps("bottom-right", "label", size, setSize),
           );
           const e = keyEvent(key, shift);
 
@@ -125,13 +119,7 @@ describe("useResizeHandleProps (properties)", () => {
           };
           const { result, rerender, unmount } = renderHook(
             ({ current }: { current: number }) =>
-              useResizeHandleProps(
-                "bottom-right",
-                "label",
-                current,
-                setSize,
-                vi.fn(),
-              ),
+              useResizeHandleProps("bottom-right", "label", current, setSize),
             { initialProps: { current: size } },
           );
 
@@ -158,13 +146,7 @@ describe("useResizeHandleProps (properties)", () => {
         (key) => {
           const setSize = vi.fn<(n: number) => void>();
           const { result, unmount } = renderHook(() =>
-            useResizeHandleProps(
-              "bottom-right",
-              "label",
-              100,
-              setSize,
-              vi.fn(),
-            ),
+            useResizeHandleProps("bottom-right", "label", 100, setSize),
           );
           const e = keyEvent(key);
 
@@ -193,15 +175,8 @@ describe("useResizeHandleProps (properties)", () => {
         (initialSize, direction, moves) => {
           stubPendingAnimationFrame(1);
           const setSize = vi.fn<(n: number) => void>();
-          const onEnd = vi.fn();
           const { result, unmount } = renderHook(() =>
-            useResizeHandleProps(
-              direction,
-              "label",
-              initialSize,
-              setSize,
-              onEnd,
-            ),
+            useResizeHandleProps(direction, "label", initialSize, setSize),
           );
           const drag = dragHandlers(result.current);
 
@@ -217,7 +192,6 @@ describe("useResizeHandleProps (properties)", () => {
             initialSize + computeResizeDelta(direction, totalX, totalY),
           );
           expect(setSize).toHaveBeenLastCalledWith(expected);
-          expect(onEnd).toHaveBeenCalledOnce();
           unmount();
         },
       ),
@@ -239,7 +213,7 @@ describe("useResizeHandleProps (properties)", () => {
       stubPendingAnimationFrame(1);
       const setSize = vi.fn<(n: number) => void>();
       const { result, unmount } = renderHook(() =>
-        useResizeHandleProps(direction, "label", 100, setSize, vi.fn()),
+        useResizeHandleProps(direction, "label", 100, setSize),
       );
       const drag = dragHandlers(result.current);
 
@@ -258,7 +232,7 @@ describe("useResizeHandleProps (properties)", () => {
     const { raf, caf } = stubPendingAnimationFrame(9);
     const setSize = vi.fn<(n: number) => void>();
     const { result, unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 100, setSize, vi.fn()),
+      useResizeHandleProps("bottom-right", "label", 100, setSize),
     );
     const drag = dragHandlers(result.current);
 
@@ -282,7 +256,7 @@ describe("useResizeHandleProps (properties)", () => {
     });
     const setSize = vi.fn<(n: number) => void>();
     const { result, unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 100, setSize, vi.fn()),
+      useResizeHandleProps("bottom-right", "label", 100, setSize),
     );
     const drag = dragHandlers(result.current);
 
@@ -299,7 +273,7 @@ describe("useResizeHandleProps (properties)", () => {
     stubPendingAnimationFrame(1);
     const setSize = vi.fn<(n: number) => void>();
     const { result, unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 0, setSize, vi.fn()),
+      useResizeHandleProps("bottom-right", "label", 0, setSize),
     );
     const drag = dragHandlers(result.current);
 
@@ -316,7 +290,7 @@ describe("useResizeHandleProps (properties)", () => {
   it("disables text selection during a drag and restores it on end", () => {
     document.body.style.userSelect = "auto";
     const { result, unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 100, vi.fn(), vi.fn()),
+      useResizeHandleProps("bottom-right", "label", 100, vi.fn()),
     );
     const drag = dragHandlers(result.current);
 
@@ -332,9 +306,8 @@ describe("useResizeHandleProps (properties)", () => {
     const { caf } = stubPendingAnimationFrame(7);
     document.body.style.userSelect = "auto";
     const setSize = vi.fn<(n: number) => void>();
-    const onEnd = vi.fn();
     const { result, unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 100, setSize, onEnd),
+      useResizeHandleProps("bottom-right", "label", 100, setSize),
     );
     const drag = dragHandlers(result.current);
 
@@ -347,13 +320,12 @@ describe("useResizeHandleProps (properties)", () => {
     expect(caf).toHaveBeenCalledExactlyOnceWith(7);
     expect(document.body.style.userSelect).toBe("auto");
     expect(setSize).not.toHaveBeenCalled();
-    expect(onEnd).not.toHaveBeenCalled();
   });
 
   it("unmounting outside a drag leaves text selection alone", () => {
     document.body.style.userSelect = "text";
     const { unmount } = renderHook(() =>
-      useResizeHandleProps("bottom-right", "label", 100, vi.fn(), vi.fn()),
+      useResizeHandleProps("bottom-right", "label", 100, vi.fn()),
     );
 
     unmount();
