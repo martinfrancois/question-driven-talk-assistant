@@ -16,7 +16,7 @@ export function Footer() {
   ]);
 
   const createFooterAriaLabel = useMemo(() => {
-    if (footer.trim().length == 0) {
+    if (footer.trim().length === 0) {
       return "Empty footer. Click to add footer.";
     } else {
       return "Footer text: " + footer + ". Click to edit footer.";
