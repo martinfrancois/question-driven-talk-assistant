@@ -95,7 +95,7 @@ export function useResizeHandleProps(
   }, []);
 
   type ResizeKeyEvent = Pick<
-    KeyboardEvent<HTMLButtonElement>,
+    KeyboardEvent,
     "key" | "shiftKey" | "preventDefault"
   >;
   const onKeyDown = (e: ResizeKeyEvent): void => {
