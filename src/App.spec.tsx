@@ -289,6 +289,22 @@ describe("App", () => {
     expect(request).toHaveBeenCalledTimes(1);
   });
 
+  it("leaves ctrl+shift+f to the footer editor", async () => {
+    const request = vi
+      .spyOn(screenfull, "request")
+      .mockResolvedValue(undefined);
+    const editFooter = vi.fn(() => null);
+    vi.stubGlobal("prompt", editFooter);
+    await renderApp();
+
+    await interact(() => {
+      pressKey({ key: "F", code: "KeyF", ctrl: true, shift: true });
+    });
+
+    expect(editFooter).toHaveBeenCalledTimes(1);
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it("leaves unrelated keystrokes alone", async () => {
     const { container } = await renderApp();
     const before = shell(container).style.fontSize;
