@@ -31,7 +31,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -79,7 +79,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -127,7 +127,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -180,7 +180,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -228,7 +228,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -276,7 +276,7 @@ exports[`QuestionItem Component with Zustand > ArrowUp and ArrowDown navigation 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -329,7 +329,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -377,7 +377,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -426,7 +426,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -479,7 +479,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -527,7 +527,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -576,7 +576,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace in multi-line 
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -629,7 +629,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -677,7 +677,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -730,7 +730,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -776,7 +776,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -824,7 +824,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty first
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -877,7 +877,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty quest
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -925,7 +925,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty quest
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -978,7 +978,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty quest
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1026,7 +1026,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty quest
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1072,7 +1072,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on empty quest
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1125,7 +1125,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1173,7 +1173,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1222,7 +1222,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1275,7 +1275,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1323,7 +1323,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1372,7 +1372,7 @@ exports[`QuestionItem Component with Zustand > Pressing Backspace on second line
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1425,7 +1425,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1473,7 +1473,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1523,7 +1523,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1569,7 +1569,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1622,7 +1622,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1670,7 +1670,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1718,7 +1718,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter adds a new questio
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1771,7 +1771,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1819,7 +1819,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1865,7 +1865,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1918,7 +1918,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -1966,7 +1966,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2012,7 +2012,7 @@ exports[`QuestionItem Component with Zustand > Pressing Enter does nothing if cu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2065,7 +2065,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2113,7 +2113,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2161,7 +2161,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2212,7 +2212,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2260,7 +2260,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2308,7 +2308,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last empty questi
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2359,7 +2359,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last non-empty qu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question A"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2407,7 +2407,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last non-empty qu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question B"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2455,7 +2455,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last non-empty qu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Question text: Question C"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"
@@ -2505,7 +2505,7 @@ exports[`QuestionItem Component with Zustand > Pressing Tab on last non-empty qu
       value="on"
     />
     <textarea
-      aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+      aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
       aria-label="Empty Question Text"
       class="border-b outline-hidden focus:border-blue-500 transition-colors w-full resize-none text-black dark:text-white overflow-hidden bg-transparent pr-2 pl-2 "
       data-enable-grammarly="false"

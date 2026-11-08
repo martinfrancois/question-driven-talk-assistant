@@ -200,13 +200,13 @@ function Features() {
         <TableCell>
           <Kbd>Ctrl</Kbd> + <Kbd>Q</Kbd>
         </TableCell>
-        <TableCell>Show a large QR code on the screen</TableCell>
+        <TableCell>Show or hide a large QR code on the screen</TableCell>
       </tr>
       <tr>
         <TableCell>
           <Kbd>Ctrl</Kbd> + <Kbd>F</Kbd>
         </TableCell>
-        <TableCell>Enter full-screen mode</TableCell>
+        <TableCell>Enter or leave full-screen mode</TableCell>
       </tr>
       <tr>
         <TableCell>

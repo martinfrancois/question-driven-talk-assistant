@@ -116,7 +116,7 @@ describe("Footer", () => {
     const container = await renderWithFooter("Shortcut");
 
     expect(footerButton(container).getAttribute("aria-keyshortcuts")).toBe(
-      "Control+Shift+F to edit footer text",
+      "Control+Shift+F",
     );
   });
 

@@ -6,7 +6,7 @@ export function MainContent() {
   return (
     <div
       className="mt-4 flex flex-1 overflow-hidden"
-      aria-keyshortcuts="Control+f to make website full screen"
+      aria-keyshortcuts="Control+F"
     >
       <main className="scrollbar-minimal max-h-full grow overflow-y-auto pr-2">
         <QuestionList />

@@ -88,9 +88,7 @@ describe("MainLayout", () => {
       container.querySelector("[aria-keyshortcuts]")?.closest("div"),
     ).not.toBeNull();
     expect(
-      container.querySelector(
-        "[aria-keyshortcuts='Control+f to make website full screen']",
-      ),
+      container.querySelector("[aria-keyshortcuts='Control+F']"),
     ).not.toBeNull();
   });
 });

@@ -87,8 +87,6 @@ describe("FullScreenQrCode", () => {
     expect(el?.getAttribute("role")).toBe("dialog");
     expect(el?.getAttribute("aria-modal")).toBe("true");
     expect(el?.getAttribute("aria-label")).toBe("Full Screen QR Code");
-    expect(el?.getAttribute("aria-keyshortcuts")).toBe(
-      "Control+q to hide full screen qr code",
-    );
+    expect(el?.getAttribute("aria-keyshortcuts")).toBe("Control+Q");
   });
 });

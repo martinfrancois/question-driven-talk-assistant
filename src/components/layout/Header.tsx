@@ -34,7 +34,7 @@ export function Header() {
             className="block min-h-8 w-full cursor-pointer p-0 text-left text-3xl font-semibold"
             data-testid="main-header"
             aria-label={createTitleAriaLabel}
-            aria-keyshortcuts="Control+Shift+T to edit title text"
+            aria-keyshortcuts="Control+Shift+T"
           >
             {title}
           </button>

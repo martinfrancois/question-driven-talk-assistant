@@ -30,7 +30,7 @@ export function FullScreenQrCode() {
       data-testid="fullscreen-qr-code"
       aria-modal
       aria-label={"Full Screen QR Code"}
-      aria-keyshortcuts="Control+q to hide full screen qr code"
+      aria-keyshortcuts="Control+Q"
       role="dialog"
     >
       <div className="rounded-lg !bg-white p-8" aria-hidden>

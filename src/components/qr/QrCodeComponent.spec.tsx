@@ -196,6 +196,14 @@ describe("QrCodeComponent", () => {
     expect(promptCalls).toEqual([]);
   });
 
+  it("announces its keyboard shortcuts as key combinations", async () => {
+    const { container } = await renderWith("https://example.com/shortcuts");
+
+    expect(urlButton(container).getAttribute("aria-keyshortcuts")).toBe(
+      "Control+Shift+Q Control+Q",
+    );
+  });
+
   it("only offers resize handles once a url is set", async () => {
     const empty = await renderWith("");
     expect(
