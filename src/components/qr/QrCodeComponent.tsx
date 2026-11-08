@@ -61,7 +61,7 @@ export default function QrCodeComponent(): JSX.Element {
             ? "QR Code. Click to change the URL"
             : "No QR Code set. Click to enter a URL"
         }
-        aria-keyshortcuts="Control+Q to show the QR code full screen, Control+Shift+Q to edit QR code URL"
+        aria-keyshortcuts="Control+Shift+Q Control+Q"
         className="cursor-pointer"
         data-testid="qr-code"
       >

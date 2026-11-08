@@ -136,7 +136,7 @@ describe("Header", () => {
     const container = await renderWithTitle("Shortcut");
 
     expect(titleButton(container).getAttribute("aria-keyshortcuts")).toBe(
-      "Control+Shift+T to edit title text",
+      "Control+Shift+T",
     );
   });
 

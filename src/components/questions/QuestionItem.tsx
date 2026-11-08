@@ -202,7 +202,7 @@ const QuestionItem: FC<QuestionItemProps> = ({
         className={`${baseClasses} ${textColor} overflow-hidden bg-transparent pr-2 pl-2 ${
           question.answered ? "line-through" : ""
         }`}
-        aria-keyshortcuts="Control+Shift+ArrowUp to move question up, Control+Shift+ArrowDown arrow to move down, Control+Enter to click checkbox"
+        aria-keyshortcuts="Control+Shift+ArrowUp Control+Shift+ArrowDown Control+Enter"
         data-highlighted={question.highlighted}
         aria-label={
           question.text.trim()
