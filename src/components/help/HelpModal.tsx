@@ -204,6 +204,12 @@ function Features() {
       </tr>
       <tr>
         <TableCell>
+          <Kbd>Escape</Kbd>
+        </TableCell>
+        <TableCell>Hide the large QR code</TableCell>
+      </tr>
+      <tr>
+        <TableCell>
           <Kbd>Ctrl</Kbd> + <Kbd>F</Kbd>
         </TableCell>
         <TableCell>Enter or leave full-screen mode</TableCell>

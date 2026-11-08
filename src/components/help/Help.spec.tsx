@@ -109,6 +109,7 @@ describe("Help", () => {
     expect(text).toContain("Decrease font size");
     expect(text).toContain("Toggle dark mode");
     expect(text).toContain("Show or hide a large QR code on the screen");
+    expect(text).toContain("Hide the large QR code");
     expect(text).toContain("Enter or leave full-screen mode");
     expect(text).toContain("Save questions to a Markdown file");
     expect(text).toContain("Show help (this pop-up window)");

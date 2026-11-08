@@ -30,6 +30,12 @@ describe("FullScreenQrCode", () => {
     });
   };
 
+  const pressEscape = async (): Promise<void> => {
+    await interact(() => {
+      pressKey({ key: "Escape", code: "Escape" });
+    });
+  };
+
   const overlay = (container: HTMLElement): HTMLElement | null =>
     container.querySelector("[data-testid='fullscreen-qr-code']");
 
@@ -70,6 +76,29 @@ describe("FullScreenQrCode", () => {
     expect(overlay(container)).toBeNull();
   });
 
+  it("hides when Escape is pressed", async () => {
+    const { container } = await renderWithUrl("https://example.com/talk");
+
+    await toggle();
+    expect(overlay(container)).not.toBeNull();
+
+    await pressEscape();
+
+    expect(overlay(container)).toBeNull();
+  });
+
+  it("can be reopened with ctrl+q after Escape", async () => {
+    const { container } = await renderWithUrl("https://example.com/talk");
+
+    await toggle();
+    await pressEscape();
+    expect(overlay(container)).toBeNull();
+
+    await toggle();
+
+    expect(overlay(container)).not.toBeNull();
+  });
+
   it("stays hidden when no url is configured", async () => {
     const { container } = await renderWithUrl("");
 
@@ -87,6 +116,6 @@ describe("FullScreenQrCode", () => {
     expect(el?.getAttribute("role")).toBe("dialog");
     expect(el?.getAttribute("aria-modal")).toBe("true");
     expect(el?.getAttribute("aria-label")).toBe("Full Screen QR Code");
-    expect(el?.getAttribute("aria-keyshortcuts")).toBe("Control+Q");
+    expect(el?.getAttribute("aria-keyshortcuts")).toBe("Control+Q Escape");
   });
 });

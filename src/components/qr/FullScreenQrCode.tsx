@@ -19,6 +19,16 @@ export function FullScreenQrCode() {
     [setShowFullScreenQr],
   );
 
+  useHotkeys(
+    "escape",
+    hideFullScreenQrCode,
+    {
+      enabled: showFullScreenQr && Boolean(qrCodeUrl),
+      enableOnFormTags: true,
+    },
+    [hideFullScreenQrCode],
+  );
+
   if (!(showFullScreenQr && qrCodeUrl)) {
     return null;
   }
@@ -30,7 +40,7 @@ export function FullScreenQrCode() {
       data-testid="fullscreen-qr-code"
       aria-modal
       aria-label={"Full Screen QR Code"}
-      aria-keyshortcuts="Control+Q"
+      aria-keyshortcuts="Control+Q Escape"
       role="dialog"
     >
       <div className="rounded-lg !bg-white p-8" aria-hidden>

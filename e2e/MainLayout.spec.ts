@@ -142,4 +142,22 @@ test.describe("MainLayout e2e tests", () => {
     // then
     await expect(mainLayoutPage.fullscreenQrCode).toBeHidden();
   });
+
+  test("should close fullscreen QR code with Escape", async ({ page }) => {
+    // given
+    const qrCodeComponentPage = new QrCodeComponentPage(page);
+    await qrCodeComponentPage.setExampleQrCodeURL();
+
+    // when
+    await mainLayoutPage.toggleFullscreenQrCode();
+
+    // then
+    await expect(mainLayoutPage.fullscreenQrCode).toBeVisible();
+
+    // when
+    await mainLayoutPage.press("Escape");
+
+    // then
+    await expect(mainLayoutPage.fullscreenQrCode).toBeHidden();
+  });
 });

@@ -40,7 +40,7 @@ Supported Browsers: Chrome, Firefox
    - Click on the QR code area on the top right to set or change the URL.
    - If no URL is set, a placeholder "QR" text is displayed when hovering over the top right corner.
    - Resize the QR code by dragging the bottom-right or bottom-left corner.
-   - Press `Ctrl + Q` to show the QR code on the entire screen. Press again to hide.
+   - Press `Ctrl + Q` to show the QR code on the entire screen. Press it again or press `Escape` to hide it.
 10. **Dark Mode**: Toggle dark mode on or off by pressing `Ctrl + D`.
 11. **Font Resizing**:
     - **Increase Font Size**: Press `Ctrl + P` (P for Plus) to increase the font size of the questions.
@@ -75,6 +75,7 @@ Supported Browsers: Chrome, Firefox
   - `Ctrl + M`: Decrease font size (M => Minus).
   - `Ctrl + D`: Toggle dark mode.
   - `Ctrl + Q`: Show a large QR code in the middle of the screen.
+  - `Escape`: Hide the large QR code.
   - `Ctrl + F`: Show the web page in full-screen mode.
   - `Ctrl + S`: Save the current list of questions to a Markdown file.
   - `Ctrl + H`: Open the help pop-up window displaying keyboard shortcuts.
