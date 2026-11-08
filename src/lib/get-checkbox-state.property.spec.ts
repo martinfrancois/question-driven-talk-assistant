@@ -16,14 +16,14 @@ describe("getCheckboxState", () => {
         (q) => {
           const question: Question = q;
           const expected = question.answered
-            ? question.text
+            ? question.text.trim()
               ? `Answered question: ${question.text}`
               : "Answered empty question"
             : question.highlighted
-              ? question.text
+              ? question.text.trim()
                 ? `Currently answering question: ${question.text}`
                 : "Currently answering empty question"
-              : question.text
+              : question.text.trim()
                 ? `Question: ${question.text}`
                 : "Empty Question";
 
