@@ -64,6 +64,8 @@ export function renderQuestionTextareas(texts: string[]) {
       shiftKey?: boolean;
       ctrlKey?: boolean;
       altKey?: boolean;
+      isComposing?: boolean;
+      keyCode?: number;
     } = {},
   ) => {
     const textarea = textareas[index];
@@ -77,6 +79,8 @@ export function renderQuestionTextareas(texts: string[]) {
         shiftKey: options.shiftKey ?? false,
         ctrlKey: options.ctrlKey ?? false,
         altKey: options.altKey ?? false,
+        keyCode: options.keyCode ?? 0,
+        nativeEvent: { isComposing: options.isComposing ?? false },
         preventDefault,
       },
       {
