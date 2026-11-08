@@ -77,7 +77,9 @@ const App = (): JSX.Element => {
   // Add event listeners for `Ctrl + f` manually
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "f") {
+      // `event.key` is "F" while Caps Lock is on; compare case-insensitively so
+      // the shortcut still fires and the browser's find bar stays suppressed.
+      if (event.ctrlKey && event.key.toLowerCase() === "f") {
         event.preventDefault(); // Prevent default browser behavior
         void handleFullscreenToggle();
       }
