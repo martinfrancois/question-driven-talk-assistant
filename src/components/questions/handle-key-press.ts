@@ -17,6 +17,7 @@ import {
   decideBackspaceAction,
   decideEnterAction,
   decideTabAction,
+  type DeleteTarget,
 } from "@/lib/question-keypress.ts";
 
 export interface HandleKeyPressDeps {
@@ -47,192 +48,208 @@ const isImeKeyPress = (e: MinimalKeyboardEvent) =>
   e.nativeEvent.isComposing ||
   (e.key === "Enter" && e.keyCode === IME_KEY_CODE);
 
+interface KeyPressContext extends HandleKeyPressDeps {
+  textarea: HTMLTextAreaElement;
+  currentIndex: number;
+  isCurrentEmpty: boolean;
+}
+
+/** Returns where the caret goes in a textarea with the given value. */
+type CaretPlacement = (value: string) => number;
+
+const atStart: CaretPlacement = () => 0;
+const atEnd: CaretPlacement = (value) => value.length;
+const atEndOfFirstLine: CaretPlacement = (value) =>
+  positionAtEndOfLine(value, 0);
+const atEndOfLastLine: CaretPlacement = (value) =>
+  positionAtEndOfLine(value, totalLines(value) - 1);
+
+/**
+ * Focuses the textarea of the question with `id` and places its caret.
+ * Returns false when that textarea isn't mounted.
+ */
+function focusQuestion(
+  questionRefs: HandleKeyPressDeps["questionRefs"],
+  id: string,
+  caret: CaretPlacement,
+): boolean {
+  const textarea = questionRefs.current.get(id)?.current;
+  if (!textarea) return false;
+  textarea.focus();
+  const position = caret(textarea.value);
+  textarea.setSelectionRange(position, position);
+  return true;
+}
+
+/**
+ * Creates an empty question with `add`, announces it, and focuses it once
+ * React has rendered its textarea.
+ */
+function createAndFocus(
+  add: (question: Question) => void,
+  { questionRefs, announceLiveRegion }: KeyPressContext,
+): void {
+  const newQuestion = createEmptyQuestion();
+  add(newQuestion);
+  announceLiveRegion("Added a new question below and focused it.");
+  setTimeout(() => focusQuestion(questionRefs, newQuestion.id, atStart), 0);
+}
+
+function deleteQuestion(target: DeleteTarget, ctx: KeyPressContext): void {
+  const {
+    questions,
+    currentIndex,
+    questionRefs,
+    removeQuestion,
+    announceLiveRegion,
+  } = ctx;
+  if (target === "firstNext") {
+    removeQuestion(0);
+    if (focusQuestion(questionRefs, questions[1].id, atStart)) {
+      announceLiveRegion("First question was deleted."); // TODO not read out?
+    }
+    return;
+  }
+  removeQuestion(currentIndex);
+  setTimeout(() => {
+    if (focusQuestion(questionRefs, questions[currentIndex - 1].id, atEnd)) {
+      announceLiveRegion("Deleted question."); // TODO not read out?
+    }
+  }, 0);
+}
+
+function handleBackspace(e: MinimalKeyboardEvent, ctx: KeyPressContext): void {
+  const { textarea, question, questions, currentIndex, isCurrentEmpty } = ctx;
+  const action = decideBackspaceAction({
+    textareaValue: textarea.value,
+    cursorPosition: textarea.selectionStart,
+    isCurrentTextEmpty: isCurrentEmpty,
+    isMultiLineAndEmpty: isMultiLineAndEmptyText(textarea.value),
+    currentIndex,
+    questionsLength: questions.length,
+  });
+  if (action.type === "none") return;
+  e.preventDefault();
+  if (action.type === "updateText") {
+    ctx.updateQuestionText(question.id, action.newText);
+    ctx.adjustHeight();
+  } else if (action.type === "deleteQuestion") {
+    deleteQuestion(action.target, ctx);
+  }
+}
+
+function handleEnter(e: MinimalKeyboardEvent, ctx: KeyPressContext): void {
+  const { question, questions, currentIndex } = ctx;
+  const action = decideEnterAction({
+    currentTextTrimmed: question.text.trim(),
+    hasNext: Boolean(questions[currentIndex + 1]),
+    nextText: questions[currentIndex + 1]?.text ?? null,
+  });
+  e.preventDefault();
+  if (action.type === "insertBelow") {
+    createAndFocus(
+      (newQuestion) => ctx.insertQuestion(currentIndex + 1, newQuestion),
+      ctx,
+    );
+  }
+}
+
+const caretLine = (textarea: HTMLTextAreaElement) =>
+  currentLineNumberForCursor(textarea.value, textarea.selectionStart);
+
+function handleArrowDown(e: MinimalKeyboardEvent, ctx: KeyPressContext): void {
+  const { textarea, questions, currentIndex, questionRefs } = ctx;
+  // On the last line the key moves to the next question; on any other line
+  // the browser moves the caret down.
+  if (caretLine(textarea) !== totalLines(textarea.value) - 1) return;
+  e.preventDefault();
+  if (currentIndex < questions.length - 1) {
+    focusQuestion(
+      questionRefs,
+      questions[currentIndex + 1].id,
+      atEndOfFirstLine,
+    );
+  }
+}
+
+function handleArrowUp(e: MinimalKeyboardEvent, ctx: KeyPressContext): void {
+  const { textarea, questions, currentIndex, questionRefs } = ctx;
+  // On the first line the key moves to the previous question; on any other
+  // line the browser moves the caret up.
+  if (caretLine(textarea) !== 0) return;
+  e.preventDefault();
+  if (currentIndex > 0) {
+    focusQuestion(
+      questionRefs,
+      questions[currentIndex - 1].id,
+      atEndOfLastLine,
+    );
+  }
+}
+
+function handleTab(e: MinimalKeyboardEvent, ctx: KeyPressContext): void {
+  const { questions, currentIndex, isCurrentEmpty, questionRefs } = ctx;
+  // Tab and Shift+Tab never leave the question list, even when there is
+  // nothing to move to.
+  e.preventDefault();
+  const action = decideTabAction({
+    shiftKey: e.shiftKey,
+    currentIndex,
+    questionsLength: questions.length,
+    isCurrentEmpty,
+  });
+  if (action.type === "focusNext") {
+    focusQuestion(questionRefs, questions[currentIndex + 1].id, atEnd);
+  } else if (action.type === "focusPrev") {
+    focusQuestion(questionRefs, questions[currentIndex - 1].id, atEnd);
+  } else if (action.type === "createNewAndFocus") {
+    createAndFocus(ctx.addQuestion, ctx);
+  }
+}
+
+const hasNoModifier = (e: MinimalKeyboardEvent) =>
+  !e.shiftKey && !e.ctrlKey && !e.altKey;
+
+interface KeyBinding {
+  accepts: (e: MinimalKeyboardEvent) => boolean;
+  handle: (e: MinimalKeyboardEvent, ctx: KeyPressContext) => void;
+}
+
+/**
+ * The keys a question textarea handles itself. Enter and the arrows ignore
+ * modified presses, so Shift+Enter still inserts a line break.
+ */
+const keyBindings = new Map<string, KeyBinding>([
+  ["Backspace", { accepts: () => true, handle: handleBackspace }],
+  ["Enter", { accepts: hasNoModifier, handle: handleEnter }],
+  ["ArrowDown", { accepts: hasNoModifier, handle: handleArrowDown }],
+  ["ArrowUp", { accepts: hasNoModifier, handle: handleArrowUp }],
+  // Shift+Tab moves to the previous question.
+  ["Tab", { accepts: (e) => !e.ctrlKey && !e.altKey, handle: handleTab }],
+]);
+
 /**
  * Handles keypress events within a question textarea: deleting, inserting,
  * and moving between questions.
  */
 export function handleKeyPress(
   e: MinimalKeyboardEvent,
-  {
-    textareaRef,
-    questions,
-    question,
-    updateQuestionText,
-    removeQuestion,
-    insertQuestion,
-    addQuestion,
-    questionRefs,
-    adjustHeight,
-    announceLiveRegion,
-  }: HandleKeyPressDeps,
-) {
-  if (!textareaRef?.current) return;
+  deps: HandleKeyPressDeps,
+): void {
+  const textarea = deps.textareaRef?.current;
+  if (!textarea) return;
   // While an input method editor composes text, its keys (Enter to confirm,
   // arrows and Tab to pick a candidate, Backspace to edit) belong to the
   // composition.
   if (isImeKeyPress(e)) return;
 
-  const textarea = textareaRef.current;
-  const cursorPosition = textarea.selectionStart;
-  const currentIndex = questions.findIndex((q) => q.id === question.id);
-  const isCurrentEmpty = question.text.trim() === "";
+  const binding = keyBindings.get(e.key);
+  if (!binding?.accepts(e)) return;
 
-  if (e.key === "Backspace") {
-    const action = decideBackspaceAction({
-      textareaValue: textarea.value,
-      cursorPosition,
-      isCurrentTextEmpty: isCurrentEmpty,
-      isMultiLineAndEmpty: isMultiLineAndEmptyText(textarea.value),
-      currentIndex,
-      questionsLength: questions.length,
-    });
-    if (action.type !== "none") {
-      e.preventDefault();
-      if (action.type === "prevent") return;
-      if (action.type === "updateText") {
-        updateQuestionText(question.id, action.newText);
-        adjustHeight();
-        return;
-      }
-      if (action.type === "deleteQuestion") {
-        if (action.target === "firstNext") {
-          removeQuestion(0);
-          const newFirstRef = questionRefs.current.get(questions[1].id);
-          if (newFirstRef?.current) {
-            newFirstRef.current.focus();
-            newFirstRef.current.setSelectionRange(0, 0);
-            announceLiveRegion("First question was deleted."); // TODO not read out?
-          }
-        } else {
-          removeQuestion(currentIndex);
-          setTimeout(() => {
-            const prevQuestion = questions[currentIndex - 1];
-            const prevRef = questionRefs.current.get(prevQuestion.id);
-            if (prevRef?.current) {
-              prevRef.current.focus();
-              const position = prevRef.current.value.length;
-              prevRef.current.setSelectionRange(position, position);
-              announceLiveRegion("Deleted question."); // TODO not read out?
-            }
-          }, 0);
-        }
-        return;
-      }
-    }
-  }
-
-  const currentLineNumber = currentLineNumberForCursor(
-    textarea.value,
-    cursorPosition,
-  );
-
-  // Total lines in the current textarea
-  const total = totalLines(textarea.value);
-
-  if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-    const action = decideEnterAction({
-      currentTextTrimmed: question.text.trim(),
-      hasNext: Boolean(questions[currentIndex + 1]),
-      nextText: questions[currentIndex + 1]?.text ?? null,
-    });
-    e.preventDefault();
-    if (action.type === "insertBelow") {
-      const newQuestion = createEmptyQuestion();
-      insertQuestion(currentIndex + 1, newQuestion);
-      announceLiveRegion("Added a new question below and focused it.");
-      setTimeout(() => {
-        const newRef = questionRefs.current.get(newQuestion.id);
-        if (newRef?.current) {
-          newRef.current.focus();
-          newRef.current.setSelectionRange(0, 0);
-        }
-      }, 0);
-    }
-  } else if (e.key === "ArrowDown" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-    const isAtLastLine = currentLineNumber === total - 1;
-
-    if (isAtLastLine) {
-      // Cursor is at last line, move focus to next textarea
-      e.preventDefault();
-      if (currentIndex < questions.length - 1) {
-        const nextQuestion = questions[currentIndex + 1];
-        const nextRef = questionRefs.current.get(nextQuestion.id);
-        if (nextRef?.current) {
-          nextRef.current.focus();
-
-          // Place cursor at the end of the first line in the next textarea
-          const nextTextarea = nextRef.current;
-          const pos = positionAtEndOfLine(nextTextarea.value, 0);
-          nextTextarea.setSelectionRange(pos, pos);
-        }
-      }
-    } else {
-      // Allow default behavior (move cursor down within textarea)
-    }
-  } else if (e.key === "ArrowUp" && !e.shiftKey && !e.ctrlKey && !e.altKey) {
-    const isAtFirstLine = currentLineNumber === 0;
-
-    if (isAtFirstLine) {
-      // Cursor is at first line, move focus to previous textarea
-      e.preventDefault();
-      if (currentIndex > 0) {
-        const prevQuestion = questions[currentIndex - 1];
-        const prevRef = questionRefs.current.get(prevQuestion.id);
-        if (prevRef?.current) {
-          prevRef.current.focus();
-
-          // Place cursor at the end of the last line in the previous textarea
-          const prevTextarea = prevRef.current;
-          const pos = positionAtEndOfLine(
-            prevTextarea.value,
-            totalLines(prevTextarea.value) - 1,
-          );
-          prevTextarea.setSelectionRange(pos, pos);
-        }
-      }
-    } else {
-      // Allow default behavior (move cursor up within textarea)
-    }
-  } else if (e.key === "Tab" && !e.ctrlKey && !e.altKey) {
-    // Tab and Shift+Tab never leave the question list, even when there is
-    // nothing to move to.
-    e.preventDefault();
-    const tabAction = decideTabAction({
-      shiftKey: e.shiftKey,
-      currentIndex,
-      questionsLength: questions.length,
-      isCurrentEmpty,
-    });
-    if (tabAction.type !== "none") {
-      if (tabAction.type === "focusNext") {
-        const nextQuestion = questions[currentIndex + 1];
-        const nextRef = questionRefs.current.get(nextQuestion.id);
-        if (nextRef?.current) {
-          nextRef.current.focus();
-          const position = nextRef.current.value.length;
-          nextRef.current.setSelectionRange(position, position);
-        }
-      } else if (tabAction.type === "focusPrev") {
-        const prevQuestion = questions[currentIndex - 1];
-        const prevRef = questionRefs.current.get(prevQuestion.id);
-        if (prevRef?.current) {
-          prevRef.current.focus();
-          const position = prevRef.current.value.length;
-          prevRef.current.setSelectionRange(position, position);
-        }
-      } else if (tabAction.type === "createNewAndFocus") {
-        const newQuestion = createEmptyQuestion();
-        addQuestion(newQuestion);
-        announceLiveRegion("Added a new question below and focused it.");
-        setTimeout(() => {
-          const newRef = questionRefs.current.get(newQuestion.id);
-          if (newRef?.current) {
-            newRef.current.focus();
-            newRef.current.setSelectionRange(0, 0);
-          }
-        }, 0);
-      }
-    }
-  }
-  // Shift+Enter is not handled here to allow default behavior (line break)
+  binding.handle(e, {
+    ...deps,
+    textarea,
+    currentIndex: deps.questions.findIndex((q) => q.id === deps.question.id),
+    isCurrentEmpty: deps.question.text.trim() === "",
+  });
 }
