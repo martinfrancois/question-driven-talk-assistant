@@ -127,6 +127,7 @@ bun dev
 | Build                      | `bun run build`        |
 | Run build locally          | `bun preview`          |
 | Lint                       | `bun lint`             |
+| Check formatting           | `bun run format:check` |
 | Unit tests                 | `bun test:unit`        |
 | Property-based tests       | `bun test:property`    |
 | Update unit test snapshots | `bun test:unit:update` |
