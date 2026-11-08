@@ -4,9 +4,8 @@ import { AppPage } from "./pageobjects/AppPage";
 test.describe("App e2e tests", () => {
   let appPage: AppPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     appPage = new AppPage(page);
-    await appPage.goto();
   });
 
   test("should have questions when they are preloaded", async () => {

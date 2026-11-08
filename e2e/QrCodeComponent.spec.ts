@@ -5,18 +5,18 @@ import { StorageName } from "@/stores";
 test.describe("QrCodeComponent e2e tests", () => {
   let qrCodeComponentPage: QrCodeComponentPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     qrCodeComponentPage = new QrCodeComponentPage(page);
-    await qrCodeComponentPage.goto();
   });
 
   test("should initially not show a QR code without URL in localStorage", async () => {
+    await qrCodeComponentPage.goto();
     await qrCodeComponentPage.verifyNoUrl();
   });
 
   test("should initially show a QR code with URL in localStorage", async () => {
     // when
-    await qrCodeComponentPage.setExampleQrCodeURL();
+    await qrCodeComponentPage.gotoWithExampleQrCodeUrl();
 
     // then
     await qrCodeComponentPage.verifyWithUrl();
@@ -25,6 +25,7 @@ test.describe("QrCodeComponent e2e tests", () => {
   test("should show QR code after setting a URL", async () => {
     // given
     const url = "https://example.com";
+    await qrCodeComponentPage.goto();
 
     // when
     await qrCodeComponentPage.setQrCodeURL(url);
@@ -35,7 +36,7 @@ test.describe("QrCodeComponent e2e tests", () => {
 
   test("should hide QR code when setting URL as empty", async () => {
     // given
-    await qrCodeComponentPage.setExampleQrCodeURL();
+    await qrCodeComponentPage.gotoWithExampleQrCodeUrl();
 
     // when
     await qrCodeComponentPage.setQrCodeURL("");
@@ -47,7 +48,7 @@ test.describe("QrCodeComponent e2e tests", () => {
   ["bottom-right", "bottom-left"].forEach((resizeDirection: string) => {
     test(`should resize QR code when dragging from ${resizeDirection}`, async () => {
       // given
-      await qrCodeComponentPage.setExampleQrCodeURL();
+      await qrCodeComponentPage.gotoWithExampleQrCodeUrl();
       const initialSize = await qrCodeComponentPage.getLocalStorageData(
         StorageName.QR_CODE,
         "qrCodeSize",

@@ -11,7 +11,6 @@ test.describe("Modal e2e tests", () => {
 
   test.beforeEach(async ({ page }) => {
     const appPage = new AppPage(page);
-    await appPage.goto();
     initialQuestions = await appPage.preloadQuestionData();
     modalPage = new ModalPage(page);
     questionListPage = new QuestionListPage(page);

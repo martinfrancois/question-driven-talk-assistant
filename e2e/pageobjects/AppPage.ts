@@ -1,6 +1,18 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { Question, StorageName } from "@/stores";
 
+/**
+ * Loads the app. A module function rather than a method, so page objects that
+ * override `goto` or define their own `open` can't change what it does.
+ */
+async function loadApp(page: Page, disableTour = true): Promise<void> {
+  let url = "/";
+  if (disableTour) {
+    url += "?disable-tour"; // ensure we only show the tour when we want to test it specifically
+  }
+  await page.goto(url);
+}
+
 export class AppPage {
   readonly page: Page;
   readonly helpIcon: Locator;
@@ -23,11 +35,28 @@ export class AppPage {
   }
 
   async goto(disableTour = true) {
-    let url = "/";
-    if (disableTour) {
-      url += "?disable-tour"; // ensure we only show the tour when we want to test it specifically
-    }
-    await this.page.goto(url);
+    await loadApp(this.page, disableTour);
+  }
+
+  /**
+   * Stores `state` in localStorage before the app's own scripts run on the
+   * next page load, so the stores hydrate from it without an extra reload.
+   * Call it before the test opens the app. Later reloads in the same test keep
+   * whatever the app persisted since, instead of seeding again.
+   */
+  async seedLocalStorage<T>(
+    storageName: StorageName,
+    state: Record<string, T>,
+  ): Promise<void> {
+    await this.page.addInitScript(
+      ({ storageName, state }) => {
+        const seededMarker = `e2e-seeded:${storageName}`;
+        if (sessionStorage.getItem(seededMarker)) return;
+        sessionStorage.setItem(seededMarker, "true");
+        localStorage.setItem(storageName, JSON.stringify({ state }));
+      },
+      { storageName, state }, // Pass variables to browser context
+    );
   }
 
   async setLocalStorageData<T>(
@@ -105,6 +134,7 @@ export class AppPage {
     );
   }
 
+  /** Opens the app with three questions in localStorage and returns them. */
   async preloadQuestionData(): Promise<Question[]> {
     const questions = [
       {
@@ -121,12 +151,8 @@ export class AppPage {
       },
       { id: "last-question-id", text: "", answered: false, highlighted: false },
     ];
-    await this.setLocalStorageData(
-      StorageName.QUESTIONS,
-      "questions",
-      questions,
-    );
-    await this.reload();
+    await this.seedLocalStorage(StorageName.QUESTIONS, { questions });
+    await loadApp(this.page);
     return questions;
   }
 

@@ -6,9 +6,8 @@ import { Question } from "@/stores";
 test.describe("QuestionList e2e tests", () => {
   let questionListPage: QuestionListPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(({ page }) => {
     questionListPage = new QuestionListPage(page);
-    await questionListPage.goto();
   });
 
   test("should contain all question items present in localStorage", async ({
@@ -29,6 +28,7 @@ test.describe("QuestionList e2e tests", () => {
   });
 
   test("should contain one empty question item by default", async () => {
+    await questionListPage.goto();
     await questionListPage.isInitialState(true);
   });
 

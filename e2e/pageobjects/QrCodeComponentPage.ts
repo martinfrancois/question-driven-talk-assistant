@@ -43,13 +43,12 @@ export class QrCodeComponentPage extends AppPage {
     await this.qrCodeButton.hover();
   }
 
-  async setExampleQrCodeURL() {
-    await this.setLocalStorageData(
-      StorageName.QR_CODE,
-      "qrCodeUrl",
-      "https://example.com",
-    ); // TODO refactor keys to be defined in an enum or const for reuse
-    await this.reload();
+  /** Opens the app with an example QR code URL in localStorage. */
+  async gotoWithExampleQrCodeUrl() {
+    await this.seedLocalStorage(StorageName.QR_CODE, {
+      qrCodeUrl: "https://example.com",
+    }); // TODO refactor keys to be defined in an enum or const for reuse
+    await this.goto();
   }
 
   async verifyNoUrl() {
