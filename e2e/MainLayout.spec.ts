@@ -23,20 +23,6 @@ test.describe("MainLayout e2e tests", () => {
     expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
   });
 
-  test("empty header in MainLayout should be editable", async () => {
-    // given
-    await mainLayoutPage.setLocalStorageData(StorageName.LAYOUT, "title", "");
-    await mainLayoutPage.reload();
-    const newTitle = "New Title";
-    expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
-
-    // when
-    await mainLayoutPage.editHeader(newTitle);
-
-    // then
-    expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
-  });
-
   ["Enter", "Space"].forEach((key: string) => {
     test(`should edit header in MainLayout with the ${key} key`, async () => {
       // given
@@ -57,32 +43,6 @@ test.describe("MainLayout e2e tests", () => {
     expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
 
     // when
-    await mainLayoutPage.editFooter(newFooter);
-
-    // then
-    expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
-  });
-
-  test("empty footer in MainLayout should be editable", async () => {
-    // given
-    await mainLayoutPage.setLocalStorageData(StorageName.LAYOUT, "footer", "");
-    await mainLayoutPage.reload();
-    const newFooter = "New Footer";
-    expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
-
-    // when
-    const footerHandle = await mainLayoutPage.footer.elementHandle();
-    expect(footerHandle).not.toBeNull();
-    if (footerHandle) {
-      const heightWithoutPadding = await mainLayoutPage.page.evaluate((el) => {
-        const style = window.getComputedStyle(el);
-        let height = parseFloat(style.height);
-        height -= parseFloat(style.paddingTop);
-        height -= parseFloat(style.paddingBottom);
-        return height;
-      }, footerHandle);
-      expect(heightWithoutPadding).toBeGreaterThan(0);
-    }
     await mainLayoutPage.editFooter(newFooter);
 
     // then
@@ -124,11 +84,59 @@ test.describe("MainLayout e2e tests", () => {
     // then
     await expect(mainLayoutPage.fullscreenQrCode).toBeHidden();
   });
+});
+
+test.describe("MainLayout e2e tests that seed localStorage", () => {
+  let mainLayoutPage: MainLayoutPage;
+
+  test.beforeEach(({ page }) => {
+    mainLayoutPage = new MainLayoutPage(page);
+  });
+
+  test("empty header in MainLayout should be editable", async () => {
+    // given
+    await mainLayoutPage.seedLocalStorage(StorageName.LAYOUT, { title: "" });
+    await mainLayoutPage.goto();
+    const newTitle = "New Title";
+    expect(await mainLayoutPage.header.textContent()).not.toBe(newTitle);
+
+    // when
+    await mainLayoutPage.editHeader(newTitle);
+
+    // then
+    expect(await mainLayoutPage.header.textContent()).toBe(newTitle);
+  });
+
+  test("empty footer in MainLayout should be editable", async () => {
+    // given
+    await mainLayoutPage.seedLocalStorage(StorageName.LAYOUT, { footer: "" });
+    await mainLayoutPage.goto();
+    const newFooter = "New Footer";
+    expect(await mainLayoutPage.footer.textContent()).not.toBe(newFooter);
+
+    // when
+    const footerHandle = await mainLayoutPage.footer.elementHandle();
+    expect(footerHandle).not.toBeNull();
+    if (footerHandle) {
+      const heightWithoutPadding = await mainLayoutPage.page.evaluate((el) => {
+        const style = window.getComputedStyle(el);
+        let height = parseFloat(style.height);
+        height -= parseFloat(style.paddingTop);
+        height -= parseFloat(style.paddingBottom);
+        return height;
+      }, footerHandle);
+      expect(heightWithoutPadding).toBeGreaterThan(0);
+    }
+    await mainLayoutPage.editFooter(newFooter);
+
+    // then
+    expect(await mainLayoutPage.footer.textContent()).toBe(newFooter);
+  });
 
   test("should open and close fullscreen QR code", async ({ page }) => {
     // given
     const qrCodeComponentPage = new QrCodeComponentPage(page);
-    await qrCodeComponentPage.setExampleQrCodeURL();
+    await qrCodeComponentPage.gotoWithExampleQrCodeUrl();
 
     // when
     await mainLayoutPage.toggleFullscreenQrCode();
@@ -146,7 +154,7 @@ test.describe("MainLayout e2e tests", () => {
   test("should close fullscreen QR code with Escape", async ({ page }) => {
     // given
     const qrCodeComponentPage = new QrCodeComponentPage(page);
-    await qrCodeComponentPage.setExampleQrCodeURL();
+    await qrCodeComponentPage.gotoWithExampleQrCodeUrl();
 
     // when
     await mainLayoutPage.toggleFullscreenQrCode();

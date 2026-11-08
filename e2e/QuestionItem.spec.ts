@@ -19,25 +19,14 @@ test.describe("QuestionItem e2e tests", () => {
 
   const setupQuestions = async (page: Page, questions: Question[]) => {
     appPage = new AppPage(page);
+    await appPage.seedLocalStorage(StorageName.QUESTIONS, { questions });
     await appPage.goto();
-    await appPage.setLocalStorageData(
-      StorageName.QUESTIONS,
-      "questions",
-      questions,
-    );
-    await appPage.reload();
     questionListPage = new QuestionListPage(page);
   };
 
   const getQuestionItemPage = (page: Page, questionId: string) => {
     return new QuestionItemPage(page, questionId);
   };
-
-  test.beforeEach(async ({ page }) => {
-    appPage = new AppPage(page);
-    await appPage.goto();
-    questionListPage = new QuestionListPage(page);
-  });
 
   test.describe("Deletion Tests", () => {
     test("should delete question when Backspace is pressed on empty single-line question", async ({
