@@ -70,6 +70,7 @@ Commit your changes and run through this self-review checklist before submitting
 
 ```
 bun lint
+bun run format:check
 bun x tsc -p tsconfig.json --noEmit
 bun run build
 bun run test:unit

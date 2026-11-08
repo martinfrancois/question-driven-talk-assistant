@@ -21,7 +21,7 @@
 ## Tooling and Code Style
 
 - Linting with ESLint configured for TypeScript and React.
-- Prettier (with tailwindcss plugin) formats code; a pre-commit hook auto-formats staged files.
+- Prettier (with tailwindcss plugin) formats code; a pre-commit hook auto-formats staged files, and `bun run format:check` fails on any file that isn't formatted.
 - Unit tests use Vitest and run in a Playwright-provided Chromium browser.
 - End-to-end tests use Playwright.
 - When running tests, include the `--browser.headless` flag to ensure headless execution.
@@ -47,6 +47,7 @@
 
 1. Install dependencies: `bun install`.
 2. Lint: `bun run lint`.
+   Check formatting: `bun run format:check`.
 3. Type check: `bun x tsc -p tsconfig.json --noEmit`.
 4. Build: `bun run build`.
 5. Install Playwright browsers (required even for unit tests): `bun x playwright install --with-deps`.
@@ -64,9 +65,10 @@ For commits that modify only documentation files:
 
 1. Install dependencies: `bun install`.
 2. Lint: `bun run lint`.
+   Check formatting: `bun run format:check`.
 
 Other checks (type checking, tests, build) are unnecessary.
 
 ## Continuous Integration
 
-GitHub Actions execute the same workflow: lint → type check → build → install Playwright browsers → unit tests → property-based tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.
+GitHub Actions execute the same workflow: lint → format check → type check → build → install Playwright browsers → unit tests → property-based tests → start preview server → end-to-end tests. Matching these steps locally increases the likelihood of passing CI.
