@@ -1,0 +1,13 @@
+---
+# Codacy doesn't install dependencies, so its ESLint 8 engine (the only ESLint
+# engine enabled for this repo) can't resolve types from packages or the `@/`
+# alias and reports every use of them as unsafe. The type-aware ESLint in CI
+# (`bun lint`) already lints every file.
+engines:
+  eslint-8:
+    exclude_paths:
+      - "**"
+# A configuration file replaces the ignored files set in the Codacy UI, so this
+# carries over the UI's list.
+exclude_paths:
+  - "e2e/GuidedTour.spec.ts"
