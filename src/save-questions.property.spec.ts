@@ -20,15 +20,15 @@ describe("generateFileName (properties)", () => {
         (title, ms) => {
           const date = new Date(ms);
           const result = generateFileName(title, date);
-          const parts = result.split("_");
 
-          expect(parts).toHaveLength(3);
-          const [datePart, formattedTitle, suffix] = parts;
-          expect(suffix).toBe("questions.md");
-          expect(/^\d{4}-\d{2}-\d{2}$/.test(datePart)).toBe(true);
-          // only lowercase letters, digits and inner dashes allowed
-          expect(formattedTitle).toMatch(/^[a-z0-9-]*$/);
-          expect(formattedTitle).not.toMatch(/^-|-$/);
+          // `${date}_questions.md` when the title sanitizes to nothing, otherwise
+          // `${date}_${formattedTitle}_questions.md`. The group's `+` rules out `__`.
+          expect(result).toMatch(
+            /^\d{4}-\d{2}-\d{2}(_[a-z0-9-]+)?_questions\.md$/,
+          );
+          // The separators are the only underscores, so this catches a formatted
+          // title that starts or ends with a dash.
+          expect(result).not.toMatch(/_-|-_/);
         },
       ),
     );

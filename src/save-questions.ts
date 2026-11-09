@@ -6,7 +6,8 @@ import { Question } from "./stores";
  *
  * The file name follows the format: `${yyyy-MM-dd}_${formattedTitle}_questions.md`,
  * where `formattedTitle` is the lowercase version of the title with spaces replaced by dashes
- * and all non-alphanumeric characters (except dashes) removed.
+ * and all non-alphanumeric characters (except dashes) removed. A title that sanitizes to
+ * nothing drops its separator too, so the file is `${yyyy-MM-dd}_questions.md`.
  *
  * This implementation avoids the use of regular expressions by iterating through each character
  * of the title to perform the necessary transformations.
@@ -50,7 +51,8 @@ export const generateFileName = (title: string, date: Date): string => {
     formattedTitle = formattedTitle.slice(0, -1);
   }
 
-  return `${fileDate}_${formattedTitle}_questions.md`;
+  const titlePart = formattedTitle ? `_${formattedTitle}` : "";
+  return `${fileDate}${titlePart}_questions.md`;
 };
 
 /**

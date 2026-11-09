@@ -48,10 +48,17 @@ describe("generateFileName", () => {
       expected: "2023-05-15_weeklyreport2023_questions.md",
     },
     {
-      description: "should handle empty title",
+      description: "should omit the title separator when the title is empty",
       title: "",
       date: new Date(2023, 4, 15),
-      expected: "2023-05-15__questions.md", // Double underscore due to empty formattedTitle
+      expected: "2023-05-15_questions.md",
+    },
+    {
+      description:
+        "should omit the title separator when the title has no usable characters",
+      title: "!!! ???",
+      date: new Date(2023, 4, 15),
+      expected: "2023-05-15_questions.md",
     },
     {
       description:
