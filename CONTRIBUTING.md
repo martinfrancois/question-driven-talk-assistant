@@ -21,6 +21,14 @@ Refer to the [development setup](./README.md#development-setup) for details on t
 
 Before making changes, review the existing [issues](https://github.com/martinfrancois/question-driven-talk-assistant/issues) to see the types of contributions that are welcome. Improvements to code, documentation, and tests are all appreciated.
 
+## Three ways to contribute
+
+I want your time to go into pull requests that don't collide with someone else's work and that I can accept. So every contribution takes one of these paths:
+
+- **Small fix**: a bug fix, a typo, a docs improvement or a similar small change needs no issue. Open a pull request straight away. If an issue for it already exists, claim that issue first as described in [Solve an issue](#solve-an-issue).
+- **Existing issue**: claim it with `/take` and wait for the assignment before you open a pull request (see [Solve an issue](#solve-an-issue)).
+- **New feature**: start a thread in the [Ideas discussions](https://github.com/martinfrancois/question-driven-talk-assistant/discussions/categories/ideas). Once I approve the feature there, I open an issue for it, and you claim that issue with `/take`. Please don't open a pull request for a feature without an approved issue that is assigned to you.
+
 ## Conventions
 
 - Unit/integration tests are in the same folder as the code, with the same filename as the file that is tested, ending in `.spec.ts`/`.spec.tsx`
@@ -38,11 +46,17 @@ Before making changes, review the existing [issues](https://github.com/martinfra
 
 #### Create a new issue
 
-If you spot a problem, [search if an issue already exists](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments). If a related issue doesn't exist, please open a new one using a relevant template before submitting a pull request unless the change is truly trivial (for example, typo fixes or removing compiler warnings). Trivial changes don't need an issue or tests.
+If you spot a problem, [search if an issue already exists](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-the-title-body-or-comments). If a related issue doesn't exist, you can open one for a bug. A small fix doesn't need an issue, and trivial changes such as typo fixes don't need tests either. Feature ideas start in the [Ideas discussions](https://github.com/martinfrancois/question-driven-talk-assistant/discussions/categories/ideas) instead of an issue (see [Three ways to contribute](#three-ways-to-contribute)).
 
 #### Solve an issue
 
-Browse the [existing issues](https://github.com/martinfrancois/question-driven-talk-assistant/issues) to find one that interests you. You can narrow the search using labels as filters. I add the `help wanted` label to issues where community contributions are especially welcome and the `good first issue` label for tasks suited to new contributors. If you'd like to work on an issue, first leave a comment asking if you can work on it. I will assign the issue to you, and once assigned, you can start working on it and open a PR with a fix.
+Browse the [existing issues](https://github.com/martinfrancois/question-driven-talk-assistant/issues) to find one that interests you. You can narrow the search using labels as filters. I add the `help wanted` label to issues where community contributions are especially welcome and the `good first issue` label for tasks suited to new contributors.
+
+Before you start on an issue, check that nobody is assigned to it and that no open pull request already addresses it. The issue's **Development** section in the sidebar lists the linked pull requests. Then claim it by commenting `/take` on a line of its own, and wait until you're assigned before you open a pull request. If the issue has the `help wanted` or `good first issue` label, nobody holds it and no open pull request addresses it, a bot assigns it to you right away; otherwise it replies with the reason. Nobody can take an issue that someone else holds, and you can hold up to 3 issues at a time (set in the [claim workflow](.github/workflows/claim-issue.yml)). For issues without those labels, leave a comment asking if you can work on it and I'll get back to you. If you ask in plain words on a labelled issue ("can I take this?"), the bot answers once and tells you whether `/take` would work.
+
+If you haven't opened a pull request for the issue 14 days after you were assigned (or after your last comment there), the bot asks in the issue whether you're still working on it. Reply there or open a pull request, a draft is fine; if neither happens within 7 days of that reminder, the bot unassigns you so someone else can take the issue. Once you have an open or merged pull request for the issue, there are no reminders. If your pull request is closed without merging, the 14 days start again from that day. The [claim reminders workflow](.github/workflows/claim-reminders.yml) sets both waiting times. If you stop working on an issue, say so in a comment so someone else can take it.
+
+A pull request that closes an issue its author doesn't hold, or one that another open pull request already addresses, gets a comment and the `claim conflict` label.
 
 ### Make Changes
 

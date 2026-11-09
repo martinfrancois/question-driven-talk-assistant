@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Track a feature approved in Discussions (propose new ideas in Discussions first)
 title: ""
 labels: enhancement
 assignees: ""
