@@ -7,10 +7,9 @@ on:
 permissions: {}
 jobs:
   claim:
-    if: ${{ !github.event.issue.pull_request && github.event.comment.user.type != 'Bot' }}
     permissions:
       issues: write
       pull-requests: read
-    uses: martinfrancois/.github/.github/workflows/claim-issue.yml@1925fa011f1be824bc4d8c108f2c2e282cdb7c85 # v1.0.0
+    uses: martinfrancois/.github/.github/workflows/claim-issue.yml@3a4983426452a80234ab020fcc0312ded79c922e # v1.1.0
     with:
       max-open-claims: 3

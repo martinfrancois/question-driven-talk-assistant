@@ -1,10 +1,11 @@
 name: PR claim check
 # Flags a contributor's pull request that closes an issue its author doesn't
 # hold, or that another open pull request addresses. The logic lives in
-# martinfrancois/.github and only reads metadata: never add a checkout of the
-# pull request here, because pull_request_target runs with a write token.
+# martinfrancois/.github and only reads metadata. Never add a checkout of the
+# pull request to this file: pull_request_target runs with a write token.
 on:
   pull_request_target:
+    # synchronize reruns the check on a push, for example after a `/take`.
     types: [opened, edited, reopened, synchronize]
 permissions: {}
 concurrency:
@@ -12,8 +13,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   check:
-    if: ${{ github.event.pull_request.user.type != 'Bot' && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association) }}
     permissions:
       issues: read
       pull-requests: write
-    uses: martinfrancois/.github/.github/workflows/pr-claim-check.yml@1925fa011f1be824bc4d8c108f2c2e282cdb7c85 # v1.0.0
+    uses: martinfrancois/.github/.github/workflows/pr-claim-check.yml@3a4983426452a80234ab020fcc0312ded79c922e # v1.1.0
