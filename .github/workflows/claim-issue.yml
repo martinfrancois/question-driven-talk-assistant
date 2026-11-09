@@ -1,0 +1,231 @@
+name: Claim issue
+# A contributor comments `/take` on an issue to have it assigned to them. The
+# answer comes at once, so a claim never waits for a maintainer and two people
+# don't start on the same issue. A contributor who asks in plain words instead
+# gets one answer that says whether `/take` would work. claim-reminders.yml
+# releases claims that go quiet. Same script in all of martinfrancois's OSS
+# repositories; keep the copies in sync.
+on:
+  issue_comment:
+    types: [created]
+permissions: {}
+env:
+  # Open issues one contributor can hold at a time. Maintainers have no cap.
+  MAX_OPEN_CLAIMS: 3
+jobs:
+  claim:
+    if: >-
+      !github.event.issue.pull_request &&
+      github.event.comment.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const number = context.issue.number;
+            const comment = context.payload.comment;
+            const login = comment.user.login;
+
+            // Quotes and fenced code don't count, so quoting a comment or
+            // showing the command doesn't claim anything.
+            const own = [];
+            let fence = null;
+            for (const line of comment.body.split(/\r?\n/)) {
+              const marker = line.match(/^ {0,3}(```|~~~)/)?.[1];
+              if (marker && (fence === null || fence === marker)) fence = fence ? null : marker;
+              else if (fence === null && !line.trimStart().startsWith(">")) own.push(line);
+            }
+            const text = own.join("\n");
+            // Only a line that is exactly `/take` claims the issue (four
+            // spaces of indentation would make it a code block).
+            const isTake = /^ {0,3}\/take\s*$/im.test(text);
+            // Requests in plain words. They never assign anyone; they get one
+            // answer per person and issue that points to `/take`.
+            const asks = [
+              /\b(can|could|may) i (take|work on|pick up|grab) (this|it)\b/,
+              /\bassign (this|it|this issue|the issue) to me\b/,
+              /\bassign me\b/,
+              /\b(i'd|i would) (like|love) to (take|work on) (this|it)\b/,
+              /\bhappy to take (this|it)\b/,
+            ];
+            const lower = text.toLowerCase().replaceAll("’", "'");
+            const isAsk = !isTake && asks.some((ask) => ask.test(lower));
+            if (!isTake && !isAsk) return;
+
+            const pickAnother =
+              "Please pick another one from the `help wanted` or `good first issue` list.";
+
+            // Returns why `/take` can't assign the commenter, or nothing when
+            // it can.
+            const refusal = async () => {
+              // Read the issue again: the event payload may predate an
+              // assignment made by an earlier `/take`.
+              const { data: issue } = await github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: number,
+              });
+              if (issue.state !== "open") return "This issue is closed, so there's nothing to take.";
+              const assignees = issue.assignees.map((a) => a.login);
+              if (assignees.includes(login)) return "This issue is already assigned to you.";
+              if (assignees.length > 0) {
+                const holders = assignees.map((l) => `\`${l}\``).join(", ");
+                return `This issue is already assigned to ${holders}. ${pickAnother}`;
+              }
+              const labels = issue.labels.map((l) => l.name);
+              if (!labels.includes("help wanted") && !labels.includes("good first issue")) {
+                return "This issue doesn't have the `help wanted` or `good first issue` label, so it isn't open for contributions yet. martinfrancois will get back to you here.";
+              }
+
+              const { repository } = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    issue(number: $number) {
+                      closedByPullRequestsReferences(first: 50, includeClosedPrs: false) {
+                        nodes { number author { login } }
+                      }
+                      timelineItems(itemTypes: [CROSS_REFERENCED_EVENT], last: 100) {
+                        nodes {
+                          ... on CrossReferencedEvent {
+                            source {
+                              ... on PullRequest {
+                                number
+                                state
+                                author { login }
+                                repository { nameWithOwner }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number },
+              );
+              const linked = repository.issue.closedByPullRequestsReferences.nodes;
+              const mentioned = repository.issue.timelineItems.nodes
+                .map((n) => n.source)
+                .filter(
+                  (pr) =>
+                    pr?.state === "OPEN" && pr.repository.nameWithOwner === `${owner}/${repo}`,
+                );
+              const others = [
+                ...new Set(
+                  [...linked, ...mentioned]
+                    .filter((pr) => pr.author?.login !== login)
+                    .map((pr) => `#${pr.number}`),
+                ),
+              ];
+              if (others.length > 0) {
+                return `There's already an open pull request for this issue: ${others.join(", ")}. ${pickAnother}`;
+              }
+
+              const maintainer = ["OWNER", "MEMBER", "COLLABORATOR"].includes(
+                comment.author_association,
+              );
+              if (!maintainer) {
+                const max = Number(process.env.MAX_OPEN_CLAIMS);
+                const held = (
+                  await github.paginate(github.rest.issues.listForRepo, {
+                    owner,
+                    repo,
+                    state: "open",
+                    assignee: login,
+                    per_page: 100,
+                  })
+                ).filter((i) => !i.pull_request);
+                if (held.length >= max) {
+                  const list = held.map((i) => `#${i.number}`).join(", ");
+                  return `You already hold ${held.length} open issues here (${list}), and the limit is ${max}. Please finish or release one of them first, so others get a chance too.`;
+                }
+              }
+            };
+
+            const reply = (text, marker = "") =>
+              github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: `${marker}@${login} ${text}`,
+              });
+
+            if (isAsk) {
+              const marker = `<!-- claim-hint:${login} -->\n`;
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner,
+                repo,
+                issue_number: number,
+                per_page: 100,
+              });
+              const answered = comments.some(
+                (c) => c.user?.type === "Bot" && c.body?.startsWith(marker),
+              );
+              if (answered) return;
+              const reason = await refusal();
+              return reply(
+                reason ??
+                  'To claim this issue, comment `/take` on a line of its own and the bot assigns it to you right away. See "Solve an issue" in CONTRIBUTING.md.',
+                marker,
+              );
+            }
+
+            const reason = await refusal();
+            if (reason) return reply(reason);
+            const { data: updated } = await github.rest.issues.addAssignees({
+              owner,
+              repo,
+              issue_number: number,
+              assignees: [login],
+            });
+            // GitHub drops an assignee it can't assign instead of failing.
+            if (!updated.assignees.some((a) => a.login === login)) {
+              return reply("GitHub didn't let me assign you. martinfrancois will assign you by hand.");
+            }
+            // Two `/take` comments can pass the checks at the same time. The
+            // assignment that GitHub recorded first wins; a later one undoes
+            // itself.
+            if (updated.assignees.length > 1) {
+              const logins = updated.assignees.map((a) => a.login);
+              const assignedIds = (events, who) =>
+                events.filter((e) => e.event === "assigned" && e.assignee?.login === who).map((e) => e.id);
+              // The timeline can lag behind the assignment; read it again
+              // until every assignee shows up, a few times at most.
+              let events = [];
+              for (let attempt = 1; attempt <= 3; attempt++) {
+                events = await github.paginate(github.rest.issues.listEventsForTimeline, {
+                  owner,
+                  repo,
+                  issue_number: number,
+                  per_page: 100,
+                });
+                if (logins.every((who) => assignedIds(events, who).length > 0)) break;
+                if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, 2000));
+              }
+              // An assignee without a visible event counts as the latest, and
+              // ties go by login, so every run picks the same winner.
+              const assignedAt = (who) => {
+                const ids = assignedIds(events, who);
+                return ids.length > 0 ? Math.max(...ids) : Infinity;
+              };
+              const first = logins.sort(
+                (a, b) => assignedAt(a) - assignedAt(b) || a.localeCompare(b),
+              )[0];
+              if (first !== login) {
+                await github.rest.issues.removeAssignees({
+                  owner,
+                  repo,
+                  issue_number: number,
+                  assignees: [login],
+                });
+                return reply(`\`${first}\` claimed this issue just before you. ${pickAnother}`);
+              }
+            }
+            return reply(
+              `Thanks, this issue is now yours. Open a pull request with \`Fixes #${number}\` in its description when you're ready. If there's no pull request after a while, you'll get a reminder here, and the issue goes back to the pool if you don't answer it. If you stop working on it, please say so here so someone else can take it.`,
+            );

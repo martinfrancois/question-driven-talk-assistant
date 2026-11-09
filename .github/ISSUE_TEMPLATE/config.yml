@@ -1,0 +1,4 @@
+contact_links:
+  - name: Propose a feature
+    url: https://github.com/martinfrancois/question-driven-talk-assistant/discussions/categories/ideas
+    about: Feature ideas start in Discussions. Once a feature is approved there, I open an issue for it that you can claim with /take.

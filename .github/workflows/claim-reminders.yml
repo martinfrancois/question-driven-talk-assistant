@@ -1,0 +1,168 @@
+name: Claim reminders
+# Reminds contributors who were assigned an issue but haven't opened a pull
+# request for it, and puts the issue back in the pool when they don't answer.
+# Once the assignee has an open (or draft) or merged pull request that
+# references the issue, they are left alone for good; if that pull request is
+# closed without merging, the wait starts again from the close date.
+# Maintainers (write access or the repository owner) and bots are never
+# touched. Same script in all of martinfrancois's OSS repositories; keep the
+# copies in sync.
+on:
+  schedule:
+    - cron: "23 7 * * *"
+  workflow_dispatch:
+permissions: {}
+env:
+  # Days after the assignment, the assignee's last comment or the close of
+  # their last unmerged pull request, before the reminder.
+  NUDGE_AFTER_DAYS: 14
+  # Days after the reminder, without a pull request or a reply from the
+  # assignee, before the assignee is removed.
+  UNASSIGN_AFTER_DAYS: 7
+concurrency:
+  group: claim-reminders
+  cancel-in-progress: false
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const day = 24 * 60 * 60 * 1000;
+            const nudgeAfter = Number(process.env.NUDGE_AFTER_DAYS) * day;
+            const releaseAfter = Number(process.env.UNASSIGN_AFTER_DAYS) * day;
+            const now = Date.now();
+            const time = (event) => Date.parse(event.created_at);
+            const marker = (login) => `<!-- claim-reminder:${login} -->`;
+
+            const maintainers = new Map();
+            const isMaintainer = async (login) => {
+              if (login === owner) return true;
+              if (!maintainers.has(login)) {
+                try {
+                  const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                    owner,
+                    repo,
+                    username: login,
+                  });
+                  maintainers.set(login, ["admin", "maintain", "write"].includes(data.permission));
+                } catch (error) {
+                  // When in doubt, leave the assignee alone.
+                  core.warning(`Could not read the permission of ${login}: ${error.message}`);
+                  maintainers.set(login, true);
+                }
+              }
+              return maintainers.get(login);
+            };
+
+            // Pull requests that close or mention the issue, with their author
+            // and state (OPEN, CLOSED or MERGED; a draft is OPEN).
+            const pullRequests = async (number) => {
+              const fields = "number state closedAt author { login }";
+              const { repository } = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    issue(number: $number) {
+                      closedByPullRequestsReferences(first: 50, includeClosedPrs: true) {
+                        nodes { ${fields} }
+                      }
+                      timelineItems(itemTypes: [CROSS_REFERENCED_EVENT], last: 100) {
+                        nodes { ... on CrossReferencedEvent { source { ... on PullRequest { ${fields} } } } }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number },
+              );
+              return [
+                ...repository.issue.closedByPullRequestsReferences.nodes,
+                ...repository.issue.timelineItems.nodes.map((n) => n.source).filter((pr) => pr?.number),
+              ];
+            };
+
+            const issues = (
+              await github.paginate(github.rest.issues.listForRepo, {
+                owner,
+                repo,
+                state: "open",
+                assignee: "*",
+                per_page: 100,
+              })
+            ).filter((i) => !i.pull_request);
+
+            for (const issue of issues) {
+              const contributors = [];
+              for (const assignee of issue.assignees) {
+                if (assignee.type === "Bot") continue;
+                if (!(await isMaintainer(assignee.login))) contributors.push(assignee.login);
+              }
+              if (contributors.length === 0) continue;
+
+              const prs = await pullRequests(issue.number);
+              const timeline = await github.paginate(github.rest.issues.listEventsForTimeline, {
+                owner,
+                repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+
+              for (const login of contributors) {
+                const own = prs.filter((pr) => pr.author?.login === login);
+                if (own.some((pr) => pr.state !== "CLOSED")) continue;
+                const assigned = timeline.filter(
+                  (e) => e.event === "assigned" && e.assignee?.login === login,
+                );
+                const replies = timeline.filter(
+                  (e) => e.event === "commented" && e.actor?.login === login,
+                );
+                const lastActivity = Math.max(
+                  0,
+                  ...[...assigned, ...replies].map(time),
+                  ...own.map((pr) => Date.parse(pr.closedAt)),
+                );
+                if (lastActivity === 0) continue;
+                const reminder = timeline
+                  .filter(
+                    (e) =>
+                      e.event === "commented" &&
+                      e.actor?.type === "Bot" &&
+                      e.body?.startsWith(marker(login)) &&
+                      time(e) > lastActivity,
+                  )
+                  .at(-1);
+
+                if (!reminder) {
+                  if (now - lastActivity < nudgeAfter) continue;
+                  core.info(`#${issue.number}: reminding ${login}`);
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    body: [
+                      marker(login),
+                      `@${login} Are you still working on this? There's no pull request from you for it yet. Please reply here, or open a pull request with \`Fixes #${issue.number}\` in its description (a draft is fine). If neither happens within ${process.env.UNASSIGN_AFTER_DAYS} days, the issue goes back to the pool so someone else can take it.`,
+                    ].join("\n"),
+                  });
+                } else if (now - time(reminder) >= releaseAfter) {
+                  core.info(`#${issue.number}: unassigning ${login}`);
+                  await github.rest.issues.removeAssignees({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    assignees: [login],
+                  });
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issue.number,
+                    body: `@${login} There was no pull request or reply in the ${process.env.UNASSIGN_AFTER_DAYS} days after the reminder, so this issue is unassigned and open for someone else to take. Thanks for your interest! If you want to pick it up again, comment \`/take\` on it.`,
+                  });
+                }
+              }
+            }
