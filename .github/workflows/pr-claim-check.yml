@@ -1,15 +1,10 @@
 name: PR claim check
-# Comments and labels a pull request from a contributor when it closes an issue
-# that isn't assigned to its author, or that another open pull request already
-# addresses. A pull request that closes no issue (a small fix) passes. Same
-# script in all of martinfrancois's OSS repositories; keep the copies in sync.
-#
-# pull_request_target runs this file from the default branch with a write
-# token, also for pull requests from forks. Keep it that way: never check out
-# or run code from the pull request here, only read metadata through the API.
+# Flags a contributor's pull request that closes an issue its author doesn't
+# hold, or that another open pull request addresses. The logic lives in
+# martinfrancois/.github and only reads metadata: never add a checkout of the
+# pull request here, because pull_request_target runs with a write token.
 on:
   pull_request_target:
-    # synchronize reruns the check on a push, for example after a `/take`.
     types: [opened, edited, reopened, synchronize]
 permissions: {}
 concurrency:
@@ -17,127 +12,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   check:
-    # Maintainers and bots don't claim issues with `/take`.
-    if: >-
-      github.event.pull_request.user.type != 'Bot' &&
-      !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association)
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    if: ${{ github.event.pull_request.user.type != 'Bot' && !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association) }}
     permissions:
       issues: read
       pull-requests: write
-    steps:
-      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            const pr = context.payload.pull_request;
-            const author = pr.user.login;
-            const label = "claim conflict";
-            const marker = "<!-- pr-claim-check -->";
-
-            // GitHub resolves the closing keywords itself; read its answer
-            // instead of parsing the description.
-            const { repository } = await github.graphql(
-              `query($owner: String!, $repo: String!, $number: Int!) {
-                repository(owner: $owner, name: $repo) {
-                  pullRequest(number: $number) {
-                    closingIssuesReferences(first: 10) {
-                      nodes {
-                        number
-                        repository { nameWithOwner }
-                        assignees(first: 10) { nodes { login } }
-                        closedByPullRequestsReferences(first: 20, includeClosedPrs: false) {
-                          nodes { number }
-                        }
-                      }
-                    }
-                  }
-                }
-              }`,
-              { owner, repo, number: pr.number },
-            );
-
-            const problems = [];
-            for (const issue of repository.pullRequest.closingIssuesReferences.nodes) {
-              if (issue.repository.nameWithOwner !== `${owner}/${repo}`) continue;
-              const assignees = issue.assignees.nodes.map((a) => a.login);
-              if (assignees.length === 0) {
-                problems.push(`#${issue.number} isn't assigned to you yet.`);
-              } else if (!assignees.includes(author)) {
-                problems.push(
-                  `#${issue.number} is assigned to ${assignees.map((l) => `\`${l}\``).join(", ")}.`,
-                );
-              }
-              const otherPrs = issue.closedByPullRequestsReferences.nodes
-                .map((p) => p.number)
-                .filter((n) => n !== pr.number);
-              if (otherPrs.length > 0) {
-                problems.push(
-                  `#${issue.number} already has an open pull request: ${otherPrs.map((n) => `#${n}`).join(", ")}.`,
-                );
-              }
-            }
-
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner,
-              repo,
-              issue_number: pr.number,
-              per_page: 100,
-            });
-            const existing = comments.find(
-              (c) => c.user?.type === "Bot" && c.body?.startsWith(marker),
-            );
-
-            if (problems.length === 0) {
-              // A `/take` or an edit may have cleared the problems.
-              try {
-                await github.rest.issues.removeLabel({
-                  owner,
-                  repo,
-                  issue_number: pr.number,
-                  name: label,
-                });
-              } catch (error) {
-                if (error.status !== 404) throw error;
-              }
-              if (existing) {
-                await github.rest.issues.updateComment({
-                  owner,
-                  repo,
-                  comment_id: existing.id,
-                  body: `${marker}\n@${author} Thanks, everything this check raised earlier is resolved.`,
-                });
-              }
-              return;
-            }
-
-            await github.rest.issues.addLabels({
-              owner,
-              repo,
-              issue_number: pr.number,
-              labels: [label],
-            });
-            const body = [
-              marker,
-              `@${author} Thanks for the pull request! Before it goes further, please check this:`,
-              "",
-              ...problems.map((p) => `- ${p}`),
-              "",
-              "Before starting on an issue, check that nobody is assigned to it and that no open pull request addresses it, then claim it by commenting `/take` on the issue and wait for the assignment (see CONTRIBUTING.md). That way two people don't do the same work. If the issue is free, comment `/take` on it now. martinfrancois will decide which pull request goes ahead if two overlap. This check runs again when you push to the branch or edit the description.",
-            ].join("\n");
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner,
-                repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: pr.number,
-                body,
-              });
-            }
+    uses: martinfrancois/.github/.github/workflows/pr-claim-check.yml@1925fa011f1be824bc4d8c108f2c2e282cdb7c85 # v1.0.0
