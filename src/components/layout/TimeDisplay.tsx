@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useTimeFormat24h, useToggleTimeFormat } from "@/stores";
-import { formatTime } from "@/lib/time.ts";
+import { formatTime, msUntilNextMinute } from "@/lib/time.ts";
 
 const TimeDisplay: FC = () => {
   const timeFormat24h = useTimeFormat24h();
@@ -9,12 +9,16 @@ const TimeDisplay: FC = () => {
   const [time, setTime] = useState(() => new Date());
 
   useEffect(() => {
-    // Update time every minute: it's not very accurate, but good enough for a talk
-    const interval = setInterval(() => {
+    // Update exactly on the minute boundary: a one-minute interval started at
+    // mount drifted, so the clock could change the minute up to a minute late.
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = (): void => {
       setTime(new Date());
-    }, 60000);
+      timer = setTimeout(tick, msUntilNextMinute());
+    };
+    timer = setTimeout(tick, msUntilNextMinute());
     return (): void => {
-      clearInterval(interval);
+      clearTimeout(timer);
     };
   }, []);
 
