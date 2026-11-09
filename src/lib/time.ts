@@ -13,17 +13,14 @@ export function formatTime(now: Date, use24h: boolean): string {
   });
 }
 
+const MS_PER_MINUTE = 60_000;
+
 /**
  * Milliseconds from `now` to the next whole minute.
  *
- * A one-minute interval starts counting when the component mounts, so the
- * displayed minute can be up to a minute late. Waiting this long instead makes
- * every update land on `:00` seconds, and recomputing it per tick absorbs any
- * drift along the way.
- *
- * @param now - The moment to measure from.
+ * @param now - The moment to measure from, at or after the Unix epoch.
  * @returns A delay in `(0, 60000]` that lands exactly on the next minute.
  */
 export function msUntilNextMinute(now: Date = new Date()): number {
-  return 60_000 - (now.getTime() % 60_000);
+  return MS_PER_MINUTE - (now.getTime() % MS_PER_MINUTE);
 }

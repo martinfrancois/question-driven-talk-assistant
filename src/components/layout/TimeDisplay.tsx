@@ -9,8 +9,8 @@ const TimeDisplay: FC = () => {
   const [time, setTime] = useState(() => new Date());
 
   useEffect(() => {
-    // Update exactly on the minute boundary: a one-minute interval started at
-    // mount drifted, so the clock could change the minute up to a minute late.
+    // Recompute the delay on every tick so each update lands on the minute
+    // boundary, however late the previous timer fired.
     let timer: ReturnType<typeof setTimeout>;
     const tick = (): void => {
       setTime(new Date());
