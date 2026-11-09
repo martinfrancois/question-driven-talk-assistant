@@ -1,8 +1,9 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { act } from "@testing-library/react";
 import TimeDisplay from "./TimeDisplay.tsx";
 import { StorageName } from "@/stores";
+import { formatTime } from "@/lib/time.ts";
 
 /**
  * Renders the real component against the real preferences store and the real
@@ -12,6 +13,10 @@ import { StorageName } from "@/stores";
 describe("TimeDisplay", () => {
   beforeEach(() => {
     localStorage.removeItem(StorageName.PREFERENCES);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   const button = (container: HTMLElement): HTMLButtonElement => {
@@ -81,5 +86,35 @@ describe("TimeDisplay", () => {
 
     const el = button(container);
     expect(el.getAttribute("aria-label")).toBe(`Time: ${el.textContent ?? ""}`);
+  });
+
+  it("moves to the next minute on the minute boundary", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+    const boundary = new Date(2026, 10, 9, 12, 35);
+    const msBeforeBoundary = 500;
+    vi.setSystemTime(boundary.getTime() - msBeforeBoundary);
+    const container = await renderIn24h();
+    const before = formatTime(new Date(2026, 10, 9, 12, 34), true);
+    const after = formatTime(boundary, true);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(msBeforeBoundary - 1);
+    });
+    expect(button(container).textContent).toBe(before);
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1);
+    });
+    expect(button(container).textContent).toBe(after);
+  });
+
+  it("leaves no timer running after unmount", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    const rendered = await render(<TimeDisplay />);
+    expect(vi.getTimerCount()).toBe(1);
+
+    await rendered.unmount();
+
+    expect(vi.getTimerCount()).toBe(0);
   });
 });

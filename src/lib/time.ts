@@ -12,3 +12,15 @@ export function formatTime(now: Date, use24h: boolean): string {
     hour12: !use24h,
   });
 }
+
+const MS_PER_MINUTE = 60_000;
+
+/**
+ * Milliseconds from `now` to the next whole minute.
+ *
+ * @param now - The moment to measure from, at or after the Unix epoch.
+ * @returns A delay in `(0, 60000]` that lands exactly on the next minute.
+ */
+export function msUntilNextMinute(now: Date = new Date()): number {
+  return MS_PER_MINUTE - (now.getTime() % MS_PER_MINUTE);
+}
