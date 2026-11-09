@@ -14,7 +14,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: read
-    uses: martinfrancois/.github/.github/workflows/claim-reminders.yml@3a4983426452a80234ab020fcc0312ded79c922e # v1.1.0
+    uses: martinfrancois/.github/.github/workflows/claim-reminders.yml@68636afb7ff462c30f2594c15d3cfe127e0b3e65 # v1.2.0
     with:
       nudge-after-days: 14
       unassign-after-days: 7
