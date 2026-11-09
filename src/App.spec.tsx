@@ -261,6 +261,50 @@ describe("App", () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
+  it("keeps ctrl+f working while Caps Lock is on", async () => {
+    const request = vi
+      .spyOn(screenfull, "request")
+      .mockResolvedValue(undefined);
+    await renderApp();
+
+    // With Caps Lock on, browsers report `KeyboardEvent.key` as "F".
+    const event = new KeyboardEvent("keydown", {
+      key: "F",
+      code: "KeyF",
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    });
+    await interact(() => {
+      window.dispatchEvent(event);
+    });
+
+    await vi.waitFor(() => {
+      if (request.mock.calls.length === 0) {
+        throw new Error("fullscreen not requested yet");
+      }
+    });
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it("leaves ctrl+shift+f to the footer editor", async () => {
+    const request = vi
+      .spyOn(screenfull, "request")
+      .mockResolvedValue(undefined);
+    const editFooter = vi.fn(() => null);
+    vi.stubGlobal("prompt", editFooter);
+    await renderApp();
+
+    await interact(() => {
+      pressKey({ key: "F", code: "KeyF", ctrl: true, shift: true });
+    });
+
+    expect(editFooter).toHaveBeenCalledTimes(1);
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it("leaves unrelated keystrokes alone", async () => {
     const { container } = await renderApp();
     const before = shell(container).style.fontSize;

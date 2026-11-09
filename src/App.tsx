@@ -77,7 +77,11 @@ const App = (): JSX.Element => {
   // Add event listeners for `Ctrl + f` manually
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === "f") {
+      // Match the character, not `event.code`: the browser's find shortcut
+      // follows the layout (on Dvorak, "KeyF" types "u"). The match ignores
+      // case because Caps Lock reports "F". Shift stays out because
+      // ctrl+shift+f edits the footer.
+      if (event.ctrlKey && !event.shiftKey && /^f$/i.test(event.key)) {
         event.preventDefault(); // Prevent default browser behavior
         void handleFullscreenToggle();
       }
