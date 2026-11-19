@@ -78,7 +78,7 @@
     "globals": "17.14.0",
     "playwright": "1.65.0",
     "postcss": "8.5.32",
-    "prettier": "3.9.10",
+    "prettier": "3.10.0",
     "prettier-plugin-tailwindcss": "0.8.1",
     "pretty-quick": "4.2.2",
     "simple-git-hooks": "2.14.0",
