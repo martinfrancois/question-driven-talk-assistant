@@ -1,0 +1,20 @@
+# https://editorconfig.org
+# Mirrors what Prettier writes (Prettier reads this file too), so keep the two in sync.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 80
+
+# Vitest writes these files, and some lines are intentionally whitespace only.
+[*.snap]
+trim_trailing_whitespace = false
+
+# The markdown in the template literals relies on trailing spaces as hard line breaks.
+[src/save-questions.spec.ts]
+trim_trailing_whitespace = false
